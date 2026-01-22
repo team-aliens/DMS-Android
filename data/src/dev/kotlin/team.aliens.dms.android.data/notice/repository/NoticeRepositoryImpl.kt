@@ -1,6 +1,7 @@
 package team.aliens.dms.android.data.notice.repository
 
 import team.aliens.dms.android.data.notice.mapper.toModel
+import team.aliens.dms.android.data.notice.model.LatestNotice
 import team.aliens.dms.android.data.notice.model.Notice
 import team.aliens.dms.android.network.notice.datasource.NetworkNoticeDataSource
 import team.aliens.dms.android.shared.model.Order
@@ -21,5 +22,9 @@ internal class NoticeRepositoryImpl @Inject constructor(
 
     override suspend fun fetchNotices(order: Order): Result<List<Notice>> =
         networkNoticeDataSource.fetchNotices(order.name)
+            .map { it.toModel() }
+
+    override suspend fun fetchLatestNotice(): Result<LatestNotice> =
+        networkNoticeDataSource.fetchLatestNotice()
             .map { it.toModel() }
 }

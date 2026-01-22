@@ -1,7 +1,9 @@
 package team.aliens.dms.android.data.notice.mapper
 
 import team.aliens.dms.android.core.database.entity.NoticeEntity
+import team.aliens.dms.android.data.notice.model.LatestNotice
 import team.aliens.dms.android.data.notice.model.Notice
+import team.aliens.dms.android.network.notice.model.FetchLatestNoticeResponse
 import team.aliens.dms.android.network.notice.model.FetchNoticeDetailsResponse
 import team.aliens.dms.android.network.notice.model.FetchNoticesResponse
 import team.aliens.dms.android.shared.date.toLocalDateTime
@@ -30,4 +32,9 @@ internal fun FetchNoticeDetailsResponse.toModel(): Notice = Notice(
     title = this.title,
     content = this.content,
     createdAt = this.createdAt.toLocalDateTime(),
+)
+
+internal fun FetchLatestNoticeResponse.toModel(): LatestNotice = LatestNotice(
+    id = this.id,
+    title = this.title,
 )
