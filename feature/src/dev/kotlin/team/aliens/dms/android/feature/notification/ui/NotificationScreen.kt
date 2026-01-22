@@ -52,7 +52,7 @@ import team.aliens.dms.android.feature.notification.viewmodel.NotificationUi
 import java.util.UUID
 
 @Composable
-internal fun NotificationScreen(
+internal fun Notification(
     onBackClick: () -> Unit,
     onNavigateNotificationDetailClick: (UUID) -> Unit,
     onNavigatePointHistory: (PointType) -> Unit,
@@ -84,7 +84,7 @@ internal fun NotificationScreen(
         }
     }
 
-    NotificationScreenContent(
+    NotificationScreen(
         state = state,
         tabData = tabData.toPersistentList(),
         pagerState = pagerState,
@@ -107,7 +107,7 @@ internal fun NotificationScreen(
 }
 
 @Composable
-private fun NotificationScreenContent(
+private fun NotificationScreen(
     state: NotificationState,
     tabData: ImmutableList<String>,
     pagerState: PagerState,
