@@ -46,6 +46,9 @@ internal fun Setting(
     val (shouldShowSignOutDialog, onShouldShowSignOutDialogChange) = remember {
         mutableStateOf(false)
     }
+    val (shouldShowWithdrawDialog, onShouldShowWithdrawDialogChange) = remember {
+        mutableStateOf(false)
+    }
 
     LaunchedEffect(Unit) {
         viewModel.sideEffect.collect {
@@ -54,6 +57,7 @@ internal fun Setting(
                     onShowSnackBar(DmsSnackBarType.ERROR, "알림 상태 조회를 실패했어요")
                 }
                 SettingSideEffect.SignOutSuccess -> onNavigateSignIn()
+                SettingSideEffect.WithdrawSuccess -> onNavigateSignIn()
             }
         }
     }
@@ -82,12 +86,37 @@ internal fun Setting(
         )
     }
 
+    if (shouldShowWithdrawDialog) {
+        AlertDialog(
+            title = { Text(text = "회원 탈퇴", style = DmsTheme.typography.sTitleM) },
+            text = { Text(text = "회원 탈퇴 시 복구할 수 없습니다. 정말 탈퇴하시겠습니까?", style = DmsTheme.typography.bodyM) },
+            onDismissRequest = { onShouldShowWithdrawDialogChange(false) },
+            confirmButton = {
+                DmsButton(
+                    text = "확인",
+                    buttonType = ButtonType.Text,
+                    buttonColor = ButtonColor.Primary,
+                    onClick = viewModel::withdraw,
+                )
+            },
+            dismissButton = {
+                DmsButton(
+                    text = "취소",
+                    buttonType = ButtonType.Text,
+                    buttonColor = ButtonColor.Primary,
+                    onClick = { onShouldShowWithdrawDialogChange(false) },
+                )
+            },
+        )
+    }
+
     SettingScreen(
         rotated = state.isOnNotification,
         onNavigateResetPassword = onNavigateResetPassword,
         onNavigateSelectProfile = onNavigateSelectProfile,
         onNotificationClick = { viewModel.updateNotificationStatus(state.isOnNotification) },
         onShowSignOutDialogChange = { onShouldShowSignOutDialogChange(true) },
+        onShowWithdrawDialogChange = { onShouldShowWithdrawDialogChange(true) },
         onBackPressed = onBackPressed,
     )
 }
@@ -99,6 +128,7 @@ private fun SettingScreen(
     onNavigateSelectProfile: () -> Unit,
     onNotificationClick: () -> Unit,
     onShowSignOutDialogChange: () -> Unit,
+    onShowWithdrawDialogChange: () -> Unit,
     onBackPressed: () -> Unit,
 ) {
     Column(
@@ -136,6 +166,11 @@ private fun SettingScreen(
                 iconRes = R.drawable.img_3d_out,
                 text = "로그아웃",
                 onClick = onShowSignOutDialogChange,
+            )
+            DmsItemButton(
+                iconRes = R.drawable.img_3d_out,
+                text = "회원 탈퇴",
+                onClick = onShowWithdrawDialogChange,
             )
         }
     }

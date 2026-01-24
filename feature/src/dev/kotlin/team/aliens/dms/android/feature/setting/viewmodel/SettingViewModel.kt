@@ -8,6 +8,7 @@ import team.aliens.dms.android.core.device.datastore.DeviceDataStoreDataSource
 import team.aliens.dms.android.core.ui.viewmodel.BaseStateViewModel
 import team.aliens.dms.android.data.auth.repository.AuthRepository
 import team.aliens.dms.android.data.notification.model.NotificationTopicGroup
+import team.aliens.dms.android.data.student.repository.StudentRepository
 import team.aliens.dms.android.data.notification.repository.NotificationRepository
 import javax.inject.Inject
 
@@ -16,6 +17,7 @@ class SettingViewModel @Inject constructor(
     val notificationRepository: NotificationRepository,
     val authRepository: AuthRepository,
     val deviceDataStoreDataSource: DeviceDataStoreDataSource,
+    val studentRepository: StudentRepository,
 ): BaseStateViewModel<SettingState, SettingSideEffect>(SettingState()) {
 
     init {
@@ -39,6 +41,14 @@ class SettingViewModel @Inject constructor(
         viewModelScope.launch(Dispatchers.IO) {
             authRepository.signOut().onSuccess {
                 sendEffect(SettingSideEffect.SignOutSuccess)
+            }
+        }
+    }
+
+    internal fun withdraw() {
+        viewModelScope.launch(Dispatchers.IO) {
+            studentRepository.withdraw().onSuccess {
+                sendEffect(SettingSideEffect.WithdrawSuccess)
             }
         }
     }
@@ -80,4 +90,5 @@ data class SettingState(
 sealed class SettingSideEffect {
     object CannotFetchNotificationStatus : SettingSideEffect()
     object SignOutSuccess : SettingSideEffect()
+    object WithdrawSuccess : SettingSideEffect()
 }
