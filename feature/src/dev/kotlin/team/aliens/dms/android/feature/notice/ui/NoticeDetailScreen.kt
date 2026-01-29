@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -105,7 +106,7 @@ private fun NotificationDetailContent(
             .horizontalPadding(10.dp)
             .background(color = DmsTheme.colorScheme.surfaceTint, shape = RoundedCornerShape(32.dp))
             .padding(vertical = 24.dp, horizontal = 32.dp)
-            .horizontalScroll(rememberScrollState()),
+            .verticalScroll(rememberScrollState()),
     ) {
         Text(
             text = notice.title,
