@@ -40,7 +40,7 @@ jobs:
             echo '${{ secrets.GOOGLE_SERVICES_JSON }}' > ${{ github.workspace }}/app/google-services.json
         
       - name: Build with Gradle
-        run: ./gradlew build
+        run: ./gradlew assembleDebug --parallel
 
       - name: Run test
         run: ./gradlew test
