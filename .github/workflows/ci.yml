@@ -35,10 +35,10 @@ jobs:
         run: chmod +x gradlew
 
       - name: Create google-services.json
-        env:
-          DATA: ${{ secrets.GOOGLE_SERVICES_JSON }}
-        run: echo $DATA > /home/runner/work/DMS-ANDROID/DMS-ANDROID/app/google-services.json
-
+        run: |
+            mkdir -p ${{ github.workspace }}/app
+            echo '${{ secrets.GOOGLE_SERVICES_JSON }}' > ${{ github.workspace }}/app/google-services.json
+        
       - name: Build with Gradle
         run: ./gradlew build
 
