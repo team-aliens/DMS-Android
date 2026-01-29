@@ -34,9 +34,10 @@ jobs:
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
 
-      - name: Generate google-services.json
-        run: |
-          printf "%s" "${{ secrets.GOOGLE_SERVICES }}" | base64 --decode > ./app/google-services.json
+      - name: Create google-services.json
+        env:
+          DATA: ${{ secrets.GOOGLE_SERVICES_JSON }}
+        run: echo $DATA > /home/runner/work/DMS-ANDROID/DMS-ANDROID/app/google-services.json
 
       - name: Build with Gradle
         run: ./gradlew build
