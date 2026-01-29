@@ -28,7 +28,7 @@ internal class HomeViewModel @Inject constructor(
             studentRepository.fetchMyPage().onSuccess { myPage ->
                 setState { it.copy(myPage = myPage) }
             }.onFailure {
-                throw it
+               sendEffect(HomeSideEffect.FailFetchMyPage("내 정보 조회를 실패했어요"))
             }
         }
     }
@@ -39,6 +39,8 @@ internal class HomeViewModel @Inject constructor(
                 setState {
                     it.copy(latestNotice = latestNotice)
                 }
+            }.onFailure {
+                sendEffect(HomeSideEffect.FailFetchLatestNotice("공지를 가져오는데 실패했어요"))
             }
         }
     }
@@ -55,4 +57,8 @@ internal data class HomeState(
 
 internal sealed interface HomeSideEffect {
     data object ShowOutingPassDialog : HomeSideEffect
+
+    data class FailFetchLatestNotice(val message: String) : HomeSideEffect
+
+    data class FailFetchMyPage(val message: String) : HomeSideEffect
 }

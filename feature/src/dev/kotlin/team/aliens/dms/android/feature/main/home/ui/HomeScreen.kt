@@ -57,6 +57,14 @@ internal fun Home(
                     DmsSnackBarType.SUCCESS,
                     "개발중인 기능이에요",
                 )
+                is HomeSideEffect.FailFetchMyPage -> onShowSnackBar(
+                    DmsSnackBarType.ERROR,
+                    effect.message,
+                )
+                is HomeSideEffect.FailFetchLatestNotice -> onShowSnackBar(
+                    DmsSnackBarType.ERROR,
+                    effect.message,
+                )
             }
         }
     }
