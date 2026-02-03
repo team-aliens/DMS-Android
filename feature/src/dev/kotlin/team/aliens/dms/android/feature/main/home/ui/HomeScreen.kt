@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -56,6 +57,14 @@ internal fun Home(
                     DmsSnackBarType.SUCCESS,
                     "개발중인 기능이에요",
                 )
+                is HomeSideEffect.FailFetchMyPage -> onShowSnackBar(
+                    DmsSnackBarType.ERROR,
+                    effect.message,
+                )
+                is HomeSideEffect.FailFetchLatestNotice -> onShowSnackBar(
+                    DmsSnackBarType.ERROR,
+                    effect.message,
+                )
             }
         }
     }
@@ -85,8 +94,7 @@ private fun HomeScreen(
         modifier = Modifier
             .fillMaxSize()
             .background(DmsTheme.colorScheme.background)
-            .systemBarsPadding()
-            .navigationBarsPadding(),
+            .statusBarsPadding(),
     ) {
         HomeTopAppBar(
             onOutingPassClick = onOutingPassClick,
@@ -102,7 +110,8 @@ private fun HomeScreen(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(start = 4.dp),
-                onClick = { onNavigateNoticeDetail(state.noticeId) },
+                title = state.latestNotice.title,
+                onClick = { onNavigateNoticeDetail(state.latestNotice.id) },
             )
             MealContent(
                 modifier = Modifier
@@ -115,7 +124,7 @@ private fun HomeScreen(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(top = 20.dp),
-                plusPoint = state.myPage.bonusPoint,
+                bonusPoint = state.myPage.bonusPoint,
                 minusPoint = state.myPage.minusPoint,
             )
             DmsItemButton(

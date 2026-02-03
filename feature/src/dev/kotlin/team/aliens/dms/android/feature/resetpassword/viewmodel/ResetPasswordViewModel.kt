@@ -10,7 +10,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ResetPasswordViewModel @Inject constructor(
-    private val userRepository: UserRepository
+    private val userRepository: UserRepository,
 ): BaseStateViewModel<ResetPasswordState, ResetPasswordSideEffect>(ResetPasswordState()) {
 
     internal fun setNewPassword(password: String) {

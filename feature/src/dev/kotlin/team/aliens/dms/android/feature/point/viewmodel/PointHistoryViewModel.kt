@@ -32,7 +32,7 @@ internal class PointHistoryViewModel @Inject constructor(
                 setState {
                     it.copy(
                         allPointList = pointHistories,
-                        plusPointList = bonusPoints,
+                        bonusPointList = bonusPoints,
                         minusPointList = minusPoints,
                     )
                 }
@@ -47,7 +47,7 @@ internal class PointHistoryViewModel @Inject constructor(
 
 internal data class PointHistoryState(
     val allPointList: List<Point> = emptyList(),
-    val plusPointList: List<Point> = emptyList(),
+    val bonusPointList: List<Point> = emptyList(),
     val minusPointList: List<Point> = emptyList(),
     val initialTab: Int = 0,
 )

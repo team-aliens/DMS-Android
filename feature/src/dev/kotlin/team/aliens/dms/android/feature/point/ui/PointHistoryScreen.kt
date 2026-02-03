@@ -62,7 +62,7 @@ private fun PointHistoryScreen(
         )
         val tabData = listOf(
             PointTab.All,
-            PointTab.BONUS,
+            PointTab.Bonus,
             PointTab.Minus,
         )
         val pagerState = rememberPagerState(
@@ -99,7 +99,7 @@ private fun PointHistoryScreen(
                 val pointHistoryList = remember(page, state.allPointList) {
                     when (tabData[page]) {
                         PointTab.All -> state.allPointList
-                        PointTab.BONUS -> state.plusPointList
+                        PointTab.Bonus -> state.bonusPointList
                         PointTab.Minus -> state.minusPointList
                     }
                 }
@@ -129,6 +129,6 @@ internal sealed class PointTab(
     val pointType: PointType,
 ) {
     data object All : PointTab(title = "전체", pointType = PointType.ALL)
-    data object BONUS : PointTab(title = "상점", pointType = PointType.BONUS)
+    data object Bonus : PointTab(title = "상점", pointType = PointType.BONUS)
     data object Minus : PointTab(title = "벌점", pointType = PointType.MINUS)
 }

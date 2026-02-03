@@ -23,6 +23,7 @@ import team.aliens.dms.android.core.designsystem.util.clickable
 @Composable
 internal fun AnnouncementButton(
     modifier: Modifier = Modifier,
+    title: String,
     onClick: () -> Unit,
 ) {
     Row(
@@ -47,7 +48,7 @@ internal fun AnnouncementButton(
         )
         Text(
             modifier = Modifier.padding(start = 8.dp),
-            text = "새로운 공지사항을 확인하세요",
+            text = title,
             style = DmsTheme.typography.labelM,
             color = DmsTheme.colorScheme.inverseSurface,
         )

@@ -25,7 +25,7 @@ import team.aliens.dms.android.core.designsystem.foundation.DmsIcon
 @Composable
 fun DmsPointContent(
     modifier: Modifier = Modifier,
-    plusPoint: Int,
+    bonusPoint: Int,
     minusPoint: Int,
 ) {
     Column(
@@ -49,7 +49,7 @@ fun DmsPointContent(
             buttonColor = DmsTheme.colorScheme.onSurface,
             icon = DmsIcon.Equal,
             title = "총점",
-            point = plusPoint - minusPoint,
+            point = bonusPoint - minusPoint,
         )
         PointItem(
             modifier = Modifier.padding(top = 12.dp),
@@ -57,7 +57,7 @@ fun DmsPointContent(
             buttonColor = DmsTheme.colorScheme.primary,
             icon = DmsIcon.Plus,
             title = "상점",
-            point = plusPoint,
+            point = bonusPoint,
         )
         PointItem(
             modifier = Modifier.padding(top = 12.dp),

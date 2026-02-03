@@ -3,7 +3,7 @@ package team.aliens.dms.android.feature.notification.navigation
 import androidx.compose.runtime.Composable
 import team.aliens.dms.android.core.designsystem.snackbar.DmsSnackBarType
 import team.aliens.dms.android.data.point.model.PointType
-import team.aliens.dms.android.feature.notification.ui.NotificationScreen
+import team.aliens.dms.android.feature.notification.ui.Notification
 import java.util.UUID
 
 @Composable
@@ -13,10 +13,10 @@ fun NotificationRoute(
     onNavigatePointHistory: (PointType) -> Unit,
     onShowSnackBar: (DmsSnackBarType, String) -> Unit,
 ) {
-    NotificationScreen(
+    Notification(
         onBackClick = onBackClick,
         onNavigateNotificationDetailClick = onNavigateNotificationDetailClick,
         onNavigatePointHistory = onNavigatePointHistory,
-        onShowSnackBar = onShowSnackBar
+        onShowSnackBar = onShowSnackBar,
     )
 }

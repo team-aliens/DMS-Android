@@ -44,6 +44,7 @@ import team.aliens.dms.android.core.designsystem.tab.DmsTabRow
 import team.aliens.dms.android.core.designsystem.topPadding
 import team.aliens.dms.android.core.designsystem.util.clickable
 import team.aliens.dms.android.data.point.model.PointType
+import team.aliens.dms.android.feature.notification.ui.component.NoticeItem
 import team.aliens.dms.android.feature.notification.viewmodel.NotificationSideEffect
 import team.aliens.dms.android.feature.notification.viewmodel.NotificationViewModel
 import team.aliens.dms.android.feature.notification.viewmodel.NotificationState
@@ -51,7 +52,7 @@ import team.aliens.dms.android.feature.notification.viewmodel.NotificationUi
 import java.util.UUID
 
 @Composable
-internal fun NotificationScreen(
+internal fun Notification(
     onBackClick: () -> Unit,
     onNavigateNotificationDetailClick: (UUID) -> Unit,
     onNavigatePointHistory: (PointType) -> Unit,
@@ -83,7 +84,7 @@ internal fun NotificationScreen(
         }
     }
 
-    NotificationScreenContent(
+    NotificationScreen(
         state = state,
         tabData = tabData.toPersistentList(),
         pagerState = pagerState,
@@ -106,7 +107,7 @@ internal fun NotificationScreen(
 }
 
 @Composable
-private fun NotificationScreenContent(
+private fun NotificationScreen(
     state: NotificationState,
     tabData: ImmutableList<String>,
     pagerState: PagerState,
@@ -185,7 +186,7 @@ private fun NoticeItems(
     onNotificationDetailClick: (UUID, UUID) -> Unit,
 ) {
     LazyColumn(
-        modifier = modifier.fillMaxWidth(),
+        modifier = modifier.fillMaxSize(),
     ) {
         items(
             items = notices,
@@ -246,66 +247,6 @@ internal fun NotificationItem(
         Text(
             modifier = Modifier.padding(horizontal = 10.dp),
             text = notification.elapsedText,
-            style = DmsTheme.typography.bodyM,
-            color = DmsTheme.colorScheme.inverseSurface,
-        )
-        Icon(
-            painter = painterResource(DmsIcon.Forward),
-            tint = DmsTheme.colorScheme.scrim,
-            contentDescription = null,
-        )
-    }
-}
-
-
-@Composable
-internal fun NoticeItem(
-    modifier: Modifier = Modifier,
-    notice: NotificationUi,
-    onNotificationDetailClick: (UUID, UUID) -> Unit,
-) {
-    Row(
-        modifier = modifier
-            .fillMaxWidth()
-            .clickable(onClick = { onNotificationDetailClick(notice.linkId, notice.id) })
-            .padding(horizontal = 24.dp, vertical = 22.dp),
-        verticalAlignment = Alignment.CenterVertically,
-    ) {
-        Icon(
-            painter = painterResource(DmsIcon.Notice),
-            tint = DmsTheme.colorScheme.scrim,
-            contentDescription = null,
-        )
-        Column(
-            modifier = modifier.startPadding(12.dp),
-        ) {
-            Text(
-                text = notice.title,
-                style = DmsTheme.typography.bodyM,
-            )
-            Row(
-                modifier = modifier.topPadding(6.dp)
-            ) {
-                if (!notice.isRead) {
-                    Icon(
-                        modifier = modifier.size(4.dp),
-                        imageVector = Icons.Filled.Circle,
-                        contentDescription = null,
-                        tint = DmsTheme.colorScheme.primaryContainer,
-                    )
-                }
-                Text(
-                    modifier = modifier
-                        .startPadding(4.dp),
-                    text = notice.content,
-                    style = DmsTheme.typography.labelM,
-                )
-            }
-        }
-        Spacer(modifier = modifier.weight(1f))
-        Text(
-            modifier = Modifier.padding(horizontal = 10.dp),
-            text = notice.elapsedText,
             style = DmsTheme.typography.bodyM,
             color = DmsTheme.colorScheme.inverseSurface,
         )
