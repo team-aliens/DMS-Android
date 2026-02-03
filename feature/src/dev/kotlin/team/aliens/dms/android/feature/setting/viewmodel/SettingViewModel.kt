@@ -47,9 +47,9 @@ class SettingViewModel @Inject constructor(
 
     internal fun withdraw() {
         viewModelScope.launch(Dispatchers.IO) {
-            studentRepository.withdraw().onSuccess {
-                sendEffect(SettingSideEffect.WithdrawSuccess)
-            }
+            studentRepository.withdraw()
+                .onSuccess { sendEffect(SettingSideEffect.WithdrawSuccess) }
+                .onFailure { sendEffect(SettingSideEffect.WithdrawFailed) }
         }
     }
 
@@ -91,4 +91,5 @@ sealed class SettingSideEffect {
     object CannotFetchNotificationStatus : SettingSideEffect()
     object SignOutSuccess : SettingSideEffect()
     object WithdrawSuccess : SettingSideEffect()
+    object WithdrawFailed : SettingSideEffect()
 }

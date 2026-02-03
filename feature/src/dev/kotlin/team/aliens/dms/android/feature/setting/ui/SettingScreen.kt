@@ -27,8 +27,6 @@ import team.aliens.dms.android.core.designsystem.button.DmsItemButton
 import team.aliens.dms.android.core.designsystem.dialog.AlertDialog
 import team.aliens.dms.android.core.designsystem.sTitleM
 import team.aliens.dms.android.core.designsystem.snackbar.DmsSnackBarType
-import team.aliens.dms.android.core.designsystem.titleB
-import team.aliens.dms.android.core.designsystem.titleM
 import team.aliens.dms.android.feature.setting.ui.component.SettingRotateContent
 import team.aliens.dms.android.feature.setting.viewmodel.SettingSideEffect
 import team.aliens.dms.android.feature.setting.viewmodel.SettingViewModel
@@ -53,11 +51,12 @@ internal fun Setting(
     LaunchedEffect(Unit) {
         viewModel.sideEffect.collect {
             when (it) {
-                SettingSideEffect.CannotFetchNotificationStatus -> {
+                is SettingSideEffect.CannotFetchNotificationStatus ->
                     onShowSnackBar(DmsSnackBarType.ERROR, "알림 상태 조회를 실패했어요")
-                }
-                SettingSideEffect.SignOutSuccess -> onNavigateSignIn()
-                SettingSideEffect.WithdrawSuccess -> onNavigateSignIn()
+                is SettingSideEffect.SignOutSuccess -> onNavigateSignIn()
+                is SettingSideEffect.WithdrawSuccess -> onNavigateSignIn()
+                is SettingSideEffect.WithdrawFailed ->
+                    onShowSnackBar(DmsSnackBarType.ERROR, "회원 탈퇴에 실패했어요")
             }
         }
     }
