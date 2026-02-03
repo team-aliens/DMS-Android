@@ -31,55 +31,59 @@ internal fun NoticeItem(
     notice: NotificationUi,
     onNotificationDetailClick: (UUID, UUID) -> Unit,
 ) {
-    Row(
+    Column(
         modifier = modifier
-            .fillMaxWidth()
-            .clickable(onClick = { onNotificationDetailClick(notice.linkId, notice.id) })
-            .padding(horizontal = 24.dp, vertical = 22.dp),
-        verticalAlignment = Alignment.CenterVertically,
     ) {
-        Icon(
-            painter = painterResource(DmsIcon.Notice),
-            tint = DmsTheme.colorScheme.scrim,
-            contentDescription = null,
-        )
-        Column(
-            modifier = modifier.startPadding(12.dp),
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .clickable(onClick = { onNotificationDetailClick(notice.linkId, notice.id) })
+                .padding(horizontal = 24.dp, vertical = 22.dp),
+            verticalAlignment = Alignment.CenterVertically,
         ) {
-            Text(
-                text = notice.title,
-                style = DmsTheme.typography.bodyM,
+            Icon(
+                painter = painterResource(DmsIcon.Notice),
+                tint = DmsTheme.colorScheme.scrim,
+                contentDescription = null,
             )
-            Row(
-                modifier = modifier.topPadding(6.dp)
+            Column(
+                modifier = Modifier.startPadding(12.dp),
             ) {
-                if (!notice.isRead) {
-                    Icon(
-                        modifier = modifier.size(4.dp),
-                        imageVector = Icons.Filled.Circle,
-                        contentDescription = null,
-                        tint = DmsTheme.colorScheme.primaryContainer,
+                Text(
+                    text = notice.title,
+                    style = DmsTheme.typography.bodyM,
+                )
+                Row(
+                    modifier = Modifier.topPadding(6.dp)
+                ) {
+                    if (!notice.isRead) {
+                        Icon(
+                            modifier = Modifier.size(4.dp),
+                            imageVector = Icons.Filled.Circle,
+                            contentDescription = null,
+                            tint = DmsTheme.colorScheme.primaryContainer,
+                        )
+                    }
+                    Text(
+                        modifier = Modifier
+                            .startPadding(4.dp),
+                        text = notice.content,
+                        style = DmsTheme.typography.labelM,
                     )
                 }
-                Text(
-                    modifier = modifier
-                        .startPadding(4.dp),
-                    text = notice.content,
-                    style = DmsTheme.typography.labelM,
-                )
             }
+            Spacer(modifier = Modifier.weight(1f))
+            Text(
+                modifier = Modifier.padding(horizontal = 10.dp),
+                text = notice.elapsedText,
+                style = DmsTheme.typography.bodyM,
+                color = DmsTheme.colorScheme.inverseSurface,
+            )
+            Icon(
+                painter = painterResource(DmsIcon.Forward),
+                tint = DmsTheme.colorScheme.scrim,
+                contentDescription = null,
+            )
         }
-        Spacer(modifier = modifier.weight(1f))
-        Text(
-            modifier = Modifier.padding(horizontal = 10.dp),
-            text = notice.elapsedText,
-            style = DmsTheme.typography.bodyM,
-            color = DmsTheme.colorScheme.inverseSurface,
-        )
-        Icon(
-            painter = painterResource(DmsIcon.Forward),
-            tint = DmsTheme.colorScheme.scrim,
-            contentDescription = null,
-        )
     }
 }
