@@ -1,9 +1,9 @@
 package team.aliens.dms.android.core.jwt
 
-import java.time.LocalDateTime
 import team.aliens.dms.android.core.jwt.network.model.TokensResponse
 import team.aliens.dms.android.shared.date.toLocalDateTime
 import team.aliens.dms.android.shared.date.util.now
+import java.time.LocalDateTime
 
 data class Tokens(
     val accessToken: AccessToken,
