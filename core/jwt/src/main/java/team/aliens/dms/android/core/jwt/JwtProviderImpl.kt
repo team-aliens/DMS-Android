@@ -11,13 +11,17 @@ import team.aliens.dms.android.core.jwt.datastore.JwtDataStoreDataSource
 import team.aliens.dms.android.core.jwt.exception.CannotUseAccessTokenException
 import team.aliens.dms.android.core.jwt.exception.CannotUseRefreshTokenException
 import team.aliens.dms.android.core.jwt.network.JwtReissueManager
-import team.aliens.dms.android.shared.date.util.now
+import team.aliens.dms.android.core.jwt.network.exception.CannotReissueTokenException
+import java.util.concurrent.locks.ReentrantLock
 import javax.inject.Inject
+import kotlin.concurrent.withLock
 
 internal class JwtProviderImpl @Inject constructor(
     private val jwtDataStoreDataSource: JwtDataStoreDataSource,
     private val jwtReissueManager: JwtReissueManager,
 ) : JwtProvider() {
+    private val reissueLock = ReentrantLock()
+
     private var _cachedAccessToken: AccessToken? = null
     override val cachedAccessToken: AccessToken
         get() {
@@ -27,7 +31,13 @@ internal class JwtProviderImpl @Inject constructor(
             if (this._cachedAccessToken!!.isExpired()) {
                 this.reissueTokens()
             }
-            return _cachedAccessToken!!
+            val accessToken = _cachedAccessToken ?: throw CannotUseAccessTokenException()
+
+            if (accessToken.isExpired()) {
+                throw CannotUseAccessTokenException()
+            }
+
+            return accessToken
         }
 
     private val _isCachedAccessTokenAvailable: MutableStateFlow<Boolean> =
@@ -79,7 +89,7 @@ internal class JwtProviderImpl @Inject constructor(
         CoroutineScope(Dispatchers.Default).launch {
             runCatching {
                 jwtDataStoreDataSource.storeTokens(tokens = tokens)
-            }.onFailure {  }
+            }.onFailure {}
         }
     }
 
@@ -114,21 +124,30 @@ internal class JwtProviderImpl @Inject constructor(
     }
 
     private fun reissueTokens() {
-        runCatching {
-            jwtReissueManager(refreshToken = cachedRefreshToken.value)
-        }.onSuccess { tokens ->
-            this@JwtProviderImpl.updateTokens(tokens = tokens)
-        }.onFailure { exception ->
-            when {
-                exception is retrofit2.HttpException && exception.code() == 401 -> {
-                    this@JwtProviderImpl.clearCaches()
-                }
-                exception is CannotUseRefreshTokenException -> {
-                    this@JwtProviderImpl.clearCaches()
-                }
-                else -> {}
+        reissueLock.withLock {
+            val accessToken = this@JwtProviderImpl._cachedAccessToken
+                ?: return
+
+            if (!accessToken.isExpired()) {
+                return
             }
+
+            runCatching {
+                jwtReissueManager(refreshToken = cachedRefreshToken.value)
+            }.onSuccess { tokens ->
+                this@JwtProviderImpl.updateTokens(tokens = tokens)
+            }.onFailure { exception ->
+                when {
+                    exception is CannotReissueTokenException && exception.statusCode == 401 -> {
+                        this@JwtProviderImpl.clearCaches()
+                    }
+                    exception is CannotUseRefreshTokenException -> {
+                        this@JwtProviderImpl.clearCaches()
+                    }
+                    else -> {}
+                }
+            }
+            this@JwtProviderImpl.refreshTokenAbility()
         }
-        this@JwtProviderImpl.refreshTokenAbility()
     }
 }
