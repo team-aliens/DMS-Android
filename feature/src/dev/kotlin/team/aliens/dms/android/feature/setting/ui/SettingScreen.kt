@@ -167,8 +167,8 @@ private fun SettingScreen(
                 onClick = onShowSignOutDialogChange,
             )
             DmsItemButton(
-                iconRes = R.drawable.img_3d_out,
                 text = "회원 탈퇴",
+                textColor = DmsTheme.colorScheme.inverseSurface,
                 onClick = onShowWithdrawDialogChange,
             )
         }

@@ -2,7 +2,6 @@ package team.aliens.dms.android.core.designsystem.button
 
 import androidx.annotation.DrawableRes
 import androidx.compose.animation.animateColorAsState
-import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Row
@@ -21,8 +20,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.draw.rotate
-import androidx.compose.ui.graphics.painter.Painter
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import team.aliens.dms.android.core.designsystem.DmsTheme
@@ -33,8 +31,9 @@ import team.aliens.dms.android.core.designsystem.util.clickable
 @Composable
 fun DmsItemButton(
     modifier: Modifier = Modifier,
-    @DrawableRes iconRes: Int,
+    @DrawableRes iconRes: Int? = null,
     text: String,
+    textColor: Color = DmsTheme.colorScheme.inverseOnSurface,
     enabled: Boolean = true,
     onClick: () -> Unit,
 ) {
@@ -62,17 +61,18 @@ fun DmsItemButton(
             .padding(horizontal = 16.dp, vertical = 24.dp),
         verticalAlignment = Alignment.CenterVertically,
     ) {
-        Image(
-            modifier = Modifier
-                .size(24.dp),
-            painter = painterResource(iconRes),
-            contentDescription = null,
-        )
+        if (iconRes != null) {
+            Image(
+                modifier = Modifier.size(24.dp),
+                painter = painterResource(iconRes),
+                contentDescription = null,
+            )
+        }
         Text(
-            modifier = Modifier.padding(start = 8.dp),
+            modifier = Modifier.padding(start = if (iconRes != null) 8.dp else 0.dp),
             text = text,
             style = DmsTheme.typography.bodyB,
-            color = DmsTheme.colorScheme.inverseOnSurface,
+            color = textColor,
         )
         Spacer(modifier = Modifier.weight(1f))
         Icon(
