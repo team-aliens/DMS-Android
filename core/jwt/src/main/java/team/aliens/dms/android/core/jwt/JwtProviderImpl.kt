@@ -1,23 +1,25 @@
 package team.aliens.dms.android.core.jwt
 
 import android.util.Log
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.sync.Mutex
+import kotlinx.coroutines.sync.withLock
 import team.aliens.dms.android.core.jwt.datastore.JwtDataStoreDataSource
 import team.aliens.dms.android.core.jwt.exception.CannotUseAccessTokenException
 import team.aliens.dms.android.core.jwt.exception.CannotUseRefreshTokenException
 import team.aliens.dms.android.core.jwt.network.JwtReissueManager
-import team.aliens.dms.android.shared.date.util.now
+import team.aliens.dms.android.core.jwt.network.exception.CannotReissueTokenException
 import javax.inject.Inject
 
 internal class JwtProviderImpl @Inject constructor(
     private val jwtDataStoreDataSource: JwtDataStoreDataSource,
     private val jwtReissueManager: JwtReissueManager,
 ) : JwtProvider() {
+    private val tokenMutex = Mutex()
+
     private var _cachedAccessToken: AccessToken? = null
     override val cachedAccessToken: AccessToken
         get() {
@@ -27,7 +29,13 @@ internal class JwtProviderImpl @Inject constructor(
             if (this._cachedAccessToken!!.isExpired()) {
                 this.reissueTokens()
             }
-            return _cachedAccessToken!!
+            val accessToken = _cachedAccessToken ?: throw CannotUseAccessTokenException()
+
+            if (accessToken.isExpired()) {
+                throw CannotUseAccessTokenException()
+            }
+
+            return accessToken
         }
 
     private val _isCachedAccessTokenAvailable: MutableStateFlow<Boolean> =
@@ -73,30 +81,24 @@ internal class JwtProviderImpl @Inject constructor(
     }
 
     override fun updateTokens(tokens: Tokens) {
-        this._cachedAccessToken = tokens.accessToken
-        this._cachedRefreshToken = tokens.refreshToken
-        this.refreshTokenAbility()
-        CoroutineScope(Dispatchers.Default).launch {
-            runCatching {
-                jwtDataStoreDataSource.storeTokens(tokens = tokens)
-            }.onFailure {  }
+        runBlocking {
+            tokenMutex.withLock {
+                updateTokensLocked(tokens = tokens)
+            }
         }
     }
 
     override fun clearCaches() {
-        this._cachedAccessToken = null
-        this._cachedRefreshToken = null
-        CoroutineScope(Dispatchers.Default).launch {
-            jwtDataStoreDataSource.clearTokens()
+        runBlocking {
+            tokenMutex.withLock {
+                clearCachesLocked()
+            }
         }
-        this.refreshTokenAbility()
     }
 
     private fun refreshTokenAbility() {
-        CoroutineScope(Dispatchers.Default).launch {
-            _isCachedAccessTokenAvailable.emit(this@JwtProviderImpl.checkIsAccessTokenAvailable())
-            _isCachedRefreshTokenAvailable.emit(this@JwtProviderImpl.checkIsRefreshTokenAvailable())
-        }
+        _isCachedAccessTokenAvailable.value = checkIsAccessTokenAvailable()
+        _isCachedRefreshTokenAvailable.value = checkIsRefreshTokenAvailable()
     }
 
     private fun checkIsAccessTokenAvailable(): Boolean {
@@ -114,21 +116,71 @@ internal class JwtProviderImpl @Inject constructor(
     }
 
     private fun reissueTokens() {
-        runCatching {
-            jwtReissueManager(refreshToken = cachedRefreshToken.value)
-        }.onSuccess { tokens ->
-            this@JwtProviderImpl.updateTokens(tokens = tokens)
-        }.onFailure { exception ->
-            when {
-                exception is retrofit2.HttpException && exception.code() == 401 -> {
-                    this@JwtProviderImpl.clearCaches()
+        runBlocking {
+            tokenMutex.withLock {
+                val accessToken = this@JwtProviderImpl._cachedAccessToken
+                    ?: return@withLock
+
+                if (!accessToken.isExpired()) {
+                    return@withLock
                 }
-                exception is CannotUseRefreshTokenException -> {
-                    this@JwtProviderImpl.clearCaches()
+
+                try {
+                    val tokens = jwtReissueManager(refreshToken = cachedRefreshToken.value)
+                    updateTokensLocked(tokens = tokens)
+                } catch (exception: Exception) {
+                    when {
+                        exception is CannotReissueTokenException && exception.statusCode == 401 -> {
+                            clearCachesLocked()
+                        }
+                        exception is CannotUseRefreshTokenException -> {
+                            clearCachesLocked()
+                        }
+                        else -> {}
+                    }
                 }
-                else -> {}
+                this@JwtProviderImpl.refreshTokenAbility()
             }
         }
-        this@JwtProviderImpl.refreshTokenAbility()
+    }
+
+    private suspend fun updateTokensLocked(tokens: Tokens) {
+        val previousAccessToken = _cachedAccessToken
+        val previousRefreshToken = _cachedRefreshToken
+
+        this._cachedAccessToken = tokens.accessToken
+        this._cachedRefreshToken = tokens.refreshToken
+        this.refreshTokenAbility()
+
+        runCatching {
+            jwtDataStoreDataSource.storeTokens(tokens = tokens)
+        }.onFailure { exception ->
+            this._cachedAccessToken = previousAccessToken
+            this._cachedRefreshToken = previousRefreshToken
+            this.refreshTokenAbility()
+
+            Log.e("JwtProvider", "Failed to store tokens", exception)
+            throw IllegalStateException("Failed to persist tokens", exception)
+        }
+    }
+
+    private suspend fun clearCachesLocked() {
+        val previousAccessToken = _cachedAccessToken
+        val previousRefreshToken = _cachedRefreshToken
+
+        this._cachedAccessToken = null
+        this._cachedRefreshToken = null
+        this.refreshTokenAbility()
+
+        runCatching {
+            jwtDataStoreDataSource.clearTokens()
+        }.onFailure { exception ->
+            this._cachedAccessToken = previousAccessToken
+            this._cachedRefreshToken = previousRefreshToken
+            this.refreshTokenAbility()
+
+            Log.e("JwtProvider", "Failed to clear tokens", exception)
+            throw IllegalStateException("Failed to clear persisted tokens", exception)
+        }
     }
 }
