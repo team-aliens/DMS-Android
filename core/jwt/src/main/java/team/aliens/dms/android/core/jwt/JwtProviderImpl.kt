@@ -103,10 +103,8 @@ internal class JwtProviderImpl @Inject constructor(
     }
 
     private fun refreshTokenAbility() {
-        CoroutineScope(Dispatchers.Default).launch {
-            _isCachedAccessTokenAvailable.emit(this@JwtProviderImpl.checkIsAccessTokenAvailable())
-            _isCachedRefreshTokenAvailable.emit(this@JwtProviderImpl.checkIsRefreshTokenAvailable())
-        }
+        _isCachedAccessTokenAvailable.value = checkIsAccessTokenAvailable()
+        _isCachedRefreshTokenAvailable.value = checkIsRefreshTokenAvailable()
     }
 
     private fun checkIsAccessTokenAvailable(): Boolean {
