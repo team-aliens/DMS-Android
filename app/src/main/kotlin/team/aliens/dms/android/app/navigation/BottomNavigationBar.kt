@@ -1,4 +1,4 @@
-package team.aliens.dms.android.app
+package team.aliens.dms.android.app.navigation
 
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.foundation.layout.Column

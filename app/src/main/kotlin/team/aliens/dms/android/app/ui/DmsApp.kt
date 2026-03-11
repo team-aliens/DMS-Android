@@ -1,15 +1,10 @@
-package team.aliens.dms.android.app
+package team.aliens.dms.android.app.ui
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBarsPadding
-import androidx.compose.foundation.layout.systemBars
-import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.windowsizeclass.WindowSizeClass
@@ -20,19 +15,32 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import androidx.navigation3.runtime.NavKey
 import androidx.navigation3.runtime.entryProvider
 import androidx.navigation3.runtime.rememberNavBackStack
 import androidx.navigation3.ui.NavDisplay
-import kotlinx.serialization.Serializable
-import team.aliens.dms.android.core.designsystem.DmsTheme
+import team.aliens.dms.android.app.navigation.AdjustProfileScreenNav
+import team.aliens.dms.android.app.navigation.ApplicationScreenNav
+import team.aliens.dms.android.app.navigation.BottomNavigationBar
+import team.aliens.dms.android.app.navigation.CheckPasswordScreenNav
+import team.aliens.dms.android.app.navigation.HomeScreenNav
+import team.aliens.dms.android.app.navigation.MealScreenNav
+import team.aliens.dms.android.app.navigation.MyPageScreenNav
+import team.aliens.dms.android.app.navigation.NoticeDetailScreenNav
+import team.aliens.dms.android.app.navigation.NotificationScreenNav
+import team.aliens.dms.android.app.navigation.OnboardingScreenNav
+import team.aliens.dms.android.app.navigation.PointHistoryScreenNav
+import team.aliens.dms.android.app.navigation.RemainScreenNav
+import team.aliens.dms.android.app.navigation.ResetPasswordScreenNav
+import team.aliens.dms.android.app.navigation.SelectProfileScreenNav
+import team.aliens.dms.android.app.navigation.SettingScreenNav
+import team.aliens.dms.android.app.navigation.SignInScreenNav
+import team.aliens.dms.android.app.navigation.VoteScreenNav
+import team.aliens.dms.android.app.MainActivityViewModel
 import team.aliens.dms.android.core.designsystem.snackbar.DmsSnackBar
 import team.aliens.dms.android.core.designsystem.snackbar.DmsSnackBarVisuals
 import team.aliens.dms.android.core.ui.navigation.LocalResultStore
 import team.aliens.dms.android.core.ui.navigation.rememberResultStore
-import team.aliens.dms.android.data.point.model.PointType
 import team.aliens.dms.android.data.voting.model.AllVoteSearch
 import team.aliens.dms.android.feature.main.application.navigation.ApplicationRoute
 import team.aliens.dms.android.feature.main.home.navigation.HomeRoute
@@ -51,55 +59,6 @@ import team.aliens.dms.android.feature.setting.navigation.SettingRoute
 import team.aliens.dms.android.feature.signin.navigation.SignInRoute
 import team.aliens.dms.android.feature.vote.navigation.VoteRoute
 import java.util.UUID
-
-@Serializable
-data object OnboardingScreenNav : NavKey
-
-@Serializable
-data object SignInScreenNav : NavKey
-
-@Serializable
-data object HomeScreenNav : NavKey
-
-@Serializable
-data object MealScreenNav : NavKey
-
-@Serializable
-data object ApplicationScreenNav : NavKey
-
-@Serializable
-data object VoteScreenNav : NavKey
-
-@Serializable
-data object RemainScreenNav : NavKey
-
-@Serializable
-data object MyPageScreenNav : NavKey
-
-@Serializable
-data object SettingScreenNav : NavKey
-
-@Serializable
-data class PointHistoryScreenNav(val pointType: PointType) : NavKey
-
-@Serializable
-data object CheckPasswordScreenNav : NavKey
-
-@Serializable
-data class ResetPasswordScreenNav(val currentPassword: String) : NavKey
-
-@Serializable
-data object SelectProfileScreenNav : NavKey
-
-@Serializable
-data class AdjustProfileScreenNav(val model: String) : NavKey
-
-@Serializable
-data object NotificationScreenNav : NavKey
-
-
-@Serializable
-data object NoticeDetailScreenNav : NavKey
 
 @Composable
 fun DmsApp(
@@ -150,7 +109,7 @@ fun DmsApp(
                                 }
                                 backStack.removeAll {
                                     it is ApplicationScreenNav ||
-                                    it is MyPageScreenNav
+                                            it is MyPageScreenNav
                                 }
                                 backStack.add(destination)
                             }

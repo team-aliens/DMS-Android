@@ -1,7 +1,10 @@
-package team.aliens.dms.android.app
+package team.aliens.dms.android.app.navigation
 
 import androidx.annotation.DrawableRes
 import androidx.navigation3.runtime.NavKey
+import team.aliens.dms.android.app.ui.ApplicationScreenNav
+import team.aliens.dms.android.app.ui.HomeScreenNav
+import team.aliens.dms.android.app.ui.MyPageScreenNav
 import team.aliens.dms.android.core.designsystem.foundation.DmsIcon
 
 sealed class BottomMenu(
