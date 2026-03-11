@@ -27,33 +27,6 @@ android {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
-    flavorDimensions += "environment"
-
-    productFlavors {
-        create("dev") {
-            dimension = "environment"
-            applicationIdSuffix = ".dev"
-            versionNameSuffix = "-dev"
-            buildConfigField("String", "ENVIRONMENT", "\"dev\"")
-        }
-
-        create("prod") {
-            dimension = "environment"
-            buildConfigField("String", "ENVIRONMENT", "\"prod\"")
-        }
-    }
-
-    sourceSets {
-        getByName("dev") {
-            java.srcDirs("src/dev/java", "src/dev/kotlin")
-            res.srcDir("src/dev/res")
-        }
-        getByName("prod") {
-            java.srcDirs("src/prod/java", "src/prod/kotlin")
-            res.srcDir("src/prod/res")
-        }
-    }
-
     buildTypes {
         release {
             isMinifyEnabled = true
@@ -120,17 +93,10 @@ dependencies {
     implementation(libs.androidx.compose.material.window)
     androidTestImplementation(libs.androidx.compose.test.junit)
     implementation(libs.androidx.compose.material)
-
-    add("prodImplementation", libs.androidx.navigation.compose)
-    add("prodImplementation", libs.androidx.hilt.navigation.compose)
-    add("devImplementation", libs.androidx.navigation3.runtime)
-    add("devImplementation", libs.androidx.navigation3.ui)
-    add("devImplementation", libs.androidx.hilt.navigation.compose)
-
+    implementation(libs.androidx.navigation3.runtime)
+    implementation(libs.androidx.navigation3.ui)
+    implementation(libs.androidx.hilt.navigation.compose)
     implementation(libs.androidx.lifecycle.runtime.compose)
-
-    add("prodImplementation", libs.composeDestinations)
-    add("kspProd", libs.composeDestinations.ksp)
 
     implementation(libs.coil.compose)
 
@@ -140,7 +106,6 @@ dependencies {
     implementation(libs.material)
 
     implementation(libs.javax.inject)
-//    coreLibraryDesugaring(libs.desugar.jdk.libs)
 
     implementation(libs.okhttp)
     implementation(libs.okhttp.interceptor.logging)
