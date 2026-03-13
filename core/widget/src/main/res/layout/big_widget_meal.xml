@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/widget_meal"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp"
+    android:background="@drawable/shape_widget_small">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical">
+
+        <ImageView
+            android:id="@+id/ic_meal"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@drawable/ic_blue_breakfast"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/str_meal_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:text="아침"
+            android:textColor="@color/primary"
+            app:layout_constraintBottom_toBottomOf="@+id/ic_meal"
+            app:layout_constraintStart_toEndOf="@+id/ic_meal"
+            app:layout_constraintTop_toTopOf="@+id/ic_meal" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/str_kcal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="0 Kcal"
+        android:layout_gravity="bottom"
+        android:textColor="@color/gray_500"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/str_meal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical|end"
+        android:lineSpacingExtra="3dp"
+        android:text="not found"
+        android:textColor="@color/gray_600"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+</FrameLayout>
