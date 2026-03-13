@@ -45,16 +45,6 @@ android {
         jvmTarget = Versions.java.toString()
     }
 
-    flavorDimensions += "environment"
-
-    productFlavors {
-        create("dev") {
-            dimension = "environment"
-        }
-        create("prod") {
-            dimension = "environment"
-        }
-    }
 }
 
 dependencies {
@@ -106,8 +96,6 @@ dependencies {
 
     implementation(libs.threetenbp)
 
-    implementation(libs.composeDestinations)
-    ksp(libs.composeDestinations.ksp)
 
     testImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.junit)
