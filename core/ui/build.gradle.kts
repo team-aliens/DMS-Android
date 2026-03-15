@@ -43,16 +43,6 @@ android {
         jvmTarget = Versions.java.toString()
     }
 
-    flavorDimensions += "environment"
-
-    productFlavors {
-        create("dev") {
-            dimension = "environment"
-        }
-        create("prod") {
-            dimension = "environment"
-        }
-    }
 }
 
 dependencies {
@@ -72,8 +62,6 @@ dependencies {
     implementation(libs.androidx.compose.tooling.preview)
     implementation(libs.androidx.compose.test.junit)
     implementation(libs.androidx.compose.material)
-    implementation(libs.androidx.navigation.compose)
-    implementation(libs.androidx.hilt.navigation.compose)
 
     implementation(libs.coil.compose)
 
