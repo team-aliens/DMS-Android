@@ -36,8 +36,8 @@ jobs:
 
       - name: Create google-services.json
         run: |
-            mkdir -p ${{ github.workspace }}/app
-            echo '${{ secrets.GOOGLE_SERVICES_JSON }}' > ${{ github.workspace }}/app/google-services.json
+          mkdir -p ${{ github.workspace }}/app
+          echo '${{ secrets.GOOGLE_SERVICES_JSON }}' | base64 --decode > ${{ github.workspace }}/app/google-services.json
         
       - name: Build with Gradle
         run: ./gradlew assembleDebug --parallel
