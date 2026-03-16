@@ -29,12 +29,11 @@ import team.aliens.dms.android.core.designsystem.bodyM
 import team.aliens.dms.android.core.designsystem.button.ButtonColor
 import team.aliens.dms.android.core.designsystem.button.ButtonType
 import team.aliens.dms.android.core.designsystem.button.DmsButton
-import team.aliens.dms.android.core.designsystem.util.clickable
 import team.aliens.dms.android.core.designsystem.horizontalPadding
+import team.aliens.dms.android.core.designsystem.util.clickable
 import team.aliens.dms.android.core.designsystem.verticalPadding
 import java.time.LocalDate
 import java.time.YearMonth
-import kotlin.time.Duration.Companion.days
 import kotlin.time.ExperimentalTime
 
 @OptIn(ExperimentalTime::class)
