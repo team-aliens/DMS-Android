@@ -29,9 +29,9 @@ import team.aliens.dms.android.core.designsystem.bodyM
 import team.aliens.dms.android.core.designsystem.indicator.DmsDotsLoadingIndicator
 import team.aliens.dms.android.core.designsystem.labelM
 import team.aliens.dms.android.core.designsystem.util.DEFAULT_PRESS_DEPTH
+import team.aliens.dms.android.core.designsystem.util.KeyboardAsState
 import team.aliens.dms.android.core.designsystem.util.MIN_PRESS_DEPTH
 import team.aliens.dms.android.core.designsystem.util.clickable
-import team.aliens.dms.android.core.designsystem.util.keyboardAsState
 import team.aliens.dms.android.core.designsystem.util.modifyIf
 
 data class ButtonState(
@@ -211,7 +211,7 @@ private fun BasicButton(
             content = content,
         )*/
 
-    val keyboardShow by keyboardAsState()
+    val keyboardShow by KeyboardAsState()
     val isKeyboardHideButton = keyboardShow && keyboardInteractionEnabled
     val (shapeByKeyboardShow, pressDepth) = if (isKeyboardHideButton) {
         RoundedCornerShape(0.dp) to MIN_PRESS_DEPTH

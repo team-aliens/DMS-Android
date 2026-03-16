@@ -8,7 +8,7 @@ import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.ui.platform.LocalDensity
 
 @Composable
-fun keyboardAsState(): State<Boolean> {
+fun KeyboardAsState(): State<Boolean> {
     val isImeVisible = WindowInsets.ime.getBottom(LocalDensity.current) > 0
     return rememberUpdatedState(newValue = isImeVisible)
 }
