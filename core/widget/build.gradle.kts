@@ -41,7 +41,6 @@ android {
     kotlinOptions {
         jvmTarget = Versions.java.toString()
     }
-
 }
 
 dependencies {

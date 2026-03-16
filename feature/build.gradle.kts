@@ -44,7 +44,6 @@ android {
     kotlinOptions {
         jvmTarget = Versions.java.toString()
     }
-
 }
 
 dependencies {
@@ -62,7 +61,6 @@ dependencies {
     implementation(project(ProjectPaths.Core.ONBOARDING))
     implementation(project(ProjectPaths.Core.NETWORK))
     implementation(project(ProjectPaths.Core.DEVICE))
-
 
     implementation(project(ProjectPaths.NETWORK))
     implementation(project(ProjectPaths.DATA))
@@ -95,7 +93,6 @@ dependencies {
     ksp(libs.hilt.compiler)
 
     implementation(libs.threetenbp)
-
 
     testImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.junit)
