@@ -14,7 +14,7 @@ import team.aliens.dms.android.network.student.model.ExamineStudentNumberRespons
 import team.aliens.dms.android.network.student.model.FetchMyPageResponse
 import team.aliens.dms.android.network.student.model.FetchStudentsResponse
 import team.aliens.dms.android.network.student.model.FindIdResponse
-import team.aliens.dms.android.network.student.model.ResetPasswordRequest
+import team.aliens.dms.android.network.student.model.EditPasswordRequest
 import team.aliens.dms.android.network.student.model.SignUpRequest
 import team.aliens.dms.android.network.student.model.SignUpResponse
 import java.util.UUID
@@ -42,7 +42,7 @@ internal interface StudentApiService {
     ): FindIdResponse
 
     @PATCH("/students/password/initialization")
-    suspend fun resetPassword(@Body request: ResetPasswordRequest)
+    suspend fun editPassword(@Body request: EditPasswordRequest)
 
     @GET("/students/account-id/duplication")
     suspend fun checkIdDuplication(@Query("account_id") accountId: String)

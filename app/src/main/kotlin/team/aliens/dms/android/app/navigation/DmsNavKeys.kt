@@ -38,7 +38,7 @@ data class PointHistoryScreenNav(val pointType: PointType) : NavKey
 data object CheckPasswordScreenNav : NavKey
 
 @Serializable
-data class ResetPasswordScreenNav(val currentPassword: String) : NavKey
+data class EditPasswordScreenNav(val currentPassword: String) : NavKey
 
 @Serializable
 data object SelectProfileScreenNav : NavKey
@@ -51,3 +51,6 @@ data object NotificationScreenNav : NavKey
 
 @Serializable
 data object NoticeDetailScreenNav : NavKey
+
+@Serializable
+data object FindIdScreenNav : NavKey

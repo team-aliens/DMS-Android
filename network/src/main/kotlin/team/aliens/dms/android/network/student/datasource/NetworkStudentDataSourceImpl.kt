@@ -5,7 +5,7 @@ import team.aliens.dms.android.network.student.model.ExamineStudentNumberRespons
 import team.aliens.dms.android.network.student.model.FetchMyPageResponse
 import team.aliens.dms.android.network.student.model.FetchStudentsResponse
 import team.aliens.dms.android.network.student.model.FindIdResponse
-import team.aliens.dms.android.network.student.model.ResetPasswordRequest
+import team.aliens.dms.android.network.student.model.EditPasswordRequest
 import team.aliens.dms.android.network.student.model.SignUpRequest
 import team.aliens.dms.android.network.student.model.SignUpResponse
 import team.aliens.dms.android.shared.exception.util.suspendRunCatching
@@ -51,9 +51,9 @@ internal class NetworkStudentDataSourceImpl @Inject constructor(
             )
         }
 
-    override suspend fun resetPassword(request: ResetPasswordRequest): Result<Unit> =
+    override suspend fun editPassword(request: EditPasswordRequest): Result<Unit> =
         suspendRunCatching {
-            studentApiService.resetPassword(request)
+            studentApiService.editPassword(request)
         }
 
     override suspend fun checkIdDuplication(id: String): Result<Unit> =

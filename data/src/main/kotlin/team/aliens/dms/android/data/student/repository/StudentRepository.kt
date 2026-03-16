@@ -38,7 +38,7 @@ abstract class StudentRepository {
         number: Int,
     ): Result<HashedEmail>
 
-    abstract suspend fun resetPassword(
+    abstract suspend fun editPassword(
         accountId: String,
         studentName: String,
         email: String,

@@ -10,7 +10,7 @@ import team.aliens.dms.android.data.student.model.StudentName
 import team.aliens.dms.android.data.student.model.toModel
 import team.aliens.dms.android.network.student.datasource.NetworkStudentDataSource
 import team.aliens.dms.android.network.student.model.EditProfileRequest
-import team.aliens.dms.android.network.student.model.ResetPasswordRequest
+import team.aliens.dms.android.network.student.model.EditPasswordRequest
 import team.aliens.dms.android.network.student.model.SignUpRequest
 import team.aliens.dms.android.network.student.model.SignUpResponse
 import team.aliens.dms.android.network.student.model.extractFeatures
@@ -82,15 +82,15 @@ internal class StudentRepositoryImpl @Inject constructor(
             number = number,
         ).map { it.email }
 
-    override suspend fun resetPassword(
+    override suspend fun editPassword(
         accountId: String,
         studentName: String,
         email: String,
         emailVerificationCode: String,
         newPassword: String,
     ): Result<Unit> =
-        networkStudentDataSource.resetPassword(
-            ResetPasswordRequest(
+        networkStudentDataSource.editPassword(
+            EditPasswordRequest(
                 accountId = accountId,
                 studentName = studentName,
                 email = email,

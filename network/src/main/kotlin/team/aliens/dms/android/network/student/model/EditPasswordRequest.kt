@@ -2,7 +2,7 @@ package team.aliens.dms.android.network.student.model
 
 import com.google.gson.annotations.SerializedName
 
-data class ResetPasswordRequest(
+data class EditPasswordRequest(
     @SerializedName("account_id") val accountId: String,
     @SerializedName("name") val studentName: String,
     @SerializedName("email") val email: String,

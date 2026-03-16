@@ -26,12 +26,13 @@ import team.aliens.dms.android.app.navigation.CheckPasswordScreenNav
 import team.aliens.dms.android.app.navigation.HomeScreenNav
 import team.aliens.dms.android.app.navigation.MealScreenNav
 import team.aliens.dms.android.app.navigation.MyPageScreenNav
+import team.aliens.dms.android.app.navigation.FindIdScreenNav
 import team.aliens.dms.android.app.navigation.NoticeDetailScreenNav
 import team.aliens.dms.android.app.navigation.NotificationScreenNav
 import team.aliens.dms.android.app.navigation.OnboardingScreenNav
 import team.aliens.dms.android.app.navigation.PointHistoryScreenNav
 import team.aliens.dms.android.app.navigation.RemainScreenNav
-import team.aliens.dms.android.app.navigation.ResetPasswordScreenNav
+import team.aliens.dms.android.app.navigation.EditPasswordScreenNav
 import team.aliens.dms.android.app.navigation.SelectProfileScreenNav
 import team.aliens.dms.android.app.navigation.SettingScreenNav
 import team.aliens.dms.android.app.navigation.SignInScreenNav
@@ -53,8 +54,9 @@ import team.aliens.dms.android.feature.point.navigation.PointHistoryRoute
 import team.aliens.dms.android.feature.profile.route.AdjustProfileRoute
 import team.aliens.dms.android.feature.profile.route.SelectProfileRoute
 import team.aliens.dms.android.feature.remain.navigation.RemainApplicationRoute
-import team.aliens.dms.android.feature.resetpassword.navigation.CheckPasswordRoute
-import team.aliens.dms.android.feature.resetpassword.navigation.ResetPasswordRoute
+import team.aliens.dms.android.feature.editpassword.navigation.CheckPasswordRoute
+import team.aliens.dms.android.feature.editpassword.navigation.EditPasswordRoute
+import team.aliens.dms.android.feature.findid.navigation.FindIdRoute
 import team.aliens.dms.android.feature.setting.navigation.SettingRoute
 import team.aliens.dms.android.feature.signin.navigation.SignInRoute
 import team.aliens.dms.android.feature.vote.navigation.VoteRoute
@@ -141,6 +143,7 @@ fun DmsApp(
                                     backStack.add(HomeScreenNav)
                                 },
                                 navigateToSignUp = {},
+                                navigateToFindId = { backStack.add(FindIdScreenNav) },
                                 onShowSnackBar = { snackBarType, message ->
                                     appState.showSnackBar(snackBarType, message)
                                 },
@@ -225,7 +228,7 @@ fun DmsApp(
                         entry<SettingScreenNav> {
                             SettingRoute(
                                 onBackPressed = { backStack.remove(SettingScreenNav) },
-                                onNavigateResetPassword = { backStack.add(CheckPasswordScreenNav) },
+                                onNavigateEditPassword = { backStack.add(CheckPasswordScreenNav) },
                                 onNavigateSelectProfile = { backStack.add(SelectProfileScreenNav) },
                                 onNavigateSignIn = {
                                     backStack.clear()
@@ -242,8 +245,8 @@ fun DmsApp(
                                 onBackClick = { backStack.remove(PointHistoryScreenNav(it.pointType)) }
                             )
                         }
-                        entry<ResetPasswordScreenNav> {
-                            ResetPasswordRoute(
+                        entry<EditPasswordScreenNav> {
+                            EditPasswordRoute(
                                 onBackPressed = { backStack.removeLastOrNull() },
                                 currentPassword = it.currentPassword,
                                 onNavigateSetting = {
@@ -258,7 +261,7 @@ fun DmsApp(
                         entry<CheckPasswordScreenNav> {
                             CheckPasswordRoute(
                                 onBackPressed = { backStack.remove(CheckPasswordScreenNav) },
-                                onNavigateResetPassword = { backStack.add(ResetPasswordScreenNav(it)) },
+                                onNavigateEditPassword = { backStack.add(EditPasswordScreenNav(it)) },
                                 onShowSnackBar = { snackBar, message ->
                                     appState.showSnackBar(snackBar, message)
                                 }
@@ -302,6 +305,14 @@ fun DmsApp(
                                 onNavigateBack = {
                                     backStack.remove(NoticeDetailScreenNav)
                                 },
+                                onShowSnackBar = { snackBarType, message ->
+                                    appState.showSnackBar(snackBarType, message)
+                                },
+                            )
+                        }
+                        entry<FindIdScreenNav> {
+                            FindIdRoute(
+                                onNavigateToBack = { backStack.remove(FindIdScreenNav) },
                                 onShowSnackBar = { snackBarType, message ->
                                     appState.showSnackBar(snackBarType, message)
                                 },
