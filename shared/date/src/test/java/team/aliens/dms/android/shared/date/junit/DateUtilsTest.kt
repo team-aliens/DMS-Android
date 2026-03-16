@@ -1,9 +1,9 @@
 package team.aliens.dms.android.shared.date.junit
 
 import org.junit.Test
-import java.time.LocalDate
 import team.aliens.dms.android.shared.date.util.now
 import team.aliens.dms.android.shared.date.util.today
+import java.time.LocalDate
 
 class DateUtilsTest {
 

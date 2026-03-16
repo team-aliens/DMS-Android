@@ -8,7 +8,6 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
-import java.time.ZoneOffset
 import team.aliens.dms.android.core.database.DmsDatabase
 import team.aliens.dms.android.core.database.converter.DateTypeConverter
 import team.aliens.dms.android.core.database.converter.StringListTypeConverter
@@ -16,6 +15,7 @@ import team.aliens.dms.android.core.database.converter.UuidTypeConverter
 import team.aliens.dms.android.core.database.dao.MealDao
 import team.aliens.dms.android.core.database.dao.NoticeDao
 import team.aliens.dms.android.core.database.util.addTypeConverters
+import java.time.ZoneOffset
 import javax.inject.Singleton
 
 @Module

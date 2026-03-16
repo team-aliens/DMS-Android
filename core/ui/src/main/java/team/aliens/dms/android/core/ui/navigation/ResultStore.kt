@@ -18,7 +18,7 @@ object LocalResultStore {
         get() = LocalResultStore.current ?: error("No ResultStore has been provided")
 
     infix fun provides(
-        store: ResultStore
+        store: ResultStore,
     ): ProvidedValue<ResultStore?> {
         return LocalResultStore.provides(store)
     }
