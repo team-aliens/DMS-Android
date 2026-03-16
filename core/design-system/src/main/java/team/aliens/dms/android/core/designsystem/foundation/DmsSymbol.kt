@@ -3,7 +3,6 @@ package team.aliens.dms.android.core.designsystem.foundation
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -29,7 +28,7 @@ fun DmsSymbolContent(
 
     Column(
         modifier = Modifier
-            .horizontalPadding(24.dp)
+            .horizontalPadding(24.dp),
     ) {
         Image(
             modifier = modifier,
@@ -46,7 +45,7 @@ fun DmsSymbolContent(
             modifier = Modifier.topPadding(12.dp),
             text = description,
             style = DmsTheme.typography.bodyM,
-            color = DmsTheme.colorScheme.inverseSurface
+            color = DmsTheme.colorScheme.inverseSurface,
         )
     }
 }
