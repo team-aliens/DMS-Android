@@ -1,4 +1,4 @@
-package team.aliens.dms.android.feature.resetpassword.viewmodel
+package team.aliens.dms.android.feature.editpassword.viewmodel
 
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -12,7 +12,7 @@ class CheckPasswordViewModel @Inject constructor(
     val userRepository: UserRepository
 ): BaseStateViewModel<CheckPasswordState, CheckPasswordSideEffect>(CheckPasswordState()) {
 
-    internal fun resetPassword() {
+    internal fun checkPassword() {
         viewModelScope.launch {
             setState { it.copy(isLoading = true, buttonEnabled = false) }
             userRepository.comparePassword(

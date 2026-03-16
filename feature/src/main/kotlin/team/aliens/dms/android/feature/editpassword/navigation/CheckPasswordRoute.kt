@@ -1,18 +1,18 @@
-package team.aliens.dms.android.feature.resetpassword.navigation
+package team.aliens.dms.android.feature.editpassword.navigation
 
 import androidx.compose.runtime.Composable
 import team.aliens.dms.android.core.designsystem.snackbar.DmsSnackBarType
-import team.aliens.dms.android.feature.resetpassword.ui.CheckPassword
+import team.aliens.dms.android.feature.editpassword.ui.CheckPassword
 
 @Composable
 fun CheckPasswordRoute(
     onBackPressed: () -> Unit,
-    onNavigateResetPassword: (String) -> Unit,
+    onNavigateEditPassword: (String) -> Unit,
     onShowSnackBar: (DmsSnackBarType, String) -> Unit,
 ) {
     CheckPassword(
         onBackPressed = onBackPressed,
-        onNavigateResetPassword = onNavigateResetPassword,
+        onNavigateEditPassword = onNavigateEditPassword,
         onShowSnackBar = onShowSnackBar,
     )
 }

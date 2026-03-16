@@ -2,7 +2,7 @@ package team.aliens.dms.android.feature.findid.navigation
 
 import androidx.compose.runtime.Composable
 import team.aliens.dms.android.core.designsystem.snackbar.DmsSnackBarType
-import team.aliens.dms.android.feature.findid.FindIdScreen
+import team.aliens.dms.android.feature.findid.ui.FindIdScreen
 
 @Composable
 fun FindIdRoute(

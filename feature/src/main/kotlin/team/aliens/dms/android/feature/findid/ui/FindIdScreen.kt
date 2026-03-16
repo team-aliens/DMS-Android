@@ -1,4 +1,4 @@
-package team.aliens.dms.android.feature.findid
+package team.aliens.dms.android.feature.findid.ui
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
