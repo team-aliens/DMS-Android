@@ -1,17 +1,15 @@
-# TODO: androidx-window, androix-material 등으로 리팩토링
 [versions]
-accompanist = "0.34.0"
-androidx-window = "1.3.0-alpha02"
 activity = "1.8.2"
 appcompat = "1.6.1"
 appUpdate = "2.1.0"
+accompanist = "0.36.0"
 core = "1.12.0"
 datastorePreferences = "1.0.0"
 espresso = "3.5.1"
 firebaseAnalytics = "22.0.0"
 firebaseBom = "33.0.0"
 firebaseMessaging = "24.0.0"
-googleServices = "4.4.1"
+googleServices = "4.4.2"
 glanceAppwidget = "1.1.0"
 hiltWork = "1.2.0"
 javaxInject = "1"
@@ -19,43 +17,49 @@ junit = "4.13.2"
 junitAndroid = "1.1.5"
 coroutines = "1.7.3"
 kotlinStdlib = "2.0.0"
-kotlinxSerializationJson = "1.6.3"
+kotlinxSerializationJson = "1.7.3"
 lifecycle = "2.7.0"
 material = "1.11.0"
-materialCompose = "1.2.0"
-agp = "8.2.2"
-kotlinAndroid = "1.9.20"
-kotlinJvm = "1.9.20"
-hilt = "2.48"
+materialCompose = "1.3.2"
+composeCalendar = "2.6.0"
+agp = "8.9.1"
+kotlinAndroid = "2.0.0"
+kotlinJvm = "2.0.0"
+hilt = "2.51.1"
 google = "4.4.2"
-ksp = "1.9.10-1.0.13"
+ksp = "2.0.0-1.0.24"
 moshiKotlin = "1.14.0"
 okhttp = "4.12.0"
 retrofit = "2.9.0"
 room = "2.6.1"
 threetenbp = "1.6.8"
-compose = "1.5.4"
+compose = "1.7.8"
 composeDestination = "1.9.54"
 navigation = "2.7.7"
+navigation3 = "1.0.0"
 hiltNavigation = "1.1.0"
+telephoto = "0.14.0"
 coil = "2.4.0"
-compileSdk = "34"
-minSdk = "23"
+compileSdk = "36"
+minSdk = "26"
 targetSdk = "34"
+desugarJdkLibs = "2.0.3"
 java = "17"
 junitKtx = "1.1.5"
 workRuntime = "2.9.0"
 serialization = "2.0.0"
 firebase-crashlytics = "2.9.9"
 org-jlleitschuh-ktlint-gradle = "11.3.1"
+composeCompiler = "2.0.0"
+kotlinxDatetime = "0.6.1"
+kotlinx-collections-immutable = "0.3.8"
+material3 = "1.4.0"
 
 [libraries]
-accompanist-adaptive = { module = "com.google.accompanist:accompanist-adaptive", version.ref = "accompanist" }
 androidx-glance-appwidget = { module = "androidx.glance:glance-appwidget", version.ref = "glanceAppwidget" }
 androidx-glance-material3 = { module = "androidx.glance:glance-material3", version.ref = "glanceAppwidget" }
 androidx-hilt-compiler = { module = "androidx.hilt:hilt-compiler", version.ref = "hiltWork" }
 androidx-hilt-work = { module = "androidx.hilt:hilt-work", version.ref = "hiltWork" }
-androidx-window = { module = "androidx.window:window", version.ref = "androidx-window" }
 androidx-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "activity" }
 androidx-appcompat = { module = "androidx.appcompat:appcompat", version.ref = "appcompat" }
 androidx-core = { group = "androidx.core", name = "core-ktx", version.ref = "core" }
@@ -74,9 +78,13 @@ androidx-compose-test-junit = { group = "androidx.compose.ui", name = "ui-test-j
 androidx-compose-material = { group = "androidx.compose.material3", name = "material3", version.ref = "materialCompose" }
 androidx-compose-material-window = { group = "androidx.compose.material3", name = "material3-window-size-class-android", version.ref = "materialCompose" }
 androidx-navigation-compose = { module = "androidx.navigation:navigation-compose", version.ref = "navigation" }
+androidx-navigation3-runtime = { module = "androidx.navigation3:navigation3-runtime", version.ref = "navigation3" }
+androidx-navigation3-ui = { module = "androidx.navigation3:navigation3-ui", version.ref = "navigation3" }
 androidx-hilt-navigation-compose = { module = "androidx.hilt:hilt-navigation-compose", version.ref = "hiltNavigation" }
 androidx-work-runtime-ktx = { module = "androidx.work:work-runtime-ktx", version.ref = "workRuntime" }
 app-update = { module = "com.google.android.play:app-update-ktx", version.ref = "appUpdate" }
+accompanist-permissions = { group = "com.google.accompanist", name = "accompanist-permissions", version.ref = "accompanist" }
+telephoto-zoomable-image-coil = { module = "me.saket.telephoto:zoomable-image-coil", version.ref = "telephoto" }
 composeDestinations = { group = "io.github.raamcosta.compose-destinations", name = "animations-core", version.ref = "composeDestination" }
 composeDestinations-ksp = { group = "io.github.raamcosta.compose-destinations", name = "ksp", version.ref = "composeDestination" }
 firebase-analytics = { module = "com.google.firebase:firebase-analytics", version.ref = "firebaseAnalytics" }
@@ -85,6 +93,9 @@ firebase-crashlytics = { module = "com.google.firebase:firebase-crashlytics" }
 firebase-messaging = { module = "com.google.firebase:firebase-messaging", version.ref = "firebaseMessaging" }
 google-services = { module = "com.google.gms:google-services", version.ref = "googleServices" }
 javax-inject = { module = "javax.inject:javax.inject", version.ref = "javaxInject" }
+kotlinx-datetime = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version.ref = "kotlinxDatetime" }
+kotlinx-collections-immutable = { module = "org.jetbrains.kotlinx:kotlinx-collections-immutable", version.ref = "kotlinx-collections-immutable" }
+
 
 # Deprecated
 junit = { module = "junit:junit", version.ref = "junit" }
@@ -107,6 +118,10 @@ hilt = { group = "com.google.dagger", name = "hilt-android", version.ref = "hilt
 hilt-testing = { module = "com.google.dagger:hilt-android-testing", version.ref = "hilt" }
 hilt-compiler = { group = "com.google.dagger", name = "hilt-android-compiler", version.ref = "hilt" }
 coil-compose = { module = "io.coil-kt:coil-compose", version.ref = "coil" }
+androidx-compose-material3 = { group = "androidx.compose.material3", name = "material3", version.ref = "material3" }
+androidx-compose-material-icons-extended = { group = "androidx.compose.material", name = "material-icons-extended", version.ref = "compose" }
+desugar-jdk-libs = { group = "com.android.tools", name = "desugar_jdk_libs", version.ref = "desugarJdkLibs" }
+compose-calendar = { module = "com.kizitonwose.calendar:compose", version.ref = "composeCalendar" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
@@ -119,3 +134,4 @@ jetbrainsKotlinJvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlinJvm
 serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "serialization" }
 firebase-crashlytics = { id = "com.google.firebase.crashlytics", version.ref = "firebase-crashlytics" }
 ktlint-gradle = { id = "org.jlleitschuh.gradle.ktlint", version.ref = "org-jlleitschuh-ktlint-gradle"}
+compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlinJvm" }

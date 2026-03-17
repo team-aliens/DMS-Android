@@ -5,6 +5,7 @@ plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.ktlint.gradle)
+    alias(libs.plugins.compose.compiler)
 }
 
 android {
@@ -31,10 +32,6 @@ android {
 
     buildFeatures {
         compose = true
-    }
-
-    composeOptions {
-        kotlinCompilerExtensionVersion = libs.versions.compose.get()
     }
 
     compileOptions {
@@ -64,8 +61,6 @@ dependencies {
     implementation(libs.androidx.compose.tooling.preview)
     implementation(libs.androidx.compose.test.junit)
     implementation(libs.androidx.compose.material)
-    implementation(libs.androidx.navigation.compose)
-    implementation(libs.androidx.hilt.navigation.compose)
 
     implementation(libs.coil.compose)
 

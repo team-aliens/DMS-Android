@@ -75,6 +75,7 @@ dependencies {
 
     implementation(project(ProjectPaths.Shared.MODEL))
     implementation(project(ProjectPaths.Shared.DATE))
+    implementation(project(ProjectPaths.Shared.EXCEPTION))
 
     implementation(project(ProjectPaths.Core.JWT))
     implementation(project(ProjectPaths.Core.NETWORK))
@@ -106,4 +107,4 @@ dependencies {
 
 // TODO: 선언 위치 옮기기
 fun localProperty(key: String) =
-    com.android.build.gradle.internal.cxx.configure.gradleLocalProperties(rootDir).getProperty(key)
+    com.android.build.gradle.internal.cxx.configure.gradleLocalProperties(rootDir, providers).getProperty(key)

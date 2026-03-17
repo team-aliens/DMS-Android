@@ -6,6 +6,7 @@ plugins {
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.ksp)
     alias(libs.plugins.ktlint.gradle)
+    alias(libs.plugins.compose.compiler)
 }
 
 android {
@@ -34,10 +35,6 @@ android {
         compose = true
     }
 
-    composeOptions {
-        kotlinCompilerExtensionVersion = libs.versions.compose.get()
-    }
-
     compileOptions {
         sourceCompatibility = Versions.java
         targetCompatibility = Versions.java
@@ -64,6 +61,8 @@ dependencies {
     implementation(libs.androidx.compose.tooling)
     implementation(libs.androidx.compose.tooling.preview)
     implementation(libs.androidx.compose.material)
+    implementation(libs.androidx.compose.material3)
+    implementation(libs.compose.calendar)
 
     androidTestImplementation(libs.androidx.compose.test.junit)
 

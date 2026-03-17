@@ -1,7 +1,7 @@
 package team.aliens.dms.android.database.meal.datasource
 
-import org.threeten.bp.LocalDate
 import team.aliens.dms.android.core.database.entity.MealEntity
+import java.time.LocalDate
 
 abstract class DatabaseMealDataSource {
     abstract suspend fun queryMeal(date: LocalDate): MealEntity

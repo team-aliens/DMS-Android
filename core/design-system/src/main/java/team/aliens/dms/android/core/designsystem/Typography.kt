@@ -7,7 +7,6 @@ import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.sp
 
 @Immutable
@@ -26,80 +25,89 @@ class Typography internal constructor(
     val button: TextStyle,
 ) {
     constructor(
-        defaultFontFamily: FontFamily = notoSansFontFamily,
-        headline1: TextStyle = TextStyle(
-            fontWeight = FontWeight.Medium,
-            fontSize = 36.sp,
-            letterSpacing = 0.5.sp,
+        headlineB: TextStyle = TextStyle(
+            fontWeight = FontWeight.Bold,
+            fontSize = 32.sp,
+            lineHeight = 38.2.sp,
         ),
-        headline2: TextStyle = TextStyle(
+        headlineM: TextStyle = TextStyle(
             fontWeight = FontWeight.Medium,
-            fontSize = 30.sp,
-            letterSpacing = 0.42.sp,
+            fontSize = 32.sp,
+            lineHeight = 38.2.sp,
         ),
-        headline3: TextStyle = TextStyle(
+        titleB: TextStyle = TextStyle(
+            fontWeight = FontWeight.Bold,
+            fontSize = 28.sp,
+            lineHeight = 33.4.sp,
+        ),
+        titleM: TextStyle = TextStyle(
+            fontWeight = FontWeight.Medium,
+            fontSize = 28.sp,
+            lineHeight = 33.4.sp,
+        ),
+        sTitleB: TextStyle = TextStyle(
+            fontWeight = FontWeight.Bold,
+            fontSize = 24.sp,
+            lineHeight = 28.6.sp,
+        ),
+        sTitleM: TextStyle = TextStyle(
             fontWeight = FontWeight.Medium,
             fontSize = 24.sp,
-            letterSpacing = 0.34.sp,
+            lineHeight = 28.6.sp,
         ),
-        title1: TextStyle = TextStyle(
-            fontWeight = FontWeight.Bold,
-            fontSize = 22.sp,
-            letterSpacing = 0.34.sp,
-        ),
-        title2: TextStyle = TextStyle(
+        lBodyB: TextStyle = TextStyle(
             fontWeight = FontWeight.Bold,
             fontSize = 20.sp,
-            letterSpacing = 0.32.sp,
+            lineHeight = 23.9.sp,
         ),
-        title3: TextStyle = TextStyle(
+        lBodyM: TextStyle = TextStyle(
+            fontWeight = FontWeight.Medium,
+            fontSize = 20.sp,
+            lineHeight = 23.9.sp,
+        ),
+        bodyB: TextStyle = TextStyle(
             fontWeight = FontWeight.Bold,
-            fontSize = 18.sp,
-            letterSpacing = 0.28.sp,
-        ),
-        body1: TextStyle = TextStyle(
-            fontWeight = FontWeight.Normal,
-            fontSize = 18.sp,
-            letterSpacing = 0.28.sp,
-        ),
-        body2: TextStyle = TextStyle(
-            fontWeight = FontWeight.Normal,
             fontSize = 16.sp,
-            letterSpacing = 0.26.sp,
+            lineHeight = 19.1.sp,
         ),
-        body3: TextStyle = TextStyle(
-            fontWeight = FontWeight.Normal,
-            fontSize = 14.sp,
-            letterSpacing = 0.22.sp,
+        bodyM: TextStyle = TextStyle(
+            fontWeight = FontWeight.Medium,
+            fontSize = 16.sp,
+            lineHeight = 19.1.sp,
         ),
-        caption: TextStyle = TextStyle(
-            fontWeight = FontWeight.Normal,
+        labelB: TextStyle = TextStyle(
+            fontWeight = FontWeight.Bold,
             fontSize = 12.sp,
-            letterSpacing = TextUnit.Unspecified,
+            lineHeight = 14.3.sp,
         ),
-        overline: TextStyle = TextStyle(
+        labelM: TextStyle = TextStyle(
+            fontWeight = FontWeight.Medium,
+            fontSize = 12.sp,
+            lineHeight = 14.3.sp,
+        ),
+        sLabelB: TextStyle = TextStyle(
             fontWeight = FontWeight.Bold,
             fontSize = 10.sp,
-            letterSpacing = TextUnit.Unspecified,
+            lineHeight = 11.9.sp,
         ),
-        button: TextStyle = TextStyle(
-            fontWeight = FontWeight.Bold,
-            fontSize = 14.sp,
-            letterSpacing = TextUnit.Unspecified,
+        sLabelM: TextStyle = TextStyle(
+            fontWeight = FontWeight.Medium,
+            fontSize = 10.sp,
+            lineHeight = 11.9.sp,
         ),
     ) : this(
-        headline1 = headline1.withDefaultFontFamily(defaultFontFamily),
-        headline2 = headline2.withDefaultFontFamily(defaultFontFamily),
-        headline3 = headline3.withDefaultFontFamily(defaultFontFamily),
-        title1 = title1.withDefaultFontFamily(defaultFontFamily),
-        title2 = title2.withDefaultFontFamily(defaultFontFamily),
-        title3 = title3.withDefaultFontFamily(defaultFontFamily),
-        body1 = body1.withDefaultFontFamily(defaultFontFamily),
-        body2 = body2.withDefaultFontFamily(defaultFontFamily),
-        body3 = body3.withDefaultFontFamily(defaultFontFamily),
-        caption = caption.withDefaultFontFamily(defaultFontFamily),
-        overline = overline.withDefaultFontFamily(defaultFontFamily),
-        button = button.withDefaultFontFamily(defaultFontFamily),
+        headline1 = headlineB.withDefaultFontFamily(pretendardFontFamily),
+        headline2 = headlineM.withDefaultFontFamily(pretendardFontFamily),
+        headline3 = titleB.withDefaultFontFamily(pretendardFontFamily),
+        title1 = titleM.withDefaultFontFamily(pretendardFontFamily),
+        title2 = sTitleB.withDefaultFontFamily(pretendardFontFamily),
+        title3 = sTitleM.withDefaultFontFamily(pretendardFontFamily),
+        body1 = lBodyB.withDefaultFontFamily(pretendardFontFamily),
+        body2 = lBodyM.withDefaultFontFamily(pretendardFontFamily),
+        body3 = bodyB.withDefaultFontFamily(pretendardFontFamily),
+        caption = bodyM.withDefaultFontFamily(pretendardFontFamily),
+        overline = labelB.withDefaultFontFamily(pretendardFontFamily),
+        button = labelM.withDefaultFontFamily(pretendardFontFamily),
     )
 
     fun copy(
@@ -151,24 +159,24 @@ class Typography internal constructor(
     }
 
     override fun hashCode(): Int {
-        var result = headline1.hashCode()
-        result = 31 * result + headline2.hashCode()
-        result = 31 * result + headline3.hashCode()
-        result = 31 * result + title1.hashCode()
-        result = 31 * result + title2.hashCode()
-        result = 31 * result + title3.hashCode()
-        result = 31 * result + body1.hashCode()
-        result = 31 * result + body2.hashCode()
-        result = 31 * result + body3.hashCode()
-        result = 31 * result + caption.hashCode()
-        result = 31 * result + overline.hashCode()
-        result = 31 * result + button.hashCode()
-        return result
+        var Rult = headline1.hashCode()
+        Rult = 31 * Rult + headline2.hashCode()
+        Rult = 31 * Rult + headline3.hashCode()
+        Rult = 31 * Rult + title1.hashCode()
+        Rult = 31 * Rult + title2.hashCode()
+        Rult = 31 * Rult + title3.hashCode()
+        Rult = 31 * Rult + body1.hashCode()
+        Rult = 31 * Rult + body2.hashCode()
+        Rult = 31 * Rult + body3.hashCode()
+        Rult = 31 * Rult + caption.hashCode()
+        Rult = 31 * Rult + overline.hashCode()
+        Rult = 31 * Rult + button.hashCode()
+        return Rult
     }
 
     override fun toString(): String {
         return "Typography(headline1=$headline1, " +
-            "headline2=$headline1, " +
+            "headline2=$headline2, " +
             "headline3=$headline3, " +
             "title1=$title1, " +
             "title2=$title2, " +
@@ -183,35 +191,25 @@ class Typography internal constructor(
     }
 }
 
-private val notoSansFontFamily: FontFamily = FontFamily(
+val pretendardFontFamily: FontFamily = FontFamily(
     Font(
-        resId = R.font.noto_sans_kr_black,
-        weight = FontWeight.Black,
-        style = FontStyle.Normal,
-    ),
-    Font(
-        resId = R.font.noto_sans_kr_bold,
-        weight = FontWeight.Bold,
-        style = FontStyle.Normal,
-    ),
-    Font(
-        resId = R.font.noto_sans_kr_light,
-        weight = FontWeight.Light,
-        style = FontStyle.Normal,
-    ),
-    Font(
-        resId = R.font.noto_sans_kr_medium,
-        weight = FontWeight.Medium,
-        style = FontStyle.Normal,
-    ),
-    Font(
-        resId = R.font.noto_sans_kr_regular,
+        resId = R.font.pretendard_regular,
         weight = FontWeight.Normal,
         style = FontStyle.Normal,
     ),
     Font(
-        resId = R.font.noto_sans_kr_thin,
-        weight = FontWeight.Thin,
+        resId = R.font.pretendard_medium,
+        weight = FontWeight.Medium,
+        style = FontStyle.Normal,
+    ),
+    Font(
+        resId = R.font.pretendard_semi_bold,
+        weight = FontWeight.SemiBold,
+        style = FontStyle.Normal,
+    ),
+    Font(
+        resId = R.font.pretendard_bold,
+        weight = FontWeight.Bold,
         style = FontStyle.Normal,
     ),
 )
@@ -222,5 +220,36 @@ private fun TextStyle.withDefaultFontFamily(default: FontFamily): TextStyle =
     } else {
         this.copy(fontFamily = default)
     }
+
+// 새 디자인 시스템 속성명으로 접근하기 위한 확장 속성
+inline val Typography.headlineB: TextStyle get() = headline1
+inline val Typography.headlineM: TextStyle get() = headline2
+inline val Typography.titleB: TextStyle get() = headline3
+inline val Typography.titleM: TextStyle get() = title1
+inline val Typography.sTitleB: TextStyle get() = title2
+inline val Typography.sTitleM: TextStyle get() = title3
+inline val Typography.lBodyB: TextStyle get() = body1
+inline val Typography.lBodyM: TextStyle get() = body2
+inline val Typography.bodyB: TextStyle get() = body3
+inline val Typography.bodyM: TextStyle get() = caption
+inline val Typography.labelB: TextStyle get() = overline
+inline val Typography.labelM: TextStyle get() = button
+
+// dev 전용 추가 속성
+val Typography.sLabelB: TextStyle
+    get() = TextStyle(
+        fontFamily = pretendardFontFamily,
+        fontWeight = FontWeight.Bold,
+        fontSize = 10.sp,
+        lineHeight = 11.9.sp,
+    )
+
+val Typography.sLabelM: TextStyle
+    get() = TextStyle(
+        fontFamily = pretendardFontFamily,
+        fontWeight = FontWeight.Medium,
+        fontSize = 10.sp,
+        lineHeight = 11.9.sp,
+    )
 
 internal val LocalTypography = staticCompositionLocalOf { Typography() }

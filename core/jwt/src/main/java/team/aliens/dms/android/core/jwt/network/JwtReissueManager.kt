@@ -32,7 +32,7 @@ class JwtReissueManager @Inject constructor(
         return if (response.isSuccessful) {
             response.body.toTokensResponse().toModel()
         } else {
-            throw CannotReissueTokenException()
+            throw CannotReissueTokenException(statusCode = response.code)
         }
     }
 

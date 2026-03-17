@@ -21,4 +21,5 @@ plugins {
     alias(libs.plugins.ksp) apply false
     alias(libs.plugins.jetbrainsKotlinJvm) apply false
     alias(libs.plugins.firebase.crashlytics) apply false
+    alias(libs.plugins.compose.compiler) apply false
 }

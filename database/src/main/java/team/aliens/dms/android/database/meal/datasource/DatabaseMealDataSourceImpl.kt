@@ -1,8 +1,8 @@
 package team.aliens.dms.android.database.meal.datasource
 
-import org.threeten.bp.LocalDate
 import team.aliens.dms.android.core.database.dao.MealDao
 import team.aliens.dms.android.core.database.entity.MealEntity
+import java.time.LocalDate
 import javax.inject.Inject
 
 internal class DatabaseMealDataSourceImpl @Inject constructor(

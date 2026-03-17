@@ -7,6 +7,8 @@ plugins {
     alias(libs.plugins.hilt)
     alias(libs.plugins.ksp)
     alias(libs.plugins.ktlint.gradle)
+    alias(libs.plugins.compose.compiler)
+    alias(libs.plugins.serialization)
 }
 
 android {
@@ -35,10 +37,6 @@ android {
         buildConfig = true
     }
 
-    composeOptions {
-        kotlinCompilerExtensionVersion = libs.versions.compose.get()
-    }
-
     compileOptions {
         sourceCompatibility = Versions.java
         targetCompatibility = Versions.java
@@ -61,6 +59,9 @@ dependencies {
     implementation(project(ProjectPaths.Core.FILE))
     implementation(project(ProjectPaths.Core.NOTIFICATION))
     implementation(project(ProjectPaths.Core.JWT))
+    implementation(project(ProjectPaths.Core.ONBOARDING))
+    implementation(project(ProjectPaths.Core.NETWORK))
+    implementation(project(ProjectPaths.Core.DEVICE))
 
     implementation(project(ProjectPaths.NETWORK))
     implementation(project(ProjectPaths.DATA))
@@ -77,6 +78,11 @@ dependencies {
     implementation(libs.androidx.navigation.compose)
     implementation(libs.androidx.hilt.navigation.compose)
     implementation(libs.androidx.lifecycle.runtime.compose)
+    implementation(libs.androidx.compose.material.icons.extended)
+    implementation(libs.kotlinx.collections.immutable)
+    implementation(libs.kotlinx.datetime)
+    implementation(libs.accompanist.permissions)
+    implementation(libs.telephoto.zoomable.image.coil)
 
     implementation(libs.coil.compose)
 
@@ -88,9 +94,6 @@ dependencies {
     ksp(libs.hilt.compiler)
 
     implementation(libs.threetenbp)
-
-    implementation(libs.composeDestinations)
-    ksp(libs.composeDestinations.ksp)
 
     testImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.junit)

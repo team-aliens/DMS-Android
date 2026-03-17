@@ -9,6 +9,8 @@ plugins {
     alias(libs.plugins.ksp)
     alias(libs.plugins.firebase.crashlytics)
     alias(libs.plugins.ktlint.gradle)
+    alias(libs.plugins.serialization)
+    alias(libs.plugins.compose.compiler)
 }
 
 android {
@@ -47,10 +49,6 @@ android {
         compose = true
     }
 
-    composeOptions {
-        kotlinCompilerExtensionVersion = libs.versions.compose.get()
-    }
-
     compileOptions {
         sourceCompatibility = Versions.java
         targetCompatibility = Versions.java
@@ -77,6 +75,7 @@ dependencies {
     implementation(project(ProjectPaths.Core.NOTIFICATION))
     implementation(project(ProjectPaths.Core.DEVICE))
     implementation(project(ProjectPaths.Core.WIDGET))
+    implementation(project(ProjectPaths.Core.ONBOARDING))
 
     implementation(project(ProjectPaths.DATA))
     implementation(project(ProjectPaths.DATABASE))
@@ -85,10 +84,7 @@ dependencies {
 
     implementation(libs.androidx.core)
     implementation(libs.androidx.appcompat)
-    implementation(libs.androidx.window)
     implementation(libs.androidx.activity.compose)
-
-    implementation(libs.accompanist.adaptive)
 
     implementation(libs.androidx.compose)
     implementation(libs.androidx.compose.util)
@@ -97,12 +93,10 @@ dependencies {
     implementation(libs.androidx.compose.material.window)
     androidTestImplementation(libs.androidx.compose.test.junit)
     implementation(libs.androidx.compose.material)
-    implementation(libs.androidx.navigation.compose)
+    implementation(libs.androidx.navigation3.runtime)
+    implementation(libs.androidx.navigation3.ui)
     implementation(libs.androidx.hilt.navigation.compose)
     implementation(libs.androidx.lifecycle.runtime.compose)
-
-    implementation(libs.composeDestinations)
-    ksp(libs.composeDestinations.ksp)
 
     implementation(libs.coil.compose)
 
