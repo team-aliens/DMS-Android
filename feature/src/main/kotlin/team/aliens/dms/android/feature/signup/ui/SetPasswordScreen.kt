@@ -80,7 +80,6 @@ private fun SetPasswordContent(
         )
         DmsSymbolContent(
             modifier = Modifier
-                .horizontalPadding(24.dp)
                 .topPadding(4.dp),
             title = "비밀번호 입력",
             description = "영문, 숫자, 기호를 포함한 8~20자입니다.",

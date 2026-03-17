@@ -83,7 +83,6 @@ private fun SetIdContent(
         )
         DmsSymbolContent(
             modifier = Modifier
-                .horizontalPadding(24.dp)
                 .topPadding(4.dp),
             title = "아이디 입력",
             description = "DMS에서 사용될 아이디를 입력해주세요.",

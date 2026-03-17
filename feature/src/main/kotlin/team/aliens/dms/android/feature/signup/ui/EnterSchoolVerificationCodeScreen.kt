@@ -79,7 +79,6 @@ private fun EnterSchoolVerificationCodeContent(
         )
         DmsSymbolContent(
             modifier = Modifier
-                .horizontalPadding(24.dp)
                 .topPadding(4.dp),
             title = "학교 인증코드 입력",
             description = "학교 인증코드는 ${SCHOOL_VERIFICATION_CODE_LENGTH}자리에요.",

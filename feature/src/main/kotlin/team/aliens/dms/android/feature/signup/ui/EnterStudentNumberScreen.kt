@@ -93,7 +93,6 @@ private fun EnterStudentNumberContent(
         )
         DmsSymbolContent(
             modifier = Modifier
-                .horizontalPadding(24.dp)
                 .topPadding(4.dp),
             title = "학번 입력",
             description = "숫자만 입력해주세요.",
