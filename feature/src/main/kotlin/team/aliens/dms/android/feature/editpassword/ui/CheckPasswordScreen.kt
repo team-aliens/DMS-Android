@@ -1,4 +1,4 @@
-package team.aliens.dms.android.feature.resetpassword.ui
+package team.aliens.dms.android.feature.editpassword.ui
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.detectTapGestures
@@ -27,52 +27,46 @@ import team.aliens.dms.android.core.designsystem.horizontalPadding
 import team.aliens.dms.android.core.designsystem.snackbar.DmsSnackBarType
 import team.aliens.dms.android.core.designsystem.textfield.DmsTextField
 import team.aliens.dms.android.core.designsystem.topPadding
-import team.aliens.dms.android.feature.resetpassword.viewmodel.ResetPasswordSideEffect
-import team.aliens.dms.android.feature.resetpassword.viewmodel.ResetPasswordState
-import team.aliens.dms.android.feature.resetpassword.viewmodel.ResetPasswordViewModel
+import team.aliens.dms.android.feature.editpassword.viewmodel.CheckPasswordSideEffect
+import team.aliens.dms.android.feature.editpassword.viewmodel.CheckPasswordState
+import team.aliens.dms.android.feature.editpassword.viewmodel.CheckPasswordViewModel
 
 @Composable
-internal fun ResetPassword(
+internal fun CheckPassword(
     onBackPressed: () -> Unit,
-    currentPassword: String,
-    onNavigateSetting: () -> Unit,
+    onNavigateEditPassword: (String) -> Unit,
     onShowSnackBar: (DmsSnackBarType, String) -> Unit,
 ) {
-    val viewModel: ResetPasswordViewModel = hiltViewModel()
+    val viewModel: CheckPasswordViewModel = hiltViewModel()
     val state by viewModel.uiState.collectAsStateWithLifecycle()
     val focusManager = LocalFocusManager.current
 
     LaunchedEffect(Unit) {
         viewModel.sideEffect.collect {
             when (it) {
-                is ResetPasswordSideEffect.SuccessResetPassword -> onNavigateSetting()
-                is ResetPasswordSideEffect.FailResetPassword -> onShowSnackBar(
-                    DmsSnackBarType.ERROR, it.message
-                )
-                is ResetPasswordSideEffect.PasswordMismatch -> onShowSnackBar(
+                is CheckPasswordSideEffect.SuccessCheckPassword -> onNavigateEditPassword(state.currentPassword)
+                is CheckPasswordSideEffect.FailCheckPassword -> onShowSnackBar(
                     DmsSnackBarType.ERROR, it.message
                 )
             }
         }
     }
 
-    ResetPasswordScreen(
+    CheckPasswordScreen(
         onBackPressed = onBackPressed,
-        onResetPasswordClick = { viewModel.resetPassword(currentPassword) },
+        onCheckPasswordClick = viewModel::checkPassword,
         state = state,
-        onNewPasswordChange = viewModel::setNewPassword,
-        onCheckNewPasswordChange = viewModel::setCheckNewPassword,
+        onPasswordChange = viewModel::setPassword,
         onClearFocus = { focusManager.clearFocus() },
     )
 }
 
 @Composable
-private fun ResetPasswordScreen(
+private fun CheckPasswordScreen(
     onBackPressed: () -> Unit,
-    onResetPasswordClick: () -> Unit,
-    state: ResetPasswordState,
-    onNewPasswordChange: (String) -> Unit,
-    onCheckNewPasswordChange: (String) -> Unit,
+    onCheckPasswordClick: () -> Unit,
+    state: CheckPasswordState,
+    onPasswordChange: (String) -> Unit,
     onClearFocus: () -> Unit,
 ) {
     Column(
@@ -90,8 +84,8 @@ private fun ResetPasswordScreen(
         DmsSymbolContent(
             modifier = Modifier
                 .topPadding(52.dp),
-            title = "비밀번호 재설정",
-            description = "비밀번호를 다시 설정해주세요.",
+            title = "비밀번호 확인",
+            description = "기존 비밀번호를 입력해주세요",
         )
         DmsTextField(
             modifier = Modifier
@@ -99,31 +93,20 @@ private fun ResetPasswordScreen(
                 .padding(top = 32.dp)
                 .horizontalPadding(24.dp),
             label = "비밀번호",
-            value = state.newPassword,
+            value = state.currentPassword,
             hint = "비밀번호 입력",
-            onValueChange = onNewPasswordChange,
-            showVisibleIcon = true,
-        )
-        DmsTextField(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(top = 32.dp)
-                .horizontalPadding(24.dp),
-            label = "비밀번호 재입력",
-            value = state.checkNewPassword,
-            hint = "비밀번호 재입력",
-            onValueChange = onCheckNewPasswordChange,
+            onValueChange = onPasswordChange,
             showVisibleIcon = true,
         )
         Spacer(modifier = Modifier.weight(1f))
         DmsButton(
             modifier = Modifier
                 .fillMaxWidth(),
-            text = "완료",
+            text = "다음",
             buttonType = ButtonType.Contained,
             buttonColor = ButtonColor.Primary,
             keyboardInteractionEnabled = true,
-            onClick = onResetPasswordClick,
+            onClick = onCheckPasswordClick,
             enabled = state.buttonEnabled,
             isLoading = state.isLoading,
         )
