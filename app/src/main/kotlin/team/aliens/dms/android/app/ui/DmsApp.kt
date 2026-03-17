@@ -59,7 +59,25 @@ import team.aliens.dms.android.feature.editpassword.navigation.EditPasswordRoute
 import team.aliens.dms.android.feature.findid.navigation.FindIdRoute
 import team.aliens.dms.android.feature.setting.navigation.SettingRoute
 import team.aliens.dms.android.feature.signin.navigation.SignInRoute
+import team.aliens.dms.android.feature.signup.navigation.SignUpCompleteRoute
+import team.aliens.dms.android.feature.signup.navigation.SignUpEnterEmailRoute
+import team.aliens.dms.android.feature.signup.navigation.SignUpEnterEmailVerificationCodeRoute
+import team.aliens.dms.android.feature.signup.navigation.SignUpEnterSchoolVerificationCodeRoute
+import team.aliens.dms.android.feature.signup.navigation.SignUpEnterSchoolVerificationQuestionRoute
+import team.aliens.dms.android.feature.signup.navigation.SignUpEnterStudentNumberRoute
+import team.aliens.dms.android.feature.signup.navigation.SignUpSetIdRoute
+import team.aliens.dms.android.feature.signup.navigation.SignUpSetPasswordRoute
+import team.aliens.dms.android.feature.signup.navigation.SignUpTermsRoute
 import team.aliens.dms.android.feature.vote.navigation.VoteRoute
+import team.aliens.dms.android.app.navigation.SignUpCompleteNav
+import team.aliens.dms.android.app.navigation.SignUpEnterEmailNav
+import team.aliens.dms.android.app.navigation.SignUpEnterEmailVerificationCodeNav
+import team.aliens.dms.android.app.navigation.SignUpEnterSchoolVerificationCodeNav
+import team.aliens.dms.android.app.navigation.SignUpEnterSchoolVerificationQuestionNav
+import team.aliens.dms.android.app.navigation.SignUpEnterStudentNumberNav
+import team.aliens.dms.android.app.navigation.SignUpSetIdNav
+import team.aliens.dms.android.app.navigation.SignUpSetPasswordNav
+import team.aliens.dms.android.app.navigation.SignUpTermsNav
 import java.util.UUID
 
 @Composable
@@ -142,7 +160,7 @@ fun DmsApp(
                                     backStack.clear()
                                     backStack.add(HomeScreenNav)
                                 },
-                                navigateToSignUp = {},
+                                navigateToSignUp = { backStack.add(SignUpEnterSchoolVerificationCodeNav) },
                                 navigateToFindId = { backStack.add(FindIdScreenNav) },
                                 onShowSnackBar = { snackBarType, message ->
                                     appState.showSnackBar(snackBarType, message)
@@ -315,6 +333,104 @@ fun DmsApp(
                                 onNavigateToBack = { backStack.remove(FindIdScreenNav) },
                                 onShowSnackBar = { snackBarType, message ->
                                     appState.showSnackBar(snackBarType, message)
+                                },
+                            )
+                        }
+                        entry<SignUpEnterSchoolVerificationCodeNav> {
+                            SignUpEnterSchoolVerificationCodeRoute(
+                                onBackPressed = { backStack.removeLastOrNull() },
+                                navigateToEnterSchoolVerificationQuestion = { signUpData ->
+                                    backStack.add(SignUpEnterSchoolVerificationQuestionNav(signUpData))
+                                },
+                                onShowSnackBar = { snackBarType, message ->
+                                    appState.showSnackBar(snackBarType, message)
+                                },
+                            )
+                        }
+                        entry<SignUpEnterSchoolVerificationQuestionNav> {
+                            SignUpEnterSchoolVerificationQuestionRoute(
+                                signUpData = it.signUpData,
+                                onBackPressed = { backStack.removeLastOrNull() },
+                                navigateToEnterEmail = { signUpData ->
+                                    backStack.add(SignUpEnterEmailNav(signUpData))
+                                },
+                                onShowSnackBar = { snackBarType, message ->
+                                    appState.showSnackBar(snackBarType, message)
+                                },
+                            )
+                        }
+                        entry<SignUpEnterEmailNav> {
+                            SignUpEnterEmailRoute(
+                                signUpData = it.signUpData,
+                                onBackPressed = { backStack.removeLastOrNull() },
+                                navigateToEnterEmailVerificationCode = { signUpData ->
+                                    backStack.add(SignUpEnterEmailVerificationCodeNav(signUpData))
+                                },
+                                onShowSnackBar = { snackBarType, message ->
+                                    appState.showSnackBar(snackBarType, message)
+                                },
+                            )
+                        }
+                        entry<SignUpEnterEmailVerificationCodeNav> {
+                            SignUpEnterEmailVerificationCodeRoute(
+                                signUpData = it.signUpData,
+                                onBackPressed = { backStack.removeLastOrNull() },
+                                navigateToEnterStudentNumber = { signUpData ->
+                                    backStack.add(SignUpEnterStudentNumberNav(signUpData))
+                                },
+                                onShowSnackBar = { snackBarType, message ->
+                                    appState.showSnackBar(snackBarType, message)
+                                },
+                            )
+                        }
+                        entry<SignUpEnterStudentNumberNav> {
+                            SignUpEnterStudentNumberRoute(
+                                signUpData = it.signUpData,
+                                onBackPressed = { backStack.removeLastOrNull() },
+                                navigateToSetId = { signUpData ->
+                                    backStack.add(SignUpSetIdNav(signUpData))
+                                },
+                                onShowSnackBar = { snackBarType, message ->
+                                    appState.showSnackBar(snackBarType, message)
+                                },
+                            )
+                        }
+                        entry<SignUpSetIdNav> {
+                            SignUpSetIdRoute(
+                                signUpData = it.signUpData,
+                                onBackPressed = { backStack.removeLastOrNull() },
+                                navigateToSetPassword = { signUpData ->
+                                    backStack.add(SignUpSetPasswordNav(signUpData))
+                                },
+                                onShowSnackBar = { snackBarType, message ->
+                                    appState.showSnackBar(snackBarType, message)
+                                },
+                            )
+                        }
+                        entry<SignUpSetPasswordNav> {
+                            SignUpSetPasswordRoute(
+                                signUpData = it.signUpData,
+                                onBackPressed = { backStack.removeLastOrNull() },
+                                navigateToTerms = { signUpData ->
+                                    backStack.add(SignUpTermsNav(signUpData))
+                                },
+                            )
+                        }
+                        entry<SignUpTermsNav> {
+                            SignUpTermsRoute(
+                                signUpData = it.signUpData,
+                                onBackPressed = { backStack.removeLastOrNull() },
+                                navigateToComplete = { backStack.add(SignUpCompleteNav) },
+                                onShowSnackBar = { snackBarType, message ->
+                                    appState.showSnackBar(snackBarType, message)
+                                },
+                            )
+                        }
+                        entry<SignUpCompleteNav> {
+                            SignUpCompleteRoute(
+                                navigateToSignIn = {
+                                    backStack.clear()
+                                    backStack.add(SignInScreenNav)
                                 },
                             )
                         }
