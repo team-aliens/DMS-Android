@@ -97,6 +97,7 @@ internal fun SignIn(
         onSignInClick = viewModel::signIn,
         navigateToSignUp = navigateToSignUp,
         navigateToFindId = navigateToFindId,
+        navigateToFindPassword = navigateToFindPassword,
         state = state,
         onAccountIdChange = viewModel::setAccountId,
         onPasswordChange = viewModel::setPassword,
@@ -110,6 +111,7 @@ private fun SignInScreen(
     onSignInClick: () -> Unit,
     navigateToSignUp: () -> Unit,
     navigateToFindId: () -> Unit,
+    navigateToFindPassword: () -> Unit,
     state: SignInState,
     onAccountIdChange: (String) -> Unit,
     onPasswordChange: (String) -> Unit,
@@ -147,7 +149,7 @@ private fun SignInScreen(
                 password = state.password,
                 onPasswordChange = onPasswordChange,
                 onFindId = navigateToFindId,
-                onResetPassword = {},
+                onResetPassword = navigateToFindPassword,
             )
             Spacer(modifier = Modifier.weight(1f))
             SignupActions(onSignUp = navigateToSignUp)
