@@ -94,7 +94,6 @@ private fun TermsContent(
         )
         DmsSymbolContent(
             modifier = Modifier
-                .horizontalPadding(24.dp)
                 .topPadding(4.dp),
             title = "약관 동의",
             description = "동의 후 DMS를 사용할 수 있습니다.",

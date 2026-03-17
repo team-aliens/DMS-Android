@@ -84,7 +84,6 @@ private fun EnterEmailContent(
         )
         DmsSymbolContent(
             modifier = Modifier
-                .horizontalPadding(24.dp)
                 .topPadding(4.dp),
             title = "이메일을 입력",
             description = "인증 번호를 받을 이메일을 입력해주세요.",

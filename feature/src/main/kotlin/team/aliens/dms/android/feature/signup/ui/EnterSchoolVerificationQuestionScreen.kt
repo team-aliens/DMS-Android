@@ -84,7 +84,6 @@ private fun EnterSchoolVerificationQuestionContent(
         )
         DmsSymbolContent(
             modifier = Modifier
-                .horizontalPadding(24.dp)
                 .topPadding(4.dp),
             title = state.schoolVerificationQuestion,
             description = "학교 확인 질문이에요.",
