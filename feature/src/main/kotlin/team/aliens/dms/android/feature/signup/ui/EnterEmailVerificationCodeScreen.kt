@@ -121,7 +121,6 @@ private fun EnterEmailVerificationCodeContent(
         )
         DmsSymbolContent(
             modifier = Modifier
-                .horizontalPadding(24.dp)
                 .topPadding(4.dp),
         )
         EmailVerificationInfoBanner(

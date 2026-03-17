@@ -1,6 +1,7 @@
 package team.aliens.dms.android.feature.findid.ui
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -14,6 +15,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -38,6 +41,7 @@ internal fun FindIdScreen(
 ) {
     val viewModel: FindIdViewModel = hiltViewModel()
     val state by viewModel.uiState.collectAsStateWithLifecycle()
+    val focusManager = LocalFocusManager.current
 
     LaunchedEffect(Unit) {
         viewModel.sideEffect.collect { effect ->
@@ -84,6 +88,7 @@ internal fun FindIdScreen(
         onNumberChange = viewModel::setNumber,
         onFindIdClick = viewModel::findId,
         onBackClick = viewModel::navigateBack,
+        onClearFocus = { focusManager.clearFocus() },
     )
 }
 
@@ -101,6 +106,7 @@ private fun FindIdScreen(
     onNumberChange: (String) -> Unit,
     onFindIdClick: () -> Unit,
     onBackClick: () -> Unit,
+    onClearFocus: () -> Unit,
 ) {
     Scaffold(
         modifier = Modifier
@@ -115,7 +121,10 @@ private fun FindIdScreen(
         Column(
             modifier = Modifier
                 .background(DmsTheme.colorScheme.surfaceTint)
-                .padding(paddingValues),
+                .padding(paddingValues)
+                .pointerInput(Unit) {
+                    detectTapGestures(onTap = { onClearFocus() })
+                },
         ) {
             DmsSymbolContent(
                 modifier = Modifier
