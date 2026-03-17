@@ -3,6 +3,7 @@ package team.aliens.dms.android.app.navigation
 import androidx.navigation3.runtime.NavKey
 import kotlinx.serialization.Serializable
 import team.aliens.dms.android.data.point.model.PointType
+import team.aliens.dms.android.feature.signup.model.SignUpData
 
 @Serializable
 data object OnboardingScreenNav : NavKey
@@ -54,3 +55,30 @@ data object NoticeDetailScreenNav : NavKey
 
 @Serializable
 data object FindIdScreenNav : NavKey
+
+@Serializable
+data object SignUpEnterSchoolVerificationCodeNav : NavKey
+
+@Serializable
+data class SignUpEnterSchoolVerificationQuestionNav(val signUpData: SignUpData) : NavKey
+
+@Serializable
+data class SignUpEnterEmailNav(val signUpData: SignUpData) : NavKey
+
+@Serializable
+data class SignUpEnterEmailVerificationCodeNav(val signUpData: SignUpData) : NavKey
+
+@Serializable
+data class SignUpEnterStudentNumberNav(val signUpData: SignUpData) : NavKey
+
+@Serializable
+data class SignUpSetIdNav(val signUpData: SignUpData) : NavKey
+
+@Serializable
+data class SignUpSetPasswordNav(val signUpData: SignUpData) : NavKey
+
+@Serializable
+data class SignUpTermsNav(val signUpData: SignUpData) : NavKey
+
+@Serializable
+data object SignUpCompleteNav : NavKey
