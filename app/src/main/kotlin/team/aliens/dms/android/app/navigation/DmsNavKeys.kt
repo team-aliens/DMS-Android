@@ -57,6 +57,9 @@ data object NoticeDetailScreenNav : NavKey
 data object FindIdScreenNav : NavKey
 
 @Serializable
+data object ResetPasswordScreenNav : NavKey
+
+@Serializable
 data object SignUpEnterSchoolVerificationCodeNav : NavKey
 
 @Serializable

@@ -9,13 +9,14 @@ fun SignInRoute(
     navigateToMain: () -> Unit,
     navigateToSignUp: () -> Unit,
     navigateToFindId: () -> Unit,
+    navigateToResetPassword: () -> Unit,
     onShowSnackBar: (DmsSnackBarType, String) -> Unit,
 ) {
     SignIn(
         navigateToMain = navigateToMain,
         navigateToSignUp = navigateToSignUp,
         navigateToFindId = navigateToFindId,
-        navigateToFindPassword = {},
+        navigateToFindPassword = navigateToResetPassword,
         onShowSnackBar = onShowSnackBar,
     )
 }

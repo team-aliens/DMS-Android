@@ -27,6 +27,7 @@ import team.aliens.dms.android.app.navigation.HomeScreenNav
 import team.aliens.dms.android.app.navigation.MealScreenNav
 import team.aliens.dms.android.app.navigation.MyPageScreenNav
 import team.aliens.dms.android.app.navigation.FindIdScreenNav
+import team.aliens.dms.android.app.navigation.ResetPasswordScreenNav
 import team.aliens.dms.android.app.navigation.NoticeDetailScreenNav
 import team.aliens.dms.android.app.navigation.NotificationScreenNav
 import team.aliens.dms.android.app.navigation.OnboardingScreenNav
@@ -57,6 +58,7 @@ import team.aliens.dms.android.feature.remain.navigation.RemainApplicationRoute
 import team.aliens.dms.android.feature.editpassword.navigation.CheckPasswordRoute
 import team.aliens.dms.android.feature.editpassword.navigation.EditPasswordRoute
 import team.aliens.dms.android.feature.findid.navigation.FindIdRoute
+import team.aliens.dms.android.feature.resetpassword.navigation.ResetPasswordRoute
 import team.aliens.dms.android.feature.setting.navigation.SettingRoute
 import team.aliens.dms.android.feature.signin.navigation.SignInRoute
 import team.aliens.dms.android.feature.signup.navigation.SignUpCompleteRoute
@@ -162,6 +164,7 @@ fun DmsApp(
                                 },
                                 navigateToSignUp = { backStack.add(SignUpEnterSchoolVerificationCodeNav) },
                                 navigateToFindId = { backStack.add(FindIdScreenNav) },
+                                navigateToResetPassword = { backStack.add(ResetPasswordScreenNav) },
                                 onShowSnackBar = { snackBarType, message ->
                                     appState.showSnackBar(snackBarType, message)
                                 },
@@ -331,6 +334,14 @@ fun DmsApp(
                         entry<FindIdScreenNav> {
                             FindIdRoute(
                                 onNavigateToBack = { backStack.remove(FindIdScreenNav) },
+                                onShowSnackBar = { snackBarType, message ->
+                                    appState.showSnackBar(snackBarType, message)
+                                },
+                            )
+                        }
+                        entry<ResetPasswordScreenNav> {
+                            ResetPasswordRoute(
+                                onNavigateToBack = { backStack.remove(ResetPasswordScreenNav) },
                                 onShowSnackBar = { snackBarType, message ->
                                     appState.showSnackBar(snackBarType, message)
                                 },
