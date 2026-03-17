@@ -1,6 +1,7 @@
 package team.aliens.dms.android.feature.signup.ui
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -16,6 +17,8 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
@@ -44,6 +47,7 @@ internal fun EnterStudentNumberScreen(
 ) {
     val viewModel: EnterStudentNumberViewModel = hiltViewModel()
     val state by viewModel.uiState.collectAsState()
+    val focusManager = LocalFocusManager.current
 
     LaunchedEffect(Unit) {
         viewModel.initialize(signUpData)
@@ -68,6 +72,7 @@ internal fun EnterStudentNumberScreen(
         onGradeChange = viewModel::setGrade,
         onClassroomChange = viewModel::setClassRoom,
         onNumberChange = viewModel::setNumber,
+        onClearFocus = { focusManager.clearFocus() },
     )
 }
 
@@ -79,13 +84,17 @@ private fun EnterStudentNumberContent(
     onGradeChange: (String) -> Unit,
     onClassroomChange: (String) -> Unit,
     onNumberChange: (String) -> Unit,
+    onClearFocus: () -> Unit,
 ) {
     Column(
         modifier = Modifier
             .fillMaxSize()
             .background(DmsTheme.colorScheme.surfaceTint)
             .statusBarsPadding()
-            .navigationBarsPadding(),
+            .navigationBarsPadding()
+            .pointerInput(Unit) {
+                detectTapGestures(onTap = { onClearFocus() })
+            },
     ) {
         DmsTopAppBar(
             title = "회원가입",

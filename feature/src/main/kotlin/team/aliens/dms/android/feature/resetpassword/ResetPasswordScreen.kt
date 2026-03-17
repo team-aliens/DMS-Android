@@ -6,6 +6,7 @@ import androidx.compose.animation.slideInHorizontally
 import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.background
+import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -19,6 +20,8 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import kotlinx.coroutines.delay
@@ -44,6 +47,7 @@ internal fun ResetPasswordScreen(
 ) {
     val viewModel: ResetPasswordViewModel = hiltViewModel()
     val state by viewModel.uiState.collectAsStateWithLifecycle()
+    val focusManager = LocalFocusManager.current
 
     var currentStepIndex by remember { mutableIntStateOf(0) }
     val currentStep = steps[currentStepIndex]
@@ -145,6 +149,7 @@ internal fun ResetPasswordScreen(
             }
         },
         onContinueClick = { viewModel.moveNext(currentStep) },
+        onClearFocus = { focusManager.clearFocus() },
     )
 }
 
@@ -175,13 +180,17 @@ private fun ResetPasswordScreen(
     onPasswordConfirmChange: (String) -> Unit,
     onBackClick: () -> Unit,
     onContinueClick: () -> Unit,
+    onClearFocus: () -> Unit,
 ) {
     Column(
         modifier = Modifier
             .fillMaxSize()
             .background(DmsTheme.colorScheme.surfaceTint)
             .statusBarsPadding()
-            .navigationBarsPadding(),
+            .navigationBarsPadding()
+            .pointerInput(Unit) {
+                detectTapGestures(onTap = { onClearFocus() })
+            },
     ) {
         DmsTopAppBar(onBackPressed = onBackClick)
         AnimatedContent(

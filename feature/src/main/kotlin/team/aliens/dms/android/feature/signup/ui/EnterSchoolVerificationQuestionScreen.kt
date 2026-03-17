@@ -1,6 +1,7 @@
 package team.aliens.dms.android.feature.signup.ui
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -12,6 +13,8 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import team.aliens.dms.android.core.designsystem.DmsTheme
@@ -38,6 +41,7 @@ internal fun EnterSchoolVerificationQuestionScreen(
 ) {
     val viewModel: EnterSchoolVerificationQuestionViewModel = hiltViewModel()
     val state by viewModel.uiState.collectAsState()
+    val focusManager = LocalFocusManager.current
 
     LaunchedEffect(Unit) {
         viewModel.initialize(signUpData)
@@ -61,6 +65,7 @@ internal fun EnterSchoolVerificationQuestionScreen(
         onNextClick = viewModel::onNextClick,
         state = state,
         onVerificationAnswerChange = viewModel::setSchoolVerificationAnswer,
+        onClearFocus = { focusManager.clearFocus() },
     )
 }
 
@@ -70,13 +75,17 @@ private fun EnterSchoolVerificationQuestionContent(
     onNextClick: () -> Unit,
     state: EnterSchoolVerificationQuestionState,
     onVerificationAnswerChange: (String) -> Unit,
+    onClearFocus: () -> Unit,
 ) {
     Column(
         modifier = Modifier
             .fillMaxSize()
             .background(DmsTheme.colorScheme.surfaceTint)
             .statusBarsPadding()
-            .navigationBarsPadding(),
+            .navigationBarsPadding()
+            .pointerInput(Unit) {
+                detectTapGestures(onTap = { onClearFocus() })
+            },
     ) {
         DmsTopAppBar(
             title = "회원가입",
