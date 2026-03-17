@@ -8,6 +8,7 @@ plugins {
     alias(libs.plugins.ksp)
     alias(libs.plugins.ktlint.gradle)
     alias(libs.plugins.compose.compiler)
+    alias(libs.plugins.serialization)
 }
 
 android {
