@@ -49,6 +49,13 @@ android {
         compose = true
     }
 
+    lint {
+        htmlReport = true
+        sarifReport = true
+        checkDependencies = true
+        abortOnError = false
+    }
+
     compileOptions {
         sourceCompatibility = Versions.java
         targetCompatibility = Versions.java
@@ -56,6 +63,13 @@ android {
 
     kotlinOptions {
         jvmTarget = Versions.java.toString()
+    }
+}
+
+if (providers.gradleProperty("enableComposeCompilerMetrics").isPresent) {
+    composeCompiler {
+        metricsDestination = layout.buildDirectory.dir("compose_metrics")
+        reportsDestination = layout.buildDirectory.dir("compose_metrics")
     }
 }
 
