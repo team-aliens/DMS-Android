@@ -1,0 +1,327 @@
+name: Build
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main, develop ]
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  # ──────────────────────────────────────────────
+  # JOB 1 : 정적 분석 (ktlint → detekt → lint)
+  # ──────────────────────────────────────────────
+  static-analysis:
+    name: Static Analysis
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 21
+        uses: actions/setup-java@v4
+        with:
+          java-version: '21'
+          distribution: 'temurin'
+
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v4
+        with:
+          cache-encryption-key: ${{ secrets.GRADLE_ENCRYPTION_KEY }}
+
+      - name: Grant execute permission for gradlew
+        run: chmod +x gradlew
+
+      - name: Generate local.properties
+        run: |
+          echo "$PROD_BASE_URL" >> ./local.properties
+          echo "$DEV_BASE_URL"  >> ./local.properties
+          echo "$TERMS_URL"     >> ./local.properties
+        env:
+          PROD_BASE_URL: ${{ secrets.PROD_BASE_URL }}
+          DEV_BASE_URL:  ${{ secrets.DEV_BASE_URL }}
+          TERMS_URL:     ${{ secrets.TERMS_URL }}
+
+      - name: Create google-services.json
+        run: |
+          mkdir -p ${{ github.workspace }}/app
+          echo '${{ secrets.GOOGLE_SERVICES_JSON }}' | base64 --decode \
+            > ${{ github.workspace }}/app/google-services.json
+
+      # ── ktlint ─────────────────────────────────
+      - name: Check code style (ktlint)
+        run: ./gradlew ktlintCheck --continue
+
+      # ── detekt ─────────────────────────────────
+      - name: Run detekt
+        run: ./gradlew detekt --continue
+
+      - name: Collect detekt SARIF reports
+        if: always()
+        run: |
+          mkdir -p build/detekt-sarif
+          find . -path '*/build/reports/detekt/*.sarif' \
+            -not -path './build/*' | while read f; do
+            module=$(echo "$f" | sed 's|^\./||;s|/build/reports/detekt/.*||;s|/|-|g')
+            cp "$f" "build/detekt-sarif/${module}-detekt.sarif"
+          done
+
+      - name: Upload detekt SARIF to GitHub Security
+        if: always()
+        uses: github/codeql-action/upload-sarif@v3
+        with:
+          sarif_file: build/detekt-sarif
+          category: detekt
+
+      # ── lint ────────────────────────────────────
+      - name: Run lint (Debug)
+        run: ./gradlew lintDebug --continue
+
+      - name: Collect lint reports
+        if: always()
+        run: |
+          mkdir -p build/lint-reports
+          find . -name 'lint-results-*.html' \
+            -exec cp {} build/lint-reports/ \;
+          find . -name 'lint-results-*.sarif' \
+            -exec cp {} build/lint-reports/ \;
+
+      - name: Upload lint HTML report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: lint-html-report-debug
+          path: build/lint-reports/*.html
+          retention-days: 14
+
+      - name: Upload lint SARIF to GitHub Security
+        if: always()
+        uses: github/codeql-action/upload-sarif@v3
+        with:
+          sarif_file: build/lint-reports
+          category: lint
+
+      # ── 실패 알림 ────────────────────────────────
+      - name: Notify Slack on failure
+        if: failure()
+        uses: slackapi/slack-github-action@v2.0.0
+        with:
+          webhook: ${{ secrets.SLACK_WEBHOOK_URL }}
+          webhook-type: incoming-webhook
+          payload: |
+            {
+              "text": "❌ *Static Analysis* 실패",
+              "attachments": [{
+                "color": "danger",
+                "fields": [
+                  { "title": "Repository", "value": "${{ github.repository }}", "short": true },
+                  { "title": "Branch",     "value": "${{ github.ref_name }}",   "short": true },
+                  { "title": "Triggered by", "value": "${{ github.actor }}",    "short": true },
+                  { "title": "Run",
+                    "value": "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}",
+                    "short": false }
+                ]
+              }]
+            }
+
+      - name: Notify Discord on failure
+        if: failure()
+        env:
+          DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK_URL }}
+        run: |
+          curl -s -X POST "$DISCORD_WEBHOOK" \
+            -H "Content-Type: application/json" \
+            -d "{
+              \"embeds\": [{
+                \"title\": \"❌ Static Analysis 실패\",
+                \"color\": 15158332,
+                \"fields\": [
+                  { \"name\": \"Repository\", \"value\": \"${{ github.repository }}\", \"inline\": true },
+                  { \"name\": \"Branch\",     \"value\": \"${{ github.ref_name }}\",   \"inline\": true },
+                  { \"name\": \"Run\",
+                    \"value\": \"[View Run](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }})\" }
+                ]
+              }]
+            }"
+
+  # ──────────────────────────────────────────────
+  # JOB 2 : Debug 빌드
+  # ──────────────────────────────────────────────
+  debug-build:
+    name: Debug Build
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Copy CI Gradle properties
+        run: cp ci-gradle.properties ~/.gradle/gradle.properties
+
+      - name: Set up JDK 21
+        uses: actions/setup-java@v4
+        with:
+          java-version: '21'
+          distribution: 'temurin'
+
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v4
+        with:
+          cache-encryption-key: ${{ secrets.GRADLE_ENCRYPTION_KEY }}
+
+      - name: Grant execute permission for gradlew
+        run: chmod +x gradlew
+
+      - name: Generate local.properties
+        run: |
+          echo "$PROD_BASE_URL" >> ./local.properties
+          echo "$DEV_BASE_URL"  >> ./local.properties
+          echo "$TERMS_URL"     >> ./local.properties
+        env:
+          PROD_BASE_URL: ${{ secrets.PROD_BASE_URL }}
+          DEV_BASE_URL:  ${{ secrets.DEV_BASE_URL }}
+          TERMS_URL:     ${{ secrets.TERMS_URL }}
+
+      - name: Create google-services.json
+        run: |
+          mkdir -p ${{ github.workspace }}/app
+          echo '${{ secrets.GOOGLE_SERVICES_JSON }}' | base64 --decode \
+            > ${{ github.workspace }}/app/google-services.json
+
+      # ── build-logic convention plugin 검사 ──────
+      - name: Check build-logic convention plugins
+        run: |
+          if [ -d "build-logic" ]; then
+            ./gradlew -p build-logic check
+          else
+            echo "build-logic 디렉토리 없음, 스킵"
+          fi
+
+      # ── Dependency Guard ─────────────────────────
+      # TODO: libs.versions.toml에 dependency-guard 플러그인 추가 후 아래 주석 해제
+      # - name: Check dependency guard
+      #   id: dependency-guard
+      #   run: ./gradlew dependencyGuard
+      #   continue-on-error: true
+      #
+      # - name: Update dependency guard baseline
+      #   if: steps.dependency-guard.outcome == 'failure'
+      #   run: |
+      #     ./gradlew dependencyGuardBaseline
+      #     git config user.name  "github-actions[bot]"
+      #     git config user.email "github-actions[bot]@users.noreply.github.com"
+      #     git add "**/dependencies/*.txt"
+      #     git diff --staged --quiet || \
+      #       git commit -m "chore: update dependency guard baseline [skip ci]"
+      #     git push
+
+      # ── assembleDebug ────────────────────────────
+      - name: Build Debug APK
+        run: ./gradlew assembleDebug
+
+      - name: Upload Debug APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: debug-apk
+          path: app/build/outputs/apk/debug/*.apk
+          retention-days: 7
+
+      # ── 실패 알림 ────────────────────────────────
+      - name: Notify Slack on failure
+        if: failure()
+        uses: slackapi/slack-github-action@v2.0.0
+        with:
+          webhook: ${{ secrets.SLACK_WEBHOOK_URL }}
+          webhook-type: incoming-webhook
+          payload: |
+            {
+              "text": "❌ *Debug Build* 실패",
+              "attachments": [{
+                "color": "danger",
+                "fields": [
+                  { "title": "Repository", "value": "${{ github.repository }}", "short": true },
+                  { "title": "Branch",     "value": "${{ github.ref_name }}",   "short": true },
+                  { "title": "Triggered by", "value": "${{ github.actor }}",    "short": true },
+                  { "title": "Run",
+                    "value": "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}",
+                    "short": false }
+                ]
+              }]
+            }
+
+      - name: Notify Discord on failure
+        if: failure()
+        env:
+          DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK_URL }}
+        run: |
+          curl -s -X POST "$DISCORD_WEBHOOK" \
+            -H "Content-Type: application/json" \
+            -d "{
+              \"embeds\": [{
+                \"title\": \"❌ Debug Build 실패\",
+                \"color\": 15158332,
+                \"fields\": [
+                  { \"name\": \"Repository\", \"value\": \"${{ github.repository }}\", \"inline\": true },
+                  { \"name\": \"Branch\",     \"value\": \"${{ github.ref_name }}\",   \"inline\": true },
+                  { \"name\": \"Run\",
+                    \"value\": \"[View Run](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }})\" }
+                ]
+              }]
+            }"
+
+  # ──────────────────────────────────────────────
+  # JOB 3 : 전체 성공 알림
+  # ──────────────────────────────────────────────
+  notify-success:
+    name: Notify Success
+    runs-on: ubuntu-latest
+    needs: [ static-analysis, debug-build ]
+    if: success()
+
+    steps:
+      - name: Notify Slack on success
+        uses: slackapi/slack-github-action@v2.0.0
+        with:
+          webhook: ${{ secrets.SLACK_WEBHOOK_URL }}
+          webhook-type: incoming-webhook
+          payload: |
+            {
+              "text": "✅ *빌드 성공*",
+              "attachments": [{
+                "color": "good",
+                "fields": [
+                  { "title": "Repository", "value": "${{ github.repository }}", "short": true },
+                  { "title": "Branch",     "value": "${{ github.ref_name }}",   "short": true },
+                  { "title": "Triggered by", "value": "${{ github.actor }}",    "short": true },
+                  { "title": "Run",
+                    "value": "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}",
+                    "short": false }
+                ]
+              }]
+            }
+
+      - name: Notify Discord on success
+        env:
+          DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK_URL }}
+        run: |
+          curl -s -X POST "$DISCORD_WEBHOOK" \
+            -H "Content-Type: application/json" \
+            -d "{
+              \"embeds\": [{
+                \"title\": \"✅ 빌드 성공\",
+                \"color\": 3066993,
+                \"fields\": [
+                  { \"name\": \"Repository\", \"value\": \"${{ github.repository }}\", \"inline\": true },
+                  { \"name\": \"Branch\",     \"value\": \"${{ github.ref_name }}\",   \"inline\": true },
+                  { \"name\": \"Run\",
+                    \"value\": \"[View Run](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }})\" }
+                ]
+              }]
+            }"
