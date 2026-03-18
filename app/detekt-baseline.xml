@@ -1,0 +1,11 @@
+<?xml version="1.0" ?>
+<SmellBaseline>
+  <ManuallySuppressedIssues></ManuallySuppressedIssues>
+  <CurrentIssues>
+    <ID>CognitiveComplexMethod:DmsApp.kt$@Composable fun DmsApp( windowSizeClass: WindowSizeClass, mainViewModel: MainActivityViewModel, appState: DmsAppState = rememberDmsAppState(), )</ID>
+    <ID>LongMethod:NetworkConfigModule.kt$NetworkConfigModule$@Provides @Singleton fun provideIgnoreRequests(): IgnoreRequests</ID>
+    <ID>ModifierMissing:BottomNavigationBar.kt$BottomNavigationBar</ID>
+    <ID>ModifierMissing:DmsApp.kt$DmsApp</ID>
+    <ID>UnusedParameter:DmsApp.kt$windowSizeClass: WindowSizeClass</ID>
+  </CurrentIssues>
+</SmellBaseline>

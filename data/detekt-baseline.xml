@@ -1,0 +1,8 @@
+<?xml version="1.0" ?>
+<SmellBaseline>
+  <ManuallySuppressedIssues></ManuallySuppressedIssues>
+  <CurrentIssues>
+    <ID>ForbiddenComment:AuthRepositoryImpl.kt$AuthRepositoryImpl$// FIXME: 만약 자동 로그인을 하지 않은 상태에서 토큰 재발급은 어떻게 처리하는가?</ID>
+    <ID>LongParameterList:StudentRepository.kt$StudentRepository$( schoolVerificationCode: String, schoolVerificationAnswer: String, email: String, emailVerificationCode: String, grade: Int, classRoom: Int, number: Int, accountId: String, password: String, profileImageUrl: String?, )</ID>
+  </CurrentIssues>
+</SmellBaseline>

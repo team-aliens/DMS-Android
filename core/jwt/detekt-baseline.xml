@@ -1,0 +1,9 @@
+<?xml version="1.0" ?>
+<SmellBaseline>
+  <ManuallySuppressedIssues></ManuallySuppressedIssues>
+  <CurrentIssues>
+    <ID>InstanceOfCheckForException:JwtProviderImpl.kt$JwtProviderImpl$exception is CannotReissueTokenException</ID>
+    <ID>InstanceOfCheckForException:JwtProviderImpl.kt$JwtProviderImpl$exception is CannotUseRefreshTokenException</ID>
+    <ID>TooGenericExceptionCaught:JwtProviderImpl.kt$JwtProviderImpl$exception: Exception</ID>
+  </CurrentIssues>
+</SmellBaseline>

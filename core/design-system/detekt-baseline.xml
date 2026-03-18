@@ -1,0 +1,47 @@
+<?xml version="1.0" ?>
+<SmellBaseline>
+  <ManuallySuppressedIssues></ManuallySuppressedIssues>
+  <CurrentIssues>
+    <ID>CognitiveComplexMethod:Button.kt$@Composable fun DmsButton( modifier: Modifier = Modifier, text: String, buttonType: ButtonType, enabled: Boolean = true, shape: Shape = RoundedCornerShape(16.dp), buttonColor: ButtonColor, contentPadding: PaddingValues? = null, keyboardInteractionEnabled: Boolean = false, isLoading: Boolean = false, onClick: () -&gt; Unit, )</ID>
+    <ID>CognitiveComplexMethod:DmsTextField.kt$@Composable private fun TextField( modifier: Modifier = Modifier, value: String, hint: String, onValueChange: (String) -&gt; Unit, enabled: Boolean, readOnly: Boolean, singleLine: Boolean, imeAction: ImeAction, keyboardType: KeyboardType, keyboardActions: KeyboardActions, maxLength: Int, isError: Boolean, showVisibleIcon: Boolean, showClearIcon: Boolean, isFocused: Boolean, interactionSource: MutableInteractionSource = remember { MutableInteractionSource() }, )</ID>
+    <ID>ComposableNaming:KeyboardAsState.kt$KeyboardAsState</ID>
+    <ID>ComposableParamOrder:Button.kt$BasicButton</ID>
+    <ID>ComposableParamOrder:Button.kt$DmsButton</ID>
+    <ID>ComposableParamOrder:Button.kt$DmsLayeredButton</ID>
+    <ID>ComposableParamOrder:Clickable.kt$clickable</ID>
+    <ID>ComposableParamOrder:DmsApplicationCard.kt$AppliedTitleText</ID>
+    <ID>ComposableParamOrder:DmsApplicationCard.kt$DmsApplicationCard</ID>
+    <ID>ComposableParamOrder:DmsCalendar.kt$Day</ID>
+    <ID>ComposableParamOrder:DmsCalendar.kt$DmsCalendar</ID>
+    <ID>ComposableParamOrder:DmsIconButton.kt$DmsIconButton</ID>
+    <ID>ComposableParamOrder:DmsItemButton.kt$DmsItemButton</ID>
+    <ID>ComposableParamOrder:DmsTab.kt$DmsTab</ID>
+    <ID>ComposableParamOrder:DmsTextField.kt$DmsTextField</ID>
+    <ID>ComposableParamOrder:DmsTextField.kt$TextField</ID>
+    <ID>ComposableParamOrder:SnackBar.kt$DmsSnackBar</ID>
+    <ID>ComposableParamOrder:VerificationCodeInput.kt$VerificationCodeInput</ID>
+    <ID>ComposableParamOrder:VerificationCodeInput.kt$VerificationCodeInputDefaults$SupportingText</ID>
+    <ID>CyclomaticComplexMethod:Button.kt$@Composable fun DmsButton( modifier: Modifier = Modifier, text: String, buttonType: ButtonType, enabled: Boolean = true, shape: Shape = RoundedCornerShape(16.dp), buttonColor: ButtonColor, contentPadding: PaddingValues? = null, keyboardInteractionEnabled: Boolean = false, isLoading: Boolean = false, onClick: () -&gt; Unit, )</ID>
+    <ID>CyclomaticComplexMethod:Typography.kt$Typography$override fun equals(other: Any?): Boolean</ID>
+    <ID>ForbiddenComment:Button.kt$// FIXME: https://youtrack.jetbrains.com/issue/CMP-6668</ID>
+    <ID>LambdaParameterEventTrailing:Button.kt$onClick</ID>
+    <ID>LambdaParameterEventTrailing:DmsApplicationCard.kt$onClick</ID>
+    <ID>LambdaParameterEventTrailing:DmsCalendar.kt$onDayClick</ID>
+    <ID>LambdaParameterEventTrailing:DmsCalendar.kt$onSelectedDateChange</ID>
+    <ID>LambdaParameterEventTrailing:DmsIconButton.kt$onClick</ID>
+    <ID>LambdaParameterEventTrailing:DmsItemButton.kt$onClick</ID>
+    <ID>LongParameterList:DmsColor.kt$DmsColor$( val gray50: Color, val gray100: Color, val gray200: Color, val gray300: Color, val gray400: Color, val gray500: Color, val gray600: Color, val gray700: Color, val gray800: Color, val gray900: Color, val background: Color, val black: Color, val red50: Color, val red100: Color, val red200: Color, val red300: Color, val red400: Color, val red500: Color, val blue50: Color, val blue100: Color, val blue200: Color, val blue300: Color, val blue400: Color, val blue500: Color, val button: Color, val container: Color, val hover: Color, val pressed: Color, )</ID>
+    <ID>LongParameterList:Typography.kt$Typography$( val headline1: TextStyle, val headline2: TextStyle, val headline3: TextStyle, val title1: TextStyle, val title2: TextStyle, val title3: TextStyle, val body1: TextStyle, val body2: TextStyle, val body3: TextStyle, val caption: TextStyle, val overline: TextStyle, val button: TextStyle, )</ID>
+    <ID>MissingPackageDeclaration:DmsColor.kt$.DmsColor.kt</ID>
+    <ID>ModifierClickableOrder:DmsApplicationCard.kt$clickable(onClick = onClick)</ID>
+    <ID>ModifierNotUsedAtRoot:DmsSymbol.kt$modifier = modifier</ID>
+    <ID>ParameterNaming:Button.kt$onPressed</ID>
+    <ID>ParameterNaming:Clickable.kt$onPressed</ID>
+    <ID>ParameterNaming:DmsTopAppBar.kt$onBackPressed</ID>
+    <ID>UnusedParameter:Button.kt$borderColor: Color</ID>
+    <ID>UnusedParameter:Button.kt$buttonType: ButtonType</ID>
+    <ID>UnusedPrivateProperty:Typography.kt$Typography$sLabelB: TextStyle = TextStyle( fontWeight = FontWeight.Bold, fontSize = 10.sp, lineHeight = 11.9.sp, )</ID>
+    <ID>UnusedPrivateProperty:Typography.kt$Typography$sLabelM: TextStyle = TextStyle( fontWeight = FontWeight.Medium, fontSize = 10.sp, lineHeight = 11.9.sp, )</ID>
+    <ID>VariableNaming:Typography.kt$Typography$var Rult = headline1.hashCode()</ID>
+  </CurrentIssues>
+</SmellBaseline>
