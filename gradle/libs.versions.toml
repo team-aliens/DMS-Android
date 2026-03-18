@@ -50,6 +50,8 @@ workRuntime = "2.9.0"
 serialization = "2.0.0"
 firebase-crashlytics = "2.9.9"
 org-jlleitschuh-ktlint-gradle = "11.3.1"
+detekt = "1.23.7"
+detekt-compose-rules = "0.4.22"
 composeCompiler = "2.0.0"
 kotlinxDatetime = "0.6.1"
 kotlinx-collections-immutable = "0.3.8"
@@ -122,6 +124,8 @@ androidx-compose-material3 = { group = "androidx.compose.material3", name = "mat
 androidx-compose-material-icons-extended = { group = "androidx.compose.material", name = "material-icons-extended", version.ref = "compose" }
 desugar-jdk-libs = { group = "com.android.tools", name = "desugar_jdk_libs", version.ref = "desugarJdkLibs" }
 compose-calendar = { module = "com.kizitonwose.calendar:compose", version.ref = "composeCalendar" }
+detekt-cli = { module = "io.gitlab.arturbosch.detekt:detekt-cli", version.ref = "detekt" }
+detekt-compose-rules = { module = "io.nlopez.compose.rules:detekt", version.ref = "detekt-compose-rules" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
@@ -135,3 +139,4 @@ serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref 
 firebase-crashlytics = { id = "com.google.firebase.crashlytics", version.ref = "firebase-crashlytics" }
 ktlint-gradle = { id = "org.jlleitschuh.gradle.ktlint", version.ref = "org-jlleitschuh-ktlint-gradle"}
 compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlinJvm" }
+detekt = { id = "io.gitlab.arturbosch.detekt", version.ref = "detekt" }
