@@ -1,9 +1,0 @@
-<?xml version="1.0" ?>
-<SmellBaseline>
-  <ManuallySuppressedIssues></ManuallySuppressedIssues>
-  <CurrentIssues>
-    <ID>ForbiddenComment:NetworkRequestHandler.kt$// FIXME: 에러 코드를 Key, (message: String?) -&gt; Nothing을 Value로 가진 Map으로 구현 가능</ID>
-    <ID>TooGenericExceptionCaught:NetworkExceptionMapper.kt$e: Exception</ID>
-    <ID>UnusedPrivateProperty:FileUploadManager.kt$FileUploadManager$private val httpLoggingInterceptor: HttpLoggingInterceptor</ID>
-  </CurrentIssues>
-</SmellBaseline>

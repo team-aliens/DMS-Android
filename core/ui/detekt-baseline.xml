@@ -1,8 +1,0 @@
-<?xml version="1.0" ?>
-<SmellBaseline>
-  <ManuallySuppressedIssues></ManuallySuppressedIssues>
-  <CurrentIssues>
-    <ID>FunctionNaming:ResultStore.kt$private fun ResultStoreSaver(): Saver&lt;ResultStore, *&gt;</ID>
-    <ID>MemberNameEqualsClassName:ResultStore.kt$LocalResultStore$private val LocalResultStore: ProvidableCompositionLocal&lt;ResultStore?&gt; = compositionLocalOf { null }</ID>
-  </CurrentIssues>
-</SmellBaseline>

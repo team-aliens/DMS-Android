@@ -1,7 +1,0 @@
-<?xml version="1.0" ?>
-<SmellBaseline>
-  <ManuallySuppressedIssues></ManuallySuppressedIssues>
-  <CurrentIssues>
-    <ID>ReturnCount:Extensions.kt$fun LocalDateTime.toElapsedText(now: LocalDateTime): String</ID>
-  </CurrentIssues>
-</SmellBaseline>
