@@ -162,9 +162,6 @@ jobs:
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Copy CI Gradle properties
-        run: cp ci-gradle.properties ~/.gradle/gradle.properties
-
       - name: Set up JDK 21
         uses: actions/setup-java@v4
         with:
