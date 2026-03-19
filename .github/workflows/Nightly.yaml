@@ -59,21 +59,43 @@ jobs:
       - name: Run detekt
         run: ./gradlew detekt --continue
 
-      - name: Collect detekt SARIF reports
+      - name: Merge detekt SARIF reports
         if: always()
         run: |
-          mkdir -p build/detekt-sarif
-          find . -path '*/build/reports/detekt/*.sarif' \
-            -not -path './build/*' | while read f; do
-            module=$(echo "$f" | sed 's|^\./||;s|/build/reports/detekt/.*||;s|/|-|g')
-            cp "$f" "build/detekt-sarif/${module}-detekt.sarif"
-          done
+          python3 - <<'EOF'
+          import json, glob
+
+          results, rules, tool = [], {}, None
+          for path in sorted(glob.glob('./**/reports/detekt/detekt.sarif', recursive=True)):
+              with open(path) as f:
+                  data = json.load(f)
+              for run in data.get('runs', []):
+                  if tool is None:
+                      tool = run.get('tool', {})
+                  for rule in run.get('tool', {}).get('driver', {}).get('rules', []):
+                      rules[rule['id']] = rule
+                  results.extend(run.get('results', []))
+
+          if tool is None:
+              tool = {"driver": {"name": "detekt", "rules": []}}
+          tool.setdefault('driver', {})['rules'] = list(rules.values())
+
+          merged = {
+              "version": "2.1.0",
+              "$schema": "https://json.schemastore.org/sarif-2.1.0.json",
+              "runs": [{"tool": tool, "results": results}]
+          }
+          import os; os.makedirs('build/detekt-sarif', exist_ok=True)
+          with open('build/detekt-sarif/merged.sarif', 'w') as f:
+              json.dump(merged, f)
+          print(f"Merged {len(results)} result(s) from {len(glob.glob('./**/reports/detekt/detekt.sarif', recursive=True))} module(s)")
+          EOF
 
       - name: Upload detekt SARIF to GitHub Security
         if: always()
         uses: github/codeql-action/upload-sarif@v3
         with:
-          sarif_file: build/detekt-sarif
+          sarif_file: build/detekt-sarif/merged.sarif
           category: detekt-nightly
 
       # ── lint Release ────────────────────────────
@@ -230,6 +252,7 @@ jobs:
           fi
 
       - name: Notify Slack
+        continue-on-error: true
         uses: slackapi/slack-github-action@v2.0.0
         with:
           webhook: ${{ secrets.SLACK_WEBHOOK_URL }}
