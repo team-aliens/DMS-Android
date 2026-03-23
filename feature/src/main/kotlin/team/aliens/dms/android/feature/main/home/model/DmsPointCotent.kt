@@ -24,9 +24,9 @@ import team.aliens.dms.android.core.designsystem.foundation.DmsIcon
 
 @Composable
 fun DmsPointContent(
-    modifier: Modifier = Modifier,
     bonusPoint: Int,
     minusPoint: Int,
+    modifier: Modifier = Modifier,
 ) {
     Column(
         modifier = modifier
@@ -72,12 +72,12 @@ fun DmsPointContent(
 
 @Composable
 private fun PointItem(
-    modifier: Modifier = Modifier,
     textColor: Color,
     buttonColor: Color,
     @DrawableRes icon: Int,
     title: String,
     point: Int,
+    modifier: Modifier = Modifier,
 ) {
     Row(
         modifier = modifier.fillMaxWidth(),

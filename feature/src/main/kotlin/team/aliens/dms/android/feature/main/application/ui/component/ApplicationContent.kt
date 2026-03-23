@@ -12,11 +12,11 @@ import team.aliens.dms.android.core.designsystem.card.DmsApplicationCard
 
 @Composable
 internal fun ApplicationContent(
-    modifier: Modifier = Modifier,
     appliedTitle: String?,
     onNavigateRemainApplication: () -> Unit,
     onNavigateOutingApplication: () -> Unit,
     onNavigateVolunteerApplication: () -> Unit,
+    modifier: Modifier = Modifier,
 ) {
     Column(
         modifier = modifier

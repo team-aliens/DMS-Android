@@ -35,11 +35,11 @@ import team.aliens.dms.android.data.voting.model.VotingItem
 
 @Composable
 internal fun ApprovalContent(
-    modifier: Modifier = Modifier,
     title: String,
     options: List<VotingItem>,
     selectItem: String,
     onSelect: (String) -> Unit,
+    modifier: Modifier = Modifier,
 ) {
     Column(
         modifier = modifier.fillMaxSize(),
@@ -97,7 +97,6 @@ internal fun ApprovalContent(
 
 @Composable
 private fun ApprovalItem(
-    modifier: Modifier = Modifier,
     @DrawableRes imageResource: Int,
     isSelected: Boolean,
     clickColor: Color,
@@ -106,6 +105,7 @@ private fun ApprovalItem(
     clickContentColor: Color,
     title: String,
     onClick: () -> Unit,
+    modifier: Modifier = Modifier,
 ) {
     val (backgroundColor, borderColor, content) = if (isSelected) {
         Triple(clickColor, clickBorderColor, clickContentColor)

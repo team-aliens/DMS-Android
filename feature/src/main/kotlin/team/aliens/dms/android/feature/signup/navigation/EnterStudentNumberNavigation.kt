@@ -8,13 +8,13 @@ import team.aliens.dms.android.feature.signup.ui.EnterStudentNumberScreen
 @Composable
 fun SignUpEnterStudentNumberRoute(
     signUpData: SignUpData,
-    onBackPressed: () -> Unit,
+    onBack: () -> Unit,
     navigateToSetId: (SignUpData) -> Unit,
     onShowSnackBar: (DmsSnackBarType, String) -> Unit,
 ) {
     EnterStudentNumberScreen(
         signUpData = signUpData,
-        onBackPressed = onBackPressed,
+        onBack = onBack,
         navigateToSetId = navigateToSetId,
         onShowSnackBar = onShowSnackBar,
     )

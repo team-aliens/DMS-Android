@@ -20,6 +20,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
@@ -43,13 +44,15 @@ import team.aliens.dms.android.feature.signup.viewmodel.TermsViewModel
 @Composable
 internal fun TermsScreen(
     signUpData: SignUpData,
-    onBackPressed: () -> Unit,
+    onBack: () -> Unit,
     navigateToComplete: () -> Unit,
     onShowSnackBar: (DmsSnackBarType, String) -> Unit,
 ) {
     val viewModel: TermsViewModel = hiltViewModel()
     val state by viewModel.uiState.collectAsState()
     val theme = if (isSystemInDarkTheme()) "dark" else "light"
+    val updatedNavigateToComplete by rememberUpdatedState(navigateToComplete)
+    val updatedOnShowSnackBar by rememberUpdatedState(onShowSnackBar)
 
     LaunchedEffect(Unit) {
         viewModel.initialize(signUpData)
@@ -58,14 +61,14 @@ internal fun TermsScreen(
     LaunchedEffect(Unit) {
         viewModel.sideEffect.collect { effect ->
             when (effect) {
-                is TermsSideEffect.NavigateToComplete -> navigateToComplete()
-                is TermsSideEffect.FailSignUp -> onShowSnackBar(DmsSnackBarType.ERROR, "다시 시도해주세요")
+                is TermsSideEffect.NavigateToComplete -> updatedNavigateToComplete()
+                is TermsSideEffect.FailSignUp -> updatedOnShowSnackBar(DmsSnackBarType.ERROR, "다시 시도해주세요")
             }
         }
     }
 
     TermsContent(
-        onBackPressed = onBackPressed,
+        onBack = onBack,
         onNextClick = viewModel::postSignUp,
         webViewUrl = "${viewModel.baseUrl}/policy/privacy?theme=$theme",
         state = state,
@@ -75,7 +78,7 @@ internal fun TermsScreen(
 
 @Composable
 private fun TermsContent(
-    onBackPressed: () -> Unit,
+    onBack: () -> Unit,
     onNextClick: () -> Unit,
     webViewUrl: String,
     state: TermsState,
@@ -88,10 +91,7 @@ private fun TermsContent(
             .statusBarsPadding()
             .navigationBarsPadding(),
     ) {
-        DmsTopAppBar(
-            title = "회원가입",
-            onBackPressed = onBackPressed,
-        )
+        DmsTopAppBar(title = "회원가입", onBackClick = onBack, )
         DmsSymbolContent(
             modifier = Modifier
                 .topPadding(4.dp),
@@ -137,9 +137,9 @@ private fun TermsContent(
 
 @Composable
 private fun AgreeCheckBox(
-    modifier: Modifier = Modifier,
     isCheck: Boolean,
     onAgreeButtonClick: (Boolean) -> Unit,
+    modifier: Modifier = Modifier,
 ) {
     Row(
         modifier = modifier

@@ -27,9 +27,9 @@ import java.util.UUID
 
 @Composable
 internal fun NoticeItem(
-    modifier: Modifier = Modifier,
     notice: NotificationUi,
     onNotificationDetailClick: (UUID, UUID) -> Unit,
+    modifier: Modifier = Modifier,
 ) {
     Column(
         modifier = modifier

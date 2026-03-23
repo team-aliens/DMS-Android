@@ -22,9 +22,9 @@ import team.aliens.dms.android.core.designsystem.util.clickable
 
 @Composable
 internal fun AnnouncementButton(
-    modifier: Modifier = Modifier,
     title: String,
     onClick: () -> Unit,
+    modifier: Modifier = Modifier,
 ) {
     Row(
         modifier = modifier

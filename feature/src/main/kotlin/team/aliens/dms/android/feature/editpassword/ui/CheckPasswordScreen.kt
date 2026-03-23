@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalFocusManager
@@ -33,19 +34,21 @@ import team.aliens.dms.android.feature.editpassword.viewmodel.CheckPasswordViewM
 
 @Composable
 internal fun CheckPassword(
-    onBackPressed: () -> Unit,
+    onBack: () -> Unit,
     onNavigateEditPassword: (String) -> Unit,
     onShowSnackBar: (DmsSnackBarType, String) -> Unit,
 ) {
     val viewModel: CheckPasswordViewModel = hiltViewModel()
     val state by viewModel.uiState.collectAsStateWithLifecycle()
     val focusManager = LocalFocusManager.current
+    val updatedOnNavigateEditPassword by rememberUpdatedState(onNavigateEditPassword)
+    val updatedOnShowSnackBar by rememberUpdatedState(onShowSnackBar)
 
     LaunchedEffect(Unit) {
         viewModel.sideEffect.collect {
             when (it) {
-                is CheckPasswordSideEffect.SuccessCheckPassword -> onNavigateEditPassword(state.currentPassword)
-                is CheckPasswordSideEffect.FailCheckPassword -> onShowSnackBar(
+                is CheckPasswordSideEffect.SuccessCheckPassword -> updatedOnNavigateEditPassword(state.currentPassword)
+                is CheckPasswordSideEffect.FailCheckPassword -> updatedOnShowSnackBar(
                     DmsSnackBarType.ERROR, it.message
                 )
             }
@@ -53,7 +56,7 @@ internal fun CheckPassword(
     }
 
     CheckPasswordScreen(
-        onBackPressed = onBackPressed,
+        onBack = onBack,
         onCheckPasswordClick = viewModel::checkPassword,
         state = state,
         onPasswordChange = viewModel::setPassword,
@@ -63,7 +66,7 @@ internal fun CheckPassword(
 
 @Composable
 private fun CheckPasswordScreen(
-    onBackPressed: () -> Unit,
+    onBack: () -> Unit,
     onCheckPasswordClick: () -> Unit,
     state: CheckPasswordState,
     onPasswordChange: (String) -> Unit,
@@ -80,7 +83,7 @@ private fun CheckPasswordScreen(
                 )
             },
     ) {
-        DmsTopAppBar(onBackPressed = onBackPressed)
+        DmsTopAppBar(onBackClick = onBack)
         DmsSymbolContent(
             modifier = Modifier
                 .topPadding(52.dp),

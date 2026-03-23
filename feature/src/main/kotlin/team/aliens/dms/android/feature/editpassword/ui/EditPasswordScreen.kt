@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalFocusManager
@@ -33,7 +34,7 @@ import team.aliens.dms.android.feature.editpassword.viewmodel.EditPasswordViewMo
 
 @Composable
 internal fun EditPassword(
-    onBackPressed: () -> Unit,
+    onBack: () -> Unit,
     currentPassword: String,
     onNavigateSetting: () -> Unit,
     onShowSnackBar: (DmsSnackBarType, String) -> Unit,
@@ -41,15 +42,17 @@ internal fun EditPassword(
     val viewModel: EditPasswordViewModel = hiltViewModel()
     val state by viewModel.uiState.collectAsStateWithLifecycle()
     val focusManager = LocalFocusManager.current
+    val updatedOnNavigateSetting by rememberUpdatedState(onNavigateSetting)
+    val updatedOnShowSnackBar by rememberUpdatedState(onShowSnackBar)
 
     LaunchedEffect(Unit) {
         viewModel.sideEffect.collect {
             when (it) {
-                is EditPasswordSideEffect.SuccessEditPassword -> onNavigateSetting()
-                is EditPasswordSideEffect.FailEditPassword -> onShowSnackBar(
+                is EditPasswordSideEffect.SuccessEditPassword -> updatedOnNavigateSetting()
+                is EditPasswordSideEffect.FailEditPassword -> updatedOnShowSnackBar(
                     DmsSnackBarType.ERROR, it.message
                 )
-                is EditPasswordSideEffect.PasswordMismatch -> onShowSnackBar(
+                is EditPasswordSideEffect.PasswordMismatch -> updatedOnShowSnackBar(
                     DmsSnackBarType.ERROR, it.message
                 )
             }
@@ -57,7 +60,7 @@ internal fun EditPassword(
     }
 
     EditPasswordScreen(
-        onBackPressed = onBackPressed,
+        onBack = onBack,
         onEditPasswordClick = { viewModel.editPassword(currentPassword) },
         state = state,
         onNewPasswordChange = viewModel::setNewPassword,
@@ -68,7 +71,7 @@ internal fun EditPassword(
 
 @Composable
 private fun EditPasswordScreen(
-    onBackPressed: () -> Unit,
+    onBack: () -> Unit,
     onEditPasswordClick: () -> Unit,
     state: EditPasswordState,
     onNewPasswordChange: (String) -> Unit,
@@ -86,7 +89,7 @@ private fun EditPasswordScreen(
                 )
             },
     ) {
-        DmsTopAppBar(onBackPressed = onBackPressed)
+        DmsTopAppBar(onBackClick = onBack)
         DmsSymbolContent(
             modifier = Modifier
                 .topPadding(52.dp),

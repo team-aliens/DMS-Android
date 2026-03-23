@@ -15,7 +15,6 @@ import team.aliens.dms.android.core.designsystem.textfield.DmsTextField
 
 @Composable
 internal fun UserInfoInputContent(
-    modifier: Modifier = Modifier,
     name: String,
     grade: String,
     classroom: String,
@@ -24,6 +23,7 @@ internal fun UserInfoInputContent(
     onGradeChange: (String) -> Unit,
     onClassroomChange: (String) -> Unit,
     onNumberChange: (String) -> Unit,
+    modifier: Modifier = Modifier,
 ) {
     Column(
         modifier = modifier.fillMaxWidth(),
@@ -49,13 +49,13 @@ internal fun UserInfoInputContent(
 
 @Composable
 private fun StudentNumberInputs(
-    modifier: Modifier = Modifier,
     grade: String,
     classroom: String,
     number: String,
     onGradeChange: (String) -> Unit,
     onClassroomChange: (String) -> Unit,
     onNumberChange: (String) -> Unit,
+    modifier: Modifier = Modifier,
 ) {
     val classroomFocusRequest = remember { FocusRequester() }
     val numberFocusRequest = remember { FocusRequester() }

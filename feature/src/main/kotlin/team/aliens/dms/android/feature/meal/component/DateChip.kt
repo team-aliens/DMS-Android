@@ -18,9 +18,9 @@ import team.aliens.dms.android.core.ui.util.toLocale
 
 @Composable
 internal fun DateChip(
-    modifier: Modifier = Modifier,
     date: LocalDate,
     onDateClick: () -> Unit,
+    modifier: Modifier = Modifier,
 ) {
     Row(
         modifier = modifier

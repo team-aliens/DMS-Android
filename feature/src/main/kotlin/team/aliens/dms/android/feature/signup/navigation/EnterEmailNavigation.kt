@@ -8,13 +8,13 @@ import team.aliens.dms.android.feature.signup.ui.EnterEmailScreen
 @Composable
 fun SignUpEnterEmailRoute(
     signUpData: SignUpData,
-    onBackPressed: () -> Unit,
+    onBack: () -> Unit,
     navigateToEnterEmailVerificationCode: (SignUpData) -> Unit,
     onShowSnackBar: (DmsSnackBarType, String) -> Unit,
 ) {
     EnterEmailScreen(
         signUpData = signUpData,
-        onBackPressed = onBackPressed,
+        onBack = onBack,
         navigateToEnterEmailVerificationCode = navigateToEnterEmailVerificationCode,
         onShowSnackBar = onShowSnackBar,
     )

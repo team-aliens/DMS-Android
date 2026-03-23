@@ -13,6 +13,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalFocusManager
@@ -35,12 +36,13 @@ import team.aliens.dms.android.feature.signup.viewmodel.SetPasswordViewModel
 @Composable
 internal fun SetPasswordScreen(
     signUpData: SignUpData,
-    onBackPressed: () -> Unit,
+    onBack: () -> Unit,
     navigateToTerms: (SignUpData) -> Unit,
 ) {
     val viewModel: SetPasswordViewModel = hiltViewModel()
     val state by viewModel.uiState.collectAsState()
     val focusManager = LocalFocusManager.current
+    val updatedNavigateToTerms by rememberUpdatedState(navigateToTerms)
 
     LaunchedEffect(Unit) {
         viewModel.initialize(signUpData)
@@ -49,13 +51,13 @@ internal fun SetPasswordScreen(
     LaunchedEffect(Unit) {
         viewModel.sideEffect.collect { effect ->
             when (effect) {
-                is SetPasswordSideEffect.MoveToTerms -> navigateToTerms(effect.signUpData)
+                is SetPasswordSideEffect.MoveToTerms -> updatedNavigateToTerms(effect.signUpData)
             }
         }
     }
 
     SetPasswordContent(
-        onBackPressed = onBackPressed,
+        onBack = onBack,
         onNextClick = viewModel::onNextClick,
         state = state,
         onPasswordChange = viewModel::setPassword,
@@ -66,7 +68,7 @@ internal fun SetPasswordScreen(
 
 @Composable
 private fun SetPasswordContent(
-    onBackPressed: () -> Unit,
+    onBack: () -> Unit,
     onNextClick: () -> Unit,
     state: SetPasswordState,
     onPasswordChange: (String) -> Unit,
@@ -83,10 +85,7 @@ private fun SetPasswordContent(
                 detectTapGestures(onTap = { onClearFocus() })
             },
     ) {
-        DmsTopAppBar(
-            title = "회원가입",
-            onBackPressed = onBackPressed,
-        )
+        DmsTopAppBar(title = "회원가입", onBackClick = onBack, )
         DmsSymbolContent(
             modifier = Modifier
                 .topPadding(4.dp),
@@ -120,13 +119,13 @@ private fun SetPasswordContent(
 
 @Composable
 private fun PasswordInputs(
-    modifier: Modifier = Modifier,
     password: String,
     passwordCheck: String,
     onPasswordChange: (String) -> Unit,
     onPasswordCheckChange: (String) -> Unit,
     isPasswordFormatError: Boolean,
     isPasswordMatchError: Boolean,
+    modifier: Modifier = Modifier,
 ) {
     Column(
         modifier = modifier.fillMaxWidth(),

@@ -38,8 +38,6 @@ import team.aliens.dms.android.feature.main.application.ui.component.VoteContent
 @Composable
 internal fun Application(
     onNavigateRemainApplication: () -> Unit,
-    onNavigateOutingApplication: () -> Unit,
-    onNavigateVolunteerApplication: () -> Unit,
     onNavigateVote: (AllVoteSearch) -> Unit,
     onShowSnackBar: (DmsSnackBarType, String) -> Unit,
 ) {

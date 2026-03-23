@@ -14,6 +14,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
@@ -41,13 +42,15 @@ import team.aliens.dms.android.feature.signup.viewmodel.EnterStudentNumberViewMo
 @Composable
 internal fun EnterStudentNumberScreen(
     signUpData: SignUpData,
-    onBackPressed: () -> Unit,
+    onBack: () -> Unit,
     navigateToSetId: (SignUpData) -> Unit,
     onShowSnackBar: (DmsSnackBarType, String) -> Unit,
 ) {
     val viewModel: EnterStudentNumberViewModel = hiltViewModel()
     val state by viewModel.uiState.collectAsState()
     val focusManager = LocalFocusManager.current
+    val updatedNavigateToSetId by rememberUpdatedState(navigateToSetId)
+    val updatedOnShowSnackBar by rememberUpdatedState(onShowSnackBar)
 
     LaunchedEffect(Unit) {
         viewModel.initialize(signUpData)
@@ -56,17 +59,17 @@ internal fun EnterStudentNumberScreen(
     LaunchedEffect(Unit) {
         viewModel.sideEffect.collect { effect ->
             when (effect) {
-                is EnterStudentNumberSideEffect.MoveToSetId -> navigateToSetId(effect.signUpData)
+                is EnterStudentNumberSideEffect.MoveToSetId -> updatedNavigateToSetId(effect.signUpData)
                 is EnterStudentNumberSideEffect.ShowConflictSnackBar ->
-                    onShowSnackBar(DmsSnackBarType.ERROR, "이미 가입된 학번이에요")
+                    updatedOnShowSnackBar(DmsSnackBarType.ERROR, "이미 가입된 학번이에요")
                 is EnterStudentNumberSideEffect.ShowErrorSnackBar ->
-                    onShowSnackBar(DmsSnackBarType.ERROR, "학번을 확인해주세요")
+                    updatedOnShowSnackBar(DmsSnackBarType.ERROR, "학번을 확인해주세요")
             }
         }
     }
 
     EnterStudentNumberContent(
-        onBackPressed = onBackPressed,
+        onBack = onBack,
         onNextClick = viewModel::onNextClick,
         state = state,
         onGradeChange = viewModel::setGrade,
@@ -78,7 +81,7 @@ internal fun EnterStudentNumberScreen(
 
 @Composable
 private fun EnterStudentNumberContent(
-    onBackPressed: () -> Unit,
+    onBack: () -> Unit,
     onNextClick: () -> Unit,
     state: EnterStudentNumberState,
     onGradeChange: (String) -> Unit,
@@ -96,10 +99,7 @@ private fun EnterStudentNumberContent(
                 detectTapGestures(onTap = { onClearFocus() })
             },
     ) {
-        DmsTopAppBar(
-            title = "회원가입",
-            onBackPressed = onBackPressed,
-        )
+        DmsTopAppBar(title = "회원가입", onBackClick = onBack, )
         DmsSymbolContent(
             modifier = Modifier
                 .topPadding(4.dp),
@@ -134,13 +134,13 @@ private fun EnterStudentNumberContent(
 
 @Composable
 private fun StudentNumberInputs(
-    modifier: Modifier = Modifier,
     grade: String,
     classroom: String,
     number: String,
     onGradeChange: (String) -> Unit,
     onClassroomChange: (String) -> Unit,
     onNumberChange: (String) -> Unit,
+    modifier: Modifier = Modifier,
 ) {
     val classroomFocusRequest = remember { FocusRequester() }
     val numberFocusRequest = remember { FocusRequester() }

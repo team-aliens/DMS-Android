@@ -10,7 +10,6 @@ import java.time.LocalDateTime
 
 @Composable
 internal fun VoteItemContent(
-    modifier: Modifier = Modifier,
     vote: Vote,
     title: String,
     startTime: LocalDateTime,
@@ -20,6 +19,7 @@ internal fun VoteItemContent(
     modelStudents: List<Student>,
     selectItem: String,
     onSelect: (String) -> Unit,
+    modifier: Modifier = Modifier,
 ) {
     Column(
         modifier = modifier,

@@ -17,10 +17,10 @@ import team.aliens.dms.android.core.designsystem.bodyB
 
 @Composable
 internal fun MealContent(
-    modifier: Modifier = Modifier,
     daily: String,
     kcal: String?,
     meal: List<String>,
+    modifier: Modifier = Modifier,
 ) {
     Column(
         modifier = modifier

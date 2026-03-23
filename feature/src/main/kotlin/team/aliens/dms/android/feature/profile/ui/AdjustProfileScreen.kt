@@ -14,9 +14,9 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
@@ -44,17 +44,19 @@ import team.aliens.dms.android.feature.remain.ui.component.DmsFloatingNotice
 
 @Composable
 internal fun AdjustProfile(
-    onBackPressed: () -> Unit,
+    onBack: () -> Unit,
     model: String,
     onShowSnackBar: (DmsSnackBarType, String) -> Unit,
 ) {
     val viewModel: AdjustProfileViewModel = hiltViewModel()
+    val updatedOnBack by rememberUpdatedState(onBack)
+    val updatedOnShowSnackBar by rememberUpdatedState(onShowSnackBar)
 
     LaunchedEffect(Unit) {
         viewModel.sideEffect.collect {
             when (it) {
-                is AdjustProfileSideEffect.ProfileImageSet -> onBackPressed()
-                is AdjustProfileSideEffect.ProfileImageBadRequest -> onShowSnackBar(
+                is AdjustProfileSideEffect.ProfileImageSet -> updatedOnBack()
+                is AdjustProfileSideEffect.ProfileImageBadRequest -> updatedOnShowSnackBar(
                     DmsSnackBarType.ERROR, "실패"
                 )
             }
@@ -62,7 +64,7 @@ internal fun AdjustProfile(
     }
 
     AdjustProfileScreen(
-        onBackPressed = onBackPressed,
+        onBack = onBack,
         model = model,
         updateProfileImage = { viewModel.editProfile(model) }
     )
@@ -70,7 +72,7 @@ internal fun AdjustProfile(
 
 @Composable
 private fun AdjustProfileScreen(
-    onBackPressed: () -> Unit,
+    onBack: () -> Unit,
     updateProfileImage: () -> Unit,
     model: String,
 ) {
@@ -82,20 +84,12 @@ private fun AdjustProfileScreen(
             )
         )
     )
-    val currentZoomScale by remember {
-        derivedStateOf {
-            zoomImageState.zoomableState.contentTransformation.scale.scaleX
-        }
-    }
-
     Column(
         modifier = Modifier
             .fillMaxSize()
             .systemBarsPadding()
     ) {
-        DmsTopAppBar(
-            onBackPressed = onBackPressed
-        )
+        DmsTopAppBar(onBackClick = onBack)
         Column(
             modifier = Modifier
                 .topPadding(68.dp)

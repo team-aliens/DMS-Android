@@ -30,12 +30,12 @@ import team.aliens.dms.android.shared.model.Sex
 
 @Composable
 internal fun ProfileContent(
-    modifier: Modifier = Modifier,
     gcn: String,
     name: String,
     schoolName: String,
     genderType: Sex,
     profileImageUrl: String?,
+    modifier: Modifier = Modifier,
 ) {
     Row(
         modifier = modifier
@@ -78,8 +78,8 @@ internal fun ProfileContent(
 
 @Composable
 private fun GenderTag(
-    modifier: Modifier = Modifier,
     genderType: Sex,
+    modifier: Modifier = Modifier,
 ) {
     val (text, textColor, backgroundColor) = when (genderType) {
         Sex.MALE -> Triple("남", DmsTheme.colorScheme.onPrimaryContainer, DmsTheme.colorScheme.primary)

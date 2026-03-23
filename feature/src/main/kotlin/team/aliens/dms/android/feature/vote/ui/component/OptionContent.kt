@@ -26,13 +26,13 @@ import team.aliens.dms.android.data.voting.model.VotingItem
 
 @Composable
 internal fun OptionContent(
-    modifier: Modifier = Modifier,
     title: String,
     startTime: LocalDateTime,
     endTime: LocalDateTime,
     options: List<VotingItem>,
     selectItem: String,
     onSelect: (String) -> Unit,
+    modifier: Modifier = Modifier,
 ) {
     Column(
         modifier = modifier,
@@ -64,10 +64,10 @@ internal fun OptionContent(
 
 @Composable
 private fun OptionItem(
-    modifier: Modifier = Modifier,
     title: String,
     selected: Boolean,
     onClick: () -> Unit,
+    modifier: Modifier = Modifier,
 ) {
     val backgroundColor = if (selected) {
         DmsTheme.colorScheme.surfaceVariant

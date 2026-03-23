@@ -14,6 +14,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -48,12 +49,14 @@ private const val TIMER_TOTAL_SECONDS = 300
 @Composable
 internal fun EnterEmailVerificationCodeScreen(
     signUpData: SignUpData,
-    onBackPressed: () -> Unit,
+    onBack: () -> Unit,
     navigateToEnterStudentNumber: (SignUpData) -> Unit,
     onShowSnackBar: (DmsSnackBarType, String) -> Unit,
 ) {
     val viewModel: EnterEmailVerificationCodeViewModel = hiltViewModel()
     val state by viewModel.uiState.collectAsState()
+    val updatedNavigateToEnterStudentNumber by rememberUpdatedState(navigateToEnterStudentNumber)
+    val updatedOnShowSnackBar by rememberUpdatedState(onShowSnackBar)
 
     var remainingSeconds by remember { mutableIntStateOf(TIMER_TOTAL_SECONDS) }
     var timerRunning by remember { mutableStateOf(true) }
@@ -77,9 +80,9 @@ internal fun EnterEmailVerificationCodeScreen(
         viewModel.sideEffect.collect { effect ->
             when (effect) {
                 is EnterEmailVerificationCodeSideEffect.MoveToEnterStudentNumber ->
-                    navigateToEnterStudentNumber(effect.signUpData)
+                    updatedNavigateToEnterStudentNumber(effect.signUpData)
                 is EnterEmailVerificationCodeSideEffect.ShowSendErrorSnackBar ->
-                    onShowSnackBar(DmsSnackBarType.ERROR, "이메일 인증 코드 전송에 실패했어요.")
+                    updatedOnShowSnackBar(DmsSnackBarType.ERROR, "이메일 인증 코드 전송에 실패했어요.")
                 is EnterEmailVerificationCodeSideEffect.ResetCountDownTimer -> {
                     timerRunning = false
                     viewModel.setTimerFinished(false)
@@ -90,7 +93,7 @@ internal fun EnterEmailVerificationCodeScreen(
     }
 
     EnterEmailVerificationCodeContent(
-        onBackPressed = onBackPressed,
+        onBack = onBack,
         onNextClick = viewModel::onNextClick,
         state = state,
         remainingSeconds = remainingSeconds,
@@ -101,7 +104,7 @@ internal fun EnterEmailVerificationCodeScreen(
 
 @Composable
 private fun EnterEmailVerificationCodeContent(
-    onBackPressed: () -> Unit,
+    onBack: () -> Unit,
     onNextClick: () -> Unit,
     state: EnterEmailVerificationCodeState,
     remainingSeconds: Int,
@@ -115,10 +118,7 @@ private fun EnterEmailVerificationCodeContent(
             .statusBarsPadding()
             .navigationBarsPadding(),
     ) {
-        DmsTopAppBar(
-            title = "회원가입",
-            onBackPressed = onBackPressed,
-        )
+        DmsTopAppBar(title = "회원가입", onBackClick = onBack, )
         DmsSymbolContent(
             modifier = Modifier
                 .topPadding(4.dp),
@@ -174,9 +174,9 @@ private fun EnterEmailVerificationCodeContent(
 
 @Composable
 private fun EmailVerificationInfoBanner(
-    modifier: Modifier = Modifier,
     email: String,
     remainingSeconds: Int,
+    modifier: Modifier = Modifier,
 ) {
     val minutes = remainingSeconds / 60
     val seconds = remainingSeconds % 60

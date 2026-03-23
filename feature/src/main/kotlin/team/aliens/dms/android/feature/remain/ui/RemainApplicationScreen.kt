@@ -42,12 +42,12 @@ internal fun RemainApplication(
 ) {
     val remainApplicationViewModel: RemainApplicationViewModel = hiltViewModel()
     val state by remainApplicationViewModel.uiState.collectAsStateWithLifecycle()
-    
+
     RemainApplicationScreen(
         onNavigateBack = onNavigateBack,
         state = state,
         setSelectRemainsOption = remainApplicationViewModel::setSelectRemainsOption,
-        changeRemainsOption =  {
+        changeRemainsOption = {
             remainApplicationViewModel.changeRemainsOption(onShowSnackBar)
         },
     )
@@ -66,11 +66,9 @@ private fun RemainApplicationScreen(
             .background(DmsTheme.colorScheme.background)
             .systemBarsPadding(),
     ) {
-        DmsTopAppBar(
-            title = "잔류 신청",
-            onBackPressed = { onNavigateBack(state.selectedRemainTitle) },
-        )
+        DmsTopAppBar(title = "잔류 신청", onBackClick = { onNavigateBack(state.selectedRemainTitle) }, )
         DmsFloatingNotice(
+            text = "잔류 신청 시간은 ${state.remainsApplicationTime.startDayOfWeek.toLocale()} ${state.remainsApplicationTime.startTime} ~ ${state.remainsApplicationTime.endDayOfWeek.toLocale()} ${state.remainsApplicationTime.endTime} 까지 입니다.",
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(
@@ -78,7 +76,6 @@ private fun RemainApplicationScreen(
                     start = 24.dp,
                     end = 24.dp,
                 ),
-            text = "잔류 신청 시간은 ${state.remainsApplicationTime.startDayOfWeek.toLocale()} ${state.remainsApplicationTime.startTime} ~ ${state.remainsApplicationTime.endDayOfWeek.toLocale()} ${state.remainsApplicationTime.endTime} 까지 입니다.",
         )
         LazyColumn(
             modifier = Modifier

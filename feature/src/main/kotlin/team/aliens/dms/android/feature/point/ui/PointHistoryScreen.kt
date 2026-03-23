@@ -56,10 +56,7 @@ private fun PointHistoryScreen(
             .background(DmsTheme.colorScheme.background)
             .systemBarsPadding(),
     ) {
-        DmsTopAppBar(
-            onBackPressed = onBackClick,
-            title = "상벌점 내역 확인",
-        )
+        DmsTopAppBar(onBackClick = onBackClick, title = "상벌점 내역 확인",)
         val tabData = listOf(
             PointTab.All,
             PointTab.Bonus,

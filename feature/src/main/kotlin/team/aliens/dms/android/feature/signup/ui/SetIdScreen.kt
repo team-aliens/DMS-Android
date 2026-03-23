@@ -12,6 +12,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalFocusManager
@@ -35,13 +36,15 @@ import team.aliens.dms.android.feature.signup.viewmodel.SetIdViewModel
 @Composable
 internal fun SetIdScreen(
     signUpData: SignUpData,
-    onBackPressed: () -> Unit,
+    onBack: () -> Unit,
     navigateToSetPassword: (SignUpData) -> Unit,
     onShowSnackBar: (DmsSnackBarType, String) -> Unit,
 ) {
     val viewModel: SetIdViewModel = hiltViewModel()
     val state by viewModel.uiState.collectAsState()
     val focusManager = LocalFocusManager.current
+    val updatedNavigateToSetPassword by rememberUpdatedState(navigateToSetPassword)
+    val updatedOnShowSnackBar by rememberUpdatedState(onShowSnackBar)
 
     LaunchedEffect(Unit) {
         viewModel.initialize(signUpData)
@@ -50,17 +53,17 @@ internal fun SetIdScreen(
     LaunchedEffect(Unit) {
         viewModel.sideEffect.collect { effect ->
             when (effect) {
-                is SetIdSideEffect.MoveToSetPassword -> navigateToSetPassword(effect.signUpData)
+                is SetIdSideEffect.MoveToSetPassword -> updatedNavigateToSetPassword(effect.signUpData)
                 is SetIdSideEffect.ShowConflictSnackBar ->
-                    onShowSnackBar(DmsSnackBarType.ERROR, "이미 존재하는 아이디에요")
+                    updatedOnShowSnackBar(DmsSnackBarType.ERROR, "이미 존재하는 아이디에요")
                 is SetIdSideEffect.ShowErrorSnackBar ->
-                    onShowSnackBar(DmsSnackBarType.ERROR, "아이디를 확인해주세요")
+                    updatedOnShowSnackBar(DmsSnackBarType.ERROR, "아이디를 확인해주세요")
             }
         }
     }
 
     SetIdContent(
-        onBackPressed = onBackPressed,
+        onBack = onBack,
         onNextClick = viewModel::onNextClick,
         state = state,
         onIdChange = viewModel::setId,
@@ -70,7 +73,7 @@ internal fun SetIdScreen(
 
 @Composable
 private fun SetIdContent(
-    onBackPressed: () -> Unit,
+    onBack: () -> Unit,
     onNextClick: () -> Unit,
     state: SetIdState,
     onIdChange: (String) -> Unit,
@@ -86,10 +89,7 @@ private fun SetIdContent(
                 detectTapGestures(onTap = { onClearFocus() })
             },
     ) {
-        DmsTopAppBar(
-            title = "회원가입",
-            onBackPressed = onBackPressed,
-        )
+        DmsTopAppBar(title = "회원가입", onBackClick = onBack, )
         DmsSymbolContent(
             modifier = Modifier
                 .topPadding(4.dp),

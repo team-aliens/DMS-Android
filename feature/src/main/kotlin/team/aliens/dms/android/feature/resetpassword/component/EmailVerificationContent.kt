@@ -24,7 +24,6 @@ import team.aliens.dms.android.feature.resetpassword.model.isError
 
 @Composable
 internal fun EmailVerificationContent(
-    modifier: Modifier = Modifier,
     email: String,
     emailVerificationCode: String,
     remainingSeconds: Int,
@@ -32,6 +31,7 @@ internal fun EmailVerificationContent(
     textFieldError: ResetPasswordTextFieldError,
     onEmailVerificationCodeChange: (String) -> Unit,
     onResendCode: () -> Unit,
+    modifier: Modifier = Modifier,
 ) {
     val minutes = remainingSeconds / 60
     val seconds = remainingSeconds % 60
