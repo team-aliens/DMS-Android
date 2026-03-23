@@ -2,7 +2,10 @@ name: Nightly
 
 on:
   schedule:
-    - cron: '20 6 * * *'   # 매일 UTC 06:20 (KST 15:20)
+    - cron: '0 17 * * *'   # 매일 UTC 17:00 (KST 02:00)
+  push:
+    branches:
+      - feature/847-detekt-도입
   workflow_dispatch:
 
 concurrency:
