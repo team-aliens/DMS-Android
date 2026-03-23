@@ -4,88 +4,87 @@ import org.junit.Test
 import team.aliens.dms.android.shared.validator.IdValidator
 import team.aliens.dms.android.shared.validator.checkIfIdValid
 
-@Suppress("SimplifyBooleanWithConstants", "LocalVariableName", "ConvertToStringTemplate")
 class IdValidatorTest {
 
     @Test
     fun `Test empty id`() {
-        val `empty id` = ""
+        val emptyId = ""
 
-        assert(IdValidator.validate(`empty id`) == false)
-        assert(checkIfIdValid(`empty id`) == false)
+        assert(!IdValidator.validate(emptyId))
+        assert(!checkIfIdValid(emptyId))
     }
 
     @Test
     fun `Test id not in English`() {
-        val `id not in english` = "박준수"
+        val idNotInEnglish = "박준수"
 
-        assert(IdValidator.validate(`id not in english`) == false)
-        assert(checkIfIdValid(`id not in english`) == false)
+        assert(!IdValidator.validate(idNotInEnglish))
+        assert(!checkIfIdValid(idNotInEnglish))
     }
 
     @Test
     fun `Test id with only english digits`() {
-        val `english only id` = "abcdefgh"
+        val englishOnlyId = "abcdefgh"
 
-        assert(IdValidator.validate(`english only id`) == true)
-        assert(checkIfIdValid(`english only id`) == true)
+        assert(IdValidator.validate(englishOnlyId))
+        assert(checkIfIdValid(englishOnlyId))
     }
 
     @Test
     fun `Test id with only numbers`() {
-        val `numbers only id` = "12345678"
+        val numbersOnlyId = "12345678"
 
-        assert(IdValidator.validate(`numbers only id`) == true)
-        assert(checkIfIdValid(`numbers only id`) == true)
+        assert(IdValidator.validate(numbersOnlyId))
+        assert(checkIfIdValid(numbersOnlyId))
     }
 
     @Test
     fun `Test id under length 4`() {
-        val `id under length 4` = "ab1"
+        val idUnderLength4 = "ab1"
 
-        assert(IdValidator.validate(`id under length 4`) == false)
-        assert(checkIfIdValid(`id under length 4`) == false)
+        assert(!IdValidator.validate(idUnderLength4))
+        assert(!checkIfIdValid(idUnderLength4))
     }
 
     @Test
     fun `Test id over length 20`() {
-        val `id over length 20` =
+        val idOverLength20 =
             "abcd1234" + "abcd1234" + "abcd" + "1"
 
-        assert(IdValidator.validate(`id over length 20`) == false)
-        assert(checkIfIdValid(`id over length 20`) == false)
+        assert(!IdValidator.validate(idOverLength20))
+        assert(!checkIfIdValid(idOverLength20))
     }
 
     @Test
     fun `Test id containing blank`() {
-        val `id with blank` = "ab d1234!"
+        val idWithBlank = "ab d1234!"
 
-        assert(IdValidator.validate(`id with blank`) == false)
-        assert(checkIfIdValid(`id with blank`) == false)
+        assert(!IdValidator.validate(idWithBlank))
+        assert(!checkIfIdValid(idWithBlank))
     }
 
     @Test
     fun `Test id containing not allowed spacial character`() {
-        val `id with not allowed special character` = "abcd1234!"
+        val idWithNotAllowedSpecialCharacter = "abcd1234!"
 
-        assert(IdValidator.validate(`id with not allowed special character`) == false)
-        assert(checkIfIdValid(`id with not allowed special character`) == false)
+        assert(!IdValidator.validate(idWithNotAllowedSpecialCharacter))
+        assert(!checkIfIdValid(idWithNotAllowedSpecialCharacter))
     }
 
     @Test
     fun `Test id containing with allowed special character`() {
-        val `base id` = "abcd1234"
-        val case1 = `base id` + '.'
-        val case2 = `base id` + '_'
-        val case3 = `base id` + '-'
+        val baseId = "abcd1234"
+        val case1 = "$baseId."
+        val case2 = "${baseId}_"
+        val case3 = "$baseId-"
 
-        assert(IdValidator.validate(case1) == true)
-        assert(checkIfIdValid(case1) == true)
+        assert(IdValidator.validate(case1))
+        assert(checkIfIdValid(case1))
 
-        assert(IdValidator.validate(case2) == true)
-        assert(checkIfIdValid(case2) == true)
+        assert(IdValidator.validate(case2))
+        assert(checkIfIdValid(case2))
 
-        assert(IdValidator.validate(case3) == true)
-        assert(checkIfIdValid(case3) == true)
+        assert(IdValidator.validate(case3))
+        assert(checkIfIdValid(case3))
     }
 }

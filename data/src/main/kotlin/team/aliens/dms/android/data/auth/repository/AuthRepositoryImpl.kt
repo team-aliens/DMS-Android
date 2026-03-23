@@ -30,7 +30,7 @@ internal class AuthRepositoryImpl @Inject constructor(
                 deviceToken = deviceToken,
             ),
         ).onSuccess {
-            // FIXME: 만약 자동 로그인을 하지 않은 상태에서 토큰 재발급은 어떻게 처리하는가?
+            // TODO: 만약 자동 로그인을 하지 않은 상태에서 토큰 재발급은 어떻게 처리하는가?
             val tokens = it.extractTokens()
             val features = it.extractFeatures()
             jwtProvider.updateTokens(tokens)
