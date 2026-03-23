@@ -2,7 +2,7 @@ name: Nightly
 
 on:
   schedule:
-    - cron: '0 2 * * *'   # 매일 UTC 02:00 (KST 11:00)
+    - cron: '20 6 * * *'   # 매일 UTC 06:20 (KST 15:20)
   workflow_dispatch:
 
 concurrency:
@@ -183,9 +183,9 @@ jobs:
           printf '%s' "$SECRET" > "$TARGET"
           jq -e . "$TARGET" > /dev/null
 
-      # ── assembleRelease ──────────────────────────
-      - name: Build Release APK
-        run: ./gradlew assembleRelease
+      # ── assembleRelease + Compose Metrics ───────────
+      - name: Build Release APK with Compose metrics
+        run: ./gradlew assembleRelease -PenableComposeCompilerMetrics=true
 
       - name: Upload Release APK
         uses: actions/upload-artifact@v4
@@ -193,10 +193,6 @@ jobs:
           name: release-apk-${{ github.run_number }}
           path: app/build/outputs/apk/release/*.apk
           retention-days: 30
-
-      # ── Compose Metrics ──────────────────────────
-      - name: Build Release with Compose metrics
-        run: ./gradlew assembleRelease -PenableComposeCompilerMetrics=true
 
       - name: Generate mendable HTML report
         run: |
