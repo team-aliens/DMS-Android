@@ -207,6 +207,14 @@ jobs:
           path: app/build/outputs/apk/release/*.apk
           retention-days: 30
 
+      - name: Download mendable.jar
+        run: |
+          mkdir -p tools
+          curl -fL --retry 3 --retry-delay 2 \
+            -o tools/mendable.jar \
+            "https://github.com/jayasuryat/mendable/releases/download/v0.7.0/mendable.jar"
+          test -s tools/mendable.jar
+
       - name: Generate mendable HTML report
         run: |
           mkdir -p build/mendable-output
@@ -232,7 +240,7 @@ jobs:
         run: |
           python3 scripts/check_compose_metrics.py \
             build/mendable-output/mendable-warnings.json \
-            --threshold 80
+            --threshold 75
 
       - name: Upload mendable HTML report
         if: always()
