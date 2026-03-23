@@ -1,6 +1,4 @@
 // TODO: Remove once KTIJ-19369 is fixed
-@file:Suppress("DSL_SCOPE_VIOLATION")
-
 buildscript {
     repositories {
         google()
