@@ -24,30 +24,19 @@ internal class StudentRepositoryImpl @Inject constructor(
     private val schoolProvider: SchoolProvider,
 ) : StudentRepository() {
 
-    override suspend fun signUp(
-        schoolVerificationCode: String,
-        schoolVerificationAnswer: String,
-        email: String,
-        emailVerificationCode: String,
-        grade: Int,
-        classRoom: Int,
-        number: Int,
-        accountId: String,
-        password: String,
-        profileImageUrl: String?,
-    ): Result<Unit> =
+    override suspend fun signUp(param: StudentRepository.SignUpParam): Result<Unit> =
         networkStudentDataSource.signUp(
             request = SignUpRequest(
-                schoolVerificationCode = schoolVerificationCode,
-                schoolVerificationAnswer = schoolVerificationAnswer,
-                email = email,
-                emailVerificationCode = emailVerificationCode,
-                grade = grade,
-                classRoom = classRoom,
-                number = number,
-                accountId = accountId,
-                password = password,
-                profileImageUrl = profileImageUrl,
+                schoolVerificationCode = param.schoolVerificationCode,
+                schoolVerificationAnswer = param.schoolVerificationAnswer,
+                email = param.email,
+                emailVerificationCode = param.emailVerificationCode,
+                grade = param.grade,
+                classRoom = param.classRoom,
+                number = param.number,
+                accountId = param.accountId,
+                password = param.password,
+                profileImageUrl = param.profileImageUrl,
             ),
         ).onSuccess {
             jwtProvider.updateTokens(tokens = it.extractTokens())
