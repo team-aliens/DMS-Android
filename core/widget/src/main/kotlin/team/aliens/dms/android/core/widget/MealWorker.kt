@@ -10,19 +10,17 @@ import androidx.hilt.work.HiltWorker
 import androidx.work.Constraints
 import androidx.work.CoroutineWorker
 import androidx.work.ExistingPeriodicWorkPolicy
+import androidx.work.PeriodicWorkRequest
 import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkManager
 import androidx.work.WorkerParameters
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
-import team.aliens.dms.android.core.widget.meal.MealGlanceWidget
-import team.aliens.dms.android.core.widget.meal.MealInfo
-import team.aliens.dms.android.core.widget.meal.MealInfoStateDefinition
-import team.aliens.dms.android.core.widget.meal.mapper.toEntity
 import team.aliens.dms.android.data.meal.repository.MealRepository
 import team.aliens.dms.android.shared.date.util.now
 import team.aliens.dms.android.shared.date.util.today
 import java.time.Duration
+import java.util.concurrent.TimeUnit
 
 @HiltWorker
 class MealWorker @AssistedInject constructor(
@@ -36,23 +34,27 @@ class MealWorker @AssistedInject constructor(
 
         internal fun enqueue(context: Context) {
             val manager = WorkManager.getInstance(context)
-            val requestBuilder = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val request: PeriodicWorkRequest = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 PeriodicWorkRequestBuilder<MealWorker>(Duration.ofHours(1))
+                    .setConstraints(createConstraints())
+                    .build()
             } else {
-                TODO("VERSION.SDK_INT < O")
+                PeriodicWorkRequestBuilder<MealWorker>(1, TimeUnit.HOURS)
+                    .setConstraints(createConstraints())
+                    .build()
             }
-            val constrains = Constraints.Builder()
-                .setRequiresBatteryNotLow(true)
-                .build()
 
             manager.enqueueUniquePeriodicWork(
                 uniqueWorkName,
                 ExistingPeriodicWorkPolicy.KEEP,
-                requestBuilder
-                    .setConstraints(constrains)
-                    .build(),
+                request,
             )
         }
+
+        private fun createConstraints(): Constraints =
+            Constraints.Builder()
+                .setRequiresBatteryNotLow(true)
+                .build()
 
         internal fun cancel(context: Context) {
             WorkManager.getInstance(context).cancelUniqueWork(uniqueWorkName)
@@ -63,20 +65,16 @@ class MealWorker @AssistedInject constructor(
         val manager = GlanceAppWidgetManager(context)
         val glanceIds = manager.getGlanceIds(MealGlanceWidget::class.java)
 
-        return try {
+        return runCatching {
             setWidgetState(glanceIds, MealInfo.Loading)
 
-            try {
-                val mealDate = if (now.hour >= 19) today.plusDays(1) else today
-                val response = mealRepository.fetchMeal(mealDate).getOrThrow()
-                setWidgetState(glanceIds, response.toEntity())
-            } catch (e: Exception) {
-                Result.failure()
-            }
+            val mealDate = if (now.hour >= 19) today.plusDays(1) else today
+            val response = mealRepository.fetchMeal(mealDate).getOrThrow()
+            setWidgetState(glanceIds, response.toEntity())
             Result.success()
-        } catch (e: Exception) {
+        }.getOrElse { throwable ->
             setWidgetState(glanceIds, MealInfo.Unavailable)
-            e.printStackTrace()
+            android.util.Log.e("MealWorker", "Failed to update widget", throwable)
             Result.failure()
         }
     }

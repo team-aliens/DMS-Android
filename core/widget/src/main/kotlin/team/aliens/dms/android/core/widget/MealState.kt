@@ -1,4 +1,4 @@
-package team.aliens.dms.android.core.widget.meal
+package team.aliens.dms.android.core.widget
 
 data class MealState(
     val mealType: MealType = MealType.Breakfast,

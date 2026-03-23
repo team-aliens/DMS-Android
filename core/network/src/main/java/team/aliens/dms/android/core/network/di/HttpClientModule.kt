@@ -5,7 +5,6 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import okhttp3.OkHttpClient
-import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import team.aliens.dms.android.core.network.file.FileUploadManager
 import team.aliens.dms.android.core.network.httpclient.DefaultInterceptors
@@ -61,10 +60,8 @@ internal object HttpClientModule {
     @Provides
     @Singleton
     fun provideFileUploadManager(
-        @DefaultHttpLoggingInterceptor httpLoggingInterceptor: HttpLoggingInterceptor,
         @DefaultHttpClient httpClient: OkHttpClient,
     ): FileUploadManager = FileUploadManager(
-        httpLoggingInterceptor = httpLoggingInterceptor,
         baseHttpClient = httpClient,
     )
 }

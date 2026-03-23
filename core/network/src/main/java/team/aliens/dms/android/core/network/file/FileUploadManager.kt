@@ -2,14 +2,12 @@ package team.aliens.dms.android.core.network.file
 
 import okhttp3.OkHttpClient
 import okhttp3.Request
-import okhttp3.logging.HttpLoggingInterceptor
 import team.aliens.dms.android.core.network.util.toOctetStreamRequestBody
 import java.io.File
 import java.io.IOException
 
 // TODO: consider defining class as FileUploadManager
 class FileUploadManager(
-    private val httpLoggingInterceptor: HttpLoggingInterceptor,
     baseHttpClient: OkHttpClient,
 ) {
     private val client: OkHttpClient by lazy {

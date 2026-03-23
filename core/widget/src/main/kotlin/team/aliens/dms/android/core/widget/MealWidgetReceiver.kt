@@ -1,4 +1,4 @@
-package team.aliens.dms.android.core.widget.meal
+package team.aliens.dms.android.core.widget
 
 import android.content.Context
 import androidx.glance.appwidget.GlanceAppWidget
