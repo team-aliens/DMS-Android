@@ -51,17 +51,12 @@ jobs:
           SECRET='${{ secrets.GOOGLE_SERVICES_JSON }}'
           TARGET='${{ github.workspace }}/app/google-services.json'
 
-          # 1) raw JSON secret인 경우
-          if printf '%s' "$SECRET" | jq -e . > /dev/null 2>&1; then
-            printf '%s' "$SECRET" > "$TARGET"
-          # 2) base64(JSON) secret인 경우
-          elif printf '%s' "$SECRET" | base64 --decode 2>/dev/null | jq -e . > /dev/null 2>&1; then
-            printf '%s' "$SECRET" | base64 --decode > "$TARGET"
-          else
-            echo "Invalid GOOGLE_SERVICES_JSON secret: not raw JSON and not base64-encoded JSON"
+          if ! printf '%s' "$SECRET" | jq -e . > /dev/null 2>&1; then
+            echo "Invalid GOOGLE_SERVICES_JSON secret: must be raw JSON content from app/google-services.json"
             exit 1
           fi
 
+          printf '%s' "$SECRET" > "$TARGET"
           jq -e . "$TARGET" > /dev/null
 
       # ── ktlint ─────────────────────────────────
@@ -180,17 +175,12 @@ jobs:
           SECRET='${{ secrets.GOOGLE_SERVICES_JSON }}'
           TARGET='${{ github.workspace }}/app/google-services.json'
 
-          # 1) raw JSON secret인 경우
-          if printf '%s' "$SECRET" | jq -e . > /dev/null 2>&1; then
-            printf '%s' "$SECRET" > "$TARGET"
-          # 2) base64(JSON) secret인 경우
-          elif printf '%s' "$SECRET" | base64 --decode 2>/dev/null | jq -e . > /dev/null 2>&1; then
-            printf '%s' "$SECRET" | base64 --decode > "$TARGET"
-          else
-            echo "Invalid GOOGLE_SERVICES_JSON secret: not raw JSON and not base64-encoded JSON"
+          if ! printf '%s' "$SECRET" | jq -e . > /dev/null 2>&1; then
+            echo "Invalid GOOGLE_SERVICES_JSON secret: must be raw JSON content from app/google-services.json"
             exit 1
           fi
 
+          printf '%s' "$SECRET" > "$TARGET"
           jq -e . "$TARGET" > /dev/null
 
       # ── assembleRelease ──────────────────────────
