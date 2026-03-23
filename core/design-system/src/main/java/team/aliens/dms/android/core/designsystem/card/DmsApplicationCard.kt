@@ -32,14 +32,14 @@ import team.aliens.dms.android.core.designsystem.util.clickable
 
 @Composable
 fun DmsApplicationCard(
-    modifier: Modifier = Modifier,
     title: String,
+    @DrawableRes iconRes: Int,
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier,
     description: String? = null,
     period: String? = null,
     appliedTitle: String? = null,
-    @DrawableRes iconRes: Int,
     isSelected: Boolean = false,
-    onClick: () -> Unit,
 ) {
     val borderColor by animateColorAsState(
         targetValue = if (isSelected) {
@@ -53,12 +53,12 @@ fun DmsApplicationCard(
             .fillMaxWidth()
             .clip(RoundedCornerShape(32.dp))
             .background(DmsTheme.colorScheme.surfaceTint)
-            .clickable(onClick = onClick)
             .border(
                 width = 2.dp,
                 color = borderColor,
                 shape = RoundedCornerShape(32.dp),
             )
+            .clickable(onClick = onClick)
             .padding(horizontal = 16.dp, vertical = 24.dp),
         verticalArrangement = Arrangement.spacedBy(8.dp),
     ) {
@@ -117,8 +117,8 @@ fun DmsApplicationCard(
 
 @Composable
 private fun AppliedTitleText(
-    modifier: Modifier = Modifier,
     appliedTitle: String,
+    modifier: Modifier = Modifier,
 ) {
     Text(
         modifier = modifier

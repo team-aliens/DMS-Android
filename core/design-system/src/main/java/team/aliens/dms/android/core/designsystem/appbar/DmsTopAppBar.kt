@@ -25,7 +25,7 @@ import team.aliens.dms.android.core.designsystem.foundation.DmsIcon
 fun DmsTopAppBar(
     modifier: Modifier = Modifier,
     showLogo: Boolean = false,
-    onBackPressed: (() -> Unit)? = null,
+    onBackClick: (() -> Unit)? = null,
     actions: (@Composable RowScope.() -> Unit)? = null,
     title: String? = null,
 ) {
@@ -42,7 +42,7 @@ fun DmsTopAppBar(
         Row(
             modifier = Modifier
                 .fillMaxWidth(),
-            horizontalArrangement = if (showLogo || onBackPressed != null) Arrangement.SpaceBetween else Arrangement.End,
+            horizontalArrangement = if (showLogo || onBackClick != null) Arrangement.SpaceBetween else Arrangement.End,
             verticalAlignment = Alignment.CenterVertically,
         ) {
             if (showLogo) {
@@ -57,7 +57,7 @@ fun DmsTopAppBar(
                     contentDescription = null,
                 )
             }
-            onBackPressed?.let {
+            onBackClick?.let {
                 DmsIconButton(
                     resource = DmsIcon.Backward,
                     tint = DmsTheme.colorScheme.scrim,

@@ -38,11 +38,11 @@ import team.aliens.dms.android.core.designsystem.labelM
 
 @Composable
 fun DmsTextField(
+    value: String,
+    onValueChange: (String) -> Unit,
     modifier: Modifier = Modifier,
     label: String? = null,
-    value: String,
     hint: String = "",
-    onValueChange: (String) -> Unit,
     enabled: Boolean = true,
     readOnly: Boolean = false,
     imeAction: ImeAction = ImeAction.Done,
@@ -108,7 +108,6 @@ fun DmsTextField(
 
 @Composable
 private fun TextField(
-    modifier: Modifier = Modifier,
     value: String,
     hint: String,
     onValueChange: (String) -> Unit,
@@ -123,8 +122,10 @@ private fun TextField(
     showVisibleIcon: Boolean,
     showClearIcon: Boolean,
     isFocused: Boolean,
+    modifier: Modifier = Modifier,
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
 ) {
+    var visible by remember { mutableStateOf(false) }
     val hintAlpha by animateFloatAsState(
         targetValue = if (value.isEmpty()) {
             1f
@@ -132,12 +133,14 @@ private fun TextField(
             0f
         },
     )
-    var visible by remember { mutableStateOf(false) }
-    val (visualTransformation, icon) = if (visible || !showVisibleIcon) {
+
+    val visualState = if (visible || !showVisibleIcon) {
         VisualTransformation.None to DmsIcon.PasswordInvisible
     } else {
         PasswordVisualTransformation() to DmsIcon.PasswordVisible
     }
+    val visualTransformation = visualState.first
+    val icon = visualState.second
 
     val lineColor by animateColorAsState(
         targetValue = if (isError) {
@@ -196,20 +199,14 @@ private fun TextField(
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.spacedBy(12.dp),
                 ) {
-                    if (showVisibleIcon) {
-                        DmsIconButton(
-                            resource = icon,
-                            tint = DmsTheme.colorScheme.inverseSurface,
-                            onClick = { visible = !visible },
-                        )
-                    }
-                    if (showClearIcon && value.isNotEmpty()) {
-                        DmsIconButton(
-                            resource = DmsIcon.Cancel,
-                            tint = DmsTheme.colorScheme.inverseSurface,
-                            onClick = { onValueChange("") },
-                        )
-                    }
+                    ActionIcons(
+                        showVisibleIcon = showVisibleIcon,
+                        showClearIcon = showClearIcon,
+                        hasValue = value.isNotEmpty(),
+                        icon = icon,
+                        onToggleVisibility = { visible = !visible },
+                        onClear = { onValueChange("") },
+                    )
                 }
             }
             HorizontalDivider(
@@ -218,5 +215,31 @@ private fun TextField(
                 color = lineColor,
             )
         }
+    }
+}
+
+@Composable
+private fun ActionIcons(
+    showVisibleIcon: Boolean,
+    showClearIcon: Boolean,
+    hasValue: Boolean,
+    icon: Int,
+    onToggleVisibility: () -> Unit,
+    onClear: () -> Unit,
+) {
+    if (showVisibleIcon) {
+        DmsIconButton(
+            resource = icon,
+            tint = DmsTheme.colorScheme.inverseSurface,
+            onClick = onToggleVisibility,
+        )
+    }
+
+    if (showClearIcon && hasValue) {
+        DmsIconButton(
+            resource = DmsIcon.Cancel,
+            tint = DmsTheme.colorScheme.inverseSurface,
+            onClick = onClear,
+        )
     }
 }
