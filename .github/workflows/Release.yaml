@@ -67,7 +67,7 @@ jobs:
 
       - name: Decode and restore keystore
         run: |
-          KEYSTORE_PATH="${RUNNER_TEMP}/release.jks"
+          KEYSTORE_PATH="${RUNNER_TEMP}/dmsStore.jks"
           echo "${{ secrets.KEYSTORE_BASE64 }}" | base64 --decode > "$KEYSTORE_PATH"
           echo "KEYSTORE_PATH=$KEYSTORE_PATH" >> $GITHUB_ENV
 
