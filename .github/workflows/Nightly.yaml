@@ -19,16 +19,16 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       - name: Set up JDK 21
-        uses: actions/setup-java@v4
+        uses: actions/setup-java@v5
         with:
           java-version: '21'
           distribution: 'temurin'
 
       - name: Setup Gradle
-        uses: gradle/actions/setup-gradle@v4
+        uses: gradle/actions/setup-gradle@v6
         with:
           cache-encryption-key: ${{ secrets.GRADLE_ENCRYPTION_KEY }}
 
@@ -96,7 +96,7 @@ jobs:
 
       - name: Upload detekt SARIF to GitHub Security
         if: always()
-        uses: github/codeql-action/upload-sarif@v3
+        uses: github/codeql-action/upload-sarif@v4
         with:
           sarif_file: build/detekt-sarif/merged.sarif
           category: detekt-nightly
@@ -112,7 +112,7 @@ jobs:
 
       - name: Upload lint HTML report
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: lint-html-report-release
           path: build/lint-reports/*.html
@@ -120,7 +120,7 @@ jobs:
 
       - name: Upload lint SARIF to GitHub Security
         if: always()
-        uses: github/codeql-action/upload-sarif@v3
+        uses: github/codeql-action/upload-sarif@v4
         with:
           sarif_file: build/lint-reports
           category: lint-nightly
@@ -134,16 +134,16 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       - name: Set up JDK 21
-        uses: actions/setup-java@v4
+        uses: actions/setup-java@v5
         with:
           java-version: '21'
           distribution: 'temurin'
 
       - name: Setup Gradle
-        uses: gradle/actions/setup-gradle@v4
+        uses: gradle/actions/setup-gradle@v6
         with:
           cache-encryption-key: ${{ secrets.GRADLE_ENCRYPTION_KEY }}
 
@@ -189,7 +189,7 @@ jobs:
         run: ./gradlew assembleRelease -PenableComposeCompilerMetrics=true
 
       - name: Upload Release APK
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: release-apk-${{ github.run_number }}
           path: app/build/outputs/apk/release/*.apk
@@ -197,7 +197,7 @@ jobs:
 
       - name: Cache mendable.jar
         id: mendable-cache
-        uses: actions/cache@v4
+        uses: actions/cache@v5
         with:
           path: tools/mendable.jar
           key: mendable-jar-v0.7.0
@@ -240,7 +240,7 @@ jobs:
 
       - name: Upload mendable HTML report
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: compose-metrics-report-${{ github.run_number }}
           path: build/mendable-output/mendable-report.html
