@@ -111,6 +111,48 @@ jobs:
              app/src/main/play/release-notes/ko-KR/${VERSION_CODE}.txt
           echo "Changelog ready: ${VERSION_CODE}.txt"
 
+      - name: Prepare Google Play release notes directory
+        run: |
+          VERSION_CODE=$(grep -oP '(?<=VERSION_CODE = )\d+' buildSrc/src/main/kotlin/ProjectProperties.kt)
+          NOTES_SRC="app/src/main/play/release-notes/ko-KR/default.txt"
+          VERSIONED_SRC="app/src/main/play/release-notes/ko-KR/${VERSION_CODE}.txt"
+          NOTES_DIR="build/play-whatsnew"
+
+          if [ -f "$VERSIONED_SRC" ]; then
+            NOTES_SRC="$VERSIONED_SRC"
+          fi
+
+          mkdir -p "$NOTES_DIR"
+          cp "$NOTES_SRC" "$NOTES_DIR/whatsnew-ko-KR"
+          ls -la "$NOTES_DIR"
+
+      - name: Validate upload inputs
+        run: |
+          shopt -s nullglob
+          files=(app/build/outputs/bundle/release/*.aab)
+          if [ ${#files[@]} -eq 0 ]; then
+            echo "No AAB found at app/build/outputs/bundle/release/*.aab"
+            exit 1
+          fi
+
+          if [ ! -f "build/play-whatsnew/whatsnew-ko-KR" ]; then
+            echo "Missing release notes file: build/play-whatsnew/whatsnew-ko-KR"
+            exit 1
+          fi
+
+      - name: Prepare Google Play service account file
+        run: |
+          SERVICE_ACCOUNT='${{ secrets.GOOGLE_PLAY_SERVICE_ACCOUNT_JSON }}'
+          TARGET='${{ runner.temp }}/google-play-service-account.json'
+
+          if ! printf '%s' "$SERVICE_ACCOUNT" | jq -e '.client_email and .private_key' > /dev/null 2>&1; then
+            echo "Invalid GOOGLE_PLAY_SERVICE_ACCOUNT_JSON secret"
+            exit 1
+          fi
+
+          printf '%s' "$SERVICE_ACCOUNT" > "$TARGET"
+          chmod 600 "$TARGET"
+
       - name: Determine deploy track
         id: track
         run: |
@@ -123,11 +165,11 @@ jobs:
       - name: Upload to Google Play
         uses: r0adkll/upload-google-play@v1.1.3
         with:
-          serviceAccountJsonPlainText: ${{ secrets.GOOGLE_PLAY_SERVICE_ACCOUNT_JSON }}
+          serviceAccountJson: ${{ runner.temp }}/google-play-service-account.json
           packageName: team.aliens.dms
           releaseFiles: app/build/outputs/bundle/release/*.aab
-          track: ${{ steps.track.outputs.track }}
-          whatsNewDirectory: app/src/main/play/release-notes/ko-KR
+          tracks: ${{ steps.track.outputs.track }}
+          whatsNewDirectory: build/play-whatsnew
 
   # ──────────────────────────────────────────────
   # JOB 3 : 결과 알림
