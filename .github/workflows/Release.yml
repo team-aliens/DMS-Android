@@ -139,8 +139,24 @@ jobs:
     if: always()
 
     steps:
-      - name: Notify Slack on success
-        if: needs.deploy-play-store.result == 'success'
+      - name: Determine result
+        id: result
+        run: |
+          DEPLOY="${{ needs.deploy-play-store.result }}"
+
+          if [[ "$DEPLOY" == "success" ]]; then
+            echo "emoji=🚀"                >> $GITHUB_OUTPUT
+            echo "label=Play Store 배포 성공" >> $GITHUB_OUTPUT
+            echo "color=good"              >> $GITHUB_OUTPUT
+            echo "color_int=3066993"       >> $GITHUB_OUTPUT
+          else
+            echo "emoji=❌"                >> $GITHUB_OUTPUT
+            echo "label=Play Store 배포 실패" >> $GITHUB_OUTPUT
+            echo "color=danger"            >> $GITHUB_OUTPUT
+            echo "color_int=15158332"      >> $GITHUB_OUTPUT
+          fi
+
+      - name: Notify Slack
         continue-on-error: true
         uses: slackapi/slack-github-action@v2.0.0
         with:
@@ -148,9 +164,9 @@ jobs:
           webhook-type: incoming-webhook
           payload: |
             {
-              "text": "🚀 *Play Store 배포 성공*",
+              "text": "${{ steps.result.outputs.emoji }} *${{ steps.result.outputs.label }}*",
               "attachments": [{
-                "color": "good",
+                "color": "${{ steps.result.outputs.color }}",
                 "fields": [
                   { "title": "Repository",   "value": "${{ github.repository }}", "short": true },
                   { "title": "Tag",          "value": "${{ github.ref_name }}",   "short": true },
@@ -162,60 +178,19 @@ jobs:
               }]
             }
 
-      - name: Notify Discord on success
-        if: needs.deploy-play-store.result == 'success'
+      - name: Notify Discord
         env:
           DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK_URL }}
+          LABEL: ${{ steps.result.outputs.label }}
+          COLOR: ${{ steps.result.outputs.color_int }}
+          DEPLOY_RESULT: ${{ needs.deploy-play-store.result }}
         run: |
           curl -s -X POST "$DISCORD_WEBHOOK" \
             -H "Content-Type: application/json" \
             -d "{
               \"embeds\": [{
-                \"title\": \"🚀 Play Store 배포 성공\",
-                \"color\": 3066993,
-                \"fields\": [
-                  { \"name\": \"Repository\", \"value\": \"${{ github.repository }}\", \"inline\": true },
-                  { \"name\": \"Tag\",        \"value\": \"${{ github.ref_name }}\",   \"inline\": true },
-                  { \"name\": \"Run\",
-                    \"value\": \"[View Run](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }})\" }
-                ]
-              }]
-            }"
-
-      - name: Notify Slack on failure
-        if: needs.deploy-play-store.result != 'success'
-        continue-on-error: true
-        uses: slackapi/slack-github-action@v2.0.0
-        with:
-          webhook: ${{ secrets.SLACK_WEBHOOK_URL }}
-          webhook-type: incoming-webhook
-          payload: |
-            {
-              "text": "❌ *Play Store 배포 실패*",
-              "attachments": [{
-                "color": "danger",
-                "fields": [
-                  { "title": "Repository",   "value": "${{ github.repository }}", "short": true },
-                  { "title": "Tag",          "value": "${{ github.ref_name }}",   "short": true },
-                  { "title": "Triggered by", "value": "${{ github.actor }}",      "short": true },
-                  { "title": "Run",
-                    "value": "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}",
-                    "short": false }
-                ]
-              }]
-            }
-
-      - name: Notify Discord on failure
-        if: needs.deploy-play-store.result != 'success'
-        env:
-          DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK_URL }}
-        run: |
-          curl -s -X POST "$DISCORD_WEBHOOK" \
-            -H "Content-Type: application/json" \
-            -d "{
-              \"embeds\": [{
-                \"title\": \"❌ Play Store 배포 실패\",
-                \"color\": 15158332,
+                \"title\": \"$LABEL\",
+                \"color\": $COLOR,
                 \"fields\": [
                   { \"name\": \"Repository\", \"value\": \"${{ github.repository }}\", \"inline\": true },
                   { \"name\": \"Tag\",        \"value\": \"${{ github.ref_name }}\",   \"inline\": true },
