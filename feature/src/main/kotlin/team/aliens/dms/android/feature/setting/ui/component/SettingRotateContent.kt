@@ -31,11 +31,11 @@ import team.aliens.dms.android.core.designsystem.util.clickable
 
 @Composable
 fun SettingRotateContent(
-    modifier: Modifier = Modifier,
     iconRes: Int,
     rotated: Boolean,
     text: String,
     onClick: () -> Unit,
+    modifier: Modifier = Modifier,
 ) {
     val rotationAngle by animateFloatAsState(
         targetValue = if (rotated) 180f else 0f,

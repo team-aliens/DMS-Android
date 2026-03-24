@@ -9,6 +9,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
@@ -36,6 +37,7 @@ internal fun Vote(
     val viewModel: VoteViewModel = hiltViewModel()
     val state by viewModel.uiState.collectAsStateWithLifecycle()
     val resultStore = LocalResultStore.current
+    val updatedOnShowSnackBar by rememberUpdatedState(onShowSnackBar)
 
     LaunchedEffect(Unit) {
         snapshotFlow {
@@ -45,7 +47,7 @@ internal fun Vote(
                 viewModel.initState(result)
                 resultStore.removeResult<String?>(resultKey = "vote_result")
             } else {
-                onShowSnackBar(DmsSnackBarType.ERROR, "정보를 가져오지 못 했어요")
+                updatedOnShowSnackBar(DmsSnackBarType.ERROR, "정보를 가져오지 못 했어요")
             }
         }
     }
@@ -53,22 +55,22 @@ internal fun Vote(
     LaunchedEffect(Unit) {
         viewModel.sideEffect.collect {
             when (it) {
-                is VoteSideEffect.VoteSuccess -> onShowSnackBar(
+                is VoteSideEffect.VoteSuccess -> updatedOnShowSnackBar(
                     DmsSnackBarType.SUCCESS,
                     "투표를 완료했어요!",
                 )
 
-                is VoteSideEffect.VoteConflict -> onShowSnackBar(
+                is VoteSideEffect.VoteConflict -> updatedOnShowSnackBar(
                     DmsSnackBarType.ERROR,
                     "이미 해당 투표에 참여했어요",
                 )
 
-                is VoteSideEffect.VoteFail -> onShowSnackBar(
+                is VoteSideEffect.VoteFail -> updatedOnShowSnackBar(
                     DmsSnackBarType.ERROR,
                     "투표 중 오류가 발생했어요",
                 )
 
-                is VoteSideEffect.VoteLoadFail -> onShowSnackBar(
+                is VoteSideEffect.VoteLoadFail -> updatedOnShowSnackBar(
                     DmsSnackBarType.ERROR,
                     "정보를 불러오지 못했어요",
                 )
@@ -86,11 +88,11 @@ internal fun Vote(
 
 @Composable
 private fun VoteScreen(
-    modifier: Modifier = Modifier,
     state: VoteState,
     onNavigateBack: () -> Unit,
     onSelectItem: (String) -> Unit,
     submitVote: () -> Unit,
+    modifier: Modifier = Modifier,
 ) {
     Column(
         modifier = modifier
@@ -98,9 +100,7 @@ private fun VoteScreen(
             .background(DmsTheme.colorScheme.background)
             .systemBarsPadding(),
     ) {
-        DmsTopAppBar(
-            onBackPressed = onNavigateBack,
-        )
+        DmsTopAppBar(onBackClick = onNavigateBack, )
         VoteItemContent(
             modifier = Modifier
                 .fillMaxSize()

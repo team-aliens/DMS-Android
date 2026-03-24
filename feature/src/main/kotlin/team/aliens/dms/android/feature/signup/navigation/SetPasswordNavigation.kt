@@ -7,12 +7,12 @@ import team.aliens.dms.android.feature.signup.ui.SetPasswordScreen
 @Composable
 fun SignUpSetPasswordRoute(
     signUpData: SignUpData,
-    onBackPressed: () -> Unit,
+    onBack: () -> Unit,
     navigateToTerms: (SignUpData) -> Unit,
 ) {
     SetPasswordScreen(
         signUpData = signUpData,
-        onBackPressed = onBackPressed,
+        onBack = onBack,
         navigateToTerms = navigateToTerms,
     )
 }

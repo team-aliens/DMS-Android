@@ -13,9 +13,9 @@ import team.aliens.dms.android.core.designsystem.topPadding
 
 @Composable
 internal fun InputIdContent(
-    modifier: Modifier = Modifier,
     accountId: String,
     onAccountIdChange: (String) -> Unit,
+    modifier: Modifier = Modifier,
 ) {
     Column(
         modifier = modifier

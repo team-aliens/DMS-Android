@@ -7,12 +7,12 @@ import team.aliens.dms.android.feature.profile.ui.SelectProfile
 
 @Composable
 fun AdjustProfileRoute(
-    onBackPressed: () -> Unit,
+    onBack: () -> Unit,
     model: String,
     onShowSnackBar: (DmsSnackBarType, String) -> Unit,
 ) {
     AdjustProfile(
-        onBackPressed = onBackPressed,
+        onBack = onBack,
         model = model,
         onShowSnackBar = onShowSnackBar,
     )

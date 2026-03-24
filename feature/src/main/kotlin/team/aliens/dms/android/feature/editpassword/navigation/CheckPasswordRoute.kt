@@ -6,12 +6,12 @@ import team.aliens.dms.android.feature.editpassword.ui.CheckPassword
 
 @Composable
 fun CheckPasswordRoute(
-    onBackPressed: () -> Unit,
+    onBack: () -> Unit,
     onNavigateEditPassword: (String) -> Unit,
     onShowSnackBar: (DmsSnackBarType, String) -> Unit,
 ) {
     CheckPassword(
-        onBackPressed = onBackPressed,
+        onBack = onBack,
         onNavigateEditPassword = onNavigateEditPassword,
         onShowSnackBar = onShowSnackBar,
     )

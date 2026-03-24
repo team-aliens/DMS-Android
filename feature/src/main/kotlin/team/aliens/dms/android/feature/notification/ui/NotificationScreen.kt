@@ -23,6 +23,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -60,6 +61,7 @@ internal fun Notification(
 ) {
     val viewModel: NotificationViewModel = hiltViewModel()
     val state by viewModel.uiState.collectAsState()
+    val updatedOnShowSnackBar by rememberUpdatedState(onShowSnackBar)
     val tabData = listOf(
         "알림",
         "공지",
@@ -74,10 +76,10 @@ internal fun Notification(
     LaunchedEffect(Unit) {
         viewModel.sideEffect.collect {
             when (it) {
-                is NotificationSideEffect.FailFetchNotification -> onShowSnackBar(
+                is NotificationSideEffect.FailFetchNotification -> updatedOnShowSnackBar(
                     DmsSnackBarType.ERROR, "알림 조회를 실패했어요"
                 )
-                is NotificationSideEffect.FailUpdateNotification -> onShowSnackBar(
+                is NotificationSideEffect.FailUpdateNotification -> updatedOnShowSnackBar(
                     DmsSnackBarType.ERROR, "업데이트 실패 했어요"
                 )
             }
@@ -123,9 +125,7 @@ private fun NotificationScreen(
             .background(DmsTheme.colorScheme.background)
             .systemBarsPadding(),
     ) {
-        DmsTopAppBar(
-            onBackPressed = onBackClick,
-        )
+        DmsTopAppBar(onBackClick = onBackClick, )
         DmsTabRow(
             selectedTabIndex = tabIndex,
         ) {
@@ -160,9 +160,9 @@ private fun NotificationScreen(
 
 @Composable
 internal fun NotificationItems(
-    modifier: Modifier = Modifier,
     notifications: ImmutableList<NotificationUi>,
     onNotificationClick: (PointType, UUID) -> Unit,
+    modifier: Modifier = Modifier,
 ) {
     LazyColumn(
         modifier = modifier.fillMaxWidth()
@@ -181,9 +181,9 @@ internal fun NotificationItems(
 
 @Composable
 private fun NoticeItems(
-    modifier: Modifier = Modifier,
     notices: List<NotificationUi>,
     onNotificationDetailClick: (UUID, UUID) -> Unit,
+    modifier: Modifier = Modifier,
 ) {
     LazyColumn(
         modifier = modifier.fillMaxSize(),
@@ -202,9 +202,9 @@ private fun NoticeItems(
 
 @Composable
 internal fun NotificationItem(
-    modifier: Modifier = Modifier,
     notification: NotificationUi,
     onNotificationClick: (PointType, UUID) -> Unit,
+    modifier: Modifier = Modifier,
 ) {
     Row(
         modifier = modifier
@@ -218,32 +218,32 @@ internal fun NotificationItem(
             contentDescription = null,
         )
         Column(
-            modifier = modifier.startPadding(12.dp),
+            modifier = Modifier.startPadding(12.dp),
         ) {
             Text(
                 text = notification.title,
                 style = DmsTheme.typography.bodyM,
             )
             Row(
-                modifier = modifier.topPadding(6.dp)
+                modifier = Modifier.topPadding(6.dp)
             ) {
                 if (!notification.isRead) {
                     Icon(
-                        modifier = modifier.size(4.dp),
+                        modifier = Modifier.size(4.dp),
                         imageVector = Icons.Filled.Circle,
                         contentDescription = null,
                         tint = DmsTheme.colorScheme.primaryContainer,
                     )
                 }
                 Text(
-                    modifier = modifier
+                    modifier = Modifier
                         .startPadding(4.dp),
                     text = notification.content,
                     style = DmsTheme.typography.labelM,
                 )
             }
         }
-        Spacer(modifier = modifier.weight(1f))
+        Spacer(modifier = Modifier.weight(1f))
         Text(
             modifier = Modifier.padding(horizontal = 10.dp),
             text = notification.elapsedText,

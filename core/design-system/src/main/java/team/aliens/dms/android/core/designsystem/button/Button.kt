@@ -1,7 +1,9 @@
 package team.aliens.dms.android.core.designsystem.button
 
 import androidx.compose.animation.animateColorAsState
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -29,9 +31,9 @@ import team.aliens.dms.android.core.designsystem.bodyM
 import team.aliens.dms.android.core.designsystem.indicator.DmsDotsLoadingIndicator
 import team.aliens.dms.android.core.designsystem.labelM
 import team.aliens.dms.android.core.designsystem.util.DEFAULT_PRESS_DEPTH
-import team.aliens.dms.android.core.designsystem.util.KeyboardAsState
 import team.aliens.dms.android.core.designsystem.util.MIN_PRESS_DEPTH
 import team.aliens.dms.android.core.designsystem.util.clickable
+import team.aliens.dms.android.core.designsystem.util.keyboardAsState
 import team.aliens.dms.android.core.designsystem.util.modifyIf
 
 data class ButtonState(
@@ -57,6 +59,40 @@ data class ButtonTheme(
     val backgroundColor: Color? = null,
     val borderColor: Color? = null,
 )
+
+private fun ButtonState.resolveTheme(
+    enabled: Boolean,
+    pressed: Boolean,
+): ButtonTheme = when {
+    !enabled -> disabled
+    pressed -> this.pressed
+    else -> this.enabled
+}
+
+@Composable
+private fun ButtonType.colorScheme(buttonColor: ButtonColor): ButtonState = when (this) {
+    ButtonType.Contained -> buttonColor.containedColorScheme()
+    ButtonType.Text -> buttonColor.textcolorScheme()
+    ButtonType.Underline -> buttonColor.underlinecolorScheme()
+}
+
+private fun ButtonType.defaultInnerPadding(): PaddingValues =
+    if (this == ButtonType.Text || this == ButtonType.Underline) {
+        PaddingValues(
+            horizontal = 8.dp,
+            vertical = 6.dp,
+        )
+    } else {
+        PaddingValues(horizontal = 20.dp, vertical = 16.dp)
+    }
+
+@Composable
+private fun ButtonType.textStyle() =
+    if (this == ButtonType.Underline || this == ButtonType.Text) {
+        DmsTheme.typography.labelM
+    } else {
+        DmsTheme.typography.bodyM
+    }
 
 @Composable
 private fun ButtonColor.containedColorScheme() = when (this) {
@@ -190,18 +226,17 @@ private fun ButtonColor.underlinecolorScheme() = when (this) {
 
 @Composable
 private fun BasicButton(
-    modifier: Modifier = Modifier,
     backgroundColor: Color,
     enabled: Boolean,
     shape: Shape,
     borderColor: Color,
-    buttonType: ButtonType,
     onClick: () -> Unit,
-    onPressed: (pressed: Boolean) -> Unit,
+    onPress: (pressed: Boolean) -> Unit,
     keyboardInteractionEnabled: Boolean,
+    modifier: Modifier = Modifier,
     content: @Composable () -> Unit,
 ) {
-    // FIXME: https://youtrack.jetbrains.com/issue/CMP-6668
+    // TODO: https://youtrack.jetbrains.com/issue/CMP-6668
     /*    Surface(
             modifier = modifier,
             shape = RoundedCornerShape(8.dp),
@@ -211,7 +246,7 @@ private fun BasicButton(
             content = content,
         )*/
 
-    val keyboardShow by KeyboardAsState()
+    val keyboardShow by keyboardAsState()
     val isKeyboardHideButton = keyboardShow && keyboardInteractionEnabled
     val (shapeByKeyboardShow, pressDepth) = if (isKeyboardHideButton) {
         RoundedCornerShape(0.dp) to MIN_PRESS_DEPTH
@@ -235,12 +270,16 @@ private fun BasicButton(
             .modifyIf(keyboardInteractionEnabled) {
                 padding(padding)
             }
+            .border(
+                border = BorderStroke(width = 1.dp, color = borderColor),
+                shape = shapeByKeyboardShow,
+            )
             .clip(shape = shapeByKeyboardShow)
             .background(color = backgroundColor, shape = shapeByKeyboardShow)
             .clickable(
                 pressDepth = pressDepth,
                 enabled = enabled,
-                onPressed = onPressed,
+                onPress = onPress,
                 onClick = onClick,
             )
             .modifyIf(keyboardInteractionEnabled) {
@@ -254,61 +293,32 @@ private fun BasicButton(
 
 @Composable
 fun DmsButton(
-    modifier: Modifier = Modifier,
     text: String,
     buttonType: ButtonType,
+    buttonColor: ButtonColor,
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier,
     enabled: Boolean = true,
     shape: Shape = RoundedCornerShape(16.dp),
-    buttonColor: ButtonColor,
     contentPadding: PaddingValues? = null,
     keyboardInteractionEnabled: Boolean = false,
     isLoading: Boolean = false,
-    onClick: () -> Unit,
 ) {
     var pressed by remember { mutableStateOf(false) }
 
-    val buttonColorScheme = when (buttonType) {
-        ButtonType.Contained -> buttonColor.containedColorScheme()
-        ButtonType.Text -> buttonColor.textcolorScheme()
-        ButtonType.Underline -> buttonColor.underlinecolorScheme()
-    }
+    val buttonColorScheme = buttonType.colorScheme(buttonColor)
+    val resolvedTheme = buttonColorScheme.resolveTheme(enabled = enabled, pressed = pressed)
 
     val backgroundColor by animateColorAsState(
-        targetValue = if (!enabled) {
-            buttonColorScheme.disabled.backgroundColor ?: Color.Transparent
-        } else if (pressed) {
-            buttonColorScheme.pressed.backgroundColor ?: Color.Transparent
-        } else {
-            buttonColorScheme.enabled.backgroundColor ?: Color.Transparent
-        },
+        targetValue = resolvedTheme.backgroundColor ?: Color.Transparent,
     )
     val borderColor by animateColorAsState(
-        targetValue = if (!enabled) {
-            buttonColorScheme.disabled.borderColor ?: Color.Transparent
-        } else if (pressed) {
-            buttonColorScheme.pressed.borderColor ?: Color.Transparent
-        } else {
-            buttonColorScheme.enabled.borderColor ?: Color.Transparent
-        },
+        targetValue = resolvedTheme.borderColor ?: Color.Transparent,
     )
     val contentColor by animateColorAsState(
-        targetValue = if (!enabled) {
-            buttonColorScheme.disabled.textColor
-        } else if (pressed) {
-            buttonColorScheme.pressed.textColor
-        } else {
-            buttonColorScheme.enabled.textColor
-        },
+        targetValue = resolvedTheme.textColor,
     )
-    val innerPadding =
-        if (buttonType == ButtonType.Text || buttonType == ButtonType.Underline) {
-            PaddingValues(
-                horizontal = 8.dp,
-                vertical = 6.dp,
-            )
-        } else {
-            PaddingValues(horizontal = 20.dp, vertical = 16.dp)
-        }
+    val innerPadding = buttonType.defaultInnerPadding()
 
     BasicButton(
         modifier = modifier,
@@ -316,17 +326,12 @@ fun DmsButton(
         enabled = enabled,
         shape = shape,
         borderColor = borderColor,
-        buttonType = buttonType,
         onClick = onClick,
-        onPressed = { pressed = it },
+        onPress = { pressed = it },
         keyboardInteractionEnabled = keyboardInteractionEnabled,
     ) {
         val padding = contentPadding ?: innerPadding
-        val textStyle = if (buttonType == ButtonType.Underline || buttonType == ButtonType.Text) {
-            DmsTheme.typography.labelM
-        } else {
-            DmsTheme.typography.bodyM
-        }
+        val textStyle = buttonType.textStyle()
         val size = with(LocalDensity.current) { textStyle.fontSize.toDp() * 1.2f }
         Box(
             modifier = Modifier
@@ -352,10 +357,11 @@ fun DmsButton(
 
 @Composable
 fun DmsLayeredButton(
-    modifier: Modifier = Modifier,
     text: String,
     buttonType: ButtonType,
     buttonColor: ButtonColor,
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier,
     enabled: Boolean = true,
     shape: RoundedCornerShape = RoundedCornerShape(
         topStart = 32.dp,
@@ -364,7 +370,6 @@ fun DmsLayeredButton(
     backgroundColor: Color = DmsTheme.colorScheme.surfaceTint,
     layerOffset: Dp = 24.dp,
     isLoading: Boolean = false,
-    onClick: () -> Unit,
 ) {
     Box(
         modifier = modifier

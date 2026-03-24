@@ -28,8 +28,8 @@ import team.aliens.dms.android.core.designsystem.labelM
 
 @Composable
 fun DmsFloatingNotice(
-    modifier: Modifier = Modifier,
     text: String,
+    modifier: Modifier = Modifier,
     @DrawableRes iconResource: Int = DmsIcon.Notification,
 ) {
 

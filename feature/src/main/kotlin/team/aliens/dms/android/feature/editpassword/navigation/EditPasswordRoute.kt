@@ -7,13 +7,13 @@ import team.aliens.dms.android.feature.editpassword.ui.EditPassword
 
 @Composable
 fun EditPasswordRoute(
-    onBackPressed: () -> Unit,
+    onBack: () -> Unit,
     currentPassword: String,
     onNavigateSetting: () -> Unit,
     onShowSnackBar: (DmsSnackBarType, String) -> Unit
 ) {
     EditPassword(
-        onBackPressed = onBackPressed,
+        onBack = onBack,
         currentPassword = currentPassword,
         onNavigateSetting = onNavigateSetting,
         onShowSnackBar = onShowSnackBar,

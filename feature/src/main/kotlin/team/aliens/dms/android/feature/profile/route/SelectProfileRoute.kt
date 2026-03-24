@@ -6,12 +6,12 @@ import team.aliens.dms.android.feature.profile.ui.SelectProfile
 
 @Composable
 fun SelectProfileRoute(
-    onBackPressed: () -> Unit,
+    onBack: () -> Unit,
     onNavigateAdjustProfile: (String) -> Unit,
     onShowSnackBar: (DmsSnackBarType, String) -> Unit,
 ) {
     SelectProfile(
-        onBackPressed = onBackPressed,
+        onBack = onBack,
         onNavigateAdjustProfile = onNavigateAdjustProfile,
         onShowSnackBar = onShowSnackBar,
     )

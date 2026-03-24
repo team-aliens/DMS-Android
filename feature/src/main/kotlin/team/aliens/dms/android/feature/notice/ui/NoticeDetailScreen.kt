@@ -16,6 +16,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
@@ -44,6 +45,7 @@ internal fun NoticeDetail(
     val viewModel: NoticeDetailViewModel = hiltViewModel()
     val state by viewModel.uiState.collectAsState()
     val resultStore = LocalResultStore.current
+    val updatedOnShowSnackBar by rememberUpdatedState(onShowSnackBar)
 
     LaunchedEffect(Unit) {
         snapshotFlow {
@@ -53,7 +55,7 @@ internal fun NoticeDetail(
                 viewModel.getNotificationDetail(result)
                 resultStore.removeResult<String?>(resultKey = "notice_detail_result")
             } else {
-                onShowSnackBar(DmsSnackBarType.ERROR, "정보를 가져오지 못 했어요")
+                updatedOnShowSnackBar(DmsSnackBarType.ERROR, "정보를 가져오지 못 했어요")
             }
         }
     }
@@ -61,7 +63,7 @@ internal fun NoticeDetail(
     LaunchedEffect(Unit) {
         viewModel.sideEffect.collect {
             when (it) {
-                is NoticeDetailSideEffect.FailNoticeDetail -> onShowSnackBar(
+                is NoticeDetailSideEffect.FailNoticeDetail -> updatedOnShowSnackBar(
                     DmsSnackBarType.ERROR, "데이터를 조회할 수 없어요"
                 )
             }
@@ -85,10 +87,7 @@ private fun NoticeDetailsScreen(
             .background(DmsTheme.colorScheme.background)
             .systemBarsPadding()
     ) {
-        DmsTopAppBar(
-            title = "안내",
-            onBackPressed = onNavigateBack,
-        )
+        DmsTopAppBar(title = "안내", onBackClick = onNavigateBack, )
         NotificationDetailContent(
             notice = state.notice,
         )
@@ -97,8 +96,8 @@ private fun NoticeDetailsScreen(
 
 @Composable
 private fun NotificationDetailContent(
-    modifier: Modifier = Modifier,
     notice: NoticeDetailUi,
+    modifier: Modifier = Modifier,
 ) {
     Column(
         modifier = modifier

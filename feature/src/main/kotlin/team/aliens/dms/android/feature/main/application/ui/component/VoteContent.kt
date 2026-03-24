@@ -17,9 +17,9 @@ import team.aliens.dms.android.shared.date.toDate
 
 @Composable
 internal fun VoteContent(
-    modifier: Modifier = Modifier,
     votes: List<AllVoteSearch>,
     onNavigateVote: (AllVoteSearch) -> Unit,
+    modifier: Modifier = Modifier,
 ) {
     LazyColumn(
         modifier = modifier

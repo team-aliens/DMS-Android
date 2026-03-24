@@ -46,7 +46,7 @@ data class CheckPasswordState(
     val isLoading: Boolean = false,
 )
 
-sealed class CheckPasswordSideEffect() {
+sealed class CheckPasswordSideEffect {
     data object SuccessCheckPassword : CheckPasswordSideEffect()
     data class FailCheckPassword(val message: String) : CheckPasswordSideEffect()
 }

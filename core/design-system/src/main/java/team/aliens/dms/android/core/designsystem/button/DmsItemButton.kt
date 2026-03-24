@@ -30,12 +30,12 @@ import team.aliens.dms.android.core.designsystem.util.clickable
 
 @Composable
 fun DmsItemButton(
+    text: String,
+    onClick: () -> Unit,
     modifier: Modifier = Modifier,
     @DrawableRes iconRes: Int? = null,
-    text: String,
     textColor: Color = DmsTheme.colorScheme.inverseOnSurface,
     enabled: Boolean = true,
-    onClick: () -> Unit,
 ) {
     var pressed by remember { mutableStateOf(false) }
     val backgroundColor by animateColorAsState(
@@ -56,7 +56,7 @@ fun DmsItemButton(
             .clickable(
                 enabled = enabled,
                 onClick = onClick,
-                onPressed = { pressed = it },
+                onPress = { pressed = it },
             )
             .padding(horizontal = 16.dp, vertical = 24.dp),
         verticalAlignment = Alignment.CenterVertically,

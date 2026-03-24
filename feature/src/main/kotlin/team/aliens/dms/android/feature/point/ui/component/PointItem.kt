@@ -28,11 +28,11 @@ import kotlinx.datetime.LocalDate
 @OptIn(FormatStringsInDatetimeFormats::class)
 @Composable
 internal fun PointItem(
-    modifier: Modifier = Modifier,
     name: String,
     point: Int,
     date: LocalDate,
     pointType: PointType,
+    modifier: Modifier = Modifier,
 ) {
     val formatter = LocalDate.Format {
         byUnicodePattern("yyyy.MM.dd")

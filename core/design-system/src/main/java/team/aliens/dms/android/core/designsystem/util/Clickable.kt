@@ -26,12 +26,12 @@ internal const val DEFAULT_DISABLED_MILLIS = 300L
 
 @Composable
 fun Modifier.clickable(
+    onClick: () -> Unit,
     enabled: Boolean = true,
     pressDepth: Float = DEFAULT_PRESS_DEPTH,
     indication: Indication? = ripple(),
     isSingleClick: Boolean = true,
-    onPressed: ((pressed: Boolean) -> Unit)? = null,
-    onClick: () -> Unit,
+    onPress: ((pressed: Boolean) -> Unit)? = null,
     disabledMillis: Long = DEFAULT_DISABLED_MILLIS,
 ): Modifier {
     val interactionSource = remember { MutableInteractionSource() }
@@ -48,7 +48,7 @@ fun Modifier.clickable(
     val coroutineScope = rememberCoroutineScope()
 
     LaunchedEffect(isPressed) {
-        onPressed?.invoke(isPressed)
+        onPress?.invoke(isPressed)
     }
 
     return this

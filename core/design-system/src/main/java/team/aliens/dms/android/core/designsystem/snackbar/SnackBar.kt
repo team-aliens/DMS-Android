@@ -21,9 +21,9 @@ import team.aliens.dms.android.core.designsystem.modifier.dmsDropShadow
 
 @Composable
 fun DmsSnackBar(
-    modifier: Modifier = Modifier,
     snackBarType: DmsSnackBarType,
     message: String,
+    modifier: Modifier = Modifier,
 ) {
     Row(
         modifier = modifier

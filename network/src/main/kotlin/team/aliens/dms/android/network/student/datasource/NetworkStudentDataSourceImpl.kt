@@ -1,5 +1,6 @@
 package team.aliens.dms.android.network.student.datasource
-import team.aliens.dms.android.network.student.apiservice.StudentApiService
+import team.aliens.dms.android.network.student.apiservice.StudentAuthApiService
+import team.aliens.dms.android.network.student.apiservice.StudentProfileApiService
 import team.aliens.dms.android.network.student.model.EditProfileRequest
 import team.aliens.dms.android.network.student.model.ExamineStudentNumberResponse
 import team.aliens.dms.android.network.student.model.FetchMyPageResponse
@@ -13,11 +14,12 @@ import java.util.UUID
 import javax.inject.Inject
 
 internal class NetworkStudentDataSourceImpl @Inject constructor(
-    private val studentApiService: StudentApiService,
+    private val studentAuthApiService: StudentAuthApiService,
+    private val studentProfileApiService: StudentProfileApiService,
 ) : NetworkStudentDataSource() {
     override suspend fun signUp(request: SignUpRequest): Result<SignUpResponse> =
         suspendRunCatching {
-            studentApiService.signUp(request)
+            studentAuthApiService.signUp(request)
         }
 
     override suspend fun examineStudentNumber(
@@ -26,7 +28,7 @@ internal class NetworkStudentDataSourceImpl @Inject constructor(
         classroom: Int,
         number: Int,
     ): Result<ExamineStudentNumberResponse> = suspendRunCatching {
-        studentApiService.examineStudentNumber(
+        studentAuthApiService.examineStudentNumber(
             schoolId = schoolId,
             grade = grade,
             classRoom = classroom,
@@ -42,7 +44,7 @@ internal class NetworkStudentDataSourceImpl @Inject constructor(
         number: Int,
     ): Result<FindIdResponse> =
         suspendRunCatching {
-            studentApiService.findId(
+            studentAuthApiService.findId(
                 schoolId = schoolId,
                 studentName = studentName,
                 grade = grade,
@@ -53,30 +55,30 @@ internal class NetworkStudentDataSourceImpl @Inject constructor(
 
     override suspend fun editPassword(request: EditPasswordRequest): Result<Unit> =
         suspendRunCatching {
-            studentApiService.editPassword(request)
+            studentAuthApiService.editPassword(request)
         }
 
     override suspend fun checkIdDuplication(id: String): Result<Unit> =
         suspendRunCatching {
-            studentApiService.checkIdDuplication(id)
+            studentAuthApiService.checkIdDuplication(id)
         }
 
     override suspend fun checkEmailDuplication(email: String): Result<Unit> =
         suspendRunCatching {
-            studentApiService.checkEmailDuplication(email)
+            studentAuthApiService.checkEmailDuplication(email)
         }
 
     override suspend fun fetchMyPage(): Result<FetchMyPageResponse> =
         suspendRunCatching {
-            studentApiService.fetchMyPage()
+            studentProfileApiService.fetchMyPage()
         }
 
     override suspend fun editProfile(request: EditProfileRequest): Result<Unit> =
         suspendRunCatching {
-            studentApiService.editProfile(request)
+            studentProfileApiService.editProfile(request)
         }
 
-    override suspend fun withdraw() = suspendRunCatching { studentApiService.withdraw() }
+    override suspend fun withdraw() = suspendRunCatching { studentProfileApiService.withdraw() }
     override suspend fun fetchStudents(): Result<FetchStudentsResponse> =
-        suspendRunCatching { studentApiService.fetchStudents() }
+        suspendRunCatching { studentProfileApiService.fetchStudents() }
 }

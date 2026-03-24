@@ -12,6 +12,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -33,7 +34,7 @@ import team.aliens.dms.android.feature.setting.viewmodel.SettingViewModel
 
 @Composable
 internal fun Setting(
-    onBackPressed: () -> Unit,
+    onBack: () -> Unit,
     onNavigateEditPassword: () -> Unit,
     onNavigateSelectProfile: () -> Unit,
     onNavigateSignIn: () -> Unit,
@@ -41,6 +42,8 @@ internal fun Setting(
 ) {
     val viewModel: SettingViewModel = hiltViewModel()
     val state by viewModel.uiState.collectAsStateWithLifecycle()
+    val updatedOnNavigateSignIn by rememberUpdatedState(onNavigateSignIn)
+    val updatedOnShowSnackBar by rememberUpdatedState(onShowSnackBar)
     val (shouldShowSignOutDialog, onShouldShowSignOutDialogChange) = remember {
         mutableStateOf(false)
     }
@@ -52,11 +55,11 @@ internal fun Setting(
         viewModel.sideEffect.collect {
             when (it) {
                 is SettingSideEffect.CannotFetchNotificationStatus ->
-                    onShowSnackBar(DmsSnackBarType.ERROR, "알림 상태 조회를 실패했어요")
-                is SettingSideEffect.SignOutSuccess -> onNavigateSignIn()
-                is SettingSideEffect.WithdrawSuccess -> onNavigateSignIn()
+                    updatedOnShowSnackBar(DmsSnackBarType.ERROR, "알림 상태 조회를 실패했어요")
+                is SettingSideEffect.SignOutSuccess -> updatedOnNavigateSignIn()
+                is SettingSideEffect.WithdrawSuccess -> updatedOnNavigateSignIn()
                 is SettingSideEffect.WithdrawFailed ->
-                    onShowSnackBar(DmsSnackBarType.ERROR, "회원 탈퇴에 실패했어요")
+                    updatedOnShowSnackBar(DmsSnackBarType.ERROR, "회원 탈퇴에 실패했어요")
             }
         }
     }
@@ -116,7 +119,7 @@ internal fun Setting(
         onNotificationClick = { viewModel.updateNotificationStatus(state.isOnNotification) },
         onShowSignOutDialogChange = { onShouldShowSignOutDialogChange(true) },
         onShowWithdrawDialogChange = { onShouldShowWithdrawDialogChange(true) },
-        onBackPressed = onBackPressed,
+        onBack = onBack,
     )
 }
 
@@ -128,16 +131,14 @@ private fun SettingScreen(
     onNotificationClick: () -> Unit,
     onShowSignOutDialogChange: () -> Unit,
     onShowWithdrawDialogChange: () -> Unit,
-    onBackPressed: () -> Unit,
+    onBack: () -> Unit,
 ) {
     Column(
         modifier = Modifier
             .fillMaxSize()
             .systemBarsPadding(),
     ) {
-        DmsTopAppBar(
-            onBackPressed = onBackPressed,
-        )
+        DmsTopAppBar(onBackClick = onBack, )
         Column(
             modifier = Modifier
                 .fillMaxSize()

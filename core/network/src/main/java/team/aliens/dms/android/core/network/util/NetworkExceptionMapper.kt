@@ -25,19 +25,18 @@ suspend inline fun <T> statusMapping(
     onInternalServerError: () -> Nothing = { throw NotDefinedException() },
     onUnknownException: () -> Nothing = { throw NotDefinedException() },
     crossinline block: suspend () -> T,
-): T = try {
-    block()
-} catch (e: Exception) {
-    when (e) {
-        is BadRequestException -> onBadRequest()
-        is UnAuthorizedException -> onUnauthorized()
-        is ForbiddenException -> onForbidden()
-        is NotFoundException -> onNotFound()
-        is RequestTimeoutException -> onRequestTimeout()
-        is ConflictException -> onConflict()
-        is UnsupportedMediaTypeException -> onUnsupportedMediaType()
-        is TooManyRequestsException -> onTooManyRequests()
-        is InternalServerError -> onInternalServerError()
-        else -> onUnknownException()
+): T = runCatching { block() }
+    .getOrElse { throwable ->
+        when (throwable) {
+            is BadRequestException -> onBadRequest()
+            is UnAuthorizedException -> onUnauthorized()
+            is ForbiddenException -> onForbidden()
+            is NotFoundException -> onNotFound()
+            is RequestTimeoutException -> onRequestTimeout()
+            is ConflictException -> onConflict()
+            is UnsupportedMediaTypeException -> onUnsupportedMediaType()
+            is TooManyRequestsException -> onTooManyRequests()
+            is InternalServerError -> onInternalServerError()
+            else -> onUnknownException()
+        }
     }
-}

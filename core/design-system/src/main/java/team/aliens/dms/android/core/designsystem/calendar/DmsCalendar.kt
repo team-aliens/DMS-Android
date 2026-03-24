@@ -39,9 +39,9 @@ import kotlin.time.ExperimentalTime
 @OptIn(ExperimentalTime::class)
 @Composable
 fun DmsCalendar(
-    modifier: Modifier = Modifier,
     selectDate: LocalDate,
     onSelectedDateChange: (newDate: LocalDate) -> Unit,
+    modifier: Modifier = Modifier,
 ) {
     var updateDate by remember { mutableStateOf(selectDate) }
     val calendarState = rememberCalendarState(
@@ -84,10 +84,10 @@ fun DmsCalendar(
 
 @Composable
 private fun Day(
-    modifier: Modifier = Modifier,
     day: CalendarDay,
     isSelected: Boolean,
     onDayClick: (LocalDate) -> Unit,
+    modifier: Modifier = Modifier,
 ) {
     val isOtherMonthDay = day.position != DayPosition.MonthDate
     val textColor = when {

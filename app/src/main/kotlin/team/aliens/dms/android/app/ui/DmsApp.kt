@@ -84,7 +84,6 @@ import java.util.UUID
 
 @Composable
 fun DmsApp(
-    windowSizeClass: WindowSizeClass,
     mainViewModel: MainActivityViewModel,
     appState: DmsAppState = rememberDmsAppState(),
 ) {
@@ -195,8 +194,6 @@ fun DmsApp(
                                 onNavigateRemainApplication = {
                                     backStack.add(RemainScreenNav)
                                 },
-                                onNavigateOutingApplication = {},
-                                onNavigateVolunteerApplication = {},
                                 onNavigateVote = {
                                     resultStore.setResult<AllVoteSearch?>("vote_result", it)
                                     backStack.add(VoteScreenNav)
@@ -248,7 +245,7 @@ fun DmsApp(
                         }
                         entry<SettingScreenNav> {
                             SettingRoute(
-                                onBackPressed = { backStack.remove(SettingScreenNav) },
+                                onBack = { backStack.remove(SettingScreenNav) },
                                 onNavigateEditPassword = { backStack.add(CheckPasswordScreenNav) },
                                 onNavigateSelectProfile = { backStack.add(SelectProfileScreenNav) },
                                 onNavigateSignIn = {
@@ -268,7 +265,7 @@ fun DmsApp(
                         }
                         entry<EditPasswordScreenNav> {
                             EditPasswordRoute(
-                                onBackPressed = { backStack.removeLastOrNull() },
+                                onBack = { backStack.removeLastOrNull() },
                                 currentPassword = it.currentPassword,
                                 onNavigateSetting = {
                                     backStack.removeLastOrNull()
@@ -281,7 +278,7 @@ fun DmsApp(
                         }
                         entry<CheckPasswordScreenNav> {
                             CheckPasswordRoute(
-                                onBackPressed = { backStack.remove(CheckPasswordScreenNav) },
+                                onBack = { backStack.remove(CheckPasswordScreenNav) },
                                 onNavigateEditPassword = { backStack.add(EditPasswordScreenNav(it)) },
                                 onShowSnackBar = { snackBar, message ->
                                     appState.showSnackBar(snackBar, message)
@@ -290,7 +287,7 @@ fun DmsApp(
                         }
                         entry<SelectProfileScreenNav> {
                             SelectProfileRoute(
-                                onBackPressed = { backStack.remove(SelectProfileScreenNav) },
+                                onBack = { backStack.remove(SelectProfileScreenNav) },
                                 onNavigateAdjustProfile = { backStack.add(AdjustProfileScreenNav(model = it)) },
                                 onShowSnackBar = { snackBar, message ->
                                     appState.showSnackBar(snackBar, message)
@@ -299,7 +296,7 @@ fun DmsApp(
                         }
                         entry<AdjustProfileScreenNav> {
                             AdjustProfileRoute(
-                                onBackPressed = { backStack.remove(AdjustProfileScreenNav(it.model)) },
+                                onBack = { backStack.remove(AdjustProfileScreenNav(it.model)) },
                                 model = it.model,
                                 onShowSnackBar = { snackBar, message ->
                                     appState.showSnackBar(snackBar, message)
@@ -349,7 +346,7 @@ fun DmsApp(
                         }
                         entry<SignUpEnterSchoolVerificationCodeNav> {
                             SignUpEnterSchoolVerificationCodeRoute(
-                                onBackPressed = { backStack.removeLastOrNull() },
+                                onBack = { backStack.removeLastOrNull() },
                                 navigateToEnterSchoolVerificationQuestion = { signUpData ->
                                     backStack.add(SignUpEnterSchoolVerificationQuestionNav(signUpData))
                                 },
@@ -361,7 +358,7 @@ fun DmsApp(
                         entry<SignUpEnterSchoolVerificationQuestionNav> {
                             SignUpEnterSchoolVerificationQuestionRoute(
                                 signUpData = it.signUpData,
-                                onBackPressed = { backStack.removeLastOrNull() },
+                                onBack = { backStack.removeLastOrNull() },
                                 navigateToEnterEmail = { signUpData ->
                                     backStack.add(SignUpEnterEmailNav(signUpData))
                                 },
@@ -373,7 +370,7 @@ fun DmsApp(
                         entry<SignUpEnterEmailNav> {
                             SignUpEnterEmailRoute(
                                 signUpData = it.signUpData,
-                                onBackPressed = { backStack.removeLastOrNull() },
+                                onBack = { backStack.removeLastOrNull() },
                                 navigateToEnterEmailVerificationCode = { signUpData ->
                                     backStack.add(SignUpEnterEmailVerificationCodeNav(signUpData))
                                 },
@@ -385,7 +382,7 @@ fun DmsApp(
                         entry<SignUpEnterEmailVerificationCodeNav> {
                             SignUpEnterEmailVerificationCodeRoute(
                                 signUpData = it.signUpData,
-                                onBackPressed = { backStack.removeLastOrNull() },
+                                onBack = { backStack.removeLastOrNull() },
                                 navigateToEnterStudentNumber = { signUpData ->
                                     backStack.add(SignUpEnterStudentNumberNav(signUpData))
                                 },
@@ -397,7 +394,7 @@ fun DmsApp(
                         entry<SignUpEnterStudentNumberNav> {
                             SignUpEnterStudentNumberRoute(
                                 signUpData = it.signUpData,
-                                onBackPressed = { backStack.removeLastOrNull() },
+                                onBack = { backStack.removeLastOrNull() },
                                 navigateToSetId = { signUpData ->
                                     backStack.add(SignUpSetIdNav(signUpData))
                                 },
@@ -409,7 +406,7 @@ fun DmsApp(
                         entry<SignUpSetIdNav> {
                             SignUpSetIdRoute(
                                 signUpData = it.signUpData,
-                                onBackPressed = { backStack.removeLastOrNull() },
+                                onBack = { backStack.removeLastOrNull() },
                                 navigateToSetPassword = { signUpData ->
                                     backStack.add(SignUpSetPasswordNav(signUpData))
                                 },
@@ -421,7 +418,7 @@ fun DmsApp(
                         entry<SignUpSetPasswordNav> {
                             SignUpSetPasswordRoute(
                                 signUpData = it.signUpData,
-                                onBackPressed = { backStack.removeLastOrNull() },
+                                onBack = { backStack.removeLastOrNull() },
                                 navigateToTerms = { signUpData ->
                                     backStack.add(SignUpTermsNav(signUpData))
                                 },
@@ -430,7 +427,7 @@ fun DmsApp(
                         entry<SignUpTermsNav> {
                             SignUpTermsRoute(
                                 signUpData = it.signUpData,
-                                onBackPressed = { backStack.removeLastOrNull() },
+                                onBack = { backStack.removeLastOrNull() },
                                 navigateToComplete = { backStack.add(SignUpCompleteNav) },
                                 onShowSnackBar = { snackBarType, message ->
                                     appState.showSnackBar(snackBarType, message)

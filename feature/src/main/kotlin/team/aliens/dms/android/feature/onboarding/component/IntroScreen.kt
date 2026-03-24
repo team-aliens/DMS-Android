@@ -15,8 +15,10 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -30,11 +32,12 @@ import team.aliens.dms.android.core.designsystem.headlineB
 
 @Composable
 internal fun IntroContent(
-    modifier: Modifier = Modifier,
     onAnimatedEnd: () -> Unit,
+    modifier: Modifier = Modifier,
 ) {
-    var step by remember { mutableStateOf(0) }
+    var step by remember { mutableIntStateOf(0) }
     var isPointVisible by remember { mutableStateOf(false) }
+    val updatedOnAnimatedEnd by rememberUpdatedState(onAnimatedEnd)
     val pointColor by animateColorAsState(
         targetValue = if (isPointVisible) {
             DmsTheme.colorScheme.onPrimaryContainer
@@ -57,7 +60,7 @@ internal fun IntroContent(
         delay(300)
         step = 3
         delay(1200)
-        onAnimatedEnd()
+        updatedOnAnimatedEnd()
     }
 
     Box(

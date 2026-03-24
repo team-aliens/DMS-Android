@@ -14,6 +14,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalFocusManager
@@ -42,16 +43,18 @@ internal fun FindIdScreen(
     val viewModel: FindIdViewModel = hiltViewModel()
     val state by viewModel.uiState.collectAsStateWithLifecycle()
     val focusManager = LocalFocusManager.current
+    val updatedOnNavigateToBack by rememberUpdatedState(onNavigateToBack)
+    val updatedOnShowSnackBar by rememberUpdatedState(onShowSnackBar)
 
     LaunchedEffect(Unit) {
         viewModel.sideEffect.collect { effect ->
             when (effect) {
-                is FindIdSideEffect.NavigateBack -> onNavigateToBack()
-                is FindIdSideEffect.ShowServerErrorSnackBar -> onShowSnackBar(
+                is FindIdSideEffect.NavigateBack -> updatedOnNavigateToBack()
+                is FindIdSideEffect.ShowServerErrorSnackBar -> updatedOnShowSnackBar(
                     DmsSnackBarType.ERROR,
                     "서버에 문제가 발생했습니다.",
                 )
-                is FindIdSideEffect.ShowNumberErrorSnackBar -> onShowSnackBar(
+                is FindIdSideEffect.ShowNumberErrorSnackBar -> updatedOnShowSnackBar(
                     DmsSnackBarType.ERROR,
                     "학번을 확인해주세요.",
                 )
@@ -115,7 +118,7 @@ private fun FindIdScreen(
             .statusBarsPadding()
             .navigationBarsPadding(),
         topBar = {
-            DmsTopAppBar(onBackPressed = onBackClick)
+            DmsTopAppBar(onBackClick = onBackClick)
         },
     ) { paddingValues ->
         Column(

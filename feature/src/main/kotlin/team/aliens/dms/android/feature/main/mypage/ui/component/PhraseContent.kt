@@ -15,8 +15,8 @@ import team.aliens.dms.android.core.designsystem.bodyM
 
 @Composable
 internal fun PhraseContent(
-    modifier: Modifier = Modifier,
     phrase: String,
+    modifier: Modifier = Modifier,
 ) {
     Row(
         modifier = modifier

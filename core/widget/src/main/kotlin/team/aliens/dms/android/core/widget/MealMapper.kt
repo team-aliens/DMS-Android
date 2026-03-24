@@ -1,6 +1,5 @@
-package team.aliens.dms.android.core.widget.meal.mapper
+package team.aliens.dms.android.core.widget
 
-import team.aliens.dms.android.core.widget.meal.MealInfo
 import team.aliens.dms.android.data.meal.model.Meal
 
 internal fun Meal.toEntity() = MealInfo.Available(

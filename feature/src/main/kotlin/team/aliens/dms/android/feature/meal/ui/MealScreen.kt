@@ -154,9 +154,7 @@ private fun MealScreen(
             .navigationBarsPadding()
             .verticalScroll(rememberScrollState()),
     ) {
-        DmsTopAppBar(
-            onBackPressed = onBackClick,
-        )
+        DmsTopAppBar(onBackClick = onBackClick, )
         Box(
             modifier = Modifier
                 .fillMaxSize(),
@@ -262,4 +260,3 @@ internal enum class MealCardType(
         iconRes = R.drawable.img_dinner,
     ),
 }
-

@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -38,11 +39,12 @@ internal fun MyPage(
 ) {
     val viewModel: MyPageViewModel = hiltViewModel()
     val state by viewModel.uiState.collectAsStateWithLifecycle()
+    val updatedOnShowSnackBar by rememberUpdatedState(onShowSnackBar)
 
     LaunchedEffect(Unit) {
         viewModel.sideEffect.collect {
             when (it) {
-                is MyPageSideEffect.FailFetchMyPage -> onShowSnackBar(
+                is MyPageSideEffect.FailFetchMyPage -> updatedOnShowSnackBar(
                     DmsSnackBarType.ERROR, it.message,
                 )
             }
@@ -117,4 +119,3 @@ private fun MyPageScreen(
         }
     }
 }
-

@@ -1,6 +1,4 @@
 // TODO: Remove once KTIJ-19369 is fixed
-@Suppress("DSL_SCOPE_VIOLATION")
-
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
@@ -41,6 +39,13 @@ android {
 
     kotlinOptions {
         jvmTarget = Versions.java.toString()
+    }
+}
+
+if (providers.gradleProperty("enableComposeCompilerMetrics").isPresent) {
+    composeCompiler {
+        metricsDestination = layout.buildDirectory.dir("compose_metrics")
+        reportsDestination = layout.buildDirectory.dir("compose_metrics")
     }
 }
 

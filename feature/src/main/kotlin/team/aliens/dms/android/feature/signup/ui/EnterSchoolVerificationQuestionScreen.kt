@@ -12,6 +12,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalFocusManager
@@ -35,13 +36,15 @@ import team.aliens.dms.android.feature.signup.viewmodel.EnterSchoolVerificationQ
 @Composable
 internal fun EnterSchoolVerificationQuestionScreen(
     signUpData: SignUpData,
-    onBackPressed: () -> Unit,
+    onBack: () -> Unit,
     navigateToEnterEmail: (SignUpData) -> Unit,
     onShowSnackBar: (DmsSnackBarType, String) -> Unit,
 ) {
     val viewModel: EnterSchoolVerificationQuestionViewModel = hiltViewModel()
     val state by viewModel.uiState.collectAsState()
     val focusManager = LocalFocusManager.current
+    val updatedNavigateToEnterEmail by rememberUpdatedState(navigateToEnterEmail)
+    val updatedOnShowSnackBar by rememberUpdatedState(onShowSnackBar)
 
     LaunchedEffect(Unit) {
         viewModel.initialize(signUpData)
@@ -51,17 +54,17 @@ internal fun EnterSchoolVerificationQuestionScreen(
         viewModel.sideEffect.collect { effect ->
             when (effect) {
                 is EnterSchoolVerificationQuestionSideEffect.MoveToEnterEmail ->
-                    navigateToEnterEmail(effect.signUpData)
+                    updatedNavigateToEnterEmail(effect.signUpData)
                 is EnterSchoolVerificationQuestionSideEffect.ShowErrorSnackBar ->
-                    onShowSnackBar(DmsSnackBarType.ERROR, "올바르지 않은 답변이에요")
+                    updatedOnShowSnackBar(DmsSnackBarType.ERROR, "올바르지 않은 답변이에요")
                 is EnterSchoolVerificationQuestionSideEffect.ShowQuestionErrorSnackBar ->
-                    onShowSnackBar(DmsSnackBarType.ERROR, "질문을 불러오지 못했어요")
+                    updatedOnShowSnackBar(DmsSnackBarType.ERROR, "질문을 불러오지 못했어요")
             }
         }
     }
 
     EnterSchoolVerificationQuestionContent(
-        onBackPressed = onBackPressed,
+        onBack = onBack,
         onNextClick = viewModel::onNextClick,
         state = state,
         onVerificationAnswerChange = viewModel::setSchoolVerificationAnswer,
@@ -71,7 +74,7 @@ internal fun EnterSchoolVerificationQuestionScreen(
 
 @Composable
 private fun EnterSchoolVerificationQuestionContent(
-    onBackPressed: () -> Unit,
+    onBack: () -> Unit,
     onNextClick: () -> Unit,
     state: EnterSchoolVerificationQuestionState,
     onVerificationAnswerChange: (String) -> Unit,
@@ -87,10 +90,7 @@ private fun EnterSchoolVerificationQuestionContent(
                 detectTapGestures(onTap = { onClearFocus() })
             },
     ) {
-        DmsTopAppBar(
-            title = "회원가입",
-            onBackPressed = onBackPressed,
-        )
+        DmsTopAppBar(title = "회원가입", onBackClick = onBack, )
         DmsSymbolContent(
             modifier = Modifier
                 .topPadding(4.dp),

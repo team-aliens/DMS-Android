@@ -14,8 +14,8 @@ import team.aliens.dms.android.core.designsystem.bodyB
 
 @Composable
 internal fun PhraseCard(
-    modifier: Modifier = Modifier,
     phrase: String,
+    modifier: Modifier = Modifier,
 ) {
     Card(
         modifier = modifier.fillMaxWidth(),

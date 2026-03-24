@@ -15,9 +15,9 @@ import team.aliens.dms.android.core.designsystem.lBodyM
 fun DmsTab(
     selected: Boolean,
     onClick: () -> Unit,
+    text: String,
     modifier: Modifier = Modifier,
     enabled: Boolean = true,
-    text: String,
     icon: @Composable (() -> Unit)? = null,
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
     selectedContentColor: Color = DmsTheme.colorScheme.tertiaryContainer,

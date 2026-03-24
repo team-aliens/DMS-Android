@@ -40,13 +40,13 @@ import java.time.LocalDateTime
 
 @Composable
 internal fun StudentContent(
-    modifier: Modifier = Modifier,
     title: String,
     startTime: LocalDateTime,
     endTime: LocalDateTime,
     students: List<Student>,
     selectItem: String,
     onSelect: (String) -> Unit,
+    modifier: Modifier = Modifier,
 ) {
     val grades = listOf("1학년", "2학년", "3학년")
     val pagerState = rememberPagerState(
@@ -111,12 +111,12 @@ internal fun StudentContent(
 
 @Composable
 private fun StudentItem(
-    modifier: Modifier = Modifier,
     profileImageUrl: String,
     name: String,
     gcn: String,
     isSelected: Boolean,
     onClick: () -> Unit,
+    modifier: Modifier = Modifier,
 ) {
     val backgroundColor = if (isSelected) {
         DmsTheme.colorScheme.surfaceVariant
