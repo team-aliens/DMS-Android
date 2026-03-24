@@ -2,7 +2,7 @@ name: Release
 
 on:
   push:
-    branches: ['feature/847-detekt-도입']
+    branches: ['feature/849-cd-적용']
     tags: ['v*']
   workflow_dispatch:
     inputs:
