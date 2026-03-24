@@ -61,13 +61,8 @@ jobs:
           printf '%s' "$SECRET" > "$TARGET"
           jq -e . "$TARGET" > /dev/null
 
-      # ── ktlint ─────────────────────────────────
-      - name: Check code style (ktlint)
-        run: ./gradlew ktlintCheck --continue
-
-      # ── detekt ─────────────────────────────────
-      - name: Run detekt
-        run: ./gradlew detekt --continue
+      - name: Run static analysis
+        run: ./gradlew ktlintCheck detekt lintDebug --continue
 
       - name: Merge detekt SARIF reports
         if: always()
@@ -107,10 +102,6 @@ jobs:
         with:
           sarif_file: build/detekt-sarif/merged.sarif
           category: detekt
-
-      # ── lint ────────────────────────────────────
-      - name: Run lint (Debug)
-        run: ./gradlew lintDebug --continue
 
       - name: Collect lint reports
         if: always()

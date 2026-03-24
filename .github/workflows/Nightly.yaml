@@ -3,9 +3,6 @@ name: Nightly
 on:
   schedule:
     - cron: '0 17 * * *'   # 매일 UTC 17:00 (KST 02:00)
-  push:
-    branches:
-      - feature/847-detekt-도입
   workflow_dispatch:
 
 concurrency:
@@ -62,13 +59,8 @@ jobs:
           printf '%s' "$SECRET" > "$TARGET"
           jq -e . "$TARGET" > /dev/null
 
-      # ── ktlint ─────────────────────────────────
-      - name: Check code style (ktlint)
-        run: ./gradlew ktlintCheck --continue
-
-      # ── detekt ─────────────────────────────────
-      - name: Run detekt
-        run: ./gradlew detekt --continue
+      - name: Run static analysis
+        run: ./gradlew ktlintCheck detekt lintRelease --continue
 
       - name: Merge detekt SARIF reports
         if: always()
@@ -108,10 +100,6 @@ jobs:
         with:
           sarif_file: build/detekt-sarif/merged.sarif
           category: detekt-nightly
-
-      # ── lint Release ────────────────────────────
-      - name: Run lint (Release)
-        run: ./gradlew lintRelease --continue
 
       - name: Collect lint reports
         if: always()
@@ -207,7 +195,15 @@ jobs:
           path: app/build/outputs/apk/release/*.apk
           retention-days: 30
 
+      - name: Cache mendable.jar
+        id: mendable-cache
+        uses: actions/cache@v4
+        with:
+          path: tools/mendable.jar
+          key: mendable-jar-v0.7.0
+
       - name: Download mendable.jar
+        if: steps.mendable-cache.outputs.cache-hit != 'true'
         run: |
           mkdir -p tools
           curl -fL --retry 3 --retry-delay 2 \
