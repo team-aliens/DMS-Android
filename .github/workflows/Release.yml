@@ -66,6 +66,20 @@ jobs:
           printf '%s' "$SECRET" > "$TARGET"
           jq -e . "$TARGET" > /dev/null
 
+      - name: Validate signing secrets
+        env:
+          KEYSTORE_BASE64: ${{ secrets.KEYSTORE_BASE64 }}
+          KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
+          KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
+          KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
+        run: |
+          for name in KEYSTORE_BASE64 KEYSTORE_PASSWORD KEY_ALIAS KEY_PASSWORD; do
+            if [ -z "${!name}" ]; then
+              echo "Missing required signing secret: $name"
+              exit 1
+            fi
+          done
+
       - name: Decode and restore keystore
         run: |
           KEYSTORE_PATH="${RUNNER_TEMP}/dmsStore.jks"
@@ -78,6 +92,17 @@ jobs:
           KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
           KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
         run: ./gradlew bundleRelease
+
+      - name: Verify signed AAB
+        run: |
+          AAB_PATH="app/build/outputs/bundle/release/app-release.aab"
+
+          if [ ! -f "$AAB_PATH" ]; then
+            echo "Missing AAB: $AAB_PATH"
+            exit 1
+          fi
+
+          jarsigner -verify -verbose -certs "$AAB_PATH"
 
       - name: Upload AAB artifact
         uses: actions/upload-artifact@v7
@@ -139,6 +164,12 @@ jobs:
             echo "Missing release notes file: build/play-whatsnew/whatsnew-ko-KR"
             exit 1
           fi
+
+      - name: Verify downloaded AAB signature
+        run: |
+          shopt -s nullglob
+          files=(app/build/outputs/bundle/release/*.aab)
+          jarsigner -verify -verbose -certs "${files[0]}"
 
       - name: Prepare Google Play service account file
         env:
