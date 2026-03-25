@@ -3,6 +3,7 @@ package team.aliens.dms.android.core.ui
 import android.annotation.SuppressLint
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.NonRestartableComposable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberUpdatedState
 import androidx.lifecycle.Lifecycle
@@ -16,7 +17,7 @@ import kotlinx.coroutines.withContext
 /**
  * copied from [Jetpack Compose MVI Coroutines Flow](https://github.com/Kotlin-Android-Open-Source/Jetpack-Compose-MVI-Coroutines-Flow)
  */
-@SuppressLint("ComposableNaming")
+@NonRestartableComposable
 @Composable
 fun <T> Flow<T>.collectInLaunchedEffectWithLifecycle(
     vararg keys: Any?,
