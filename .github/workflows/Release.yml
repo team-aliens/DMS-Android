@@ -141,12 +141,20 @@ jobs:
           fi
 
       - name: Prepare Google Play service account file
+        env:
+          GOOGLE_CLOUD_PLATFORM_SECRET: ${{ secrets.GOOGLE_CLOUD_PLATFORM }}
+          GOOGLE_CLOUD_PLATFORM_VAR: ${{ vars.GOOGLE_CLOUD_PLATFORM }}
         run: |
-          SERVICE_ACCOUNT='${{ secrets.GOOGLE_PLAY_SERVICE_ACCOUNT_JSON }}'
+          SERVICE_ACCOUNT="${GOOGLE_CLOUD_PLATFORM_SECRET:-$GOOGLE_CLOUD_PLATFORM_VAR}"
           TARGET='${{ runner.temp }}/google-play-service-account.json'
 
+          if [ -z "$SERVICE_ACCOUNT" ]; then
+            echo "Missing GOOGLE_CLOUD_PLATFORM (set it as an Actions secret or variable containing raw service-account JSON)"
+            exit 1
+          fi
+
           if ! printf '%s' "$SERVICE_ACCOUNT" | jq -e '.client_email and .private_key' > /dev/null 2>&1; then
-            echo "Invalid GOOGLE_PLAY_SERVICE_ACCOUNT_JSON secret"
+            echo "Invalid GOOGLE_CLOUD_PLATFORM secret"
             exit 1
           fi
 
