@@ -176,7 +176,7 @@ jobs:
           serviceAccountJson: ${{ runner.temp }}/google-play-service-account.json
           packageName: team.aliens.dms
           releaseFiles: app/build/outputs/bundle/release/*.aab
-          tracks: ${{ steps.track.outputs.track }}
+          track: ${{ steps.track.outputs.track }}
           whatsNewDirectory: build/play-whatsnew
 
   # ──────────────────────────────────────────────
