@@ -30,7 +30,7 @@ private val bottomMenus = listOf(
 
 @Composable
 fun BottomNavigationBar(
-    currentScreen: NavKey?,
+    currentScreen: String,
     onNavigate: (NavKey) -> Unit,
 ) {
     BottomAppBar(
@@ -40,7 +40,7 @@ fun BottomNavigationBar(
         containerColor = DmsTheme.colorScheme.surfaceTint,
     ) {
         bottomMenus.forEach { destination ->
-            val selected = currentScreen == destination.route
+            val selected = currentScreen == destination.route.toString()
             val color by animateColorAsState(
                 targetValue = if (selected) {
                     DmsTheme.colorScheme.inverseOnSurface

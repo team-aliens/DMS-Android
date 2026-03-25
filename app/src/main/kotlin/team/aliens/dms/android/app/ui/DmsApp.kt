@@ -120,7 +120,7 @@ fun DmsApp(
             bottomBar = {
                 if (shouldShowBottomBar) {
                     BottomNavigationBar(
-                        currentScreen = currentScreen,
+                        currentScreen = currentScreen.toString(),
                         onNavigate = { destination ->
                             if (currentScreen != destination) {
                                 when (destination) {
