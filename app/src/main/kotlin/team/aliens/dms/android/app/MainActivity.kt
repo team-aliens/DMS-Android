@@ -53,9 +53,7 @@ class MainActivity : ComponentActivity() {
         checkAppUpdate()
         setContent {
             DmsTheme {
-                DmsApp(
-                    mainViewModel = mainViewModel,
-                )
+                DmsApp()
             }
         }
 

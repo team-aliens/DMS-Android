@@ -16,6 +16,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation3.runtime.entryProvider
 import androidx.navigation3.runtime.rememberNavBackStack
 import androidx.navigation3.ui.NavDisplay
@@ -84,9 +85,9 @@ import java.util.UUID
 
 @Composable
 fun DmsApp(
-    mainViewModel: MainActivityViewModel,
     appState: DmsAppState = rememberDmsAppState(),
 ) {
+    val mainViewModel: MainActivityViewModel = viewModel()
     val isJwtAvailable by mainViewModel.autoSignInAvailable.collectAsState()
     val isOnboardingCompleted by mainViewModel.isOnboardingCompleted.collectAsState()
 
