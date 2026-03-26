@@ -23,8 +23,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
@@ -47,9 +47,9 @@ import team.aliens.dms.android.core.designsystem.util.clickable
 import team.aliens.dms.android.data.point.model.PointType
 import team.aliens.dms.android.feature.notification.ui.component.NoticeItem
 import team.aliens.dms.android.feature.notification.viewmodel.NotificationSideEffect
-import team.aliens.dms.android.feature.notification.viewmodel.NotificationViewModel
 import team.aliens.dms.android.feature.notification.viewmodel.NotificationState
 import team.aliens.dms.android.feature.notification.viewmodel.NotificationUi
+import team.aliens.dms.android.feature.notification.viewmodel.NotificationViewModel
 import java.util.UUID
 
 @Composable
@@ -125,7 +125,7 @@ private fun NotificationScreen(
             .background(DmsTheme.colorScheme.background)
             .systemBarsPadding(),
     ) {
-        DmsTopAppBar(onBackClick = onBackClick, )
+        DmsTopAppBar(onBackClick = onBackClick)
         DmsTabRow(
             selectedTabIndex = tabIndex,
         ) {
@@ -149,7 +149,7 @@ private fun NotificationScreen(
                 )
             } else {
                 NoticeItems(
-                    notices = state.notices,
+                    notices = state.notices.toPersistentList(),
                     onNotificationDetailClick = onNotificationDetailClick,
                 )
             }
@@ -181,7 +181,7 @@ internal fun NotificationItems(
 
 @Composable
 private fun NoticeItems(
-    notices: List<NotificationUi>,
+    notices: ImmutableList<NotificationUi>,
     onNotificationDetailClick: (UUID, UUID) -> Unit,
     modifier: Modifier = Modifier,
 ) {
