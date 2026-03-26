@@ -1,5 +1,6 @@
 package team.aliens.dms.android.feature.main.home.viewmodel
 
+import androidx.compose.runtime.Immutable
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -50,6 +51,7 @@ internal class HomeViewModel @Inject constructor(
     }
 }
 
+@Immutable
 internal data class HomeState(
     val myPage: MyPage = MyPage(),
     val latestNotice: LatestNotice = LatestNotice(),
