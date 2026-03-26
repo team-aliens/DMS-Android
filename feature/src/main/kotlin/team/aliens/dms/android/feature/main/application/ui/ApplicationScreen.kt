@@ -22,6 +22,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import kotlinx.collections.immutable.toPersistentList
 import kotlinx.coroutines.launch
 import team.aliens.dms.android.core.designsystem.DmsTheme
 import team.aliens.dms.android.core.designsystem.bodyM
@@ -136,7 +137,7 @@ private fun ApplicationScreen(
                         )
                     }
                     VoteContent(
-                        votes = state.votes,
+                        votes = state.votes.toPersistentList(),
                         onNavigateVote = onNavigateVote,
                     )
                 }

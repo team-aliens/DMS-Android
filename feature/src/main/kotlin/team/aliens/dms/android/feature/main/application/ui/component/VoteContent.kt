@@ -8,16 +8,16 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import kotlinx.collections.immutable.ImmutableList
 import team.aliens.dms.android.core.designsystem.R
 import team.aliens.dms.android.core.designsystem.card.DmsApplicationCard
 import team.aliens.dms.android.core.ui.util.toDateString
 import team.aliens.dms.android.data.voting.model.AllVoteSearch
 import team.aliens.dms.android.data.voting.model.Vote
-import team.aliens.dms.android.shared.date.toDate
 
 @Composable
 internal fun VoteContent(
-    votes: List<AllVoteSearch>,
+    votes: ImmutableList<AllVoteSearch>,
     onNavigateVote: (AllVoteSearch) -> Unit,
     modifier: Modifier = Modifier,
 ) {
