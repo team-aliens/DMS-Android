@@ -1,0 +1,281 @@
+name: Release
+
+on:
+  push:
+    tags: ['v*']
+  workflow_dispatch:
+    inputs:
+      track:
+        description: 'Play Store 배포 트랙'
+        type: choice
+        options: [internal, alpha, beta, production]
+        default: internal
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  # ──────────────────────────────────────────────
+  # JOB 1 : 서명된 AAB 빌드
+  # ──────────────────────────────────────────────
+  build-signed-bundle:
+    name: Build Signed Bundle
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Set up JDK 21
+        uses: actions/setup-java@v5
+        with:
+          java-version: '21'
+          distribution: 'temurin'
+
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v6
+        with:
+          cache-encryption-key: ${{ secrets.GRADLE_ENCRYPTION_KEY }}
+
+      - name: Grant execute permission for gradlew
+        run: chmod +x gradlew
+
+      - name: Generate local.properties
+        run: |
+          echo "$PROD_BASE_URL" >> ./local.properties
+          echo "$DEV_BASE_URL"  >> ./local.properties
+          echo "$TERMS_URL"     >> ./local.properties
+        env:
+          PROD_BASE_URL: ${{ secrets.PROD_BASE_URL }}
+          DEV_BASE_URL:  ${{ secrets.DEV_BASE_URL }}
+          TERMS_URL:     ${{ secrets.TERMS_URL }}
+
+      - name: Create google-services.json
+        run: |
+          mkdir -p ${{ github.workspace }}/app
+          SECRET='${{ secrets.GOOGLE_SERVICES_JSON }}'
+          TARGET='${{ github.workspace }}/app/google-services.json'
+
+          if ! printf '%s' "$SECRET" | jq -e . > /dev/null 2>&1; then
+            echo "Invalid GOOGLE_SERVICES_JSON secret: must be raw JSON content from app/google-services.json"
+            exit 1
+          fi
+
+          printf '%s' "$SECRET" > "$TARGET"
+          jq -e . "$TARGET" > /dev/null
+
+      - name: Validate signing secrets
+        env:
+          KEYSTORE_BASE64: ${{ secrets.KEYSTORE_BASE64 }}
+          KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
+          KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
+          KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
+        run: |
+          for name in KEYSTORE_BASE64 KEYSTORE_PASSWORD KEY_ALIAS KEY_PASSWORD; do
+            if [ -z "${!name}" ]; then
+              echo "Missing required signing secret: $name"
+              exit 1
+            fi
+          done
+
+      - name: Decode and restore keystore
+        run: |
+          KEYSTORE_PATH="${RUNNER_TEMP}/dmsStore.jks"
+          echo "${{ secrets.KEYSTORE_BASE64 }}" | tr -d ' \n\r' | base64 --decode > "$KEYSTORE_PATH"
+          echo "KEYSTORE_PATH=$KEYSTORE_PATH" >> $GITHUB_ENV
+
+      - name: Build Release AAB
+        env:
+          KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
+          KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
+          KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
+        run: ./gradlew bundleRelease
+
+      - name: Verify signed AAB
+        run: |
+          AAB_PATH="app/build/outputs/bundle/release/app-release.aab"
+
+          if [ ! -f "$AAB_PATH" ]; then
+            echo "Missing AAB: $AAB_PATH"
+            exit 1
+          fi
+
+          jarsigner -verify -verbose -certs "$AAB_PATH"
+
+      - name: Upload AAB artifact
+        uses: actions/upload-artifact@v7
+        with:
+          name: release-aab
+          path: app/build/outputs/bundle/release/*.aab
+          retention-days: 30
+
+  # ──────────────────────────────────────────────
+  # JOB 2 : Play Store 업로드
+  # ──────────────────────────────────────────────
+  deploy-play-store:
+    name: Deploy to Play Store
+    runs-on: ubuntu-latest
+    needs: build-signed-bundle
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Download AAB artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: release-aab
+          path: app/build/outputs/bundle/release/
+
+      - name: Prepare versioned changelog
+        run: |
+          VERSION_CODE=$(grep -oP '(?<=VERSION_CODE = )\d+' buildSrc/src/main/kotlin/ProjectProperties.kt)
+          cp app/src/main/play/release-notes/ko-KR/default.txt \
+             app/src/main/play/release-notes/ko-KR/${VERSION_CODE}.txt
+          echo "Changelog ready: ${VERSION_CODE}.txt"
+
+      - name: Prepare Google Play release notes directory
+        run: |
+          VERSION_CODE=$(grep -oP '(?<=VERSION_CODE = )\d+' buildSrc/src/main/kotlin/ProjectProperties.kt)
+          NOTES_SRC="app/src/main/play/release-notes/ko-KR/default.txt"
+          VERSIONED_SRC="app/src/main/play/release-notes/ko-KR/${VERSION_CODE}.txt"
+          NOTES_DIR="build/play-whatsnew"
+
+          if [ -f "$VERSIONED_SRC" ]; then
+            NOTES_SRC="$VERSIONED_SRC"
+          fi
+
+          mkdir -p "$NOTES_DIR"
+          cp "$NOTES_SRC" "$NOTES_DIR/whatsnew-ko-KR"
+          ls -la "$NOTES_DIR"
+
+      - name: Validate upload inputs
+        run: |
+          shopt -s nullglob
+          files=(app/build/outputs/bundle/release/*.aab)
+          if [ ${#files[@]} -eq 0 ]; then
+            echo "No AAB found at app/build/outputs/bundle/release/*.aab"
+            exit 1
+          fi
+
+          if [ ! -f "build/play-whatsnew/whatsnew-ko-KR" ]; then
+            echo "Missing release notes file: build/play-whatsnew/whatsnew-ko-KR"
+            exit 1
+          fi
+
+      - name: Verify downloaded AAB signature
+        run: |
+          shopt -s nullglob
+          files=(app/build/outputs/bundle/release/*.aab)
+          jarsigner -verify -verbose -certs "${files[0]}"
+
+      - name: Prepare Google Play service account file
+        env:
+          GOOGLE_CLOUD_PLATFORM_SECRET: ${{ secrets.GOOGLE_CLOUD_PLATFORM }}
+          GOOGLE_CLOUD_PLATFORM_VAR: ${{ vars.GOOGLE_CLOUD_PLATFORM }}
+        run: |
+          SERVICE_ACCOUNT="${GOOGLE_CLOUD_PLATFORM_SECRET:-$GOOGLE_CLOUD_PLATFORM_VAR}"
+          TARGET='${{ runner.temp }}/google-play-service-account.json'
+
+          if [ -z "$SERVICE_ACCOUNT" ]; then
+            echo "Missing GOOGLE_CLOUD_PLATFORM (set it as an Actions secret or variable containing raw service-account JSON)"
+            exit 1
+          fi
+
+          if ! printf '%s' "$SERVICE_ACCOUNT" | jq -e '.client_email and .private_key' > /dev/null 2>&1; then
+            echo "Invalid GOOGLE_CLOUD_PLATFORM secret"
+            exit 1
+          fi
+
+          printf '%s' "$SERVICE_ACCOUNT" > "$TARGET"
+          chmod 600 "$TARGET"
+
+      - name: Determine deploy track
+        id: track
+        run: |
+          if [ "${{ github.event_name }}" = "push" ]; then
+            echo "track=internal" >> $GITHUB_OUTPUT
+          else
+            echo "track=${{ github.event.inputs.track }}" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Upload to Google Play
+        uses: r0adkll/upload-google-play@v1.1.3
+        with:
+          serviceAccountJson: ${{ runner.temp }}/google-play-service-account.json
+          packageName: team.aliens.dms
+          releaseFiles: app/build/outputs/bundle/release/*.aab
+          track: ${{ steps.track.outputs.track }}
+          whatsNewDirectory: build/play-whatsnew
+
+  # ──────────────────────────────────────────────
+  # JOB 3 : 결과 알림
+  # ──────────────────────────────────────────────
+  notify:
+    name: Notify Result
+    runs-on: ubuntu-latest
+    needs: deploy-play-store
+    if: always()
+
+    steps:
+      - name: Determine result
+        id: result
+        run: |
+          DEPLOY="${{ needs.deploy-play-store.result }}"
+
+          if [[ "$DEPLOY" == "success" ]]; then
+            echo "emoji=🚀"                >> $GITHUB_OUTPUT
+            echo "label=Play Store 배포 성공" >> $GITHUB_OUTPUT
+            echo "color=good"              >> $GITHUB_OUTPUT
+            echo "color_int=3066993"       >> $GITHUB_OUTPUT
+          else
+            echo "emoji=❌"                >> $GITHUB_OUTPUT
+            echo "label=Play Store 배포 실패" >> $GITHUB_OUTPUT
+            echo "color=danger"            >> $GITHUB_OUTPUT
+            echo "color_int=15158332"      >> $GITHUB_OUTPUT
+          fi
+
+      - name: Notify Slack
+        continue-on-error: true
+        uses: slackapi/slack-github-action@v2.0.0
+        with:
+          webhook: ${{ secrets.SLACK_WEBHOOK_URL }}
+          webhook-type: incoming-webhook
+          payload: |
+            {
+              "text": "${{ steps.result.outputs.emoji }} *${{ steps.result.outputs.label }}*",
+              "attachments": [{
+                "color": "${{ steps.result.outputs.color }}",
+                "fields": [
+                  { "title": "Repository",   "value": "${{ github.repository }}", "short": true },
+                  { "title": "Tag",          "value": "${{ github.ref_name }}",   "short": true },
+                  { "title": "Triggered by", "value": "${{ github.actor }}",      "short": true },
+                  { "title": "Run",
+                    "value": "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}",
+                    "short": false }
+                ]
+              }]
+            }
+
+      - name: Notify Discord
+        env:
+          DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK_URL }}
+          LABEL: ${{ steps.result.outputs.label }}
+          COLOR: ${{ steps.result.outputs.color_int }}
+          DEPLOY_RESULT: ${{ needs.deploy-play-store.result }}
+        run: |
+          curl -s -X POST "$DISCORD_WEBHOOK" \
+            -H "Content-Type: application/json" \
+            -d "{
+              \"embeds\": [{
+                \"title\": \"$LABEL\",
+                \"color\": $COLOR,
+                \"fields\": [
+                  { \"name\": \"Repository\", \"value\": \"${{ github.repository }}\", \"inline\": true },
+                  { \"name\": \"Tag\",        \"value\": \"${{ github.ref_name }}\",   \"inline\": true },
+                  { \"name\": \"Run\",
+                    \"value\": \"[View Run](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }})\" }
+                ]
+              }]
+            }"
