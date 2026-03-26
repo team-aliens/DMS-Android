@@ -12,6 +12,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import kotlinx.collections.immutable.ImmutableList
 import team.aliens.dms.android.core.designsystem.DmsTheme
 import team.aliens.dms.android.core.designsystem.bodyB
 
@@ -19,7 +20,7 @@ import team.aliens.dms.android.core.designsystem.bodyB
 internal fun MealContent(
     daily: String,
     kcal: String?,
-    meal: List<String>,
+    meal: ImmutableList<String>,
     modifier: Modifier = Modifier,
 ) {
     Column(

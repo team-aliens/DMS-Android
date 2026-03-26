@@ -10,7 +10,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.PagerState
@@ -39,6 +38,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import kotlinx.collections.immutable.ImmutableList
+import kotlinx.collections.immutable.persistentListOf
 import kotlinx.collections.immutable.toPersistentList
 import kotlinx.coroutines.launch
 import team.aliens.dms.android.core.designsystem.DmsTheme
@@ -47,17 +47,17 @@ import team.aliens.dms.android.core.designsystem.appbar.DmsTopAppBar
 import team.aliens.dms.android.core.designsystem.button.DmsIconButton
 import team.aliens.dms.android.core.designsystem.button.DmsItemButton
 import team.aliens.dms.android.core.designsystem.calendar.DmsCalendar
-import team.aliens.dms.android.core.designsystem.foundation.DmsIcon
 import team.aliens.dms.android.core.designsystem.endPadding
+import team.aliens.dms.android.core.designsystem.foundation.DmsIcon
 import team.aliens.dms.android.core.designsystem.horizontalPadding
 import team.aliens.dms.android.core.designsystem.startPadding
 import team.aliens.dms.android.core.designsystem.topPadding
+import team.aliens.dms.android.core.ui.util.toLocale
 import team.aliens.dms.android.feature.meal.component.DateChip
 import team.aliens.dms.android.feature.meal.component.MealContent
 import team.aliens.dms.android.feature.meal.viewmodel.MealState
 import team.aliens.dms.android.feature.meal.viewmodel.MealViewModel
 import team.aliens.dms.android.feature.meal.viewmodel.getProperMeal
-import team.aliens.dms.android.shared.date.util.now
 
 const val MAX_CALENDAR_COUNT = 366
 
@@ -81,9 +81,9 @@ internal fun Meal(
         MealCardType.DINNER -> state.meal.dinner to state.meal.kcalOfDinner
     }
     val mealCardGradientColors = when (state.currentCardType) {
-        MealCardType.BREAKFAST -> listOf(Color(0xFF0F6EFE), Color(0xFFFFCB52))
-        MealCardType.LUNCH -> listOf(Color(0xFF0F6EFE), Color(0xFFFFFFFF))
-        MealCardType.DINNER -> listOf(Color(0xFF7A3BA1), Color(0xFFFFFFFF))
+        MealCardType.BREAKFAST -> persistentListOf(Color(0xFF0F6EFE), Color(0xFFFFCB52))
+        MealCardType.LUNCH -> persistentListOf(Color(0xFF0F6EFE), Color(0xFFFFFFFF))
+        MealCardType.DINNER -> persistentListOf(Color(0xFF7A3BA1), Color(0xFFFFFFFF))
     }
     val backgroundGradient = Brush.verticalGradient(mealCardGradientColors)
     val scope = rememberCoroutineScope()
@@ -106,7 +106,7 @@ internal fun Meal(
         ) {
             DmsCalendar(
                 modifier = Modifier.fillMaxWidth(),
-                selectDate = state.selectedDate,
+                selectDate = state.selectedDate.toString(),
                 onSelectedDateChange = viewModel::setDate,
             )
         }
@@ -173,11 +173,13 @@ private fun MealScreen(
                 modifier = Modifier.fillMaxSize(),
                 horizontalAlignment = Alignment.CenterHorizontally,
             ) {
-                DateChip(
-                    date = state.selectedDate,
-                    onDateClick = onCalendarClick,
-                )
-
+                with(state.selectedDate) {
+                    DateChip(
+                        dateText = "${year}.${monthValue}.${dayOfMonth} (${dayOfWeek.toLocale()})",
+                        onDateClick = onCalendarClick,
+                    )
+                }
+                
                 Box(
                     modifier = Modifier.fillMaxWidth(),
                 ) {

@@ -18,7 +18,7 @@ import team.aliens.dms.android.core.ui.util.toLocale
 
 @Composable
 internal fun DateChip(
-    date: LocalDate,
+    dateText: String,
     onDateClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
@@ -34,7 +34,7 @@ internal fun DateChip(
             .padding(horizontal = 12.dp, vertical = 16.dp),
     ) {
         Text(
-            text = "${date.year}.${date.monthValue}.${date.dayOfMonth} (${date.dayOfWeek.toLocale()})",
+            text = dateText,
             style = DmsTheme.typography.bodyB,
             color = DmsTheme.colorScheme.onPrimaryContainer,
         )
