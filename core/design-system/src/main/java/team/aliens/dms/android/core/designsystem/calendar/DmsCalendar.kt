@@ -32,7 +32,6 @@ import team.aliens.dms.android.core.designsystem.button.DmsButton
 import team.aliens.dms.android.core.designsystem.horizontalPadding
 import team.aliens.dms.android.core.designsystem.util.clickable
 import team.aliens.dms.android.core.designsystem.verticalPadding
-import team.aliens.dms.android.shared.date.toDate
 import team.aliens.dms.android.shared.date.toLocalDate
 import java.time.LocalDate
 import java.time.YearMonth
