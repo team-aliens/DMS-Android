@@ -43,13 +43,6 @@ android {
     }
 }
 
-if (providers.gradleProperty("enableComposeCompilerMetrics").isPresent) {
-    composeCompiler {
-        metricsDestination = layout.buildDirectory.dir("compose_metrics")
-        reportsDestination = layout.buildDirectory.dir("compose_metrics")
-    }
-}
-
 dependencies {
 
     implementation(project(ProjectPaths.Shared.DATE))
