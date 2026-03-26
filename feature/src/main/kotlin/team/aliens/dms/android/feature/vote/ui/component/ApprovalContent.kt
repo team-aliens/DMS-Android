@@ -22,6 +22,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import kotlinx.collections.immutable.ImmutableList
 import team.aliens.dms.android.core.designsystem.DmsTheme
 import team.aliens.dms.android.core.designsystem.R
 import team.aliens.dms.android.core.designsystem.bodyM
@@ -36,7 +37,7 @@ import team.aliens.dms.android.data.voting.model.VotingItem
 @Composable
 internal fun ApprovalContent(
     title: String,
-    options: List<VotingItem>,
+    options: ImmutableList<VotingItem>,
     selectItem: String,
     onSelect: (String) -> Unit,
     modifier: Modifier = Modifier,

@@ -1,8 +1,12 @@
 package team.aliens.dms.android.feature.vote.viewmodel
 
 import android.util.Log
+import androidx.compose.runtime.Immutable
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.collections.immutable.ImmutableList
+import kotlinx.collections.immutable.persistentListOf
+import kotlinx.collections.immutable.toPersistentList
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import team.aliens.dms.android.core.network.exception.ConflictException
@@ -46,7 +50,7 @@ internal class VoteViewModel @Inject constructor(
     private fun getStudents() {
         viewModelScope.launch(Dispatchers.IO) {
             studentRepository.fetchStudents()
-                .onSuccess { student -> setState { it.copy(students = student) } }
+                .onSuccess { student -> setState { it.copy(students = student.toPersistentList()) } }
                 .onFailure {
                     sendEffect(VoteSideEffect.VoteLoadFail)
                 }
@@ -56,7 +60,7 @@ internal class VoteViewModel @Inject constructor(
     private fun getVoteItems() {
         viewModelScope.launch(Dispatchers.IO) {
             voteRepository.fetchCheckVotingItem(uiState.value.vote.id)
-                .onSuccess { voteItems -> setState { it.copy(options = voteItems) } }
+                .onSuccess { voteItems -> setState { it.copy(options = voteItems.toPersistentList()) } }
                 .onFailure {
                     sendEffect(VoteSideEffect.VoteLoadFail)
                 }
@@ -66,7 +70,7 @@ internal class VoteViewModel @Inject constructor(
     private fun getCandidateModelStudents() {
         viewModelScope.launch(Dispatchers.IO) {
             voteRepository.fetchModelStudentCandidates(requestDate = today)
-                .onSuccess { modelStudents -> setState { it.copy(modelStudent = modelStudents) } }
+                .onSuccess { modelStudents -> setState { it.copy(modelStudent = modelStudents.toPersistentList()) } }
                 .onFailure {
                     sendEffect(VoteSideEffect.VoteLoadFail)
                 }
@@ -106,11 +110,12 @@ internal class VoteViewModel @Inject constructor(
     }
 }
 
+@Immutable
 internal data class VoteState(
     val vote: AllVoteSearch = AllVoteSearch(),
-    val options: List<VotingItem> = emptyList(),
-    val students: List<Student> = emptyList(),
-    val modelStudent: List<Student> = emptyList(),
+    val options: ImmutableList<VotingItem> = persistentListOf(),
+    val students: ImmutableList<Student> = persistentListOf(),
+    val modelStudent: ImmutableList<Student> = persistentListOf(),
     val selectId: UUID? = null,
     val buttonEnabled: Boolean = false,
     val isLoading: Boolean = false,
