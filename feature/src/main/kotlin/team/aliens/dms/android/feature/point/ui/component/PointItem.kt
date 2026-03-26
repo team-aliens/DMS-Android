@@ -1,42 +1,34 @@
 package team.aliens.dms.android.feature.point.ui.component
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import kotlinx.datetime.format.FormatStringsInDatetimeFormats
-import kotlinx.datetime.format.byUnicodePattern
 import team.aliens.dms.android.core.designsystem.DmsTheme
 import team.aliens.dms.android.core.designsystem.R
 import team.aliens.dms.android.core.designsystem.bodyB
 import team.aliens.dms.android.core.designsystem.labelM
 import team.aliens.dms.android.data.point.model.PointType
-import kotlinx.datetime.LocalDate
+import team.aliens.dms.android.shared.date.toLocalDate
 
 @OptIn(FormatStringsInDatetimeFormats::class)
 @Composable
 internal fun PointItem(
     name: String,
     point: Int,
-    date: LocalDate,
+    date: String,
     pointType: PointType,
     modifier: Modifier = Modifier,
 ) {
-    val formatter = LocalDate.Format {
-        byUnicodePattern("yyyy.MM.dd")
-    }
     Row(
         modifier = modifier
             .fillMaxWidth()
@@ -44,14 +36,14 @@ internal fun PointItem(
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(12.dp),
     ) {
-        val (backgroundColor, icon, pointColor) = if (pointType == PointType.BONUS) {
-            Triple(
-                DmsTheme.colorScheme.onPrimary,
+        val (icon, pointColor) = if (pointType == PointType.BONUS) {
+            Pair(
+
                 R.drawable.ic_plus,
                 DmsTheme.colorScheme.onPrimaryContainer,
             )
         } else {
-            Triple(DmsTheme.colorScheme.onError, R.drawable.ic_minus, DmsTheme.colorScheme.onErrorContainer)
+            Pair(R.drawable.ic_minus, DmsTheme.colorScheme.onErrorContainer)
         }
         Box(
             contentAlignment = Alignment.Center,
@@ -73,7 +65,7 @@ internal fun PointItem(
             color = pointColor,
         )
         Text(
-            text = formatter.format(date),
+            text = "${date.toLocalDate()}",
             style = DmsTheme.typography.labelM,
             color = DmsTheme.colorScheme.inverseSurface,
         )
