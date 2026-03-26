@@ -32,6 +32,7 @@ import team.aliens.dms.android.core.designsystem.button.DmsButton
 import team.aliens.dms.android.core.designsystem.horizontalPadding
 import team.aliens.dms.android.core.designsystem.util.clickable
 import team.aliens.dms.android.core.designsystem.verticalPadding
+import team.aliens.dms.android.shared.date.toLocalDate
 import java.time.LocalDate
 import java.time.YearMonth
 import kotlin.time.ExperimentalTime
@@ -39,7 +40,7 @@ import kotlin.time.ExperimentalTime
 @OptIn(ExperimentalTime::class)
 @Composable
 fun DmsCalendar(
-    selectDate: LocalDate,
+    selectDate: String,
     onSelectedDateChange: (newDate: LocalDate) -> Unit,
     modifier: Modifier = Modifier,
 ) {
@@ -63,8 +64,8 @@ fun DmsCalendar(
             dayContent = { day ->
                 Day(
                     day = day,
-                    isSelected = day.date == updateDate,
-                    onDayClick = { updateDate = it },
+                    isSelected = day.date.toString() == updateDate,
+                    onDayClick = { updateDate = it.toString() },
                 )
             },
         )
@@ -77,7 +78,7 @@ fun DmsCalendar(
             text = "확인",
             buttonType = ButtonType.Contained,
             buttonColor = ButtonColor.Primary,
-            onClick = { onSelectedDateChange(updateDate) },
+            onClick = { onSelectedDateChange(updateDate.toLocalDate()) },
         )
     }
 }

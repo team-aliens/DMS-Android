@@ -1,5 +1,6 @@
 package team.aliens.dms.android.feature.main.mypage.viewmodel
 
+import androidx.compose.runtime.Immutable
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -29,6 +30,7 @@ internal class MyPageViewModel @Inject constructor(
     }
 }
 
+@Immutable
 internal data class MyPageState(
     val myPage: MyPage = MyPage(),
 )

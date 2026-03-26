@@ -62,6 +62,7 @@ dependencies {
     implementation(libs.retrofit)
     implementation(libs.retrofit.converter.gson)
     implementation(libs.kotlinx.datetime)
+    implementation(libs.androidx.compose)
 
     // TODO: remove dependency
     implementation(libs.coroutines.android)

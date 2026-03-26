@@ -1,5 +1,6 @@
 package team.aliens.dms.android.feature.remain.viewmodel
 
+import androidx.compose.runtime.Immutable
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -109,6 +110,7 @@ class RemainApplicationViewModel @Inject constructor(
     }
 }
 
+@Immutable
 data class RemainApplicationState(
     val remainsOptions: List<RemainsOption> = emptyList(),
     val selectRemainsOptionId: UUID? = null,

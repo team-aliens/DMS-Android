@@ -35,6 +35,7 @@ import team.aliens.dms.android.core.designsystem.startPadding
 import team.aliens.dms.android.core.designsystem.tab.DmsTab
 import team.aliens.dms.android.core.designsystem.tab.DmsTabRow
 import team.aliens.dms.android.core.designsystem.util.clickable
+import kotlinx.collections.immutable.ImmutableList
 import team.aliens.dms.android.data.student.model.Student
 import java.time.LocalDateTime
 
@@ -43,7 +44,7 @@ internal fun StudentContent(
     title: String,
     startTime: LocalDateTime,
     endTime: LocalDateTime,
-    students: List<Student>,
+    students: ImmutableList<Student>,
     selectItem: String,
     onSelect: (String) -> Unit,
     modifier: Modifier = Modifier,
