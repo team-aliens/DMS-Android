@@ -8,13 +8,13 @@ import team.aliens.dms.android.feature.signup.ui.EnterSchoolVerificationQuestion
 @Composable
 fun SignUpEnterSchoolVerificationQuestionRoute(
     signUpData: SignUpData,
-    onBackPressed: () -> Unit,
+    onBack: () -> Unit,
     navigateToEnterEmail: (SignUpData) -> Unit,
     onShowSnackBar: (DmsSnackBarType, String) -> Unit,
 ) {
     EnterSchoolVerificationQuestionScreen(
         signUpData = signUpData,
-        onBackPressed = onBackPressed,
+        onBack = onBack,
         navigateToEnterEmail = navigateToEnterEmail,
         onShowSnackBar = onShowSnackBar,
     )

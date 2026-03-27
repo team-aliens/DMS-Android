@@ -92,13 +92,12 @@ internal data class MealState(
     val currentCardType: MealCardType = getProperMeal()
 )
 
-private const val BreakfastStartTime: Int = 9
-private const val LunchStartTime: Int = 13
-private const val DinnerStartTime: Int = 19
-
+private const val BREAKFAST_START_TIME: Int = 9
+private const val LUNCH_START_TIME: Int = 13
+private const val DINNER_START_TIME: Int = 19
 
 internal fun getProperMeal(): MealCardType = when (now.hour) {
-    in BreakfastStartTime until LunchStartTime -> MealCardType.LUNCH
-    in LunchStartTime until DinnerStartTime -> MealCardType.DINNER
+    in BREAKFAST_START_TIME until LUNCH_START_TIME -> MealCardType.LUNCH
+    in LUNCH_START_TIME until DINNER_START_TIME -> MealCardType.DINNER
     else -> MealCardType.BREAKFAST
 }

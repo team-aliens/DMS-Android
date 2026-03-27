@@ -29,9 +29,9 @@ import team.aliens.dms.android.core.designsystem.topPadding
 
 @Composable
 internal fun MealContent(
-    modifier: Modifier = Modifier,
     backgroundGradient: Brush,
     onMealClick: () -> Unit,
+    modifier: Modifier = Modifier,
 ) {
     Box(
         modifier = modifier
@@ -40,7 +40,7 @@ internal fun MealContent(
             .padding(24.dp),
     ) {
         Canvas(
-            modifier = modifier
+            modifier = Modifier
                 .align(Alignment.TopCenter)
                 .size(300.dp)
                 .blur(

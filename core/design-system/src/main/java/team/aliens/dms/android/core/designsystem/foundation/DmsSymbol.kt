@@ -27,11 +27,10 @@ fun DmsSymbolContent(
     }
 
     Column(
-        modifier = Modifier
+        modifier = modifier
             .horizontalPadding(24.dp),
     ) {
         Image(
-            modifier = modifier,
             painter = painterResource(symbol),
             contentDescription = "symbol",
         )

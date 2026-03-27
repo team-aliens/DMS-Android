@@ -14,6 +14,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
@@ -43,6 +44,7 @@ internal fun Home(
 ) {
     val viewModel: HomeViewModel = hiltViewModel()
     val state by viewModel.uiState.collectAsState()
+    val updatedOnShowSnackBar by rememberUpdatedState(onShowSnackBar)
     val gradient = Brush.radialGradient(
         colors = listOf(
             Color(0xFF002051).copy(alpha = 0.2f),
@@ -53,15 +55,15 @@ internal fun Home(
     LaunchedEffect(Unit) {
         viewModel.sideEffect.collect { effect ->
             when (effect) {
-                is HomeSideEffect.ShowOutingPassDialog -> onShowSnackBar(
+                is HomeSideEffect.ShowOutingPassDialog -> updatedOnShowSnackBar(
                     DmsSnackBarType.SUCCESS,
                     "개발중인 기능이에요",
                 )
-                is HomeSideEffect.FailFetchMyPage -> onShowSnackBar(
+                is HomeSideEffect.FailFetchMyPage -> updatedOnShowSnackBar(
                     DmsSnackBarType.ERROR,
                     effect.message,
                 )
-                is HomeSideEffect.FailFetchLatestNotice -> onShowSnackBar(
+                is HomeSideEffect.FailFetchLatestNotice -> updatedOnShowSnackBar(
                     DmsSnackBarType.ERROR,
                     effect.message,
                 )

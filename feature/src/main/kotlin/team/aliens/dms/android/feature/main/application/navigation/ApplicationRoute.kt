@@ -9,15 +9,11 @@ import team.aliens.dms.android.feature.main.application.ui.Application
 @Composable
 fun ApplicationRoute(
     onNavigateRemainApplication: () -> Unit,
-    onNavigateOutingApplication: () -> Unit,
-    onNavigateVolunteerApplication: () -> Unit,
     onNavigateVote: (AllVoteSearch) -> Unit,
     onShowSnackBar: (DmsSnackBarType, String) -> Unit,
 ) {
     Application(
         onNavigateRemainApplication = onNavigateRemainApplication,
-        onNavigateOutingApplication = onNavigateOutingApplication,
-        onNavigateVolunteerApplication = onNavigateVolunteerApplication,
         onNavigateVote = onNavigateVote,
         onShowSnackBar = onShowSnackBar,
     )

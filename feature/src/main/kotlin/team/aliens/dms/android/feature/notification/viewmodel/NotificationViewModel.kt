@@ -1,5 +1,6 @@
 package team.aliens.dms.android.feature.notification.viewmodel
 
+import androidx.compose.runtime.Immutable
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -65,6 +66,7 @@ internal class NotificationViewModel @Inject constructor(
 
 }
 
+@Immutable
 internal data class NotificationUi(
     val id: UUID,
     val topic: NotificationTopic,
@@ -77,6 +79,7 @@ internal data class NotificationUi(
     val elapsedText: String,
 )
 
+@Immutable
 internal data class NotificationState(
     val isRecent: Boolean = false,
     val notices: List<NotificationUi> = emptyList(),

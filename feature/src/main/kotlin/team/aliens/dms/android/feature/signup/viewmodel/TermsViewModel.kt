@@ -26,16 +26,18 @@ internal class TermsViewModel @Inject constructor(
             with(currentSignUpData) {
                 setState { it.copy(isLoading = true, buttonEnabled = false) }
                 studentRepository.signUp(
-                    schoolVerificationCode = schoolCode,
-                    schoolVerificationAnswer = schoolAnswer,
-                    email = email,
-                    emailVerificationCode = authCode,
-                    grade = grade,
-                    classRoom = classRoom,
-                    number = number,
-                    accountId = accountId,
-                    password = password,
-                    profileImageUrl = profileImageUrl,
+                    param = StudentRepository.SignUpParam(
+                        schoolVerificationCode = schoolCode,
+                        schoolVerificationAnswer = schoolAnswer,
+                        email = email,
+                        emailVerificationCode = authCode,
+                        grade = grade,
+                        classRoom = classRoom,
+                        number = number,
+                        accountId = accountId,
+                        password = password,
+                        profileImageUrl = profileImageUrl,
+                    ),
                 ).onSuccess {
                     setState { it.copy(isLoading = false, buttonEnabled = true) }
                     sendEffect(TermsSideEffect.NavigateToComplete)

@@ -17,6 +17,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import java.time.LocalDateTime
+import kotlinx.collections.immutable.ImmutableList
 import team.aliens.dms.android.core.designsystem.DmsTheme
 import team.aliens.dms.android.core.designsystem.bodyB
 import team.aliens.dms.android.core.designsystem.foundation.DmsIcon
@@ -26,13 +27,13 @@ import team.aliens.dms.android.data.voting.model.VotingItem
 
 @Composable
 internal fun OptionContent(
-    modifier: Modifier = Modifier,
     title: String,
     startTime: LocalDateTime,
     endTime: LocalDateTime,
-    options: List<VotingItem>,
+    options: ImmutableList<VotingItem>,
     selectItem: String,
     onSelect: (String) -> Unit,
+    modifier: Modifier = Modifier,
 ) {
     Column(
         modifier = modifier,
@@ -64,10 +65,10 @@ internal fun OptionContent(
 
 @Composable
 private fun OptionItem(
-    modifier: Modifier = Modifier,
     title: String,
     selected: Boolean,
     onClick: () -> Unit,
+    modifier: Modifier = Modifier,
 ) {
     val backgroundColor = if (selected) {
         DmsTheme.colorScheme.surfaceVariant

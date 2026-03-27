@@ -1,4 +1,4 @@
-package team.aliens.dms.android.core.widget.designsystem
+package team.aliens.dms.android.core.widget
 
 import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.lightColorScheme

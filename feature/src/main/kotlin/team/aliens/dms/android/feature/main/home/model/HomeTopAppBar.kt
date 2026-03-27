@@ -18,9 +18,9 @@ import team.aliens.dms.android.core.designsystem.util.clickable
 
 @Composable
 internal fun HomeTopAppBar(
-    modifier: Modifier = Modifier,
     onOutingPassClick: () -> Unit,
     onNotificationClick: () -> Unit,
+    modifier: Modifier = Modifier,
 ) {
     Row(
         modifier = modifier

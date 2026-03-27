@@ -1,25 +1,19 @@
 package team.aliens.dms.android.network.student.apiservice
 
-import retrofit2.Response
 import retrofit2.http.Body
-import retrofit2.http.DELETE
 import retrofit2.http.GET
 import retrofit2.http.PATCH
 import retrofit2.http.POST
 import retrofit2.http.Path
 import retrofit2.http.Query
-import team.aliens.dms.android.core.jwt.RequiresAccessToken
-import team.aliens.dms.android.network.student.model.EditProfileRequest
-import team.aliens.dms.android.network.student.model.ExamineStudentNumberResponse
-import team.aliens.dms.android.network.student.model.FetchMyPageResponse
-import team.aliens.dms.android.network.student.model.FetchStudentsResponse
-import team.aliens.dms.android.network.student.model.FindIdResponse
 import team.aliens.dms.android.network.student.model.EditPasswordRequest
+import team.aliens.dms.android.network.student.model.ExamineStudentNumberResponse
+import team.aliens.dms.android.network.student.model.FindIdResponse
 import team.aliens.dms.android.network.student.model.SignUpRequest
 import team.aliens.dms.android.network.student.model.SignUpResponse
 import java.util.UUID
 
-internal interface StudentApiService {
+internal interface StudentAuthApiService {
 
     @POST("/students/signup")
     suspend fun signUp(@Body request: SignUpRequest): SignUpResponse
@@ -49,19 +43,4 @@ internal interface StudentApiService {
 
     @GET("/students/email/duplication")
     suspend fun checkEmailDuplication(@Query("email") email: String)
-
-    @GET("/students/profile")
-    @RequiresAccessToken
-    suspend fun fetchMyPage(): FetchMyPageResponse
-
-    @PATCH("/students/profile")
-    @RequiresAccessToken
-    suspend fun editProfile(@Body request: EditProfileRequest)
-
-    @DELETE("/students")
-    @RequiresAccessToken
-    suspend fun withdraw()
-
-    @GET("/students")
-    suspend fun fetchStudents(): FetchStudentsResponse
 }

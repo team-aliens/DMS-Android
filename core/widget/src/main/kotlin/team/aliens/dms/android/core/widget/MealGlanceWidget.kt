@@ -1,4 +1,4 @@
-package team.aliens.dms.android.core.widget.meal
+package team.aliens.dms.android.core.widget
 
 import android.app.PendingIntent
 import android.content.Context
@@ -35,7 +35,6 @@ import androidx.glance.text.FontWeight
 import androidx.glance.text.Text
 import androidx.glance.text.TextStyle
 import team.aliens.dms.android.core.widget.R
-import team.aliens.dms.android.core.widget.designsystem.DmsWidgetGlanceColorScheme
 
 class MealGlanceWidget : GlanceAppWidget() {
 

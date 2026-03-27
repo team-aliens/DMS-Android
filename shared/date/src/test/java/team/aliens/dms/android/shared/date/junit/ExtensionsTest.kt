@@ -28,8 +28,8 @@ class ExtensionsTest {
         this.mEpochSecond = 1147046400L
         this.mLocalDateTime = LocalDateTime.of(2006, 5, 8, 18, 36, 54)
         this.mLocalDate = LocalDate.of(2006, 5, 8)
-        this.mDate = Date(2006, 5, 8)
-        this.mDateTime = Date(2006, 5, 8, 18, 36, 54)
+        this.mDate = Date.from(mLocalDate.atStartOfDay().toInstant(ZoneOffset.UTC))
+        this.mDateTime = Date.from(mLocalDateTime.toInstant(ZoneOffset.UTC))
         this.mZoneOffset = ZoneOffset.UTC
         this.mIsoDateTimeFormat = "2006-05-08T18:36:54"
         this.mIsoDateFormat = "2006-05-08"

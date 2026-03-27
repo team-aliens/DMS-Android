@@ -32,6 +32,7 @@ import team.aliens.dms.android.core.designsystem.button.DmsButton
 import team.aliens.dms.android.core.designsystem.horizontalPadding
 import team.aliens.dms.android.core.designsystem.util.clickable
 import team.aliens.dms.android.core.designsystem.verticalPadding
+import team.aliens.dms.android.shared.date.toLocalDate
 import java.time.LocalDate
 import java.time.YearMonth
 import kotlin.time.ExperimentalTime
@@ -39,9 +40,9 @@ import kotlin.time.ExperimentalTime
 @OptIn(ExperimentalTime::class)
 @Composable
 fun DmsCalendar(
-    modifier: Modifier = Modifier,
-    selectDate: LocalDate,
+    selectDate: String,
     onSelectedDateChange: (newDate: LocalDate) -> Unit,
+    modifier: Modifier = Modifier,
 ) {
     var updateDate by remember { mutableStateOf(selectDate) }
     val calendarState = rememberCalendarState(
@@ -63,8 +64,8 @@ fun DmsCalendar(
             dayContent = { day ->
                 Day(
                     day = day,
-                    isSelected = day.date == updateDate,
-                    onDayClick = { updateDate = it },
+                    isSelected = day.date.toString() == updateDate,
+                    onDayClick = { updateDate = it.toString() },
                 )
             },
         )
@@ -77,17 +78,17 @@ fun DmsCalendar(
             text = "확인",
             buttonType = ButtonType.Contained,
             buttonColor = ButtonColor.Primary,
-            onClick = { onSelectedDateChange(updateDate) },
+            onClick = { onSelectedDateChange(updateDate.toLocalDate()) },
         )
     }
 }
 
 @Composable
 private fun Day(
-    modifier: Modifier = Modifier,
     day: CalendarDay,
     isSelected: Boolean,
     onDayClick: (LocalDate) -> Unit,
+    modifier: Modifier = Modifier,
 ) {
     val isOtherMonthDay = day.position != DayPosition.MonthDate
     val textColor = when {

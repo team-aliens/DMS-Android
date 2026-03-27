@@ -78,6 +78,7 @@ class SettingViewModel @Inject constructor(
     }
 
     private fun setNotificationStatus() {
+        // TODO: implement notification subscription update
     }
 }
 

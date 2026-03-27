@@ -26,6 +26,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -52,10 +53,11 @@ import team.aliens.dms.android.feature.profile.viewmodel.SelectProfileViewModel
 @OptIn(ExperimentalPermissionsApi::class)
 @Composable
 internal fun SelectProfile(
-    onBackPressed: () -> Unit,
+    onBack: () -> Unit,
     onNavigateAdjustProfile: (String) -> Unit,
     onShowSnackBar: (DmsSnackBarType, String) -> Unit,
 ) {
+    val viewModel: SelectProfileViewModel = hiltViewModel()
     val permission = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
         Manifest.permission.READ_MEDIA_IMAGES
     } else {
@@ -63,18 +65,18 @@ internal fun SelectProfile(
     }
     val request = rememberPermissionState(permission = permission)
 
-    val viewModel: SelectProfileViewModel = hiltViewModel()
     val state by viewModel.uiState.collectAsStateWithLifecycle()
-
+    val updatedOnNavigateAdjustProfile by rememberUpdatedState(onNavigateAdjustProfile)
+    val updatedOnShowSnackBar by rememberUpdatedState(onShowSnackBar)
 
     LaunchedEffect(Unit) {
         request.launchPermissionRequest()
         viewModel.sideEffect.collect {
             when (it) {
-                is SelectProfileSideEffect.SuccessProfileImage -> onNavigateAdjustProfile(it.profileImageUrl)
-                is SelectProfileSideEffect.ProfileImageBadRequest -> onShowSnackBar(DmsSnackBarType.SUCCESS, "업로드 성공!")
-                is SelectProfileSideEffect.FailProfileImage -> onShowSnackBar(DmsSnackBarType.ERROR, "이미지 업로드에 실패했어요")
-                is SelectProfileSideEffect.FailFetchPresignedUrl -> onShowSnackBar(DmsSnackBarType.ERROR, it.message)
+                is SelectProfileSideEffect.SuccessProfileImage -> updatedOnNavigateAdjustProfile(it.profileImageUrl)
+                is SelectProfileSideEffect.ProfileImageBadRequest -> updatedOnShowSnackBar(DmsSnackBarType.SUCCESS, "업로드 성공!")
+                is SelectProfileSideEffect.FailProfileImage -> updatedOnShowSnackBar(DmsSnackBarType.ERROR, "이미지 업로드에 실패했어요")
+                is SelectProfileSideEffect.FailFetchPresignedUrl -> updatedOnShowSnackBar(DmsSnackBarType.ERROR, it.message)
             }
         }
     }
@@ -86,41 +88,38 @@ internal fun SelectProfile(
     }
 
     SelectProfileScreen(
-        onBackPressed = onBackPressed,
+        onBack = onBack,
         uploadProfileImage = viewModel::uploadProfileImage,
         uriList = state.uriList.toPersistentList(),
         selectedUri = state.selectedUri,
         enabled = state.enabled,
-        onImageSelected = viewModel::selectImage,
+        onSelectImage = viewModel::selectImage,
     )
 }
 
 @Composable
 private fun SelectProfileScreen(
-    onBackPressed: () -> Unit,
+    onBack: () -> Unit,
     uploadProfileImage: (Uri?) -> Unit,
     uriList: ImmutableList<String>,
     selectedUri: String,
     enabled: Boolean,
-    onImageSelected: (String) -> Unit,
+    onSelectImage: (String) -> Unit,
 ) {
     Column(
         modifier = Modifier
             .fillMaxSize()
             .systemBarsPadding(),
     ) {
-        DmsTopAppBar(
-            onBackPressed = onBackPressed,
-            actions = {
-                DmsButton(
-                    onClick = { uploadProfileImage(selectedUri.toUri()) },
-                    text = "선택",
-                    buttonType = ButtonType.Text,
-                    buttonColor = ButtonColor.Primary,
-                    enabled = enabled,
-                )
-            },
-        )
+        DmsTopAppBar(onBackClick = onBack, actions = {
+            DmsButton(
+                onClick = { uploadProfileImage(selectedUri.toUri()) },
+                text = "선택",
+                buttonType = ButtonType.Text,
+                buttonColor = ButtonColor.Primary,
+                enabled = enabled,
+            )
+        },)
         LazyVerticalGrid(
             columns = GridCells.Fixed(3),
             horizontalArrangement = Arrangement.spacedBy(4.dp),
@@ -133,7 +132,7 @@ private fun SelectProfileScreen(
                 ImageItem(
                     imageUri = uri,
                     isSelected = isSelected,
-                    onClick = { onImageSelected(uri) },
+                    onClick = { onSelectImage(uri) },
                 )
             }
         }

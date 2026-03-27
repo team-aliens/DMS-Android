@@ -1,4 +1,3 @@
-@file:Suppress("UnstableApiUsage")
 
 pluginManagement {
     repositories {

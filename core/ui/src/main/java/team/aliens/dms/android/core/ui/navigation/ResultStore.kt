@@ -10,23 +10,23 @@ import androidx.compose.runtime.saveable.Saver
 import androidx.compose.runtime.saveable.rememberSaveable
 
 object LocalResultStore {
-    private val LocalResultStore: ProvidableCompositionLocal<ResultStore?> =
+    private val LocalStore: ProvidableCompositionLocal<ResultStore?> =
         compositionLocalOf { null }
 
     val current: ResultStore
         @Composable
-        get() = LocalResultStore.current ?: error("No ResultStore has been provided")
+        get() = LocalStore.current ?: error("No ResultStore has been provided")
 
     infix fun provides(
         store: ResultStore,
     ): ProvidedValue<ResultStore?> {
-        return LocalResultStore.provides(store)
+        return LocalStore.provides(store)
     }
 }
 
 @Composable
 fun rememberResultStore(): ResultStore {
-    return rememberSaveable(saver = ResultStoreSaver()) {
+    return rememberSaveable(saver = resultStoreSaver()) {
         ResultStore()
     }
 }
@@ -47,7 +47,7 @@ class ResultStore {
     }
 }
 
-private fun ResultStoreSaver(): Saver<ResultStore, *> =
+private fun resultStoreSaver(): Saver<ResultStore, *> =
     Saver(
         save = { it.resultStateMap },
         restore = { ResultStore().apply { resultStateMap.putAll(it) } },

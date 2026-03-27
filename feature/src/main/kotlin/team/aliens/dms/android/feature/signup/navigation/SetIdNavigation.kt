@@ -8,13 +8,13 @@ import team.aliens.dms.android.feature.signup.ui.SetIdScreen
 @Composable
 fun SignUpSetIdRoute(
     signUpData: SignUpData,
-    onBackPressed: () -> Unit,
+    onBack: () -> Unit,
     navigateToSetPassword: (SignUpData) -> Unit,
     onShowSnackBar: (DmsSnackBarType, String) -> Unit,
 ) {
     SetIdScreen(
         signUpData = signUpData,
-        onBackPressed = onBackPressed,
+        onBack = onBack,
         navigateToSetPassword = navigateToSetPassword,
         onShowSnackBar = onShowSnackBar,
     )

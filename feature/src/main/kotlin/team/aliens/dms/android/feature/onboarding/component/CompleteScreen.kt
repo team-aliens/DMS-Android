@@ -37,8 +37,8 @@ import team.aliens.dms.android.core.designsystem.headlineB
 
 @Composable
 internal fun CompleteContent(
-    modifier: Modifier = Modifier,
     onCompleteClick: () -> Unit,
+    modifier: Modifier = Modifier,
 ) {
     var step by remember { mutableIntStateOf(0) }
 

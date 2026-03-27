@@ -18,6 +18,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.pointer.pointerInput
@@ -48,6 +49,8 @@ internal fun ResetPasswordScreen(
     val viewModel: ResetPasswordViewModel = hiltViewModel()
     val state by viewModel.uiState.collectAsStateWithLifecycle()
     val focusManager = LocalFocusManager.current
+    val updatedOnNavigateBack by rememberUpdatedState(onNavigateBack)
+    val updatedOnShowSnackBar by rememberUpdatedState(onShowSnackBar)
 
     var currentStepIndex by remember { mutableIntStateOf(0) }
     val currentStep = steps[currentStepIndex]
@@ -72,14 +75,14 @@ internal fun ResetPasswordScreen(
             currentStepIndex--
             viewModel.onStepChanged(steps[currentStepIndex])
         } else {
-            onNavigateBack()
+            updatedOnNavigateBack()
         }
     }
 
     LaunchedEffect(Unit) {
         viewModel.sideEffect.collect { effect ->
             when (effect) {
-                is ResetPasswordSideEffect.NavigateUp -> onNavigateBack()
+                is ResetPasswordSideEffect.NavigateUp -> updatedOnNavigateBack()
                 is ResetPasswordSideEffect.ResetCountDownTimer -> {
                     timerRunning = false
                     viewModel.setEmailVerificationTimerFinished(false)
@@ -92,23 +95,23 @@ internal fun ResetPasswordScreen(
                         timerRunning = true
                     }
                 }
-                is ResetPasswordSideEffect.ShowNotFoundAccountIdSnackBar -> onShowSnackBar(
+                is ResetPasswordSideEffect.ShowNotFoundAccountIdSnackBar -> updatedOnShowSnackBar(
                     DmsSnackBarType.ERROR,
                     "존재하지 않는 계정 아이디입니다.",
                 )
-                is ResetPasswordSideEffect.ShowTooManyRequestSnackBar -> onShowSnackBar(
+                is ResetPasswordSideEffect.ShowTooManyRequestSnackBar -> updatedOnShowSnackBar(
                     DmsSnackBarType.ERROR,
                     "요청이 너무 많습니다. 잠시 후 다시 시도해주세요.",
                 )
-                is ResetPasswordSideEffect.ShowServerErrorSnackBar -> onShowSnackBar(
+                is ResetPasswordSideEffect.ShowServerErrorSnackBar -> updatedOnShowSnackBar(
                     DmsSnackBarType.ERROR,
                     "서버 오류가 발생했습니다. 잠시 후 다시 시도해주세요.",
                 )
-                is ResetPasswordSideEffect.ShowSendEmailSuccessSnackBar -> onShowSnackBar(
+                is ResetPasswordSideEffect.ShowSendEmailSuccessSnackBar -> updatedOnShowSnackBar(
                     DmsSnackBarType.SUCCESS,
                     "이메일 인증 코드가 발송되었습니다.",
                 )
-                is ResetPasswordSideEffect.ShowPasswordResetSuccessSnackBar -> onShowSnackBar(
+                is ResetPasswordSideEffect.ShowPasswordResetSuccessSnackBar -> updatedOnShowSnackBar(
                     DmsSnackBarType.SUCCESS,
                     "비밀번호가 변경되었습니다.",
                 )
@@ -133,19 +136,19 @@ internal fun ResetPasswordScreen(
         emailVerificationCodeTextFieldError = state.emailVerificationCodeTextFieldError,
         passwordTextFieldError = state.passwordTextFieldError,
         confirmPasswordTextFieldError = state.confirmPasswordTextFieldError,
-        onAccountIdChanged = viewModel::setAccountId,
-        onNameChange = viewModel::setName,
-        onEmailChange = viewModel::setEmail,
+        onAccountIdChange = viewModel::setAccountId,
+        onNameChange = { viewModel.setUserInfo(name = it) },
+        onEmailChange = { viewModel.setUserInfo(email = it) },
         onEmailVerificationCodeChange = viewModel::setEmailVerificationCode,
         onResendEmailVerificationCode = viewModel::resendEmailVerificationCode,
-        onPasswordChange = viewModel::setPassword,
-        onPasswordConfirmChange = viewModel::setConfirmPassword,
+        onPasswordChange = { viewModel.setPasswordInput(password = it) },
+        onPasswordConfirmChange = { viewModel.setPasswordInput(confirmPassword = it) },
         onBackClick = {
             if (currentStepIndex > 0) {
                 currentStepIndex--
                 viewModel.onStepChanged(steps[currentStepIndex])
             } else {
-                onNavigateBack()
+                updatedOnNavigateBack()
             }
         },
         onContinueClick = { viewModel.moveNext(currentStep) },
@@ -171,7 +174,7 @@ private fun ResetPasswordScreen(
     emailVerificationCodeTextFieldError: team.aliens.dms.android.feature.resetpassword.model.ResetPasswordTextFieldError,
     passwordTextFieldError: team.aliens.dms.android.feature.resetpassword.model.ResetPasswordTextFieldError,
     confirmPasswordTextFieldError: team.aliens.dms.android.feature.resetpassword.model.ResetPasswordTextFieldError,
-    onAccountIdChanged: (String) -> Unit,
+    onAccountIdChange: (String) -> Unit,
     onNameChange: (String) -> Unit,
     onEmailChange: (String) -> Unit,
     onEmailVerificationCodeChange: (String) -> Unit,
@@ -192,7 +195,7 @@ private fun ResetPasswordScreen(
                 detectTapGestures(onTap = { onClearFocus() })
             },
     ) {
-        DmsTopAppBar(onBackPressed = onBackClick)
+        DmsTopAppBar(onBackClick = onBackClick)
         AnimatedContent(
             modifier = Modifier.weight(1f),
             targetState = currentStep,
@@ -204,7 +207,8 @@ private fun ResetPasswordScreen(
             when (step) {
                 ResetPasswordStep.InputId -> InputIdContent(
                     accountId = accountId,
-                    onAccountIdChange = onAccountIdChanged,
+                    onAccountIdChange = onAccountIdChange,
+                    modifier = Modifier,
                 )
                 ResetPasswordStep.InputUserInfo -> InputUserInfoContent(
                     name = name,
@@ -212,6 +216,7 @@ private fun ResetPasswordScreen(
                     hashEmail = hashEmail,
                     onNameChange = onNameChange,
                     onEmailChange = onEmailChange,
+                    modifier = Modifier,
                 )
                 ResetPasswordStep.InputEmailVerificationCode -> EmailVerificationContent(
                     email = email,
@@ -221,6 +226,7 @@ private fun ResetPasswordScreen(
                     textFieldError = emailVerificationCodeTextFieldError,
                     onEmailVerificationCodeChange = onEmailVerificationCodeChange,
                     onResendCode = onResendEmailVerificationCode,
+                    modifier = Modifier,
                 )
                 ResetPasswordStep.InputNewPassword -> InputNewPasswordContent(
                     password = password,
@@ -229,6 +235,7 @@ private fun ResetPasswordScreen(
                     passwordConfirmTextFieldError = confirmPasswordTextFieldError,
                     onPasswordChange = onPasswordChange,
                     onPasswordConfirmChange = onPasswordConfirmChange,
+                    modifier = Modifier,
                 )
             }
         }

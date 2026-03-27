@@ -16,14 +16,14 @@ import team.aliens.dms.android.core.designsystem.DmsTheme
 
 @Composable
 fun DmsIconButton(
-    modifier: Modifier = Modifier,
     @DrawableRes resource: Int,
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier,
     tint: Color = DmsTheme.colorScheme.onBackground,
     enabled: Boolean = true,
     size: Dp = 26.dp,
     contentPaddingValues: PaddingValues = PaddingValues(2.dp),
     contentDescription: String? = null,
-    onClick: () -> Unit,
 ) {
     IconButton(
         modifier = modifier.size(size),

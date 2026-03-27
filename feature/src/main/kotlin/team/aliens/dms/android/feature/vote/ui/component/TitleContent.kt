@@ -16,10 +16,10 @@ import team.aliens.dms.android.core.ui.util.toDateString
 
 @Composable
 internal fun TitleContent(
-    modifier: Modifier = Modifier,
     title: String,
     startTime: LocalDateTime,
     endTime: LocalDateTime,
+    modifier: Modifier = Modifier,
 ) {
     Column(
         modifier = modifier

@@ -1,7 +1,9 @@
 package team.aliens.dms.android.data.student.model
 
+import androidx.compose.runtime.Immutable
 import team.aliens.dms.android.shared.model.Sex
 
+@Immutable
 data class MyPage(
     val schoolName: String = "",
     val name: String = "",

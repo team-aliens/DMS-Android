@@ -8,13 +8,13 @@ import team.aliens.dms.android.feature.signup.ui.TermsScreen
 @Composable
 fun SignUpTermsRoute(
     signUpData: SignUpData,
-    onBackPressed: () -> Unit,
+    onBack: () -> Unit,
     navigateToComplete: () -> Unit,
     onShowSnackBar: (DmsSnackBarType, String) -> Unit,
 ) {
     TermsScreen(
         signUpData = signUpData,
-        onBackPressed = onBackPressed,
+        onBack = onBack,
         navigateToComplete = navigateToComplete,
         onShowSnackBar = onShowSnackBar,
     )

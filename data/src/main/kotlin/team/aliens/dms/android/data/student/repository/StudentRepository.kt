@@ -10,18 +10,20 @@ import java.util.UUID
 
 abstract class StudentRepository {
 
-    abstract suspend fun signUp(
-        schoolVerificationCode: String,
-        schoolVerificationAnswer: String,
-        email: String,
-        emailVerificationCode: String,
-        grade: Int,
-        classRoom: Int,
-        number: Int,
-        accountId: String,
-        password: String,
-        profileImageUrl: String?,
-    ): Result<Unit>
+    data class SignUpParam(
+        val schoolVerificationCode: String,
+        val schoolVerificationAnswer: String,
+        val email: String,
+        val emailVerificationCode: String,
+        val grade: Int,
+        val classRoom: Int,
+        val number: Int,
+        val accountId: String,
+        val password: String,
+        val profileImageUrl: String?,
+    )
+
+    abstract suspend fun signUp(param: SignUpParam): Result<Unit>
 
     abstract suspend fun examineStudentNumber(
         schoolId: UUID,

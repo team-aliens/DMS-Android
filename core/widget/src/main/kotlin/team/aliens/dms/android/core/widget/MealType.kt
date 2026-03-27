@@ -1,11 +1,11 @@
-package team.aliens.dms.android.core.widget.meal
+package team.aliens.dms.android.core.widget
 
 import team.aliens.dms.android.core.designsystem.foundation.DmsIcon
 import team.aliens.dms.android.shared.date.util.now
 
-private const val BreakfastStartTime: Int = 9
-private const val LunchStartTime: Int = 13
-private const val DinnerStartTime: Int = 19
+private const val BREAKFAST_START_TIME: Int = 9
+private const val LUNCH_START_TIME: Int = 13
+private const val DINNER_START_TIME: Int = 19
 
 enum class MealType(
     val icon: Int,
@@ -27,8 +27,8 @@ enum class MealType(
 
     companion object {
         internal fun getCurrentMealType(): MealType = when (now.hour) {
-            in BreakfastStartTime until LunchStartTime -> Launch
-            in LunchStartTime until DinnerStartTime -> Dinner
+            in BREAKFAST_START_TIME until LUNCH_START_TIME -> Launch
+            in LUNCH_START_TIME until DINNER_START_TIME -> Dinner
             else -> Breakfast
         }
     }

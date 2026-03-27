@@ -1,0 +1,207 @@
+build:
+  maxIssues: 0
+
+config:
+  validation: true
+  warningsAsErrors: false
+
+complexity:
+  active: true
+  CognitiveComplexMethod:
+    active: true
+    threshold: 21
+  ComplexCondition:
+    active: true
+    threshold: 4
+  CyclomaticComplexMethod:
+    active: true
+    threshold: 15
+    ignoreSingleWhenExpression: true
+  LargeClass:
+    active: true
+    threshold: 600
+  LongMethod:
+    active: true
+    threshold: 60
+    ignoreAnnotated:
+      - 'Composable'
+      - 'Provides'
+  LongParameterList:
+    active: true
+    functionThreshold: 8
+    constructorThreshold: 8
+    ignoreDefaultParameters: true
+    ignoreAnnotated:
+      - 'Composable'
+  NestedBlockDepth:
+    active: true
+    threshold: 5
+  TooManyFunctions:
+    active: true
+    thresholdInFiles: 20
+    thresholdInClasses: 15
+    thresholdInInterfaces: 10
+    thresholdInObjects: 10
+    thresholdInEnums: 5
+    ignoreDeprecated: true
+    ignoreAnnotated:
+      - 'Preview'
+
+coroutines:
+  active: true
+  GlobalCoroutineUsage:
+    active: true
+  InjectDispatcher:
+    active: false
+  SuspendFunSwallowedCancellation:
+    active: true
+
+empty-blocks:
+  active: true
+  EmptyFunctionBlock:
+    active: true
+    ignoreOverridden: true
+
+exceptions:
+  active: true
+  NotImplementedDeclaration:
+    active: true
+
+naming:
+  active: true
+  BooleanPropertyNaming:
+    active: true
+    allowedPattern: '^(is|has|are|should|show|can)'
+  FunctionNaming:
+    active: true
+    functionPattern: '^([a-z$][a-zA-Z$0-9]*)|(`.*`)$'
+    excludeClassPattern: '$^'
+    ignoreAnnotated:
+      - 'Composable'
+  InvalidPackageDeclaration:
+    active: true
+    rootPackage: 'team.aliens.dms'
+    requireRootInDeclaration: false
+
+performance:
+  active: true
+  SpreadOperator:
+    active: false
+
+potential-bugs:
+  active: true
+  HasPlatformType:
+    active: false
+  ImplicitDefaultLocale:
+    active: false
+  MissingPackageDeclaration:
+    active: true
+    excludes:
+      - '**/*.kts'
+  PropertyUsedBeforeDeclaration:
+    active: true
+  UnconditionalJumpStatementInLoop:
+    active: true
+  UnsafeCallOnNullableType:
+    active: true
+    excludes:
+      - '**/*Test*/**'
+
+style:
+  active: true
+  DestructuringDeclarationWithTooManyEntries:
+    active: false
+  ExplicitItLambdaParameter:
+    active: false
+  ForbiddenComment:
+    active: true
+    comments:
+      - reason: 'FIXME는 해결되지 않은 버그입니다. 머지 전에 처리해주세요.'
+        value: 'FIXME'
+      - reason: 'STOPSHIP은 배포 전 반드시 수정해야 합니다.'
+        value: 'STOPSHIP'
+    allowedPatterns: 'TODO KMP 구현'
+  ForbiddenVoid:
+    active: false
+  FunctionOnlyReturningConstant:
+    active: false
+  LoopWithTooManyJumpStatements:
+    active: true
+    maxJumpCount: 2
+  MagicNumber:
+    active: false
+  MaxLineLength:
+    active: false
+  NewLineAtEndOfFile:
+    active: false
+  ReturnCount:
+    active: true
+    max: 3
+    excludedFunctions:
+      - 'equals'
+    excludeReturnFromLambda: true
+    excludeGuardClauses: true
+  SerialVersionUIDInSerializableClass:
+    active: false
+  UnnecessaryBackticks:
+    active: true
+  UnusedPrivateMember:
+    active: true
+    ignoreAnnotated:
+      - 'Preview'
+  UnusedPrivateProperty:
+    active: true
+    allowedNames: '_|ignored|expected'
+  WildcardImport:
+    active: true
+    excludeImports:
+      - 'java.util.*'
+      - 'kotlinx.android.synthetic.*'
+      - 'team.aliens.dms.android.core.designsystem.*'
+
+# Compose 특화 규칙 (io.nlopez.compose.rules)
+Compose:
+  CompositionLocalAllowlist:
+    active: false
+  CompositionLocalNaming:
+    active: true
+  ContentEmitterReturningValues:
+    active: true
+  DefaultsVisibility:
+    active: false
+  LambdaParameterInRestartableEffect:
+    active: true
+  ModifierClickableOrder:
+    active: true
+  ModifierComposed:
+    active: true
+  ModifierMissing:
+    active: false
+  ModifierNaming:
+    active: true
+  ModifierNotUsedAtRoot:
+    active: true
+  ModifierReused:
+    active: true
+  ModifierWithoutDefault:
+    active: true
+  MultipleEmitters:
+    active: true
+  MutableStateAutoboxing:
+    active: true
+  MutableStateParameter:
+    active: true
+  PreviewAnnotationNaming:
+    active: true
+  PreviewPublic:
+    active: false
+  RememberMissingKey:
+    active: true
+  RememberStateMissing:
+    active: true
+  UnstableCollections:
+    active: false
+  ViewModelForwarding:
+    active: true
+  ViewModelInjection:
+    active: false

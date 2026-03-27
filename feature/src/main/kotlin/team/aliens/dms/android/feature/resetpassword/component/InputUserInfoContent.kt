@@ -14,12 +14,12 @@ import team.aliens.dms.android.core.designsystem.topPadding
 
 @Composable
 internal fun InputUserInfoContent(
-    modifier: Modifier = Modifier,
     name: String,
     email: String,
     hashEmail: String,
     onNameChange: (String) -> Unit,
     onEmailChange: (String) -> Unit,
+    modifier: Modifier = Modifier,
 ) {
     Column(
         modifier = modifier

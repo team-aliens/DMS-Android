@@ -1,5 +1,6 @@
 package team.aliens.dms.android.feature.point.viewmodel
 
+import androidx.compose.runtime.Immutable
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -45,6 +46,7 @@ internal class PointHistoryViewModel @Inject constructor(
     }
 }
 
+@Immutable
 internal data class PointHistoryState(
     val allPointList: List<Point> = emptyList(),
     val bonusPointList: List<Point> = emptyList(),

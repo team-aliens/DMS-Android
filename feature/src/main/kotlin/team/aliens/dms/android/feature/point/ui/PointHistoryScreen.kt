@@ -20,6 +20,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
 import kotlinx.coroutines.launch
+import kotlinx.datetime.toJavaLocalDate
+import kotlinx.datetime.toKotlinLocalDate
 import team.aliens.dms.android.core.designsystem.DmsTheme
 import team.aliens.dms.android.core.designsystem.appbar.DmsTopAppBar
 import team.aliens.dms.android.core.designsystem.tab.DmsTab
@@ -56,10 +58,7 @@ private fun PointHistoryScreen(
             .background(DmsTheme.colorScheme.background)
             .systemBarsPadding(),
     ) {
-        DmsTopAppBar(
-            onBackPressed = onBackClick,
-            title = "상벌점 내역 확인",
-        )
+        DmsTopAppBar(onBackClick = onBackClick, title = "상벌점 내역 확인",)
         val tabData = listOf(
             PointTab.All,
             PointTab.Bonus,
@@ -114,7 +113,7 @@ private fun PointHistoryScreen(
                             modifier = Modifier.fillMaxWidth(),
                             name = it.name,
                             point = it.score,
-                            date = it.date,
+                            date = it.date.toString(),
                             pointType = it.type,
                         )
                     }

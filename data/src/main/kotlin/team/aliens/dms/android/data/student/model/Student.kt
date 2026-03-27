@@ -1,8 +1,10 @@
 package team.aliens.dms.android.data.student.model
 
+import androidx.compose.runtime.Immutable
 import team.aliens.dms.android.network.student.model.FetchStudentsResponse
 import java.util.UUID
 
+@Immutable
 data class Student(
     val id: UUID,
     val name: String,

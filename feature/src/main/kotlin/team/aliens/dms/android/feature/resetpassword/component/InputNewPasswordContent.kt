@@ -16,13 +16,13 @@ import team.aliens.dms.android.feature.resetpassword.model.isError
 
 @Composable
 internal fun InputNewPasswordContent(
-    modifier: Modifier = Modifier,
     password: String,
     passwordConfirm: String,
     passwordTextFieldError: ResetPasswordTextFieldError,
     passwordConfirmTextFieldError: ResetPasswordTextFieldError,
     onPasswordChange: (String) -> Unit,
     onPasswordConfirmChange: (String) -> Unit,
+    modifier: Modifier = Modifier,
 ) {
     Column(
         modifier = modifier

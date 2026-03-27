@@ -175,34 +175,37 @@ internal class ResetPasswordViewModel @Inject constructor(
         setState { it.copy(accountId = accountId, buttonEnabled = accountId.isNotEmpty()) }
     }
 
-    internal fun setName(name: String) {
-        val buttonEnabled = name.isNotEmpty() && uiState.value.email.isNotEmpty()
-        setState { it.copy(name = name, buttonEnabled = buttonEnabled) }
-    }
-
-    internal fun setEmail(email: String) {
-        val buttonEnabled = email.isNotEmpty() && uiState.value.name.isNotEmpty()
-        setState { it.copy(email = email, buttonEnabled = buttonEnabled) }
-    }
-
-    internal fun setEmailVerificationCode(emailVerificationCode: String) {
-        val buttonEnabled =
-            emailVerificationCode.length == EMAIL_VERIFICATION_CODE_LENGTH && !uiState.value.isEmailVerificationTimerFinished
+    internal fun setUserInfo(
+        name: String? = null,
+        email: String? = null,
+    ) {
+        val nextName = name ?: uiState.value.name
+        val nextEmail = email ?: uiState.value.email
+        val buttonEnabled = nextName.isNotEmpty() && nextEmail.isNotEmpty()
         setState {
             it.copy(
-                emailVerificationCode = emailVerificationCode,
+                name = nextName,
+                email = nextEmail,
                 buttonEnabled = buttonEnabled,
             )
         }
     }
 
-    internal fun setPassword(password: String) {
-        setState { it.copy(password = password) }
-        passwordValidation()
+    internal fun setEmailVerificationCode(emailVerificationCode: String) {
+        val buttonEnabled = isEmailVerificationButtonEnabled(emailVerificationCode = emailVerificationCode)
+        setState { it.copy(emailVerificationCode = emailVerificationCode, buttonEnabled = buttonEnabled) }
     }
 
-    internal fun setConfirmPassword(confirmPassword: String) {
-        setState { it.copy(confirmPassword = confirmPassword) }
+    internal fun setPasswordInput(
+        password: String? = null,
+        confirmPassword: String? = null,
+    ) {
+        setState {
+            it.copy(
+                password = password ?: it.password,
+                confirmPassword = confirmPassword ?: it.confirmPassword,
+            )
+        }
         passwordValidation()
     }
 
@@ -231,6 +234,9 @@ internal class ResetPasswordViewModel @Inject constructor(
             )
         }
     }
+
+    private fun isEmailVerificationButtonEnabled(emailVerificationCode: String): Boolean =
+        emailVerificationCode.length == EMAIL_VERIFICATION_CODE_LENGTH && !uiState.value.isEmailVerificationTimerFinished
 }
 
 internal data class ResetPasswordState(

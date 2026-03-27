@@ -6,8 +6,6 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
-import androidx.compose.material3.windowsizeclass.ExperimentalMaterial3WindowSizeClassApi
-import androidx.compose.material3.windowsizeclass.calculateWindowSizeClass
 import androidx.core.view.WindowCompat
 import androidx.lifecycle.lifecycleScope
 import com.google.android.play.core.appupdate.AppUpdateManagerFactory
@@ -43,7 +41,6 @@ class MainActivity : ComponentActivity() {
         }
     }
 
-    @OptIn(ExperimentalMaterial3WindowSizeClassApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setEdgeToEdgeConfig()
@@ -55,14 +52,8 @@ class MainActivity : ComponentActivity() {
 
         checkAppUpdate()
         setContent {
-            val windowSizeClass = calculateWindowSizeClass(activity = this)
-//          TODO : 적응형 레이아웃 적용
-
             DmsTheme {
-                DmsApp(
-                    windowSizeClass = windowSizeClass,
-                    mainViewModel = mainViewModel,
-                )
+                DmsApp()
             }
         }
 

@@ -31,6 +31,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.pointer.pointerInput
@@ -67,6 +68,8 @@ internal fun SignIn(
 ) {
     val viewModel: SignInViewModel = hiltViewModel()
     val state by viewModel.uiState.collectAsState()
+    val updatedNavigateToMain by rememberUpdatedState(navigateToMain)
+    val updatedOnShowSnackBar by rememberUpdatedState(onShowSnackBar)
     val focusManager = LocalFocusManager.current
     val context = LocalContext.current
     val requestPermissionLauncher = rememberLauncherForActivityResult(
@@ -87,8 +90,8 @@ internal fun SignIn(
     LaunchedEffect(Unit) {
         viewModel.sideEffect.collect {
             when (it) {
-                SignInSideEffect.NavigateToMain -> navigateToMain()
-                is SignInSideEffect.ShowSnackBar -> onShowSnackBar(it.snackBarType, it.message)
+                SignInSideEffect.NavigateToMain -> updatedNavigateToMain()
+                is SignInSideEffect.ShowSnackBar -> updatedOnShowSnackBar(it.snackBarType, it.message)
             }
         }
     }
@@ -170,13 +173,13 @@ private fun SignInScreen(
 
 @Composable
 private fun UserInformationInputs(
-    modifier: Modifier = Modifier,
     accountId: String,
     onAccountIdChange: (String) -> Unit,
     password: String,
     onPasswordChange: (String) -> Unit,
     onFindId: () -> Unit,
     onResetPassword: () -> Unit,
+    modifier: Modifier = Modifier,
 ) {
     Column(
         modifier = modifier.fillMaxWidth(),
@@ -229,8 +232,8 @@ private fun UserInformationInputs(
 
 @Composable
 private fun SignupActions(
-    modifier: Modifier = Modifier,
     onSignUp: () -> Unit,
+    modifier: Modifier = Modifier,
 ) {
     Row(
         modifier = modifier.fillMaxWidth(),

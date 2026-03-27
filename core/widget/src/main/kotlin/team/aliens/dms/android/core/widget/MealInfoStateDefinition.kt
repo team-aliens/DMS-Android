@@ -1,4 +1,4 @@
-package team.aliens.dms.android.core.widget.meal
+package team.aliens.dms.android.core.widget
 
 import android.content.Context
 import androidx.datastore.core.CorruptionException
@@ -37,7 +37,7 @@ object MealInfoStateDefinition : GlanceStateDefinition<MealInfo> {
                 input.readBytes().decodeToString(),
             )
         } catch (exception: SerializationException) {
-            throw CorruptionException("Could not read meal data: ${exception.message}")
+            throw CorruptionException("Could not read meal data: ${exception.message}", exception)
         }
 
         override suspend fun writeTo(t: MealInfo, output: OutputStream) {

@@ -2,9 +2,13 @@ package team.aliens.dms.android.feature.main.application.viewmodel
 
 import android.content.Context
 import android.content.SharedPreferences
+import androidx.compose.runtime.Immutable
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
+import kotlinx.collections.immutable.ImmutableList
+import kotlinx.collections.immutable.persistentListOf
+import kotlinx.collections.immutable.toPersistentList
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import team.aliens.dms.android.core.ui.viewmodel.BaseStateViewModel
@@ -30,7 +34,7 @@ internal class ApplicationViewModel @Inject constructor(
         viewModelScope.launch(Dispatchers.IO) {
             votingRepository.fetchAllVoteSearch()
                 .onSuccess { votes ->
-                    setState { it.copy(votes = votes) }
+                    setState { it.copy(votes = votes.toPersistentList()) }
                 }.onFailure {
 //                    Logger.a(it) { it.message.toString() }
                 }
@@ -54,7 +58,8 @@ internal class ApplicationViewModel @Inject constructor(
     }
 }
 
+@Immutable
 data class ApplicationState(
-    val votes: List<AllVoteSearch> = emptyList(),
+    val votes: ImmutableList<AllVoteSearch> = persistentListOf(),
     val remainApplicationTitle: String? = null,
 )

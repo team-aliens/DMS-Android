@@ -11,6 +11,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -33,26 +34,28 @@ internal const val SCHOOL_VERIFICATION_CODE_LENGTH = 8
 
 @Composable
 internal fun EnterSchoolVerificationCodeScreen(
-    onBackPressed: () -> Unit,
+    onBack: () -> Unit,
     navigateToEnterSchoolVerificationQuestion: (SignUpData) -> Unit,
     onShowSnackBar: (DmsSnackBarType, String) -> Unit,
 ) {
     val viewModel: EnterSchoolVerificationCodeViewModel = hiltViewModel()
     val state by viewModel.uiState.collectAsState()
+    val updatedNavigateToEnterSchoolVerificationQuestion by rememberUpdatedState(navigateToEnterSchoolVerificationQuestion)
+    val updatedOnShowSnackBar by rememberUpdatedState(onShowSnackBar)
 
     LaunchedEffect(Unit) {
         viewModel.sideEffect.collect { effect ->
             when (effect) {
                 is EnterSchoolVerificationCodeSideEffect.MoveToEnterSchoolVerificationQuestion ->
-                    navigateToEnterSchoolVerificationQuestion(effect.signUpData)
+                    updatedNavigateToEnterSchoolVerificationQuestion(effect.signUpData)
                 is EnterSchoolVerificationCodeSideEffect.ShowErrorSnackBar ->
-                    onShowSnackBar(DmsSnackBarType.ERROR, "인증코드가 올바르지 않아요.")
+                    updatedOnShowSnackBar(DmsSnackBarType.ERROR, "인증코드가 올바르지 않아요.")
             }
         }
     }
 
     EnterSchoolVerificationCodeContent(
-        onBackPressed = onBackPressed,
+        onBack = onBack,
         onNextClick = viewModel::onNextClick,
         state = state,
         onVerificationCodeChange = viewModel::setVerificationCode,
@@ -61,7 +64,7 @@ internal fun EnterSchoolVerificationCodeScreen(
 
 @Composable
 private fun EnterSchoolVerificationCodeContent(
-    onBackPressed: () -> Unit,
+    onBack: () -> Unit,
     onNextClick: () -> Unit,
     state: EnterSchoolVerificationCodeState,
     onVerificationCodeChange: (String) -> Unit,
@@ -73,10 +76,7 @@ private fun EnterSchoolVerificationCodeContent(
             .statusBarsPadding()
             .navigationBarsPadding(),
     ) {
-        DmsTopAppBar(
-            title = "회원가입",
-            onBackPressed = onBackPressed,
-        )
+        DmsTopAppBar(title = "회원가입", onBackClick = onBack, )
         DmsSymbolContent(
             modifier = Modifier
                 .topPadding(4.dp),

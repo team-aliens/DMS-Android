@@ -24,10 +24,10 @@ import androidx.compose.ui.unit.dp
 
 @Composable
 fun VerificationCodeInput(
-    modifier: Modifier = Modifier,
     totalLength: Int,
     text: String,
     onValueChange: (String) -> Unit,
+    modifier: Modifier = Modifier,
     enabled: Boolean = true,
     filledTextColor: Color = DmsTheme.colorScheme.onSurface,
     defaultTextColor: Color = DmsTheme.colorScheme.onSurfaceVariant,
@@ -94,8 +94,8 @@ object VerificationCodeInputDefaults {
 
     @Composable
     fun SupportingText(
-        modifier: Modifier = Modifier,
         text: String,
+        modifier: Modifier = Modifier,
         isError: Boolean = false,
         style: TextStyle = DmsTheme.typography.caption,
         textAlign: TextAlign = TextAlign.Center,

@@ -12,6 +12,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalFocusManager
@@ -35,13 +36,15 @@ import team.aliens.dms.android.feature.signup.viewmodel.EnterEmailViewModel
 @Composable
 internal fun EnterEmailScreen(
     signUpData: SignUpData,
-    onBackPressed: () -> Unit,
+    onBack: () -> Unit,
     navigateToEnterEmailVerificationCode: (SignUpData) -> Unit,
     onShowSnackBar: (DmsSnackBarType, String) -> Unit,
 ) {
     val viewModel: EnterEmailViewModel = hiltViewModel()
     val state by viewModel.uiState.collectAsState()
     val focusManager = LocalFocusManager.current
+    val updatedNavigateToEnterEmailVerificationCode by rememberUpdatedState(navigateToEnterEmailVerificationCode)
+    val updatedOnShowSnackBar by rememberUpdatedState(onShowSnackBar)
 
     LaunchedEffect(Unit) {
         viewModel.initialize(signUpData)
@@ -51,17 +54,17 @@ internal fun EnterEmailScreen(
         viewModel.sideEffect.collect { effect ->
             when (effect) {
                 is EnterEmailSideEffect.MoveToEnterEmailVerificationCode ->
-                    navigateToEnterEmailVerificationCode(effect.signUpData)
+                    updatedNavigateToEnterEmailVerificationCode(effect.signUpData)
                 is EnterEmailSideEffect.ShowConflictSnackBar ->
-                    onShowSnackBar(DmsSnackBarType.ERROR, "이미 가입된 이메일입니다")
+                    updatedOnShowSnackBar(DmsSnackBarType.ERROR, "이미 가입된 이메일입니다")
                 is EnterEmailSideEffect.ShowErrorSnackBar ->
-                    onShowSnackBar(DmsSnackBarType.ERROR, "이메일을 확인해주세요")
+                    updatedOnShowSnackBar(DmsSnackBarType.ERROR, "이메일을 확인해주세요")
             }
         }
     }
 
     EnterEmailContent(
-        onBackPressed = onBackPressed,
+        onBack = onBack,
         onNextClick = viewModel::onNextClick,
         state = state,
         onEmailChange = viewModel::setEmail,
@@ -71,7 +74,7 @@ internal fun EnterEmailScreen(
 
 @Composable
 private fun EnterEmailContent(
-    onBackPressed: () -> Unit,
+    onBack: () -> Unit,
     onNextClick: () -> Unit,
     state: EnterEmailState,
     onEmailChange: (String) -> Unit,
@@ -87,10 +90,7 @@ private fun EnterEmailContent(
                 detectTapGestures(onTap = { onClearFocus() })
             },
     ) {
-        DmsTopAppBar(
-            title = "회원가입",
-            onBackPressed = onBackPressed,
-        )
+        DmsTopAppBar(title = "회원가입", onBackClick = onBack, )
         DmsSymbolContent(
             modifier = Modifier
                 .topPadding(4.dp),

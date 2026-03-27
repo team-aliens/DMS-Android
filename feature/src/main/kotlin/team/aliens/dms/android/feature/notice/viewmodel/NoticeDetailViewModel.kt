@@ -1,5 +1,6 @@
 package team.aliens.dms.android.feature.notice.viewmodel
 
+import androidx.compose.runtime.Immutable
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -42,6 +43,7 @@ internal data class NoticeDetailUi(
     val elapsedCreatedAt: String,
 )
 
+@Immutable
 internal data class NoticeDetailState(
     val notice: NoticeDetailUi = NoticeDetailUi(
         id = UUID.randomUUID(),
