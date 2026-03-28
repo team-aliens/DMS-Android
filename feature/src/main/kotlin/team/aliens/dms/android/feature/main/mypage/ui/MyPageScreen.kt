@@ -7,6 +7,8 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.systemBarsPadding
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -84,7 +86,8 @@ private fun MyPageScreen(
         )
         Column(
             modifier = Modifier
-                .fillMaxSize()
+                .weight(1f)
+                .verticalScroll(rememberScrollState())
                 .padding(
                     horizontal = 10.dp,
                     vertical = 16.dp,
@@ -99,7 +102,7 @@ private fun MyPageScreen(
                 profileImageUrl = state.myPage.profileImageUrl,
             )
             PhraseContent(
-                phrase = state.myPage.phrase,
+                phrase = state.myPage.phrase ?: "",
             )
             DmsPointContent(
                 modifier = Modifier,
