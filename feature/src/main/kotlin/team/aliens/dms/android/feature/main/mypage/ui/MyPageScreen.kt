@@ -88,6 +88,7 @@ private fun MyPageScreen(
             modifier = Modifier
                 .weight(1f)
                 .verticalScroll(rememberScrollState())
+                .navigationBarsPadding()
                 .padding(
                     start = 10.dp,
                     end = 10.dp,
