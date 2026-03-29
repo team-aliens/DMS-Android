@@ -1,6 +1,8 @@
 package team.aliens.dms.android.core.jwt.network
 
 import com.google.gson.Gson
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient
 import okhttp3.Request
@@ -25,11 +27,11 @@ class JwtReissueManager @Inject constructor(
         }.build()
     }
 
-    operator fun invoke(refreshToken: String): Tokens {
+    suspend operator fun invoke(refreshToken: String): Tokens = withContext(Dispatchers.IO) {
         val request = buildTokenReissueRequest(refreshToken)
         val response = client.newCall(request).execute()
 
-        return if (response.isSuccessful) {
+        if (response.isSuccessful) {
             response.body.toTokensResponse().toModel()
         } else {
             throw CannotReissueTokenException(statusCode = response.code)
