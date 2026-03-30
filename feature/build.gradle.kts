@@ -27,6 +27,12 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro",
             )
+
+            buildConfigField("String", "REPORT_FORM_URL", localProperty("REPORT_FORM_URL"))
+        }
+
+        debug {
+            buildConfigField("String", "REPORT_FORM_URL", localProperty("REPORT_FORM_URL"))
         }
     }
 
@@ -96,3 +102,6 @@ dependencies {
     testImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.junit)
 }
+
+fun localProperty(key: String) =
+    com.android.build.gradle.internal.cxx.configure.gradleLocalProperties(rootDir, providers).getProperty(key)
