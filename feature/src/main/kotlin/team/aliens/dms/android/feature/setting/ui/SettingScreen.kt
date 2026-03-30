@@ -182,7 +182,7 @@ private fun SettingScreen(
             )
             DmsItemButton(
                 iconRes = R.drawable.ic_warning_red,
-                text = "제보함",
+                text = "제보하기",
                 onClick = onReportFormClick,
             )
             DmsItemButton(
