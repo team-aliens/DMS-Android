@@ -42,7 +42,7 @@ android {
             buildConfigField(
                 "String",
                 "REPORT_FORM_URL",
-                localProperty("REPORT_FORM_URL")
+                localProperty("REPORT_FORM_URL"),
             )
         }
 
@@ -60,7 +60,7 @@ android {
             buildConfigField(
                 "String",
                 "REPORT_FORM_URL",
-                localProperty("REPORT_FORM_URL")
+                localProperty("REPORT_FORM_URL"),
             )
         }
     }
