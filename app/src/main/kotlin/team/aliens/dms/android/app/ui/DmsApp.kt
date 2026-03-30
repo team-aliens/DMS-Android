@@ -100,7 +100,7 @@ fun DmsApp(
         MyPageScreenNav,
     )
 
-    LaunchedEffect(isOnboardingCompleted) {
+    LaunchedEffect(isOnboardingCompleted, isJwtAvailable) {
         val initialScreen = when {
             !isOnboardingCompleted -> OnboardingScreenNav
             isJwtAvailable -> HomeScreenNav
