@@ -46,10 +46,12 @@ jobs:
           echo "$PROD_BASE_URL" >> ./local.properties
           echo "$DEV_BASE_URL"  >> ./local.properties
           echo "$TERMS_URL"     >> ./local.properties
+          echo "$REPORT_FORM_URL" >> ./local.properties
         env:
           PROD_BASE_URL: ${{ secrets.PROD_BASE_URL }}
           DEV_BASE_URL:  ${{ secrets.DEV_BASE_URL }}
           TERMS_URL:     ${{ secrets.TERMS_URL }}
+          REPORT_FORM_URL: ${{ secrets.REPORT_FORM_URL }}
 
       - name: Create google-services.json
         run: |
