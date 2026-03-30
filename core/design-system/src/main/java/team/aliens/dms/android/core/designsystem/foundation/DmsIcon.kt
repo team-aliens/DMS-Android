@@ -29,7 +29,7 @@ object DmsIcon {
     val Information = R.drawable.ic_information
     val LogoDark = R.drawable.ic_logo_dark
     val LogoLight = R.drawable.ic_logo_light
-    val Logo = R.drawable.ic_logo
+    val Logo = R.drawable.ic_app_logo
     val Notification = R.drawable.ic_notification
     val Lunch = R.drawable.ic_lunch
     val Person = R.drawable.ic_person

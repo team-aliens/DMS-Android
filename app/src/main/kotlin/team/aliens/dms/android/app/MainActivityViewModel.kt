@@ -24,9 +24,13 @@ class MainActivityViewModel @Inject constructor(
     private val _isOnboardingCompleted = MutableStateFlow(false)
     val isOnboardingCompleted: StateFlow<Boolean> = _isOnboardingCompleted.asStateFlow()
 
+    private val _isStartupResolved = MutableStateFlow(false)
+    val isStartupResolved: StateFlow<Boolean> = _isStartupResolved.asStateFlow()
+
     init {
         viewModelScope.launch {
             _isOnboardingCompleted.value = onboardingDataSource.getOnboardingCompleted()
+            _isStartupResolved.value = true
         }
     }
 

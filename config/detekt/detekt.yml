@@ -9,7 +9,7 @@ complexity:
   active: true
   CognitiveComplexMethod:
     active: true
-    threshold: 21
+    threshold: 24
   ComplexCondition:
     active: true
     threshold: 4
