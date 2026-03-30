@@ -105,7 +105,7 @@ private fun MyPageScreen(
                 profileImageUrl = state.myPage.profileImageUrl,
             )
             PhraseContent(
-                phrase = state.myPage.phrase ?: "",
+                phrase = state.myPage.phrase,
             )
             DmsPointContent(
                 modifier = Modifier,
