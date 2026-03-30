@@ -87,7 +87,7 @@ internal class MealViewModel @Inject constructor(
 @Immutable
 internal data class MealState(
     val meal: Meal = Meal(),
-    val selectedDate: LocalDate = today,
+    val selectedDate: LocalDate = getInitialDate(),
     val isShowCalendar: Boolean = false,
     val currentCardType: MealCardType = getProperMeal()
 )
@@ -101,3 +101,6 @@ internal fun getProperMeal(): MealCardType = when (now.hour) {
     in LUNCH_START_TIME until DINNER_START_TIME -> MealCardType.DINNER
     else -> MealCardType.BREAKFAST
 }
+
+private fun getInitialDate(): LocalDate =
+    if (now.hour >= DINNER_START_TIME) today.plusDays(1) else today
