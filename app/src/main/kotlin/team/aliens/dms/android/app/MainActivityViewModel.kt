@@ -16,7 +16,7 @@ class MainActivityViewModel @Inject constructor(
     jwtProvider: JwtProvider,
     private val onboardingDataSource: OnboardingDataStoreDataSource,
 ) : ViewModel() {
-    val autoSignInAvailable: StateFlow<Boolean> = jwtProvider.isCachedAccessTokenAvailable
+    val autoSignInAvailable: StateFlow<Boolean> = jwtProvider.isCachedRefreshTokenAvailable
 
     private val _isUpdateFailed = MutableStateFlow(false)
     val isUpdateFailed = _isUpdateFailed.asStateFlow()
