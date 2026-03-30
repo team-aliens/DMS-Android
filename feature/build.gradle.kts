@@ -27,12 +27,6 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro",
             )
-
-            buildConfigField("String", "REPORT_FORM_URL", localProperty("REPORT_FORM_URL"))
-        }
-
-        debug {
-            buildConfigField("String", "REPORT_FORM_URL", localProperty("REPORT_FORM_URL"))
         }
     }
 

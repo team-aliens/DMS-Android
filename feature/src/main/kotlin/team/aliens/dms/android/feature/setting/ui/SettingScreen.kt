@@ -1,7 +1,6 @@
 package team.aliens.dms.android.feature.setting.ui
 
 import android.content.Intent
-import android.net.Uri
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -18,11 +17,11 @@ import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
+import androidx.core.net.toUri
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import team.aliens.dms.android.core.designsystem.DmsTheme
 import team.aliens.dms.android.core.designsystem.R
-import team.aliens.dms.android.feature.BuildConfig
 import team.aliens.dms.android.core.designsystem.appbar.DmsTopAppBar
 import team.aliens.dms.android.core.designsystem.bodyM
 import team.aliens.dms.android.core.designsystem.button.ButtonColor
@@ -35,6 +34,7 @@ import team.aliens.dms.android.core.designsystem.snackbar.DmsSnackBarType
 import team.aliens.dms.android.feature.setting.ui.component.SettingRotateContent
 import team.aliens.dms.android.feature.setting.viewmodel.SettingSideEffect
 import team.aliens.dms.android.feature.setting.viewmodel.SettingViewModel
+import team.aliens.dms.android.network.BuildConfig
 
 @Composable
 internal fun Setting(
@@ -124,7 +124,10 @@ internal fun Setting(
         onNotificationClick = { viewModel.updateNotificationStatus(state.isOnNotification) },
         onShowSignOutDialogChange = { onShouldShowSignOutDialogChange(true) },
         onReportFormClick = {
-            val intent = Intent(Intent.ACTION_VIEW, Uri.parse(BuildConfig.REPORT_FORM_URL))
+            val intent = Intent(
+                Intent.ACTION_VIEW,
+                BuildConfig.REPORT_FORM_URL.toUri(),
+            )
             context.startActivity(intent)
         },
         onShowWithdrawDialogChange = { onShouldShowWithdrawDialogChange(true) },
@@ -148,7 +151,7 @@ private fun SettingScreen(
             .fillMaxSize()
             .systemBarsPadding(),
     ) {
-        DmsTopAppBar(onBackClick = onBack, )
+        DmsTopAppBar(onBackClick = onBack)
         Column(
             modifier = Modifier
                 .fillMaxSize()

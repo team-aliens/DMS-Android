@@ -39,6 +39,11 @@ android {
                 name = "TERMS_URL",
                 value = localProperty("TERMS_URL"),
             )
+            buildConfigField(
+                "String",
+                "REPORT_FORM_URL",
+                localProperty("REPORT_FORM_URL")
+            )
         }
 
         debug {
@@ -51,6 +56,11 @@ android {
                 type = "String",
                 name = "TERMS_URL",
                 value = localProperty("TERMS_URL"),
+            )
+            buildConfigField(
+                "String",
+                "REPORT_FORM_URL",
+                localProperty("REPORT_FORM_URL")
             )
         }
     }
