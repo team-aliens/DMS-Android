@@ -1,5 +1,6 @@
 package team.aliens.dms.android.feature.setting.ui
 
+import android.content.Intent
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -14,7 +15,9 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
+import androidx.core.net.toUri
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import team.aliens.dms.android.core.designsystem.DmsTheme
@@ -31,6 +34,7 @@ import team.aliens.dms.android.core.designsystem.snackbar.DmsSnackBarType
 import team.aliens.dms.android.feature.setting.ui.component.SettingRotateContent
 import team.aliens.dms.android.feature.setting.viewmodel.SettingSideEffect
 import team.aliens.dms.android.feature.setting.viewmodel.SettingViewModel
+import team.aliens.dms.android.network.BuildConfig
 
 @Composable
 internal fun Setting(
@@ -44,6 +48,7 @@ internal fun Setting(
     val state by viewModel.uiState.collectAsStateWithLifecycle()
     val updatedOnNavigateSignIn by rememberUpdatedState(onNavigateSignIn)
     val updatedOnShowSnackBar by rememberUpdatedState(onShowSnackBar)
+    val context = LocalContext.current
     val (shouldShowSignOutDialog, onShouldShowSignOutDialogChange) = remember {
         mutableStateOf(false)
     }
@@ -118,6 +123,13 @@ internal fun Setting(
         onNavigateSelectProfile = onNavigateSelectProfile,
         onNotificationClick = { viewModel.updateNotificationStatus(state.isOnNotification) },
         onShowSignOutDialogChange = { onShouldShowSignOutDialogChange(true) },
+        onReportFormClick = {
+            val intent = Intent(
+                Intent.ACTION_VIEW,
+                BuildConfig.REPORT_FORM_URL.toUri(),
+            )
+            context.startActivity(intent)
+        },
         onShowWithdrawDialogChange = { onShouldShowWithdrawDialogChange(true) },
         onBack = onBack,
     )
@@ -130,6 +142,7 @@ private fun SettingScreen(
     onNavigateSelectProfile: () -> Unit,
     onNotificationClick: () -> Unit,
     onShowSignOutDialogChange: () -> Unit,
+    onReportFormClick: () -> Unit,
     onShowWithdrawDialogChange: () -> Unit,
     onBack: () -> Unit,
 ) {
@@ -138,7 +151,7 @@ private fun SettingScreen(
             .fillMaxSize()
             .systemBarsPadding(),
     ) {
-        DmsTopAppBar(onBackClick = onBack, )
+        DmsTopAppBar(onBackClick = onBack)
         Column(
             modifier = Modifier
                 .fillMaxSize()
@@ -166,6 +179,11 @@ private fun SettingScreen(
                 iconRes = R.drawable.img_3d_out,
                 text = "로그아웃",
                 onClick = onShowSignOutDialogChange,
+            )
+            DmsItemButton(
+                iconRes = R.drawable.ic_warning_red,
+                text = "제보하기",
+                onClick = onReportFormClick,
             )
             DmsItemButton(
                 text = "회원 탈퇴",

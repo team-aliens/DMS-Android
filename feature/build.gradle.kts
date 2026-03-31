@@ -96,3 +96,6 @@ dependencies {
     testImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.junit)
 }
+
+fun localProperty(key: String) =
+    com.android.build.gradle.internal.cxx.configure.gradleLocalProperties(rootDir, providers).getProperty(key)

@@ -39,13 +39,38 @@ jobs:
 
       - name: Generate local.properties
         run: |
-          echo "$PROD_BASE_URL" >> ./local.properties
-          echo "$DEV_BASE_URL"  >> ./local.properties
-          echo "$TERMS_URL"     >> ./local.properties
+          write_local_property() {
+            local name="$1"
+            local value="$2"
+
+            if [ -z "$value" ]; then
+              echo "Missing required local.properties secret: $name"
+              exit 1
+            fi
+
+            if [[ "$value" == ${name}* ]]; then
+              value="${value#*=}"
+              value="${value# }"
+            fi
+
+            if [[ "$value" == \"*\" ]]; then
+              value="${value#\"}"
+              value="${value%\"}"
+            fi
+
+            printf '%s = "%s"\n' "$name" "$value" >> ./local.properties
+          }
+
+          : > ./local.properties
+          write_local_property "PROD_BASE_URL" "$PROD_BASE_URL"
+          write_local_property "DEV_BASE_URL" "$DEV_BASE_URL"
+          write_local_property "TERMS_URL" "$TERMS_URL"
+          write_local_property "REPORT_FORM_URL" "$REPORT_FORM_URL"
         env:
           PROD_BASE_URL: ${{ secrets.PROD_BASE_URL }}
           DEV_BASE_URL:  ${{ secrets.DEV_BASE_URL }}
           TERMS_URL:     ${{ secrets.TERMS_URL }}
+          REPORT_FORM_URL: ${{ secrets.REPORT_FORM_URL }}
 
       - name: Create google-services.json
         run: |
@@ -121,7 +146,7 @@ jobs:
           retention-days: 14
 
       - name: Upload lint SARIF to GitHub Security
-        if: always()
+        if: always() && hashFiles('build/lint-reports/*.sarif') != ''
         uses: github/codeql-action/upload-sarif@v4
         with:
           sarif_file: build/lint-reports
@@ -200,13 +225,38 @@ jobs:
 
       - name: Generate local.properties
         run: |
-          echo "$PROD_BASE_URL" >> ./local.properties
-          echo "$DEV_BASE_URL"  >> ./local.properties
-          echo "$TERMS_URL"     >> ./local.properties
+          write_local_property() {
+            local name="$1"
+            local value="$2"
+
+            if [ -z "$value" ]; then
+              echo "Missing required local.properties secret: $name"
+              exit 1
+            fi
+
+            if [[ "$value" == ${name}* ]]; then
+              value="${value#*=}"
+              value="${value# }"
+            fi
+
+            if [[ "$value" == \"*\" ]]; then
+              value="${value#\"}"
+              value="${value%\"}"
+            fi
+
+            printf '%s = "%s"\n' "$name" "$value" >> ./local.properties
+          }
+
+          : > ./local.properties
+          write_local_property "PROD_BASE_URL" "$PROD_BASE_URL"
+          write_local_property "DEV_BASE_URL" "$DEV_BASE_URL"
+          write_local_property "TERMS_URL" "$TERMS_URL"
+          write_local_property "REPORT_FORM_URL" "$REPORT_FORM_URL"
         env:
           PROD_BASE_URL: ${{ secrets.PROD_BASE_URL }}
           DEV_BASE_URL:  ${{ secrets.DEV_BASE_URL }}
           TERMS_URL:     ${{ secrets.TERMS_URL }}
+          REPORT_FORM_URL: ${{ secrets.REPORT_FORM_URL }}
 
       - name: Create google-services.json
         run: |

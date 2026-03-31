@@ -90,6 +90,7 @@ fun DmsApp(
     val mainViewModel: MainActivityViewModel = viewModel()
     val isJwtAvailable by mainViewModel.autoSignInAvailable.collectAsState()
     val isOnboardingCompleted by mainViewModel.isOnboardingCompleted.collectAsState()
+    val isStartupResolved by mainViewModel.isStartupResolved.collectAsState()
 
     val backStack = rememberNavBackStack(OnboardingScreenNav)
     val resultStore = rememberResultStore()
@@ -100,7 +101,9 @@ fun DmsApp(
         MyPageScreenNav,
     )
 
-    LaunchedEffect(isOnboardingCompleted) {
+    LaunchedEffect(isStartupResolved) {
+        if (!isStartupResolved) return@LaunchedEffect
+
         val initialScreen = when {
             !isOnboardingCompleted -> OnboardingScreenNav
             isJwtAvailable -> HomeScreenNav

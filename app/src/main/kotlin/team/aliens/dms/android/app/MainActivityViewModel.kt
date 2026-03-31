@@ -16,7 +16,7 @@ class MainActivityViewModel @Inject constructor(
     jwtProvider: JwtProvider,
     private val onboardingDataSource: OnboardingDataStoreDataSource,
 ) : ViewModel() {
-    val autoSignInAvailable: StateFlow<Boolean> = jwtProvider.isCachedAccessTokenAvailable
+    val autoSignInAvailable: StateFlow<Boolean> = jwtProvider.isCachedRefreshTokenAvailable
 
     private val _isUpdateFailed = MutableStateFlow(false)
     val isUpdateFailed = _isUpdateFailed.asStateFlow()
@@ -24,9 +24,13 @@ class MainActivityViewModel @Inject constructor(
     private val _isOnboardingCompleted = MutableStateFlow(false)
     val isOnboardingCompleted: StateFlow<Boolean> = _isOnboardingCompleted.asStateFlow()
 
+    private val _isStartupResolved = MutableStateFlow(false)
+    val isStartupResolved: StateFlow<Boolean> = _isStartupResolved.asStateFlow()
+
     init {
         viewModelScope.launch {
             _isOnboardingCompleted.value = onboardingDataSource.getOnboardingCompleted()
+            _isStartupResolved.value = true
         }
     }
 

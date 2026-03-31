@@ -1,9 +1,12 @@
 package team.aliens.dms.android.core.jwt
 
 import android.util.Log
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
@@ -27,7 +30,7 @@ internal class JwtProviderImpl @Inject constructor(
                 throw CannotUseAccessTokenException()
             }
             if (this._cachedAccessToken!!.isExpired()) {
-                this.reissueTokens()
+                runBlocking(Dispatchers.IO) { this@JwtProviderImpl.reissueTokens() }
             }
             val accessToken = _cachedAccessToken ?: throw CannotUseAccessTokenException()
 
@@ -64,7 +67,7 @@ internal class JwtProviderImpl @Inject constructor(
         runCatching {
             this.loadTokens()
         }.onSuccess {
-            this.reissueTokens()
+            CoroutineScope(Dispatchers.IO).launch { reissueTokens() }
         }
     }
 
@@ -115,28 +118,26 @@ internal class JwtProviderImpl @Inject constructor(
         return !_cachedRefreshToken!!.isExpired()
     }
 
-    private fun reissueTokens() {
-        runBlocking {
-            tokenMutex.withLock {
-                val accessToken = this@JwtProviderImpl._cachedAccessToken
-                    ?: return@withLock
+    private suspend fun reissueTokens() {
+        tokenMutex.withLock {
+            val accessToken = this@JwtProviderImpl._cachedAccessToken
+                ?: return@withLock
 
-                if (!accessToken.isExpired()) {
-                    return@withLock
-                }
+            if (!accessToken.isExpired()) {
+                return@withLock
+            }
 
-                try {
-                    val tokens = jwtReissueManager(refreshToken = cachedRefreshToken.value)
-                    updateTokensLocked(tokens = tokens)
-                } catch (exception: CannotReissueTokenException) {
-                    if (exception.statusCode == 401) {
-                        clearCachesLocked()
-                    }
-                } catch (_: CannotUseRefreshTokenException) {
+            try {
+                val tokens = jwtReissueManager(refreshToken = cachedRefreshToken.value)
+                updateTokensLocked(tokens = tokens)
+            } catch (exception: CannotReissueTokenException) {
+                if (exception.statusCode == 401) {
                     clearCachesLocked()
                 }
-                this@JwtProviderImpl.refreshTokenAbility()
+            } catch (_: CannotUseRefreshTokenException) {
+                clearCachesLocked()
             }
+            this@JwtProviderImpl.refreshTokenAbility()
         }
     }
 
