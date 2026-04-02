@@ -236,7 +236,7 @@ jobs:
           KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
           KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
           KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
-        run: ./gradlew assembleRelease -PenableComposeCompilerMetrics=true
+        run: ./gradlew assembleRelease -PenableMultiModuleComposeReports=true
 
       - name: Upload Release APK
         uses: actions/upload-artifact@v7
@@ -265,7 +265,7 @@ jobs:
         run: |
           mkdir -p build/mendable-output
           java -jar tools/mendable.jar \
-            -i . \
+            -i build/compose_metrics \
             -sr \
             -o build/mendable-output \
             -oName mendable-report \
@@ -275,7 +275,7 @@ jobs:
       - name: Generate mendable JSON report (warnings only)
         run: |
           java -jar tools/mendable.jar \
-            -i . \
+            -i build/compose_metrics \
             -sr \
             -o build/mendable-output \
             -oName mendable-warnings \
@@ -373,3 +373,4 @@ jobs:
                 ]
               }]
             }"
+          
