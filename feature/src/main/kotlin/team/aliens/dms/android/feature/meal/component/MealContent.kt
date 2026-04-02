@@ -50,9 +50,7 @@ internal fun MealContent(
         }
         Column(
             modifier = Modifier
-                .fillMaxWidth()
-                .weight(1f)
-                .verticalScroll(rememberScrollState()),
+                .fillMaxWidth(),
             verticalArrangement = Arrangement.spacedBy(6.dp),
         ) {
             meal.forEach {
