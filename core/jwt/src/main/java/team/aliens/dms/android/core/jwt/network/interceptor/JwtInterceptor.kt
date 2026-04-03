@@ -5,6 +5,7 @@ import okhttp3.Request
 import okhttp3.Request.Builder
 import okhttp3.Response
 import team.aliens.dms.android.core.jwt.JwtProvider
+import team.aliens.dms.android.core.jwt.exception.CannotUseAccessTokenException
 import team.aliens.dms.android.core.jwt.network.IgnoreRequests
 import team.aliens.dms.android.core.network.toHttpMethod
 import team.aliens.dms.android.core.network.util.ResourceKeys
@@ -21,7 +22,14 @@ class JwtInterceptor @Inject constructor(
             if (interceptedRequest.shouldBeIgnored()) {
                 interceptedRequest
             } else {
-                interceptedRequest.newBuilder().addAccessToken().build()
+                runCatching {
+                    interceptedRequest.newBuilder().addAccessToken().build()
+                }.getOrElse { exception ->
+                    when (exception) {
+                        is CannotUseAccessTokenException -> interceptedRequest
+                        else -> throw exception
+                    }
+                }
             },
         )
     }
