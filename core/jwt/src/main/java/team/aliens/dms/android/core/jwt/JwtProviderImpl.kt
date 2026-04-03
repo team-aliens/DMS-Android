@@ -131,7 +131,7 @@ internal class JwtProviderImpl @Inject constructor(
                 val tokens = jwtReissueManager(refreshToken = cachedRefreshToken.value)
                 updateTokensLocked(tokens = tokens)
             } catch (exception: CannotReissueTokenException) {
-                if (exception.statusCode == 401) {
+                if (exception.statusCode == 401 || exception.statusCode == 404) {
                     clearCachesLocked()
                 }
             } catch (_: CannotUseRefreshTokenException) {
