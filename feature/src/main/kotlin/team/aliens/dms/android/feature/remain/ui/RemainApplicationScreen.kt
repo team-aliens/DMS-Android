@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.foundation.lazy.LazyColumn
@@ -106,7 +107,9 @@ private fun RemainApplicationScreen(
         Spacer(modifier = Modifier.weight(1f))
         DmsLayeredButton(
             modifier = Modifier
-                .fillMaxWidth(),
+                .fillMaxWidth()
+                .padding(bottom = 16.dp)
+                .navigationBarsPadding(),
             text = "변경하기",
             buttonType = ButtonType.Contained,
             buttonColor = ButtonColor.Primary,
