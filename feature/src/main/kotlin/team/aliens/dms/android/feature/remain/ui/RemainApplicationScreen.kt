@@ -4,6 +4,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -35,6 +36,7 @@ import team.aliens.dms.android.feature.remain.ui.component.DmsFloatingNotice
 import team.aliens.dms.android.feature.remain.viewmodel.RemainApplicationState
 import team.aliens.dms.android.feature.remain.viewmodel.RemainApplicationViewModel
 import java.util.UUID
+import androidx.compose.ui.Alignment
 
 @Composable
 internal fun RemainApplication(
@@ -61,54 +63,69 @@ private fun RemainApplicationScreen(
     setSelectRemainsOption: (UUID?) -> Unit,
     changeRemainsOption: () -> Unit,
 ) {
-    Column(
+    Box(
         modifier = Modifier
-            .fillMaxWidth()
+            .fillMaxSize()
             .background(DmsTheme.colorScheme.background)
             .systemBarsPadding(),
     ) {
-        DmsTopAppBar(title = "잔류 신청", onBackClick = { onNavigateBack(state.selectedRemainTitle) }, )
-        DmsFloatingNotice(
-            text = "잔류 신청 시간은 ${state.remainsApplicationTime.startDayOfWeek.toLocale()} ${state.remainsApplicationTime.startTime} ~ ${state.remainsApplicationTime.endDayOfWeek.toLocale()} ${state.remainsApplicationTime.endTime} 까지 입니다.",
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(
-                    top = 12.dp,
-                    start = 24.dp,
-                    end = 24.dp,
-                ),
-        )
-        LazyColumn(
-            modifier = Modifier
-                .fillMaxWidth()
-                .topPadding(30.dp)
-                .horizontalPadding(24.dp),
-            verticalArrangement = Arrangement.spacedBy(20.dp),
+        Column(
+            modifier = Modifier.fillMaxSize(),
         ) {
-            items(state.remainsOptions) { remainsOption ->
-                val icon = when (remainsOption.title) {
-                    "금요일 귀가" -> R.drawable.img_night_bus
-                    "토요일 귀가" -> R.drawable.img_bus
-                    "토요일 귀사" -> R.drawable.img_home
-                    "주말 잔류" -> R.drawable.img_small_home
-                    else -> R.drawable.img_bus
+            DmsTopAppBar(
+                title = "잔류 신청",
+                onBackClick = { onNavigateBack(state.selectedRemainTitle) },
+            )
+
+            DmsFloatingNotice(
+                text = "잔류 신청 시간은 ${state.remainsApplicationTime.startDayOfWeek.toLocale()} ${state.remainsApplicationTime.startTime} ~ ${state.remainsApplicationTime.endDayOfWeek.toLocale()} ${state.remainsApplicationTime.endTime} 까지 입니다.",
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(
+                        top = 12.dp,
+                        start = 24.dp,
+                        end = 24.dp,
+                    ),
+            )
+
+            LazyColumn(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .weight(1f)
+                    .topPadding(30.dp)
+                    .horizontalPadding(24.dp),
+                verticalArrangement = Arrangement.spacedBy(20.dp),
+                contentPadding = PaddingValues(
+                    bottom = 120.dp,
+                ),
+            ) {
+                items(state.remainsOptions) { remainsOption ->
+                    val icon = when (remainsOption.title) {
+                        "금요일 귀가" -> R.drawable.img_night_bus
+                        "토요일 귀가" -> R.drawable.img_bus
+                        "토요일 귀사" -> R.drawable.img_home
+                        "주말 잔류" -> R.drawable.img_small_home
+                        else -> R.drawable.img_bus
+                    }
+
+                    val appliedTitle = if (remainsOption.applied) "신청됨" else null
+
+                    DmsApplicationCard(
+                        title = remainsOption.title,
+                        description = remainsOption.description,
+                        isSelected = state.selectRemainsOptionId == remainsOption.id,
+                        iconRes = icon,
+                        appliedTitle = appliedTitle,
+                        onClick = { setSelectRemainsOption(remainsOption.id) },
+                    )
                 }
-                val appliedTitle = if (remainsOption.applied) "신청됨" else null
-                DmsApplicationCard(
-                    title = remainsOption.title,
-                    description = remainsOption.description,
-                    isSelected = state.selectRemainsOptionId == remainsOption.id,
-                    iconRes = icon,
-                    appliedTitle = appliedTitle,
-                    onClick = { setSelectRemainsOption(remainsOption.id) },
-                )
             }
         }
-        Spacer(modifier = Modifier.weight(1f))
+
         DmsLayeredButton(
             modifier = Modifier
+                .align(Alignment.BottomCenter)
                 .fillMaxWidth()
-                .padding(bottom = 16.dp)
                 .navigationBarsPadding(),
             text = "변경하기",
             buttonType = ButtonType.Contained,
