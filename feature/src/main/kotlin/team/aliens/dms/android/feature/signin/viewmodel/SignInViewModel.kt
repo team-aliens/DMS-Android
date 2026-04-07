@@ -24,7 +24,7 @@ internal class SignInViewModel @Inject constructor(
     internal fun setAccountId(accountId: String) {
         setState {
             it.copy(
-                accountId = accountId,
+                accountId = accountId.trim(),
                 showAccountIdErrorDescription = false,
             )
         }
@@ -62,7 +62,7 @@ internal class SignInViewModel @Inject constructor(
             with(uiState.value) {
                 setState { this.copy(isLoading = true, buttonEnabled = false) }
                 authRepository.signIn(
-                    accountId = this.accountId.trim(),
+                    accountId = this.accountId,
                     password = this.password,
                     deviceToken = deviceToken,
                 ).onSuccess {
