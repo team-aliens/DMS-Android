@@ -24,7 +24,7 @@ internal class SignInViewModel @Inject constructor(
     internal fun setAccountId(accountId: String) {
         setState {
             it.copy(
-                accountId = accountId,
+                accountId = accountId.trim(),
                 showAccountIdErrorDescription = false,
             )
         }
