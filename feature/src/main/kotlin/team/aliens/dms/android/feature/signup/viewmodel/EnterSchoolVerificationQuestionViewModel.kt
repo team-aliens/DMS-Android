@@ -6,6 +6,7 @@ import kotlinx.coroutines.launch
 import team.aliens.dms.android.core.ui.viewmodel.BaseStateViewModel
 import team.aliens.dms.android.feature.signup.model.SignUpData
 import team.aliens.dms.android.network.school.datasource.NetworkSchoolDataSource
+import team.aliens.dms.android.shared.exception.util.runCatchingCancellable
 import java.util.UUID
 import javax.inject.Inject
 
@@ -24,7 +25,7 @@ internal class EnterSchoolVerificationQuestionViewModel @Inject constructor(
 
     private fun fetchQuestion() {
         viewModelScope.launch {
-            runCatching {
+            runCatchingCancellable {
                 networkSchoolDataSource.fetchSchoolVerificationQuestion(
                     schoolId = UUID.fromString(currentSignUpData.schoolId)
                 )
@@ -43,7 +44,7 @@ internal class EnterSchoolVerificationQuestionViewModel @Inject constructor(
     internal fun onNextClick() {
         viewModelScope.launch {
             setState { it.copy(isLoading = true) }
-            runCatching {
+            runCatchingCancellable {
                 networkSchoolDataSource.examineSchoolVerificationQuestion(
                     schoolId = UUID.fromString(currentSignUpData.schoolId),
                     answer = uiState.value.schoolVerificationAnswer,
