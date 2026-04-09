@@ -101,13 +101,13 @@ fun DmsApp(
         MyPageScreenNav,
     )
 
-    LaunchedEffect(isStartupResolved) {
+    LaunchedEffect(isStartupResolved, isOnboardingCompleted, isJwtAvailable) {
         if (!isStartupResolved) return@LaunchedEffect
 
-        val initialScreen = when {
-            !isOnboardingCompleted -> OnboardingScreenNav
-            isJwtAvailable -> HomeScreenNav
-            else -> SignInScreenNav
+        val initialScreen = when (resolveRootDestination(isOnboardingCompleted, isJwtAvailable)) {
+            RootDestination.ONBOARDING -> OnboardingScreenNav
+            RootDestination.HOME -> HomeScreenNav
+            RootDestination.SIGN_IN -> SignInScreenNav
         }
 
         if (backStack.lastOrNull() != initialScreen) {

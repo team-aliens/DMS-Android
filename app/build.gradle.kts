@@ -136,6 +136,7 @@ dependencies {
 
     implementation(libs.hilt)
     testImplementation(libs.hilt.testing)
+    testImplementation(libs.coroutines.test)
     ksp(libs.hilt.compiler)
     kspTest(libs.hilt.compiler)
 

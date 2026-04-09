@@ -13,7 +13,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class MainActivityViewModel @Inject constructor(
-    jwtProvider: JwtProvider,
+    private val jwtProvider: JwtProvider,
     private val onboardingDataSource: OnboardingDataStoreDataSource,
 ) : ViewModel() {
     val autoSignInAvailable: StateFlow<Boolean> = jwtProvider.isCachedRefreshTokenAvailable
@@ -29,8 +29,15 @@ class MainActivityViewModel @Inject constructor(
 
     init {
         viewModelScope.launch {
+            jwtProvider.resolveSession()
             _isOnboardingCompleted.value = onboardingDataSource.getOnboardingCompleted()
             _isStartupResolved.value = true
+        }
+    }
+
+    fun resolveSession() {
+        viewModelScope.launch {
+            jwtProvider.resolveSession()
         }
     }
 
