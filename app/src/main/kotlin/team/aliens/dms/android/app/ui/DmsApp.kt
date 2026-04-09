@@ -83,6 +83,21 @@ import team.aliens.dms.android.app.navigation.SignUpSetPasswordNav
 import team.aliens.dms.android.app.navigation.SignUpTermsNav
 import java.util.UUID
 
+internal enum class RootDestination {
+    ONBOARDING,
+    HOME,
+    SIGN_IN,
+}
+
+internal fun resolveRootDestination(
+    isOnboardingCompleted: Boolean,
+    isJwtAvailable: Boolean,
+): RootDestination = when {
+    !isOnboardingCompleted -> RootDestination.ONBOARDING
+    isJwtAvailable -> RootDestination.HOME
+    else -> RootDestination.SIGN_IN
+}
+
 @Composable
 fun DmsApp(
     appState: DmsAppState = rememberDmsAppState(),
@@ -101,13 +116,13 @@ fun DmsApp(
         MyPageScreenNav,
     )
 
-    LaunchedEffect(isStartupResolved) {
+    LaunchedEffect(isStartupResolved, isOnboardingCompleted, isJwtAvailable) {
         if (!isStartupResolved) return@LaunchedEffect
 
-        val initialScreen = when {
-            !isOnboardingCompleted -> OnboardingScreenNav
-            isJwtAvailable -> HomeScreenNav
-            else -> SignInScreenNav
+        val initialScreen = when (resolveRootDestination(isOnboardingCompleted, isJwtAvailable)) {
+            RootDestination.ONBOARDING -> OnboardingScreenNav
+            RootDestination.HOME -> HomeScreenNav
+            RootDestination.SIGN_IN -> SignInScreenNav
         }
 
         if (backStack.lastOrNull() != initialScreen) {
