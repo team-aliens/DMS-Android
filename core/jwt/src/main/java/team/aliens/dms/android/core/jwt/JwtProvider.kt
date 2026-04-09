@@ -35,5 +35,4 @@ abstract class JwtProvider {
     abstract fun clearCaches()
 
     abstract suspend fun resolveSession(): Boolean
-
 }
