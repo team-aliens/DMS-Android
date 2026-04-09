@@ -83,21 +83,6 @@ import team.aliens.dms.android.app.navigation.SignUpSetPasswordNav
 import team.aliens.dms.android.app.navigation.SignUpTermsNav
 import java.util.UUID
 
-internal enum class RootDestination {
-    ONBOARDING,
-    HOME,
-    SIGN_IN,
-}
-
-internal fun resolveRootDestination(
-    isOnboardingCompleted: Boolean,
-    isJwtAvailable: Boolean,
-): RootDestination = when {
-    !isOnboardingCompleted -> RootDestination.ONBOARDING
-    isJwtAvailable -> RootDestination.HOME
-    else -> RootDestination.SIGN_IN
-}
-
 @Composable
 fun DmsApp(
     appState: DmsAppState = rememberDmsAppState(),
