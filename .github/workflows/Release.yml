@@ -9,7 +9,7 @@ on:
         description: 'Play Store 배포 트랙'
         type: choice
         options: [internal, alpha, beta, production]
-        default: internal
+        default: production
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -220,7 +220,7 @@ jobs:
         id: track
         run: |
           if [ "${{ github.event_name }}" = "push" ]; then
-            echo "track=internal" >> $GITHUB_OUTPUT
+            echo "track=production" >> $GITHUB_OUTPUT
           else
             echo "track=${{ github.event.inputs.track }}" >> $GITHUB_OUTPUT
           fi
