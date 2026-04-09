@@ -64,8 +64,8 @@ internal fun FindIdScreen(
 
     if (state.isShowIdDialog) {
         AlertDialog(
-            title = { Text(text = "아이디 찾기", style = DmsTheme.typography.sTitleM) },
-            text = { Text(text = "회원님의 아이디는 ${state.hashedEmail}입니다.", style = DmsTheme.typography.bodyM) },
+            title = { Text(text = "아이디 발송", style = DmsTheme.typography.sTitleM) },
+            text = { Text(text = "회원님의 아이디는 ${state.hashedEmail}에 발송되었습니다.", style = DmsTheme.typography.bodyM) },
             onDismissRequest = viewModel::hideDialog,
             confirmButton = {
                 DmsButton(
