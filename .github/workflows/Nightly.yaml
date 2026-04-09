@@ -286,7 +286,7 @@ jobs:
         run: |
           python3 scripts/check_compose_metrics.py \
             build/mendable-output/mendable-warnings.json \
-            --threshold 75
+            --threshold 100
 
       - name: Upload mendable HTML report
         if: always()
