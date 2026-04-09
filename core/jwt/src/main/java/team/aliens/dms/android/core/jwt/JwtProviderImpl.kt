@@ -1,12 +1,10 @@
 package team.aliens.dms.android.core.jwt
 
 import android.util.Log
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
@@ -26,12 +24,6 @@ internal class JwtProviderImpl @Inject constructor(
     private var _cachedAccessToken: AccessToken? = null
     override val cachedAccessToken: AccessToken
         get() {
-            if (this._cachedAccessToken == null) {
-                throw CannotUseAccessTokenException()
-            }
-            if (this._cachedAccessToken!!.isExpired()) {
-                runBlocking(Dispatchers.IO) { this@JwtProviderImpl.reissueTokens() }
-            }
             val accessToken = _cachedAccessToken ?: throw CannotUseAccessTokenException()
 
             if (accessToken.isExpired()) {
@@ -64,11 +56,7 @@ internal class JwtProviderImpl @Inject constructor(
         _isCachedRefreshTokenAvailable.asStateFlow()
 
     init {
-        runCatching {
-            this.loadTokens()
-        }.onSuccess {
-            CoroutineScope(Dispatchers.IO).launch { reissueTokens() }
-        }
+        loadTokens()
     }
 
     private fun loadTokens() {
@@ -99,6 +87,20 @@ internal class JwtProviderImpl @Inject constructor(
         }
     }
 
+    override suspend fun resolveSession(): Boolean {
+        tokenMutex.withLock {
+            val accessToken = _cachedAccessToken
+            if (accessToken != null && !accessToken.isExpired()) {
+                refreshTokenAbility()
+                return true
+            }
+
+            reissueTokensLocked()
+            refreshTokenAbility()
+            return checkIsAccessTokenAvailable() || checkIsRefreshTokenAvailable()
+        }
+    }
+
     private fun refreshTokenAbility() {
         _isCachedAccessTokenAvailable.value = checkIsAccessTokenAvailable()
         _isCachedRefreshTokenAvailable.value = checkIsRefreshTokenAvailable()
@@ -118,26 +120,27 @@ internal class JwtProviderImpl @Inject constructor(
         return !_cachedRefreshToken!!.isExpired()
     }
 
-    private suspend fun reissueTokens() {
-        tokenMutex.withLock {
-            val accessToken = this@JwtProviderImpl._cachedAccessToken
-                ?: return@withLock
+    private suspend fun reissueTokensLocked(): Boolean {
+        val refreshToken = _cachedRefreshToken
 
-            if (!accessToken.isExpired()) {
-                return@withLock
-            }
+        if (refreshToken == null || refreshToken.isExpired()) {
+            clearCachesLocked()
+            refreshTokenAbility()
+            return false
+        }
 
-            try {
-                val tokens = jwtReissueManager(refreshToken = cachedRefreshToken.value)
-                updateTokensLocked(tokens = tokens)
-            } catch (exception: CannotReissueTokenException) {
-                if (exception.statusCode == 401 || exception.statusCode == 404) {
-                    clearCachesLocked()
-                }
-            } catch (_: CannotUseRefreshTokenException) {
+        return try {
+            val tokens = jwtReissueManager(refreshToken = refreshToken.value)
+            updateTokensLocked(tokens = tokens)
+            true
+        } catch (exception: CannotReissueTokenException) {
+            if (exception.statusCode == 401) {
                 clearCachesLocked()
             }
-            this@JwtProviderImpl.refreshTokenAbility()
+            false
+        } catch (_: CannotUseRefreshTokenException) {
+            clearCachesLocked()
+            false
         }
     }
 

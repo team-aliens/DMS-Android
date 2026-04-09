@@ -33,4 +33,7 @@ abstract class JwtProvider {
      * clears tokens on [JwtProvider] itself and device's local storage
      */
     abstract fun clearCaches()
+
+    abstract suspend fun resolveSession(): Boolean
+
 }
