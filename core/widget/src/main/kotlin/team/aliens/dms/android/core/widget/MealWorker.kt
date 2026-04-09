@@ -19,6 +19,7 @@ import dagger.assisted.AssistedInject
 import team.aliens.dms.android.data.meal.repository.MealRepository
 import team.aliens.dms.android.shared.date.util.now
 import team.aliens.dms.android.shared.date.util.today
+import team.aliens.dms.android.shared.exception.util.runCatchingCancellable
 import java.time.Duration
 import java.util.concurrent.TimeUnit
 
@@ -65,18 +66,22 @@ class MealWorker @AssistedInject constructor(
         val manager = GlanceAppWidgetManager(context)
         val glanceIds = manager.getGlanceIds(MealGlanceWidget::class.java)
 
-        return runCatching {
+        return runCatchingCancellable {
             setWidgetState(glanceIds, MealInfo.Loading)
 
             val mealDate = if (now.hour >= 19) today.plusDays(1) else today
-            val response = mealRepository.fetchMeal(mealDate).getOrThrow()
-            setWidgetState(glanceIds, response.toEntity())
-            Result.success()
-        }.getOrElse { throwable ->
-            setWidgetState(glanceIds, MealInfo.Unavailable)
-            android.util.Log.e("MealWorker", "Failed to update widget", throwable)
-            Result.failure()
-        }
+            mealRepository.fetchMeal(mealDate).getOrThrow()
+        }.fold(
+            onSuccess = { response ->
+                setWidgetState(glanceIds, response.toEntity())
+                Result.success()
+            },
+            onFailure = { throwable ->
+                setWidgetState(glanceIds, MealInfo.Unavailable)
+                android.util.Log.e("MealWorker", "Failed to update widget", throwable)
+                Result.failure()
+            },
+        )
     }
 
     private suspend fun setWidgetState(
