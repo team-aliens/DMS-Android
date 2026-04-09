@@ -10,6 +10,7 @@ import team.aliens.dms.android.core.network.exception.TooManyRequestsException
 import team.aliens.dms.android.core.network.exception.UnAuthorizedException
 import team.aliens.dms.android.core.network.exception.UnsupportedMediaTypeException
 import team.aliens.dms.android.shared.exception.NotDefinedException
+import team.aliens.dms.android.shared.exception.util.runCatchingCancellable
 
 // TODO: remove
 @Deprecated("can cover in network module")
@@ -25,7 +26,7 @@ suspend inline fun <T> statusMapping(
     onInternalServerError: () -> Nothing = { throw NotDefinedException() },
     onUnknownException: () -> Nothing = { throw NotDefinedException() },
     crossinline block: suspend () -> T,
-): T = runCatching { block() }
+): T = runCatchingCancellable { block() }
     .getOrElse { throwable ->
         when (throwable) {
             is BadRequestException -> onBadRequest()
