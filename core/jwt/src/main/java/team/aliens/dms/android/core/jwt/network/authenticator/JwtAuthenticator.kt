@@ -80,7 +80,7 @@ class JwtAuthenticator @Inject constructor(
             val method = method.toHttpMethod()
             val isIgnoredRequest =
                 path.contains(ignoreRequest.path) &&
-                        method == ignoreRequest.method
+                    method == ignoreRequest.method
 
             isIgnoredRequest || checkS3Request(url.toString())
         }
