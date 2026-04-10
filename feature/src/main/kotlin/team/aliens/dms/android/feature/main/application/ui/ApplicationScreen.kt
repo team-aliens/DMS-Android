@@ -41,6 +41,7 @@ internal fun Application(
     onNavigateRemainApplication: () -> Unit,
     onNavigateVote: (AllVoteSearch) -> Unit,
     onShowSnackBar: (DmsSnackBarType, String) -> Unit,
+    onNavigateLateStudyApplication: () -> Unit,
 ) {
     val viewModel: ApplicationViewModel = hiltViewModel()
     val state by viewModel.uiState.collectAsStateWithLifecycle()
@@ -62,6 +63,7 @@ internal fun Application(
         onNavigateRemainApplication = onNavigateRemainApplication,
         onNavigateOutingApplication = { onShowSnackBar(DmsSnackBarType.SUCCESS, "준비중인 기능이에요") },
         onNavigateVolunteerApplication = { onShowSnackBar(DmsSnackBarType.SUCCESS, "준비중인 기능이에요") },
+        onNavigateLateStudyApplication = onNavigateLateStudyApplication,
         onNavigateVote = onNavigateVote,
     )
 }
@@ -72,6 +74,7 @@ private fun ApplicationScreen(
     onNavigateRemainApplication: () -> Unit,
     onNavigateOutingApplication: () -> Unit,
     onNavigateVolunteerApplication: () -> Unit,
+    onNavigateLateStudyApplication: () -> Unit,
     onNavigateVote: (AllVoteSearch) -> Unit,
 ) {
     Column(
@@ -123,6 +126,7 @@ private fun ApplicationScreen(
                         onNavigateOutingApplication = onNavigateOutingApplication,
                         onNavigateRemainApplication = onNavigateRemainApplication,
                         onNavigateVolunteerApplication = onNavigateVolunteerApplication,
+                        onNavigateLateStudyApplication = onNavigateLateStudyApplication,
                     )
                 } else {
                     if (state.votes.isEmpty()) {
