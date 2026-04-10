@@ -205,6 +205,8 @@ fun DmsApp(
                                 onShowSnackBar = { snackBarType, message ->
                                     appState.showSnackBar(snackBarType, message)
                                 },
+
+                                onNavigateLateStudyApplication =
                             )
                         }
                         entry<VoteScreenNav> {
