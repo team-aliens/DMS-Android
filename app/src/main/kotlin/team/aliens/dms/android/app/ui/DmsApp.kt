@@ -40,6 +40,7 @@ import team.aliens.dms.android.app.navigation.SettingScreenNav
 import team.aliens.dms.android.app.navigation.SignInScreenNav
 import team.aliens.dms.android.app.navigation.VoteScreenNav
 import team.aliens.dms.android.app.MainActivityViewModel
+import team.aliens.dms.android.app.navigation.LateStudyNav
 import team.aliens.dms.android.core.designsystem.snackbar.DmsSnackBar
 import team.aliens.dms.android.core.designsystem.snackbar.DmsSnackBarVisuals
 import team.aliens.dms.android.core.ui.navigation.LocalResultStore
@@ -81,7 +82,9 @@ import team.aliens.dms.android.app.navigation.SignUpEnterStudentNumberNav
 import team.aliens.dms.android.app.navigation.SignUpSetIdNav
 import team.aliens.dms.android.app.navigation.SignUpSetPasswordNav
 import team.aliens.dms.android.app.navigation.SignUpTermsNav
+import team.aliens.dms.android.feature.latestudy.navigation.LateStudyRoute
 import java.util.UUID
+
 
 @Composable
 fun DmsApp(
@@ -205,8 +208,9 @@ fun DmsApp(
                                 onShowSnackBar = { snackBarType, message ->
                                     appState.showSnackBar(snackBarType, message)
                                 },
-
-                                onNavigateLateStudyApplication =
+                                onNavigateLateStudyApplication = {
+                                    backStack.add(LateStudyNav)
+                                }
                             )
                         }
                         entry<VoteScreenNav> {
@@ -226,6 +230,16 @@ fun DmsApp(
                                 onShowSnackBar = { snackBarType, message ->
                                     appState.showSnackBar(snackBarType, message)
                                 }
+                            )
+                        }
+                        entry<LateStudyNav> {
+                            LateStudyRoute(
+                                onBack = {
+                                    backStack.remove(LateStudyNav)
+                                },
+                                onShowSnackBar = { snackBarType, message ->
+                                    appState.showSnackBar(snackBarType, message)
+                                },
                             )
                         }
                         entry<MyPageScreenNav> {
