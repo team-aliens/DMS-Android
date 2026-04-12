@@ -26,6 +26,8 @@ import androidx.compose.ui.unit.dp
 import team.aliens.dms.android.core.designsystem.DmsTheme
 import team.aliens.dms.android.core.designsystem.snackbar.DmsSnackBarType
 import androidx.compose.runtime.setValue
+import team.aliens.dms.android.feature.latestudy.ui.component.LateStudySectionCard
+import team.aliens.dms.android.feature.latestudy.ui.component.LateStudyTypeItem
 
 @Composable
 fun LateStudyScreen(
@@ -71,5 +73,26 @@ fun LateStudyScreen(
             style = DmsTheme.typography.headline1,
             fontWeight = FontWeight.Bold,
         )
+
+        Spacer(modifier = Modifier.height(16.dp))
+
+        LateStudySectionCard {
+            Text(
+                text = "유형",
+                color = DmsTheme.colorScheme.onBackground,
+                style = DmsTheme.typography.title1,
+                fontWeight = FontWeight.SemiBold,
+            )
+
+            Spacer(modifier = Modifier.height(12.dp))
+
+            types.forEach { type ->
+                LateStudyTypeItem(
+                    text = type,
+                    selected = selectedType == type,
+                    onClick = { selectedType = type },
+                )
+            }
+        }
     }
 }
