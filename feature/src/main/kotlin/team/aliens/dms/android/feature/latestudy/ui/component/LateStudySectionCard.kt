@@ -23,7 +23,10 @@ fun LateStudySectionCard(
                 color = DmsTheme.colorScheme.surface,
                 shape = RoundedCornerShape(24.dp),
             )
-            .padding(16.dp),
+            .padding(
+                horizontal = 16.dp,
+                vertical = 14.dp,
+            ),
         content = content,
     )
 }

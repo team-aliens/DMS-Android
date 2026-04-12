@@ -10,8 +10,10 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.scale
 import androidx.compose.ui.unit.dp
 import team.aliens.dms.android.core.designsystem.DmsTheme
+import team.aliens.dms.android.core.designsystem.bodyM
 
 @Composable
 fun LateStudyTypeItem(
@@ -24,19 +26,20 @@ fun LateStudyTypeItem(
         modifier = modifier
             .fillMaxWidth()
             .clickable(onClick = onClick)
-            .padding(vertical = 6.dp),
+            .padding(vertical = 2.dp),
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically,
     ) {
         Text(
             text = text,
             color = DmsTheme.colorScheme.onBackground,
-            style = DmsTheme.typography.body1,
+            style = DmsTheme.typography.bodyM,
         )
 
         RadioButton(
             selected = selected,
             onClick = onClick,
+            modifier = Modifier.scale(0.8f)
         )
     }
 }
