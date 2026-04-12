@@ -17,17 +17,32 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import team.aliens.dms.android.core.designsystem.DmsTheme
 import team.aliens.dms.android.core.designsystem.snackbar.DmsSnackBarType
+import androidx.compose.runtime.setValue
 
 @Composable
 fun LateStudyScreen(
     onBack: () -> Unit,
     onShowSnackBar: (DmsSnackBarType, String) -> Unit,
 ) {
+
+    var selectedType by remember { mutableStateOf("개인 공부") }
+
+    val types = listOf(
+        "개인 공부",
+        "개인 프로젝트",
+        "팀 프로젝트",
+        "대회 프로젝트",
+        "기타",
+    )
+
     Column(
         modifier = Modifier
             .fillMaxSize()
