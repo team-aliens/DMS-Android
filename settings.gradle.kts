@@ -43,3 +43,4 @@ include(":network")
 include(":database")
 
 include(":feature")
+include(":wear")

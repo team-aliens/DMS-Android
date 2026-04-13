@@ -56,6 +56,7 @@ composeCompiler = "2.0.0"
 kotlinxDatetime = "0.6.1"
 kotlinx-collections-immutable = "0.3.8"
 material3 = "1.4.0"
+wearCompose = "1.5.0"
 
 [libraries]
 androidx-glance-appwidget = { module = "androidx.glance:glance-appwidget", version.ref = "glanceAppwidget" }
@@ -123,6 +124,8 @@ hilt-compiler = { group = "com.google.dagger", name = "hilt-android-compiler", v
 coil-compose = { module = "io.coil-kt:coil-compose", version.ref = "coil" }
 androidx-compose-material3 = { group = "androidx.compose.material3", name = "material3", version.ref = "material3" }
 androidx-compose-material-icons-extended = { group = "androidx.compose.material", name = "material-icons-extended", version.ref = "compose" }
+androidx-wear-compose-foundation = { module = "androidx.wear.compose:compose-foundation", version.ref = "wearCompose" }
+androidx-wear-compose-material3 = { module = "androidx.wear.compose:compose-material3", version.ref = "wearCompose" }
 desugar-jdk-libs = { group = "com.android.tools", name = "desugar_jdk_libs", version.ref = "desugarJdkLibs" }
 compose-calendar = { module = "com.kizitonwose.calendar:compose", version.ref = "composeCalendar" }
 detekt-cli = { module = "io.gitlab.arturbosch.detekt:detekt-cli", version.ref = "detekt" }
