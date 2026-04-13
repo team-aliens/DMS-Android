@@ -30,6 +30,7 @@ import team.aliens.dms.android.core.designsystem.bodyB
 import team.aliens.dms.android.core.designsystem.sTitleB
 import team.aliens.dms.android.feature.latestudy.ui.component.LateStudySectionCard
 import team.aliens.dms.android.feature.latestudy.ui.component.LateStudyTypeItem
+import team.aliens.dms.android.feature.latestudy.ui.component.LateStudyCalendarSection
 
 @Composable
 fun LateStudyScreen(
@@ -97,5 +98,9 @@ fun LateStudyScreen(
                 )
             }
         }
+
+        Spacer(modifier = Modifier.height(20.dp))
+
+        LateStudyCalendarSection()
     }
 }
