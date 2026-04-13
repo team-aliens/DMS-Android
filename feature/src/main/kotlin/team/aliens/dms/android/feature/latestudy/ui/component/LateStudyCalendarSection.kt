@@ -120,3 +120,28 @@ private fun CalendarDateCell(
         )
     }
 }
+
+
+@Composable
+private fun DummyCalendarGrid() {
+    val weeks = listOf(
+        listOf("29", "30", "31", "1", "2", "3", "4"),
+        listOf("5", "6", "7", "8", "9", "10", "11"),
+        listOf("12", "13", "14", "15", "16", "17", "18"),
+        listOf("19", "20", "21", "22", "23", "24", "25"),
+        listOf("26", "27", "28", "29", "30", "1", "2"),
+    )
+
+    weeks.forEach { week ->
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 16.dp, vertical = 6.dp),
+            horizontalArrangement = Arrangement.SpaceBetween,
+        ) {
+            week.forEach { day ->
+                CalendarDateCell(text = day)
+            }
+        }
+    }
+}
