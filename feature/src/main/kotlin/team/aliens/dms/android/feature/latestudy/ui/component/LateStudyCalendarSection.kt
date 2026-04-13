@@ -4,7 +4,6 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -54,7 +53,9 @@ fun LateStudyCalendarSection(
                 tint = DmsTheme.colorScheme.onSurfaceVariant,
             )
 
-            Spacer(modifier = Modifier.padding(horizontal = 4.dp))
+            Spacer(
+                modifier = Modifier.size(4.dp),
+            )
 
             Text(
                 text = "2026 4월",
@@ -62,7 +63,9 @@ fun LateStudyCalendarSection(
                 style = DmsTheme.typography.bodyB,
             )
 
-            Spacer(modifier = Modifier.padding(horizontal = 4.dp))
+            Spacer(
+                modifier = Modifier.size(4.dp),
+            )
 
             Icon(
                 imageVector = Icons.AutoMirrored.Filled.KeyboardArrowRight,
@@ -70,6 +73,13 @@ fun LateStudyCalendarSection(
                 tint = DmsTheme.colorScheme.onSurfaceVariant,
             )
         }
+        CalendarDayHeader()
+
+        Spacer(
+            modifier = Modifier.size(4.dp),
+        )
+
+        DummyCalendarGrid()
     }
 }
 
@@ -90,6 +100,7 @@ private fun CalendarDayHeader() {
                 5 -> DmsTheme.colorScheme.onSurfaceVariant
                 else -> DmsTheme.colorScheme.onBackground
             }
+
             Box(
                 modifier = Modifier.size(32.dp),
                 contentAlignment = Alignment.Center,
@@ -120,7 +131,6 @@ private fun CalendarDateCell(
         )
     }
 }
-
 
 @Composable
 private fun DummyCalendarGrid() {
