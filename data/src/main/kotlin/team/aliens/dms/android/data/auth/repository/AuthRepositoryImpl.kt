@@ -1,5 +1,7 @@
 package team.aliens.dms.android.data.auth.repository
 
+import kotlinx.coroutines.NonCancellable
+import kotlinx.coroutines.withContext
 import team.aliens.dms.android.core.jwt.JwtProvider
 import team.aliens.dms.android.core.school.SchoolProvider
 import team.aliens.dms.android.data.auth.mapper.extractFeatures
@@ -10,6 +12,7 @@ import team.aliens.dms.android.network.auth.model.CheckIdExistsResponse
 import team.aliens.dms.android.network.auth.model.SendEmailVerificationCodeRequest
 import team.aliens.dms.android.network.auth.model.SignInRequest
 import team.aliens.dms.android.network.auth.model.SignInResponse
+import team.aliens.dms.android.shared.exception.util.runCatchingCancellable
 import javax.inject.Inject
 
 internal class AuthRepositoryImpl @Inject constructor(
@@ -65,11 +68,15 @@ internal class AuthRepositoryImpl @Inject constructor(
 //        networkAuthDataSource.checkIdExists(
 //            accountId = accountId,
 //        ).email
+    override suspend fun signOut(): Result<Unit> =
+        runCatchingCancellable {
+            clearSessionCaches()
+        }
 
-
-
-    override suspend fun signOut() = runCatching {
-        jwtProvider.clearCaches()
-        schoolProvider.clearCaches()
+    private suspend fun clearSessionCaches() {
+        withContext(NonCancellable) {
+            jwtProvider.clearCaches()
+            schoolProvider.clearCaches()
+        }
     }
 }

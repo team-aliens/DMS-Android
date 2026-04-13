@@ -7,6 +7,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import team.aliens.dms.android.core.ui.viewmodel.BaseStateViewModel
 import team.aliens.dms.android.data.student.repository.StudentRepository
+import team.aliens.dms.android.shared.exception.util.runCatchingCancellable
 import javax.inject.Inject
 
 @HiltViewModel
@@ -15,8 +16,8 @@ internal class AdjustProfileViewModel @Inject constructor(
 ): BaseStateViewModel<AdjustProfileState, AdjustProfileSideEffect>(AdjustProfileState()) {
 
     internal fun editProfile(profileImageUrl: String) = viewModelScope.launch(Dispatchers.IO) {
-        runCatching {
-            studentRepository.editProfile(profileImageUrl)
+        runCatchingCancellable {
+            studentRepository.editProfile(profileImageUrl).getOrThrow()
         }.onSuccess {
             sendEffect(AdjustProfileSideEffect.ProfileImageSet)
             setState { it.copy(buttonEnabled = false) }

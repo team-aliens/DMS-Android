@@ -7,7 +7,7 @@ import team.aliens.dms.android.network.notification.model.FetchNotificationsResp
 import team.aliens.dms.android.network.notification.model.RegisterFcmDeviceTokenRequest
 import team.aliens.dms.android.network.notification.model.SubscribeNotificationTopicRequest
 import team.aliens.dms.android.network.notification.model.UnsubscribeNotificationTopicRequest
-import team.aliens.dms.android.shared.exception.util.suspendRunCatching
+import team.aliens.dms.android.shared.exception.util.runCatchingCancellable
 import java.util.UUID
 import javax.inject.Inject
 
@@ -15,30 +15,30 @@ internal class NetworkNotificationDataSourceImpl @Inject constructor(
     private val notificationApiService: NotificationApiService,
 ) : NetworkNotificationDataSource() {
     override suspend fun registerFcmDeviceToken(request: RegisterFcmDeviceTokenRequest): Result<Unit> =
-        suspendRunCatching { notificationApiService.registerFcmDeviceToken(request) }
+        runCatchingCancellable { notificationApiService.registerFcmDeviceToken(request) }
 
     override suspend fun cancelFcmDeviceTokenRegistration(
         request: CancelFcmDeviceTokenRegistrationRequest,
     ): Result<Unit> =
-        suspendRunCatching { notificationApiService.cancelFcmDeviceTokenRegistration(request) }
+        runCatchingCancellable { notificationApiService.cancelFcmDeviceTokenRegistration(request) }
 
     override suspend fun subscribeNotificationTopic(request: SubscribeNotificationTopicRequest): Result<Unit> =
-        suspendRunCatching { notificationApiService.subscribeNotificationTopic(request) }
+        runCatchingCancellable { notificationApiService.subscribeNotificationTopic(request) }
 
     override suspend fun unsubscribeNotificationTopic(request: UnsubscribeNotificationTopicRequest): Result<Unit> =
-        suspendRunCatching { notificationApiService.unsubscribeNotificationTopic(request) }
+        runCatchingCancellable { notificationApiService.unsubscribeNotificationTopic(request) }
 
     override suspend fun batchUpdateNotificationTopic(request: BatchUpdateNotificationTopicRequest): Result<Unit> =
-        suspendRunCatching { notificationApiService.batchUpdateNotificationTopic(request) }
+        runCatchingCancellable { notificationApiService.batchUpdateNotificationTopic(request) }
 
     override suspend fun fetchNotificationTopicStatus(
         deviceToken: String,
     ): Result<FetchNotificationTopicStatusResponse> =
-        suspendRunCatching { notificationApiService.fetchNotificationTopicStatus(deviceToken) }
+        runCatchingCancellable { notificationApiService.fetchNotificationTopicStatus(deviceToken) }
 
     override suspend fun fetchNotifications(): Result<FetchNotificationsResponse> =
-        suspendRunCatching { notificationApiService.fetchNotifications() }
+        runCatchingCancellable { notificationApiService.fetchNotifications() }
 
     override suspend fun updateNotificationReadStatus(notification: UUID): Result<Unit> =
-        suspendRunCatching { notificationApiService.updateNotificationReadStatus(notification) }
+        runCatchingCancellable { notificationApiService.updateNotificationReadStatus(notification) }
 }

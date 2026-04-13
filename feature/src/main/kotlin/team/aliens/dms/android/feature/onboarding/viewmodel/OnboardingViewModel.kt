@@ -6,6 +6,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import team.aliens.dms.android.core.ui.viewmodel.BaseStateViewModel
 import team.aliens.dms.android.onboarding.datastore.OnboardingDataStoreDataSource
+import team.aliens.dms.android.shared.exception.util.runCatchingCancellable
 import javax.inject.Inject
 
 @HiltViewModel
@@ -15,7 +16,7 @@ class OnboardingViewModel @Inject constructor(
 
     init {
         viewModelScope.launch(Dispatchers.IO) {
-            runCatching {
+            runCatchingCancellable {
                 onboardingDataSource.getOnboardingCompleted()
             }.onSuccess { isCompleted ->
                 setState {
