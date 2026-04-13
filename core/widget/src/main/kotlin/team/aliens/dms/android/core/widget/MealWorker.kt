@@ -16,12 +16,14 @@ import androidx.work.WorkManager
 import androidx.work.WorkerParameters
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
+import kotlinx.coroutines.NonCancellable
+import kotlinx.coroutines.withContext
 import team.aliens.dms.android.data.meal.repository.MealRepository
 import team.aliens.dms.android.shared.date.util.now
 import team.aliens.dms.android.shared.date.util.today
-import team.aliens.dms.android.shared.exception.util.runCatchingCancellable
 import java.time.Duration
 import java.util.concurrent.TimeUnit
+import kotlin.coroutines.cancellation.CancellationException
 
 @HiltWorker
 class MealWorker @AssistedInject constructor(
@@ -66,12 +68,19 @@ class MealWorker @AssistedInject constructor(
         val manager = GlanceAppWidgetManager(context)
         val glanceIds = manager.getGlanceIds(MealGlanceWidget::class.java)
 
-        return runCatchingCancellable {
-            setWidgetState(glanceIds, MealInfo.Loading)
+        setWidgetState(glanceIds, MealInfo.Loading)
 
-            val mealDate = if (now.hour >= 19) today.plusDays(1) else today
-            mealRepository.fetchMeal(mealDate).getOrThrow()
-        }.fold(
+        val mealDate = if (now.hour >= 19) today.plusDays(1) else today
+        val result = try {
+            mealRepository.fetchMeal(mealDate)
+        } catch (exception: CancellationException) {
+            withContext(NonCancellable) {
+                setWidgetState(glanceIds, MealInfo.Unavailable)
+            }
+            throw exception
+        }
+
+        return result.fold(
             onSuccess = { response ->
                 setWidgetState(glanceIds, response.toEntity())
                 Result.success()
