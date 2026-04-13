@@ -137,11 +137,6 @@ internal class JwtProviderImpl @Inject constructor(
                 clearCachesLocked()
             }
             false
-        } catch (exception: java.io.IOException) {
-            false
-        } catch (exception: Exception) {
-            // Log other unexpected exceptions if necessary, or just return false
-            false
         }
     }
 
