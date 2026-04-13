@@ -4,6 +4,7 @@ object ProjectPaths {
     const val DATABASE = ":database"
     const val FEATURE = ":feature"
     const val NETWORK = ":network"
+    const val WEAR = ":wear"
 
     object Core {
         const val DATABASE = ":core:database"

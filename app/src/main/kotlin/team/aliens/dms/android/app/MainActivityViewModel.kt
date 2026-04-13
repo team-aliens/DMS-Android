@@ -29,7 +29,7 @@ class MainActivityViewModel @Inject constructor(
 
     init {
         viewModelScope.launch {
-            jwtProvider.resolveSession()
+            runCatching { jwtProvider.resolveSession() }
             _isOnboardingCompleted.value = onboardingDataSource.getOnboardingCompleted()
             _isStartupResolved.value = true
         }
@@ -37,7 +37,7 @@ class MainActivityViewModel @Inject constructor(
 
     fun resolveSession() {
         viewModelScope.launch {
-            jwtProvider.resolveSession()
+            runCatching { jwtProvider.resolveSession() }
         }
     }
 

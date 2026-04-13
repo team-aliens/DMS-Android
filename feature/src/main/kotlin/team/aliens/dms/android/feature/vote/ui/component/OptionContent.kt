@@ -16,7 +16,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
-import java.time.LocalDateTime
 import kotlinx.collections.immutable.ImmutableList
 import team.aliens.dms.android.core.designsystem.DmsTheme
 import team.aliens.dms.android.core.designsystem.bodyB
@@ -28,8 +27,8 @@ import team.aliens.dms.android.data.voting.model.VotingItem
 @Composable
 internal fun OptionContent(
     title: String,
-    startTime: LocalDateTime,
-    endTime: LocalDateTime,
+    startTime: String,
+    endTime: String,
     options: ImmutableList<VotingItem>,
     selectItem: String,
     onSelect: (String) -> Unit,
