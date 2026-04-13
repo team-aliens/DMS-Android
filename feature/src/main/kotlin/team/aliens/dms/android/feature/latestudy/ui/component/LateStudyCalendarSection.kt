@@ -103,3 +103,20 @@ private fun CalendarDayHeader() {
         }
     }
 }
+
+@Composable
+private fun CalendarDateCell(
+    text: String,
+    modifier: Modifier = Modifier,
+) {
+    Box(
+        modifier = modifier.size(32.dp),
+        contentAlignment = Alignment.Center,
+    ) {
+        Text(
+            text = text,
+            color = DmsTheme.colorScheme.onBackground,
+            style = DmsTheme.typography.caption,
+        )
+    }
+}
