@@ -1,5 +1,7 @@
 package team.aliens.dms.android.data.student.repository
 
+import kotlinx.coroutines.NonCancellable
+import kotlinx.coroutines.withContext
 import team.aliens.dms.android.core.jwt.JwtProvider
 import team.aliens.dms.android.core.school.SchoolProvider
 import team.aliens.dms.android.data.student.mapper.toModel
@@ -15,6 +17,7 @@ import team.aliens.dms.android.network.student.model.SignUpRequest
 import team.aliens.dms.android.network.student.model.SignUpResponse
 import team.aliens.dms.android.network.student.model.extractFeatures
 import team.aliens.dms.android.network.student.model.extractTokens
+import team.aliens.dms.android.shared.exception.util.runCatchingCancellable
 import java.util.UUID
 import javax.inject.Inject
 
@@ -103,13 +106,19 @@ internal class StudentRepositoryImpl @Inject constructor(
 
 
     override suspend fun withdraw(): Result<Unit> {
-        return networkStudentDataSource.withdraw().onSuccess {
-            jwtProvider.clearCaches()
-            schoolProvider.clearCaches()
-        }
+        return networkStudentDataSource.withdraw().fold(
+            onSuccess = { runCatchingCancellable { clearSessionCaches() } },
+            onFailure = { Result.failure(it) },
+        )
     }
 
     override suspend fun fetchStudents(): Result<List<Student>> =
         networkStudentDataSource.fetchStudents().map { it.toModel() }
 
+    private suspend fun clearSessionCaches() {
+        withContext(NonCancellable) {
+            jwtProvider.clearCaches()
+            schoolProvider.clearCaches()
+        }
+    }
 }

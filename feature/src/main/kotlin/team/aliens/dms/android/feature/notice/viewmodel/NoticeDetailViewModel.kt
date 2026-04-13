@@ -35,6 +35,7 @@ internal class NoticeDetailViewModel @Inject constructor(
     }
 }
 
+@Immutable
 internal data class NoticeDetailUi(
     val id: UUID,
     val title: String,

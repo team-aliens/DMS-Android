@@ -50,6 +50,7 @@ dependencies {
     implementation(project(ProjectPaths.DATA))
 
     implementation(project(ProjectPaths.Shared.DATE))
+    implementation(project(ProjectPaths.Shared.EXCEPTION))
 
     implementation(libs.androidx.core)
     implementation(libs.androidx.appcompat)

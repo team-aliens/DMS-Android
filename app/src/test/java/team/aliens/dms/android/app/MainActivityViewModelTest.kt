@@ -60,11 +60,36 @@ class MainActivityViewModelTest {
         assertEquals(2, jwtProvider.resolveSessionCallCount)
         assertFalse(viewModel.autoSignInAvailable.value)
     }
+
+    @Test
+    fun resolveSession_handlesFailure() = runTest(mainDispatcherRule.dispatcher) {
+        val jwtProvider = FakeJwtProvider(isJwtAvailable = true).apply {
+            shouldFailResolveSession = true
+        }
+        val onboardingDataSource = FakeOnboardingDataStoreDataSource(isCompleted = true)
+
+        val viewModel = MainActivityViewModel(
+            jwtProvider = jwtProvider,
+            onboardingDataSource = onboardingDataSource,
+        )
+        advanceUntilIdle()
+
+        // Should not crash and should still mark startup as resolved
+        assertTrue(viewModel.isStartupResolved.value)
+        assertEquals(1, jwtProvider.resolveSessionCallCount)
+
+        viewModel.resolveSession()
+        advanceUntilIdle()
+
+        assertEquals(2, jwtProvider.resolveSessionCallCount)
+    }
 }
 
 private class FakeJwtProvider(
     isJwtAvailable: Boolean,
 ) : JwtProvider() {
+    var shouldFailResolveSession = false
+
     private val accessToken = AccessToken(value = "access-token", expiration = now.plusDays(1))
     private val refreshToken = RefreshToken(value = "refresh-token", expiration = now.plusDays(1))
 
@@ -89,6 +114,9 @@ private class FakeJwtProvider(
 
     override suspend fun resolveSession(): Boolean {
         resolveSessionCallCount++
+        if (shouldFailResolveSession) {
+            throw RuntimeException("Network Error")
+        }
         return isCachedRefreshTokenAvailable.value
     }
 

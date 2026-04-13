@@ -137,9 +137,6 @@ internal class JwtProviderImpl @Inject constructor(
                 clearCachesLocked()
             }
             false
-        } catch (_: CannotUseRefreshTokenException) {
-            clearCachesLocked()
-            false
         }
     }
 

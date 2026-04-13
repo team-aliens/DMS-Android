@@ -6,6 +6,7 @@ import kotlinx.coroutines.launch
 import team.aliens.dms.android.core.ui.viewmodel.BaseStateViewModel
 import team.aliens.dms.android.data.student.repository.StudentRepository
 import team.aliens.dms.android.network.school.datasource.NetworkSchoolDataSource
+import team.aliens.dms.android.shared.exception.util.runCatchingCancellable
 import javax.inject.Inject
 
 @HiltViewModel
@@ -43,8 +44,9 @@ internal class FindIdViewModel @Inject constructor(
     }
 
     internal fun findId() = viewModelScope.launch {
-        val schoolId = runCatching { networkSchoolDataSource.fetchSchools() }
-            .getOrNull()?.schools?.firstOrNull()?.id ?: run {
+        val schoolId = runCatchingCancellable {
+            networkSchoolDataSource.fetchSchools().schools.firstOrNull()?.id
+        }.getOrNull() ?: run {
             sendEffect(FindIdSideEffect.ShowServerErrorSnackBar)
             return@launch
         }

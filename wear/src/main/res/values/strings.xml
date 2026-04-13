@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name" translatable="false">DMS Wear</string>
+    <string name="wear_home_title">DMS Wear Starter</string>
+    <string name="wear_home_description">워치에서 가장 자주 볼 정보만 빠르게 확인할 수 있게 시작점을 구성했습니다.</string>
+    <string name="wear_home_meal_action">급식 보기</string>
+    <string name="wear_home_status_action">오늘 상태</string>
+    <string name="wear_home_notice_action">공지 보기</string>
+    <string name="wear_meal_title">오늘 급식</string>
+    <string name="wear_status_title">오늘 상태</string>
+    <string name="wear_notice_title">공지</string>
+    <string name="wear_back_action">뒤로</string>
+    <string name="wear_synced_at">최근 동기화 %1$s</string>
+    <string name="wear_status_loading">연결 확인 후 상태를 불러오세요.</string>
+    <string name="wear_notice_empty">아직 연결된 공지 데이터가 없습니다.</string>
+</resources>

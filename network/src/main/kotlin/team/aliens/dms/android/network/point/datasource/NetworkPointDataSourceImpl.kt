@@ -1,7 +1,7 @@
 package team.aliens.dms.android.network.point.datasource
 import team.aliens.dms.android.network.point.apiservice.PointApiService
 import team.aliens.dms.android.network.point.model.FetchPointsResponse
-import team.aliens.dms.android.shared.exception.util.suspendRunCatching
+import team.aliens.dms.android.shared.exception.util.runCatchingCancellable
 import javax.inject.Inject
 
 internal class NetworkPointDataSourceImpl @Inject constructor(
@@ -13,5 +13,5 @@ internal class NetworkPointDataSourceImpl @Inject constructor(
         page: Long?,
         size: Long?,
     ): Result<FetchPointsResponse> =
-        suspendRunCatching { pointApiService.fetchPoints(type, page, size) }
+        runCatchingCancellable { pointApiService.fetchPoints(type, page, size) }
 }
