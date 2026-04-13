@@ -18,6 +18,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import team.aliens.dms.android.core.designsystem.DmsTheme
 import team.aliens.dms.android.core.designsystem.bodyB
+import team.aliens.dms.android.core.designsystem.labelB
+import team.aliens.dms.android.core.designsystem.labelM
 
 
 @Composable
@@ -25,23 +27,27 @@ fun LateStudyCalendarSection(
     modifier: Modifier = Modifier,
 ) {
     LateStudySectionCard(modifier = modifier) {
-        Text(
-            text = "일정",
-            modifier = Modifier.padding(horizontal = 16.dp),
-            color = DmsTheme.colorScheme.onBackground,
-            style = DmsTheme.typography.bodyB,
-        )
-
         Row(
-            modifier = Modifier.padding(horizontal = 16.dp, vertical = 14.dp),
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 16.dp, vertical = 2.dp),
             verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.spacedBy(8.dp),
         ) {
             Text(
+                text = "일정",
+                color = DmsTheme.colorScheme.onBackground,
+                style = DmsTheme.typography.bodyB,
+            )
+
+            Text(
                 text = "(새벽 자습은 금, 토, 일요일은 불가능합니다)",
-                color = DmsTheme.colorScheme.onSurfaceVariant,
-                style = DmsTheme.typography.caption,
+                color = DmsTheme.colorScheme.inverseSurface,
+                style = DmsTheme.typography.labelM,
             )
         }
+
+        Spacer(modifier = Modifier.size(10.dp))
 
         Row(
             modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp),
