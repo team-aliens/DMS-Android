@@ -81,6 +81,7 @@ fun LateStudyScreen(
         LateStudySectionCard {
             Text(
                 text = "유형",
+                modifier = Modifier.padding(horizontal = 16.dp, vertical = 12.dp),
                 color = DmsTheme.colorScheme.onBackground,
                 style = DmsTheme.typography.bodyB,
                 fontWeight = FontWeight.SemiBold,

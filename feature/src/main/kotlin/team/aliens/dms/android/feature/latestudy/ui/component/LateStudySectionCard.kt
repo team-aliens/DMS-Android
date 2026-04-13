@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
 import team.aliens.dms.android.core.designsystem.DmsTheme
 
@@ -23,10 +24,8 @@ fun LateStudySectionCard(
                 color = DmsTheme.colorScheme.surface,
                 shape = RoundedCornerShape(24.dp),
             )
-            .padding(
-                horizontal = 16.dp,
-                vertical = 14.dp,
-            ),
+            .clip(RoundedCornerShape(24.dp))
+            .padding(top = 20.dp, bottom = 14.dp),
         content = content,
     )
 }

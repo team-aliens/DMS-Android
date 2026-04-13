@@ -37,12 +37,12 @@ fun LateStudyTypeItem(
     Row(
         modifier = modifier
             .fillMaxWidth()
-            .height(60.dp)
+            .height(56.dp)
             .background(
                 color = if (selected) DmsTheme.colorScheme.primary else Color.Transparent,
             )
             .clickable(onClick = onClick)
-            .padding(vertical = 2.dp),
+            .padding(horizontal = 16.dp),
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically,
     ) {
