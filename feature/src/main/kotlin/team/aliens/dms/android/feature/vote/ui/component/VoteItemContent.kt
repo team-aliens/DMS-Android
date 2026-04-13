@@ -7,7 +7,6 @@ import kotlinx.collections.immutable.ImmutableList
 import team.aliens.dms.android.data.student.model.Student
 import team.aliens.dms.android.data.voting.model.Vote
 import team.aliens.dms.android.data.voting.model.VotingItem
-import team.aliens.dms.android.shared.date.toLocalDateTime
 
 @Composable
 internal fun VoteItemContent(
@@ -29,8 +28,8 @@ internal fun VoteItemContent(
             Vote.OPTION_VOTE -> {
                 OptionContent(
                     title = title,
-                    startTime = startTime.toLocalDateTime(),
-                    endTime = endTime.toLocalDateTime(),
+                    startTime = startTime,
+                    endTime = endTime,
                     options = options,
                     selectItem = selectItem,
                     onSelect = onSelect,
@@ -40,8 +39,8 @@ internal fun VoteItemContent(
             Vote.STUDENT_VOTE -> {
                 StudentContent(
                     title = title,
-                    startTime = startTime.toLocalDateTime(),
-                    endTime = endTime.toLocalDateTime(),
+                    startTime = startTime,
+                    endTime = endTime,
                     students = students,
                     selectItem = selectItem,
                     onSelect = onSelect,
@@ -60,8 +59,8 @@ internal fun VoteItemContent(
             Vote.MODEL_STUDENT_VOTE -> {
                 StudentContent(
                     title = title,
-                    startTime = startTime.toLocalDateTime(),
-                    endTime = endTime.toLocalDateTime(),
+                    startTime = startTime,
+                    endTime = endTime,
                     students = modelStudents,
                     selectItem = selectItem,
                     onSelect = onSelect,

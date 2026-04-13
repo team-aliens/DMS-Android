@@ -27,7 +27,9 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
+import kotlinx.collections.immutable.ImmutableList
 import kotlinx.coroutines.launch
+import team.aliens.dms.android.data.student.model.Student
 import team.aliens.dms.android.core.designsystem.DmsTheme
 import team.aliens.dms.android.core.designsystem.bodyB
 import team.aliens.dms.android.core.designsystem.foundation.DmsIcon
@@ -35,15 +37,12 @@ import team.aliens.dms.android.core.designsystem.startPadding
 import team.aliens.dms.android.core.designsystem.tab.DmsTab
 import team.aliens.dms.android.core.designsystem.tab.DmsTabRow
 import team.aliens.dms.android.core.designsystem.util.clickable
-import kotlinx.collections.immutable.ImmutableList
-import team.aliens.dms.android.data.student.model.Student
-import java.time.LocalDateTime
 
 @Composable
 internal fun StudentContent(
     title: String,
-    startTime: LocalDateTime,
-    endTime: LocalDateTime,
+    startTime: String,
+    endTime: String,
     students: ImmutableList<Student>,
     selectItem: String,
     onSelect: (String) -> Unit,
