@@ -37,7 +37,7 @@ fun LateStudyScreen(
     onShowSnackBar: (DmsSnackBarType, String) -> Unit,
 ) {
 
-    var selectedType by remember { mutableStateOf("개인 공부") }
+    var selectedType by remember { mutableStateOf<String?>(null) }
 
     val types = listOf(
         "개인 공부",
