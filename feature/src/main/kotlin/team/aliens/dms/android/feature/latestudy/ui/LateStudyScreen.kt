@@ -4,6 +4,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
@@ -26,7 +27,11 @@ import androidx.compose.ui.unit.dp
 import team.aliens.dms.android.core.designsystem.DmsTheme
 import team.aliens.dms.android.core.designsystem.snackbar.DmsSnackBarType
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import team.aliens.dms.android.core.designsystem.bodyB
+import team.aliens.dms.android.core.designsystem.button.ButtonColor
+import team.aliens.dms.android.core.designsystem.button.ButtonType
+import team.aliens.dms.android.core.designsystem.button.DmsLayeredButton
 import team.aliens.dms.android.core.designsystem.sTitleB
 import team.aliens.dms.android.feature.latestudy.ui.component.LateStudySectionCard
 import team.aliens.dms.android.feature.latestudy.ui.component.LateStudyTypeItem
@@ -112,5 +117,17 @@ fun LateStudyScreen(
         Spacer(modifier = Modifier.height(20.dp))
 
         LateStudyReasonSection()
+
+        Spacer(modifier = Modifier.height(20.dp))
+
+        DmsLayeredButton(
+            modifier = Modifier
+                .fillMaxWidth(),
+            text = "신청하기",
+            buttonType = ButtonType.Contained,
+            buttonColor = ButtonColor.Primary,
+            enabled = true,
+            onClick = { },
+        )
     }
 }
