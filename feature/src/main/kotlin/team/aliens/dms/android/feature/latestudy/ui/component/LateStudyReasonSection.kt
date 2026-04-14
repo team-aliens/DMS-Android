@@ -1,6 +1,12 @@
 package team.aliens.dms.android.feature.latestudy.ui.component
 
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -22,5 +28,19 @@ fun LateStudyReasonSection (
             color = DmsTheme.colorScheme.onBackground,
             style = DmsTheme.typography.bodyB,
         )
+
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 16.dp, vertical = 14.dp)
+                .background(
+                    color = DmsTheme.colorScheme.background,
+                    shape = RoundedCornerShape(20.dp),
+                )
+                .height(180.dp)
+                .padding(horizontal = 16.dp, vertical = 16.dp),
+        ) {
+
+        }
     }
 }
