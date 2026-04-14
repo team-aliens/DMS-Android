@@ -13,14 +13,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import team.aliens.dms.android.core.designsystem.DmsTheme
 import team.aliens.dms.android.core.designsystem.bodyB
+import team.aliens.dms.android.core.designsystem.bodyM
 
 @Composable
-fun LateStudyReasonSection (
-    reason: String="",
+fun LateStudyReasonSection(
     modifier: Modifier = Modifier,
 ) {
-    val isEmpty = reason.isBlank()
-
     LateStudySectionCard(modifier = modifier) {
         Text(
             text = "사유",
@@ -40,7 +38,11 @@ fun LateStudyReasonSection (
                 .height(180.dp)
                 .padding(horizontal = 16.dp, vertical = 16.dp),
         ) {
-
+            Text(
+                text = "새벽자습을 신청 한 이유를 작성해주세요",
+                color = DmsTheme.colorScheme.inverseSurface,
+                style = DmsTheme.typography.bodyM,
+            )
         }
     }
 }
