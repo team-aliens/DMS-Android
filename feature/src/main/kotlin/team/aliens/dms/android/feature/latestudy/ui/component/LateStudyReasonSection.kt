@@ -39,7 +39,7 @@ fun LateStudyReasonSection(
                 .padding(horizontal = 16.dp, vertical = 16.dp),
         ) {
             Text(
-                text = "새벽자습을 신청 한 이유를 작성해주세요",
+                text = "새벽 자습을 신청한 이유를 작성해주세요",
                 color = DmsTheme.colorScheme.inverseSurface,
                 style = DmsTheme.typography.bodyM,
             )
