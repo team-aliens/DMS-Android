@@ -143,6 +143,7 @@ private fun CalendarDateCell(
     isRangeEnd: Boolean,
     isInRange: Boolean,
     isSingleSelected: Boolean,
+    isSelectable: Boolean,
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
@@ -234,7 +235,10 @@ private fun CalendarDateCell(
         Box(
             modifier = Modifier
                 .size(32.dp)
-                .clickable(onClick = onClick),
+                .clickable(
+                    enabled = isSelectable,
+                    onClick = onClick,
+                ),
             contentAlignment = Alignment.Center,
         ) {
             Text(
@@ -267,6 +271,7 @@ private fun CalendarGrid(
                 val isInRange = startDate != null && endDate != null &&
                         item.date.isAfter(startDate) && item.date.isBefore(endDate)
                 val isSingleSelected = startDate != null && endDate == null && item.date == startDate
+                val isSelectable = item.isCurrentMonth && isSelectableDate(item.date)
 
                 CalendarDateCell(
                     date = item.date,
@@ -275,7 +280,12 @@ private fun CalendarGrid(
                     isRangeEnd = isRangeEnd,
                     isInRange = isInRange,
                     isSingleSelected = isSingleSelected,
-                    onClick = { onDateClick(item.date) },
+                    isSelectable = isSelectable,
+                    onClick = {
+                        if (isSelectable) {
+                            onDateClick(item.date)
+                        }
+                    },
                     modifier = Modifier.weight(1f),
                 )
             }
@@ -330,4 +340,15 @@ private fun buildCalendarDates(
     }
 
     return result
+}
+
+private fun isSelectableDate(date: LocalDate): Boolean {
+    return when (date.dayOfWeek) {
+        DayOfWeek.FRIDAY,
+        DayOfWeek.SATURDAY,
+        DayOfWeek.SUNDAY,
+            -> false
+
+        else -> true
+    }
 }
