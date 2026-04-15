@@ -29,7 +29,8 @@ import java.time.LocalDate
 @Composable
 fun LateStudyCalendarSection(
     currentMonth: YearMonth,
-    selectedDate: LocalDate?,
+    startDate: LocalDate?,
+    endDate: LocalDate?,
     onPrevMonthClick: () -> Unit,
     onNextMonthClick: () -> Unit,
     onDateClick: (LocalDate) -> Unit,
@@ -91,7 +92,8 @@ fun LateStudyCalendarSection(
 
         CalendarGrid(
             currentMonth = currentMonth,
-            selectedDate = selectedDate,
+            startDate = startDate,
+            endDate = endDate,
             onDateClick = onDateClick,
         )
 
@@ -170,7 +172,8 @@ private fun CalendarDateCell(
 @Composable
 private fun CalendarGrid(
     currentMonth: YearMonth,
-    selectedDate: LocalDate?,
+    startDate: LocalDate?,
+    endDate: LocalDate?,
     onDateClick: (LocalDate) -> Unit,
 ) {
     val dates = buildCalendarDates(currentMonth)
@@ -186,7 +189,7 @@ private fun CalendarGrid(
                 CalendarDateCell(
                     date = item.date,
                     isCurrentMonth = item.isCurrentMonth,
-                    isSelected = selectedDate == item.date,
+                    isSelected = item.date == startDate || item.date == endDate,
                     onClick = { onDateClick(item.date) },
                 )
             }

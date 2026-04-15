@@ -56,6 +56,9 @@ fun LateStudyScreen(
 
     var currentMonth by remember { mutableStateOf(YearMonth.now()) }
 
+    var startDate by remember { mutableStateOf<LocalDate?>(null) }
+    var endDate by remember { mutableStateOf<LocalDate?>(null) }
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -114,10 +117,26 @@ fun LateStudyScreen(
 
         LateStudyCalendarSection(
             currentMonth = currentMonth,
-            selectedDate = selectedDate,
+            startDate = startDate,
+            endDate = endDate,
             onPrevMonthClick = { currentMonth = currentMonth.minusMonths(1) },
             onNextMonthClick = { currentMonth = currentMonth.plusMonths(1) },
-            onDateClick = { clickedDate -> selectedDate = clickedDate },
+            onDateClick = { clickedDate ->
+                when {
+                    startDate == null -> {
+                        startDate = clickedDate
+                    }
+
+                    endDate == null && !clickedDate.isBefore(startDate) -> {
+                        endDate = clickedDate
+                    }
+
+                    else -> {
+                        startDate = clickedDate
+                        endDate = null
+                    }
+                }
+            },
         )
 
         Spacer(modifier = Modifier.height(20.dp))
