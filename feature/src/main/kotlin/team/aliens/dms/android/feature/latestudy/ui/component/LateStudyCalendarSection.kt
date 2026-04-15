@@ -141,6 +141,7 @@ private fun CalendarDateCell(
     isRangeStart: Boolean,
     isRangeEnd: Boolean,
     isInRange: Boolean,
+    isSingleSelected: Boolean,
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
@@ -175,7 +176,7 @@ private fun CalendarDateCell(
         modifier = modifier.height(44.dp),
         contentAlignment = Alignment.Center,
     ) {
-        if (isRangeStart) {
+        if (isRangeStart && !isSingleSelected) {
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -198,7 +199,7 @@ private fun CalendarDateCell(
             )
         }
 
-        if (isRangeEnd) {
+        if (isRangeEnd && !isSingleSelected) {
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -256,6 +257,7 @@ private fun CalendarGrid(
                 val isRangeEnd = item.date == endDate
                 val isInRange = startDate != null && endDate != null &&
                         item.date.isAfter(startDate) && item.date.isBefore(endDate)
+                val isSingleSelected = startDate != null && endDate == null && item.date == startDate
 
                 CalendarDateCell(
                     date = item.date,
@@ -263,6 +265,7 @@ private fun CalendarGrid(
                     isRangeStart = isRangeStart,
                     isRangeEnd = isRangeEnd,
                     isInRange = isInRange,
+                    isSingleSelected = isSingleSelected,
                     onClick = { onDateClick(item.date) },
                     modifier = Modifier.weight(1f),
                 )
