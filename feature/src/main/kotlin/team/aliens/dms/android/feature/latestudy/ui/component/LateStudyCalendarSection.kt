@@ -25,6 +25,7 @@ import team.aliens.dms.android.core.designsystem.labelM
 import java.time.YearMonth
 import java.time.DayOfWeek
 import java.time.LocalDate
+import androidx.compose.foundation.layout.height
 
 @Composable
 fun LateStudyCalendarSection(
@@ -137,11 +138,16 @@ private fun CalendarDayHeader() {
 private fun CalendarDateCell(
     date: LocalDate,
     isCurrentMonth: Boolean,
-    isSelected: Boolean,
+    isRangeStart: Boolean,
+    isRangeEnd: Boolean,
+    isInRange: Boolean,
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
+    val isSelected = isRangeStart || isRangeEnd
+
     val textColor = when {
+        isSelected -> DmsTheme.colorScheme.surface
         !isCurrentMonth && date.dayOfWeek == DayOfWeek.SUNDAY -> DmsTheme.colorScheme.onError
         !isCurrentMonth && date.dayOfWeek == DayOfWeek.SATURDAY -> DmsTheme.colorScheme.onPrimary
         !isCurrentMonth -> DmsTheme.colorScheme.inverseSurface
@@ -152,20 +158,43 @@ private fun CalendarDateCell(
     }
 
     Box(
-        modifier = modifier
-            .size(32.dp)
-            .background(
-                color = if (isSelected) DmsTheme.colorScheme.onPrimaryContainer else DmsTheme.colorScheme.surface,
-                shape = CircleShape,
-            )
-            .clickable(onClick = onClick),
+        modifier = modifier.size(32.dp),
         contentAlignment = Alignment.Center,
     ) {
-        Text(
-            text = date.dayOfMonth.toString(),
-            color = if (isSelected) DmsTheme.colorScheme.surface else textColor,
-            style = DmsTheme.typography.caption,
-        )
+        if (isInRange) {
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(20.dp)
+                    .background(
+                        color = DmsTheme.colorScheme.onPrimaryContainer.copy(alpha = 0.18f),
+                    ),
+            )
+        }
+
+        if (isSelected) {
+            Box(
+                modifier = Modifier
+                    .size(32.dp)
+                    .background(
+                        color = DmsTheme.colorScheme.onPrimaryContainer,
+                        shape = CircleShape,
+                    ),
+            )
+        }
+
+        Box(
+            modifier = Modifier
+                .size(32.dp)
+                .clickable(onClick = onClick),
+            contentAlignment = Alignment.Center,
+        ) {
+            Text(
+                text = date.dayOfMonth.toString(),
+                color = textColor,
+                style = DmsTheme.typography.caption,
+            )
+        }
     }
 }
 
@@ -186,10 +215,17 @@ private fun CalendarGrid(
             horizontalArrangement = Arrangement.SpaceBetween,
         ) {
             week.forEach { item ->
+                val isRangeStart = item.date == startDate
+                val isRangeEnd = item.date == endDate
+                val isInRange = startDate != null && endDate != null &&
+                        item.date.isAfter(startDate) && item.date.isBefore(endDate)
+
                 CalendarDateCell(
                     date = item.date,
                     isCurrentMonth = item.isCurrentMonth,
-                    isSelected = item.date == startDate || item.date == endDate,
+                    isRangeStart = isRangeStart,
+                    isRangeEnd = isRangeEnd,
+                    isInRange = isInRange,
                     onClick = { onDateClick(item.date) },
                 )
             }
