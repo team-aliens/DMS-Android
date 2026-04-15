@@ -6,7 +6,6 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBarsPadding
@@ -27,7 +26,6 @@ import androidx.compose.ui.unit.dp
 import team.aliens.dms.android.core.designsystem.DmsTheme
 import team.aliens.dms.android.core.designsystem.snackbar.DmsSnackBarType
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
 import team.aliens.dms.android.core.designsystem.bodyB
 import team.aliens.dms.android.core.designsystem.button.ButtonColor
 import team.aliens.dms.android.core.designsystem.button.ButtonType
@@ -44,7 +42,6 @@ fun LateStudyScreen(
     onBack: () -> Unit,
     onShowSnackBar: (DmsSnackBarType, String) -> Unit,
 ) {
-
     var selectedType by remember { mutableStateOf<String?>(null) }
 
     val types = listOf(
@@ -60,7 +57,6 @@ fun LateStudyScreen(
             .fillMaxSize()
             .background(DmsTheme.colorScheme.background)
             .statusBarsPadding()
-            .navigationBarsPadding()
             .verticalScroll(rememberScrollState())
             .padding(horizontal = 20.dp, vertical = 16.dp),
     ) {
@@ -129,5 +125,7 @@ fun LateStudyScreen(
             enabled = true,
             onClick = { },
         )
+
+        Spacer(modifier = Modifier.height(12.dp))
     }
 }
