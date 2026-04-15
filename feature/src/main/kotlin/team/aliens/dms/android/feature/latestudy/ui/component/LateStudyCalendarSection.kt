@@ -1,5 +1,6 @@
 package team.aliens.dms.android.feature.latestudy.ui.component
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
@@ -18,12 +19,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import team.aliens.dms.android.core.designsystem.DmsTheme
 import team.aliens.dms.android.core.designsystem.bodyB
-import team.aliens.dms.android.core.designsystem.labelB
 import team.aliens.dms.android.core.designsystem.labelM
-
+import java.time.YearMonth
 
 @Composable
 fun LateStudyCalendarSection(
+    currentMonth: YearMonth,
+    onPrevMonthClick: () -> Unit,
+    onNextMonthClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     LateStudySectionCard(modifier = modifier) {
@@ -57,33 +60,30 @@ fun LateStudyCalendarSection(
                 imageVector = Icons.AutoMirrored.Filled.KeyboardArrowLeft,
                 contentDescription = "이전 달",
                 tint = DmsTheme.colorScheme.onSurfaceVariant,
+                modifier = Modifier.clickable(onClick = onPrevMonthClick),
             )
 
-            Spacer(
-                modifier = Modifier.size(4.dp),
-            )
+            Spacer(modifier = Modifier.size(4.dp))
 
             Text(
-                text = "2026 4월",
+                text = "${currentMonth.year} ${currentMonth.monthValue}월",
                 color = DmsTheme.colorScheme.onBackground,
                 style = DmsTheme.typography.bodyB,
             )
 
-            Spacer(
-                modifier = Modifier.size(4.dp),
-            )
+            Spacer(modifier = Modifier.size(4.dp))
 
             Icon(
                 imageVector = Icons.AutoMirrored.Filled.KeyboardArrowRight,
                 contentDescription = "다음 달",
                 tint = DmsTheme.colorScheme.onSurfaceVariant,
+                modifier = Modifier.clickable(onClick = onNextMonthClick),
             )
         }
+
         CalendarDayHeader()
 
-        Spacer(
-            modifier = Modifier.size(4.dp),
-        )
+        Spacer(modifier = Modifier.size(4.dp))
 
         DummyCalendarGrid()
     }
