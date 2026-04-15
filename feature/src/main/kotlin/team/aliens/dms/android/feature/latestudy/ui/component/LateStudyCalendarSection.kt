@@ -148,26 +148,64 @@ private fun CalendarDateCell(
 
     val textColor = when {
         isSelected -> DmsTheme.colorScheme.surface
-        !isCurrentMonth && date.dayOfWeek == DayOfWeek.SUNDAY -> DmsTheme.colorScheme.onError
-        !isCurrentMonth && date.dayOfWeek == DayOfWeek.SATURDAY -> DmsTheme.colorScheme.onPrimary
-        !isCurrentMonth -> DmsTheme.colorScheme.inverseSurface
-        date.dayOfWeek == DayOfWeek.SUNDAY -> DmsTheme.colorScheme.onError
-        date.dayOfWeek == DayOfWeek.SATURDAY -> DmsTheme.colorScheme.onPrimary
-        date.dayOfWeek == DayOfWeek.FRIDAY -> DmsTheme.colorScheme.onSurfaceVariant
-        else -> DmsTheme.colorScheme.onBackground
+
+        !isCurrentMonth && date.dayOfWeek == DayOfWeek.SUNDAY ->
+            DmsTheme.colorScheme.onError
+
+        !isCurrentMonth && date.dayOfWeek == DayOfWeek.SATURDAY ->
+            DmsTheme.colorScheme.onPrimary
+
+        !isCurrentMonth ->
+            DmsTheme.colorScheme.inverseSurface
+
+        date.dayOfWeek == DayOfWeek.SUNDAY ->
+            DmsTheme.colorScheme.onError
+
+        date.dayOfWeek == DayOfWeek.SATURDAY ->
+            DmsTheme.colorScheme.onPrimary
+
+        date.dayOfWeek == DayOfWeek.FRIDAY ->
+            DmsTheme.colorScheme.onSurfaceVariant
+
+        else ->
+            DmsTheme.colorScheme.onBackground
     }
 
     Box(
-        modifier = modifier.size(32.dp),
+        modifier = modifier.height(44.dp),
         contentAlignment = Alignment.Center,
     ) {
+        if (isRangeStart) {
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(28.dp)
+                    .padding(start = 16.dp)
+                    .background(
+                        color = DmsTheme.colorScheme.onPrimaryContainer.copy(alpha = 0.6f),
+                    ),
+            )
+        }
+
         if (isInRange) {
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(20.dp)
+                    .height(28.dp)
                     .background(
-                        color = DmsTheme.colorScheme.onPrimaryContainer.copy(alpha = 0.18f),
+                        color = DmsTheme.colorScheme.onPrimaryContainer.copy(alpha = 0.6f),
+                    ),
+            )
+        }
+
+        if (isRangeEnd) {
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(28.dp)
+                    .padding(end = 16.dp)
+                    .background(
+                        color = DmsTheme.colorScheme.onPrimaryContainer.copy(alpha = 0.6f),
                     ),
             )
         }
@@ -212,7 +250,6 @@ private fun CalendarGrid(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(horizontal = 16.dp, vertical = 6.dp),
-            horizontalArrangement = Arrangement.SpaceBetween,
         ) {
             week.forEach { item ->
                 val isRangeStart = item.date == startDate
@@ -227,6 +264,7 @@ private fun CalendarGrid(
                     isRangeEnd = isRangeEnd,
                     isInRange = isInRange,
                     onClick = { onDateClick(item.date) },
+                    modifier = Modifier.weight(1f),
                 )
             }
         }
