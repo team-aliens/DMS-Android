@@ -85,6 +85,8 @@ fun LateStudyCalendarSection(
 
         CalendarDayHeader()
 
+        CalendarGrid(currentMonth = currentMonth)
+
         Spacer(modifier = Modifier.size(4.dp))
     }
 }
@@ -147,4 +149,76 @@ private fun CalendarDateCell(
             style = DmsTheme.typography.caption,
         )
     }
+}
+
+@Composable
+private fun CalendarGrid(
+    currentMonth: YearMonth,
+) {
+    val dates = buildCalendarDates(currentMonth)
+
+    dates.chunked(7).forEach { week ->
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 16.dp, vertical = 6.dp),
+            horizontalArrangement = Arrangement.SpaceBetween,
+        ) {
+            week.forEach { item ->
+                CalendarDateCell(
+                    date = item.date,
+                    isCurrentMonth = item.isCurrentMonth,
+                )
+            }
+        }
+    }
+}
+
+private data class CalendarDateUiModel(
+    val date: LocalDate,
+    val isCurrentMonth: Boolean,
+)
+
+private fun buildCalendarDates(
+    currentMonth: YearMonth,
+): List<CalendarDateUiModel> {
+    val firstDayOfMonth = currentMonth.atDay(1)
+    val firstDayOffset = firstDayOfMonth.dayOfWeek.value % 7
+    val daysInMonth = currentMonth.lengthOfMonth()
+
+    val previousMonth = currentMonth.minusMonths(1)
+    val previousMonthLastDay = previousMonth.lengthOfMonth()
+
+    val result = mutableListOf<CalendarDateUiModel>()
+
+    repeat(firstDayOffset) { index ->
+        val day = previousMonthLastDay - firstDayOffset + index + 1
+        result.add(
+            CalendarDateUiModel(
+                date = previousMonth.atDay(day),
+                isCurrentMonth = false,
+            ),
+        )
+    }
+
+    for (day in 1..daysInMonth) {
+        result.add(
+            CalendarDateUiModel(
+                date = currentMonth.atDay(day),
+                isCurrentMonth = true,
+            ),
+        )
+    }
+
+    var nextMonthDay = 1
+    while (result.size % 7 != 0) {
+        result.add(
+            CalendarDateUiModel(
+                date = currentMonth.plusMonths(1).atDay(nextMonthDay++),
+                isCurrentMonth = false,
+            ),
+        )
+    }
+
+    return result
 }
