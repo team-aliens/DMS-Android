@@ -36,6 +36,7 @@ import team.aliens.dms.android.feature.latestudy.ui.component.LateStudyTypeItem
 import team.aliens.dms.android.feature.latestudy.ui.component.LateStudyCalendarSection
 import team.aliens.dms.android.feature.latestudy.ui.component.LateStudyReasonSection
 import team.aliens.dms.android.feature.latestudy.ui.component.LateStudyTeacherSection
+import java.time.YearMonth
 
 @Composable
 fun LateStudyScreen(
@@ -51,6 +52,8 @@ fun LateStudyScreen(
         "대회 프로젝트",
         "기타",
     )
+
+    var currentMonth by remember { mutableStateOf(YearMonth.now()) }
 
     Column(
         modifier = Modifier
@@ -108,7 +111,11 @@ fun LateStudyScreen(
 
         Spacer(modifier = Modifier.height(20.dp))
 
-        LateStudyCalendarSection()
+        LateStudyCalendarSection(
+            currentMonth = currentMonth,
+            onPrevMonthClick = { },
+            onNextMonthClick = { },
+        )
 
         Spacer(modifier = Modifier.height(20.dp))
 
