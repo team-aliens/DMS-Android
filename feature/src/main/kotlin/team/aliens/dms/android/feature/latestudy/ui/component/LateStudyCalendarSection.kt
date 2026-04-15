@@ -21,6 +21,8 @@ import team.aliens.dms.android.core.designsystem.DmsTheme
 import team.aliens.dms.android.core.designsystem.bodyB
 import team.aliens.dms.android.core.designsystem.labelM
 import java.time.YearMonth
+import java.time.DayOfWeek
+import java.time.LocalDate
 
 @Composable
 fun LateStudyCalendarSection(
@@ -84,8 +86,6 @@ fun LateStudyCalendarSection(
         CalendarDayHeader()
 
         Spacer(modifier = Modifier.size(4.dp))
-
-        DummyCalendarGrid()
     }
 }
 
@@ -123,41 +123,28 @@ private fun CalendarDayHeader() {
 
 @Composable
 private fun CalendarDateCell(
-    text: String,
+    date: LocalDate,
+    isCurrentMonth: Boolean,
     modifier: Modifier = Modifier,
 ) {
+    val textColor = when {
+        !isCurrentMonth && date.dayOfWeek == DayOfWeek.SUNDAY -> DmsTheme.colorScheme.errorContainer
+        !isCurrentMonth && date.dayOfWeek == DayOfWeek.SATURDAY -> DmsTheme.colorScheme.onPrimary
+        !isCurrentMonth -> DmsTheme.colorScheme.inverseSurface
+        date.dayOfWeek == DayOfWeek.SUNDAY -> DmsTheme.colorScheme.errorContainer
+        date.dayOfWeek == DayOfWeek.SATURDAY -> DmsTheme.colorScheme.onPrimary
+        date.dayOfWeek == DayOfWeek.FRIDAY -> DmsTheme.colorScheme.onSurfaceVariant
+        else -> DmsTheme.colorScheme.onBackground
+    }
+
     Box(
         modifier = modifier.size(32.dp),
         contentAlignment = Alignment.Center,
     ) {
         Text(
-            text = text,
-            color = DmsTheme.colorScheme.onBackground,
+            text = date.dayOfMonth.toString(),
+            color = textColor,
             style = DmsTheme.typography.caption,
         )
-    }
-}
-
-@Composable
-private fun DummyCalendarGrid() {
-    val weeks = listOf(
-        listOf("29", "30", "31", "1", "2", "3", "4"),
-        listOf("5", "6", "7", "8", "9", "10", "11"),
-        listOf("12", "13", "14", "15", "16", "17", "18"),
-        listOf("19", "20", "21", "22", "23", "24", "25"),
-        listOf("26", "27", "28", "29", "30", "1", "2"),
-    )
-
-    weeks.forEach { week ->
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 16.dp, vertical = 6.dp),
-            horizontalArrangement = Arrangement.SpaceBetween,
-        ) {
-            week.forEach { day ->
-                CalendarDateCell(text = day)
-            }
-        }
     }
 }
