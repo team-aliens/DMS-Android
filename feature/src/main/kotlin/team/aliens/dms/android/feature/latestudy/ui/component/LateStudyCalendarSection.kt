@@ -148,7 +148,7 @@ private fun CalendarDateCell(
     val isSelected = isRangeStart || isRangeEnd
 
     val textColor = when {
-        isSelected -> DmsTheme.colorScheme.surface
+        isSelected || isInRange -> DmsTheme.colorScheme.background
 
         !isCurrentMonth && date.dayOfWeek == DayOfWeek.SUNDAY ->
             DmsTheme.colorScheme.onError
@@ -173,14 +173,14 @@ private fun CalendarDateCell(
     }
 
     Box(
-        modifier = modifier.height(44.dp),
+        modifier = modifier.height(40.dp),
         contentAlignment = Alignment.Center,
     ) {
         if (isRangeStart && !isSingleSelected) {
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(28.dp)
+                    .height(30.dp)
                     .padding(start = 16.dp)
                     .background(
                         color = DmsTheme.colorScheme.onPrimaryContainer.copy(alpha = 0.6f),
@@ -192,7 +192,7 @@ private fun CalendarDateCell(
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(28.dp)
+                    .height(30.dp)
                     .background(
                         color = DmsTheme.colorScheme.onPrimaryContainer.copy(alpha = 0.6f),
                     ),
@@ -203,7 +203,7 @@ private fun CalendarDateCell(
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(28.dp)
+                    .height(30.dp)
                     .padding(end = 16.dp)
                     .background(
                         color = DmsTheme.colorScheme.onPrimaryContainer.copy(alpha = 0.6f),
@@ -214,7 +214,7 @@ private fun CalendarDateCell(
         if (isSelected) {
             Box(
                 modifier = Modifier
-                    .size(32.dp)
+                    .size(30.dp)
                     .background(
                         color = DmsTheme.colorScheme.onPrimaryContainer,
                         shape = CircleShape,
