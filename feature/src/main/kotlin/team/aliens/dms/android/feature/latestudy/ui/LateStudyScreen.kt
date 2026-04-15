@@ -113,8 +113,8 @@ fun LateStudyScreen(
 
         LateStudyCalendarSection(
             currentMonth = currentMonth,
-            onPrevMonthClick = { },
-            onNextMonthClick = { },
+            onPrevMonthClick = { currentMonth = currentMonth.minusMonths(1) },
+            onNextMonthClick = { currentMonth = currentMonth.plusMonths(1) },
         )
 
         Spacer(modifier = Modifier.height(20.dp))
