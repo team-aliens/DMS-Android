@@ -26,6 +26,7 @@ import java.time.YearMonth
 import java.time.DayOfWeek
 import java.time.LocalDate
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.shape.RoundedCornerShape
 
 @Composable
 fun LateStudyCalendarSection(
@@ -181,9 +182,13 @@ private fun CalendarDateCell(
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(30.dp)
-                    .padding(start = 16.dp)
+                    .padding(start = 15.dp)
                     .background(
                         color = DmsTheme.colorScheme.onPrimaryContainer.copy(alpha = 0.6f),
+                        shape = RoundedCornerShape(
+                            topStart = 999.dp,
+                            bottomStart = 999.dp,
+                        ),
                     ),
             )
         }
@@ -195,7 +200,7 @@ private fun CalendarDateCell(
                     .height(30.dp)
                     .background(
                         color = DmsTheme.colorScheme.onPrimaryContainer.copy(alpha = 0.6f),
-                    ),
+                        ),
             )
         }
 
@@ -204,9 +209,13 @@ private fun CalendarDateCell(
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(30.dp)
-                    .padding(end = 16.dp)
+                    .padding(end = 15.dp)
                     .background(
                         color = DmsTheme.colorScheme.onPrimaryContainer.copy(alpha = 0.6f),
+                        shape = RoundedCornerShape(
+                            topEnd = 999.dp,
+                            bottomEnd = 999.dp,
+                        ),
                     ),
             )
         }
