@@ -1,5 +1,6 @@
 package team.aliens.dms.android.feature.latestudy.ui.component
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -8,6 +9,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.KeyboardArrowLeft
 import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
@@ -27,8 +29,10 @@ import java.time.LocalDate
 @Composable
 fun LateStudyCalendarSection(
     currentMonth: YearMonth,
+    selectedDate: LocalDate?,
     onPrevMonthClick: () -> Unit,
     onNextMonthClick: () -> Unit,
+    onDateClick: (LocalDate) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     LateStudySectionCard(modifier = modifier) {
@@ -85,7 +89,11 @@ fun LateStudyCalendarSection(
 
         CalendarDayHeader()
 
-        CalendarGrid(currentMonth = currentMonth)
+        CalendarGrid(
+            currentMonth = currentMonth,
+            selectedDate = selectedDate,
+            onDateClick = onDateClick,
+        )
 
         Spacer(modifier = Modifier.size(4.dp))
     }
@@ -127,6 +135,8 @@ private fun CalendarDayHeader() {
 private fun CalendarDateCell(
     date: LocalDate,
     isCurrentMonth: Boolean,
+    isSelected: Boolean,
+    onClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     val textColor = when {
@@ -140,12 +150,18 @@ private fun CalendarDateCell(
     }
 
     Box(
-        modifier = modifier.size(32.dp),
+        modifier = modifier
+            .size(32.dp)
+            .background(
+                color = if (isSelected) DmsTheme.colorScheme.onPrimaryContainer else DmsTheme.colorScheme.surface,
+                shape = CircleShape,
+            )
+            .clickable(onClick = onClick),
         contentAlignment = Alignment.Center,
     ) {
         Text(
             text = date.dayOfMonth.toString(),
-            color = textColor,
+            color = if (isSelected) DmsTheme.colorScheme.surface else textColor,
             style = DmsTheme.typography.caption,
         )
     }
@@ -154,6 +170,8 @@ private fun CalendarDateCell(
 @Composable
 private fun CalendarGrid(
     currentMonth: YearMonth,
+    selectedDate: LocalDate?,
+    onDateClick: (LocalDate) -> Unit,
 ) {
     val dates = buildCalendarDates(currentMonth)
 
@@ -168,6 +186,8 @@ private fun CalendarGrid(
                 CalendarDateCell(
                     date = item.date,
                     isCurrentMonth = item.isCurrentMonth,
+                    isSelected = selectedDate == item.date,
+                    onClick = { onDateClick(item.date) },
                 )
             }
         }
