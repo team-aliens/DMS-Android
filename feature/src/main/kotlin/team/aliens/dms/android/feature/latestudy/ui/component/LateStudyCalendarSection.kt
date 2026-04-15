@@ -130,10 +130,10 @@ private fun CalendarDateCell(
     modifier: Modifier = Modifier,
 ) {
     val textColor = when {
-        !isCurrentMonth && date.dayOfWeek == DayOfWeek.SUNDAY -> DmsTheme.colorScheme.errorContainer
+        !isCurrentMonth && date.dayOfWeek == DayOfWeek.SUNDAY -> DmsTheme.colorScheme.onError
         !isCurrentMonth && date.dayOfWeek == DayOfWeek.SATURDAY -> DmsTheme.colorScheme.onPrimary
         !isCurrentMonth -> DmsTheme.colorScheme.inverseSurface
-        date.dayOfWeek == DayOfWeek.SUNDAY -> DmsTheme.colorScheme.errorContainer
+        date.dayOfWeek == DayOfWeek.SUNDAY -> DmsTheme.colorScheme.onError
         date.dayOfWeek == DayOfWeek.SATURDAY -> DmsTheme.colorScheme.onPrimary
         date.dayOfWeek == DayOfWeek.FRIDAY -> DmsTheme.colorScheme.onSurfaceVariant
         else -> DmsTheme.colorScheme.onBackground
