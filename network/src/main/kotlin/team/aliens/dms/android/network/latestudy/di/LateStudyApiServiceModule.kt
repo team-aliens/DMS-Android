@@ -5,17 +5,18 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import retrofit2.Retrofit
+import team.aliens.dms.android.core.network.di.GlobalRetrofitClient
 import team.aliens.dms.android.network.latestudy.apiservice.LateStudyApiService
 import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-object LateStudyApiServiceModule {
+internal object LateStudyApiServiceModule {
 
     @Provides
     @Singleton
     fun provideLateStudyApiService(
-        retrofit: Retrofit,
+        @GlobalRetrofitClient retrofit: Retrofit,
     ): LateStudyApiService =
         retrofit.create(LateStudyApiService::class.java)
 }
