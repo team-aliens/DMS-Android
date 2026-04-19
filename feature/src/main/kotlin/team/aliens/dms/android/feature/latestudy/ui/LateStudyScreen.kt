@@ -59,6 +59,8 @@ fun LateStudyScreen(
     var startDate by remember { mutableStateOf<LocalDate?>(null) }
     var endDate by remember { mutableStateOf<LocalDate?>(null) }
     var teacherKeyword by remember { mutableStateOf("") }
+    var reason by remember { mutableStateOf("") }
+
 
     Column(
         modifier = Modifier
@@ -145,7 +147,10 @@ fun LateStudyScreen(
 
         Spacer(modifier = Modifier.height(20.dp))
 
-        LateStudyReasonSection()
+        LateStudyReasonSection(
+            value = reason,
+            onValueChange = { reason = it },
+        )
 
         Spacer(modifier = Modifier.height(20.dp))
 
