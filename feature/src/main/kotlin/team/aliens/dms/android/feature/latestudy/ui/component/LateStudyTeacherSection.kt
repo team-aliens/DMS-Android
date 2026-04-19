@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -15,6 +16,8 @@ import team.aliens.dms.android.core.designsystem.bodyM
 
 @Composable
 fun LateStudyTeacherSection(
+    value: String,
+    onValueChange: (String) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     LateStudySectionCard(modifier = modifier) {
@@ -41,10 +44,23 @@ fun LateStudyTeacherSection(
                     vertical = 18.dp,
                 ),
         ) {
-            Text(
-                text = "홍길동",
-                color = DmsTheme.colorScheme.inverseSurface,
-                style = DmsTheme.typography.bodyM,
+            BasicTextField(
+                value = value,
+                onValueChange = onValueChange,
+                textStyle = DmsTheme.typography.bodyM.copy(
+                    color = DmsTheme.colorScheme.onBackground,
+                ),
+                modifier = Modifier.fillMaxWidth(),
+                decorationBox = { innerTextField ->
+                    if (value.isEmpty()) {
+                        Text(
+                            text = "홍길동",
+                            color = DmsTheme.colorScheme.inverseSurface,
+                            style = DmsTheme.typography.bodyM,
+                        )
+                    }
+                    innerTextField()
+                },
             )
         }
     }
