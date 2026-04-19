@@ -31,12 +31,25 @@ fun LateStudyReasonSection(
     modifier: Modifier = Modifier,
 ) {
     LateStudySectionCard(modifier = modifier) {
-        Text(
-            text = "사유",
-            modifier = Modifier.padding(horizontal = 16.dp),
-            color = DmsTheme.colorScheme.onBackground,
-            style = DmsTheme.typography.bodyB,
-        )
+
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 16.dp),
+            horizontalArrangement = Arrangement.SpaceBetween,
+        ) {
+            Text(
+                text = "사유",
+                color = DmsTheme.colorScheme.onBackground,
+                style = DmsTheme.typography.bodyB,
+            )
+
+            Text(
+                text = "${value.length}/200",
+                color = DmsTheme.colorScheme.inverseSurface,
+                style = DmsTheme.typography.bodyM,
+            )
+        }
 
         Column(
             modifier = Modifier
@@ -49,54 +62,28 @@ fun LateStudyReasonSection(
                 .height(180.dp)
                 .padding(horizontal = 16.dp, vertical = 16.dp),
         ) {
-            Box(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .weight(1f),
-            ) {
-                BasicTextField(
-                    value = value,
-                    onValueChange = { changedValue ->
-                        if (changedValue.length <= REASON_MAX_LENGTH) {
-                            onValueChange(changedValue)
-                        }
-                    },
-                    modifier = Modifier.fillMaxWidth(),
-                    textStyle = TextStyle(
-                        color = Color.Transparent,
-                    ),
-                    keyboardOptions = KeyboardOptions(
-                        capitalization = KeyboardCapitalization.Sentences,
-                    ),
-                    decorationBox = { innerTextField ->
-                        if (value.isEmpty()) {
-                            Text(
-                                text = "새벽 자습을 신청한 이유를 작성해주세요",
-                                color = DmsTheme.colorScheme.inverseSurface,
-                                style = DmsTheme.typography.bodyM,
-                            )
-                        } else {
-                            Row(
-                                horizontalArrangement = Arrangement.spacedBy(8.dp),
-                            ) {
-                                Text(
-                                    text = value,
-                                    color = DmsTheme.colorScheme.onBackground,
-                                    style = DmsTheme.typography.bodyM,
-                                )
-
-                                Text(
-                                    text = "${value.length}/$REASON_MAX_LENGTH",
-                                    color = DmsTheme.colorScheme.inverseSurface,
-                                    style = DmsTheme.typography.bodyM,
-                                )
-                            }
-                        }
-
-                        innerTextField()
-                    },
-                )
-            }
+            BasicTextField(
+                value = value,
+                onValueChange = { newValue ->
+                    if (newValue.length <= 200) {
+                        onValueChange(newValue)
+                    }
+                },
+                modifier = Modifier.fillMaxWidth(),
+                textStyle = DmsTheme.typography.bodyM.copy(
+                    color = DmsTheme.colorScheme.onBackground,
+                ),
+                decorationBox = { innerTextField ->
+                    if (value.isEmpty()) {
+                        Text(
+                            text = "새벽 자습을 신청한 이유를 작성해주세요",
+                            color = DmsTheme.colorScheme.inverseSurface,
+                            style = DmsTheme.typography.bodyM,
+                        )
+                    }
+                    innerTextField()
+                },
+            )
         }
     }
 }
