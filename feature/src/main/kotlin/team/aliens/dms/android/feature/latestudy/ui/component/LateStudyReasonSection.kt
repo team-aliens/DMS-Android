@@ -21,6 +21,9 @@ import androidx.compose.ui.unit.dp
 import team.aliens.dms.android.core.designsystem.DmsTheme
 import team.aliens.dms.android.core.designsystem.bodyB
 import team.aliens.dms.android.core.designsystem.bodyM
+import team.aliens.dms.android.core.designsystem.labelM
+import team.aliens.dms.android.core.designsystem.sLabelB
+import team.aliens.dms.android.core.designsystem.sLabelM
 
 private const val REASON_MAX_LENGTH = 200
 
@@ -47,7 +50,7 @@ fun LateStudyReasonSection(
             Text(
                 text = "${value.length}/200",
                 color = DmsTheme.colorScheme.inverseSurface,
-                style = DmsTheme.typography.bodyM,
+                style = DmsTheme.typography.labelM,
             )
         }
 
