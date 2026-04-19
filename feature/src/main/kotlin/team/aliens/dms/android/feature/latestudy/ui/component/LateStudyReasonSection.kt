@@ -51,6 +51,7 @@ fun LateStudyReasonSection(
                 text = "${value.length}/200",
                 color = DmsTheme.colorScheme.inverseSurface,
                 style = DmsTheme.typography.labelM,
+                modifier = Modifier.padding(top = 4.dp, end = 10.dp)
             )
         }
 
