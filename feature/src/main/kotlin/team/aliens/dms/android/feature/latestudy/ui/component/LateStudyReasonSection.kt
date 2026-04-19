@@ -2,7 +2,9 @@ package team.aliens.dms.android.feature.latestudy.ui.component
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -12,6 +14,8 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.unit.dp
 import team.aliens.dms.android.core.designsystem.DmsTheme
@@ -44,43 +48,55 @@ fun LateStudyReasonSection(
                 )
                 .height(180.dp)
                 .padding(horizontal = 16.dp, vertical = 16.dp),
-            verticalArrangement = Arrangement.spacedBy(8.dp),
         ) {
-            if (value.isNotEmpty()) {
-                Text(
-                    text = "${value.length}/$REASON_MAX_LENGTH",
-                    color = DmsTheme.colorScheme.inverseSurface,
-                    style = DmsTheme.typography.bodyM,
-                )
-            }
-
-            BasicTextField(
-                value = value,
-                onValueChange = { changedValue ->
-                    if (changedValue.length <= REASON_MAX_LENGTH) {
-                        onValueChange(changedValue)
-                    }
-                },
+            Box(
                 modifier = Modifier
                     .fillMaxWidth()
                     .weight(1f),
-                textStyle = DmsTheme.typography.bodyM.copy(
-                    color = DmsTheme.colorScheme.onBackground,
-                ),
-                keyboardOptions = KeyboardOptions(
-                    capitalization = KeyboardCapitalization.Sentences,
-                ),
-                decorationBox = { innerTextField ->
-                    if (value.isEmpty()) {
-                        Text(
-                            text = "새벽 자습을 신청한 이유를 작성해주세요",
-                            color = DmsTheme.colorScheme.inverseSurface,
-                            style = DmsTheme.typography.bodyM,
-                        )
-                    }
-                    innerTextField()
-                },
-            )
+            ) {
+                BasicTextField(
+                    value = value,
+                    onValueChange = { changedValue ->
+                        if (changedValue.length <= REASON_MAX_LENGTH) {
+                            onValueChange(changedValue)
+                        }
+                    },
+                    modifier = Modifier.fillMaxWidth(),
+                    textStyle = TextStyle(
+                        color = Color.Transparent,
+                    ),
+                    keyboardOptions = KeyboardOptions(
+                        capitalization = KeyboardCapitalization.Sentences,
+                    ),
+                    decorationBox = { innerTextField ->
+                        if (value.isEmpty()) {
+                            Text(
+                                text = "새벽 자습을 신청한 이유를 작성해주세요",
+                                color = DmsTheme.colorScheme.inverseSurface,
+                                style = DmsTheme.typography.bodyM,
+                            )
+                        } else {
+                            Row(
+                                horizontalArrangement = Arrangement.spacedBy(8.dp),
+                            ) {
+                                Text(
+                                    text = value,
+                                    color = DmsTheme.colorScheme.onBackground,
+                                    style = DmsTheme.typography.bodyM,
+                                )
+
+                                Text(
+                                    text = "${value.length}/$REASON_MAX_LENGTH",
+                                    color = DmsTheme.colorScheme.inverseSurface,
+                                    style = DmsTheme.typography.bodyM,
+                                )
+                            }
+                        }
+
+                        innerTextField()
+                    },
+                )
+            }
         }
     }
 }
