@@ -10,6 +10,7 @@ import kotlinx.coroutines.launch
 import team.aliens.dms.android.data.latestudy.model.StudyType
 import team.aliens.dms.android.data.latestudy.repository.LateStudyRepository
 import TeacherResponse
+import team.aliens.dms.android.network.latestudy.model.SubmitLateStudyRequest
 import javax.inject.Inject
 
 @HiltViewModel
@@ -53,5 +54,29 @@ class LateStudyViewModel @Inject constructor(
 
     fun selectStudyType(typeId: String) {
         selectedTypeId = typeId
+    }
+
+    fun submitLateStudy(
+        teacherId: String,
+        typeId: String,
+        reason: String,
+        startDate: String,
+        endDate: String,
+    ) {
+        viewModelScope.launch {
+            try {
+                lateStudyRepository.submitLateStudy(
+                    SubmitLateStudyRequest(
+                        teacher_id = teacherId,
+                        type_id = typeId,
+                        reason = reason,
+                        start_date = startDate,
+                        end_date = endDate,
+                    ),
+                )
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }
     }
 }
