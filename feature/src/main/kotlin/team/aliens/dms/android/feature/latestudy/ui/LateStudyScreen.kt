@@ -64,7 +64,7 @@ fun LateStudyScreen(
     var teacherKeyword by remember { mutableStateOf("") }
     var selectedTeacherId by remember { mutableStateOf<String?>(null) }
     var selectedTeacherName by remember { mutableStateOf<String?>(null) }
-    
+
     var teachers by remember { mutableStateOf<List<TeacherResponse>>(emptyList()) }
 
     var reason by remember { mutableStateOf("") }
@@ -103,7 +103,17 @@ fun LateStudyScreen(
 
         LateStudyTeacherSection(
             value = teacherKeyword,
-            onValueChange = { teacherKeyword = it },
+            onValueChange = {
+                teacherKeyword = it
+                selectedTeacherId = null
+                selectedTeacherName = null
+            },
+            teachers = filteredTeachers,
+            onTeacherClick = { teacher ->
+                teacherKeyword = teacher.teacherName
+                selectedTeacherName = teacher.teacherName
+                selectedTeacherId = teacher.teacherId
+            },
         )
 
         Spacer(modifier = Modifier.height(20.dp))

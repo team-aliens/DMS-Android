@@ -1,5 +1,6 @@
 package team.aliens.dms.android.feature.latestudy.ui.component
 
+import TeacherResponse
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -18,6 +19,8 @@ import team.aliens.dms.android.core.designsystem.bodyM
 fun LateStudyTeacherSection(
     value: String,
     onValueChange: (String) -> Unit,
+    teachers: List<TeacherResponse>,
+    onTeacherClick: (TeacherResponse) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     LateStudySectionCard(modifier = modifier) {
