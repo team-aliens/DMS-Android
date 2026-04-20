@@ -38,6 +38,8 @@ import team.aliens.dms.android.feature.latestudy.ui.component.LateStudyReasonSec
 import team.aliens.dms.android.feature.latestudy.ui.component.LateStudyTeacherSection
 import java.time.YearMonth
 import java.time.LocalDate
+import TeacherResponse
+
 
 @Composable
 fun LateStudyScreen(
@@ -58,8 +60,15 @@ fun LateStudyScreen(
 
     var startDate by remember { mutableStateOf<LocalDate?>(null) }
     var endDate by remember { mutableStateOf<LocalDate?>(null) }
+
     var teacherKeyword by remember { mutableStateOf("") }
+    var selectedTeacherId by remember { mutableStateOf<String?>(null) }
+    var selectedTeacherName by remember { mutableStateOf<String?>(null) }
+    
+    var teachers by remember { mutableStateOf<List<TeacherResponse>>(emptyList()) }
+
     var reason by remember { mutableStateOf("") }
+
 
 
     Column(
