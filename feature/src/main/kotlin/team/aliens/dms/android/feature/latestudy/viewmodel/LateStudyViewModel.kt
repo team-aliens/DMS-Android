@@ -33,13 +33,21 @@ class LateStudyViewModel @Inject constructor(
 
     private fun fetchStudyTypes() {
         viewModelScope.launch {
-            studyTypes = lateStudyRepository.fetchStudyTypes()
+            try {
+                studyTypes = lateStudyRepository.fetchStudyTypes()
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
         }
     }
 
     private fun fetchTeachers() {
         viewModelScope.launch {
-            teachers = lateStudyRepository.fetchTeachers()
+            try {
+                teachers = lateStudyRepository.fetchTeachers()
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
         }
     }
 
