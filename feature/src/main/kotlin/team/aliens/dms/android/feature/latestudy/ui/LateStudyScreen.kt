@@ -194,7 +194,28 @@ fun LateStudyScreen(
                         startDate != null &&
                         endDate != null &&
                         reason.isNotBlank(),
-            onClick = { },
+            onClick = {
+                if (
+                    selectedTeacherId != null &&
+                    selectedType != null &&
+                    startDate != null &&
+                    endDate != null &&
+                    reason.isNotBlank()
+                ) {
+                    viewModel.submitLateStudy(
+                        teacherId = selectedTeacherId!!,
+                        typeId = selectedType!!,
+                        reason = reason,
+                        startDate = startDate.toString(),
+                        endDate = endDate.toString(),
+                    )
+                } else {
+                    onShowSnackBar(
+                        DmsSnackBarType.ERROR,
+                        "모두 선택해주세요",
+                    )
+                }
+            }
         )
 
         Spacer(modifier = Modifier.height(12.dp))
