@@ -188,7 +188,12 @@ fun LateStudyScreen(
             text = "신청하기",
             buttonType = ButtonType.Contained,
             buttonColor = ButtonColor.Primary,
-            enabled = true,
+            enabled =
+                selectedTeacherId != null &&
+                        selectedType != null &&
+                        startDate != null &&
+                        endDate != null &&
+                        reason.isNotBlank(),
             onClick = { },
         )
 
