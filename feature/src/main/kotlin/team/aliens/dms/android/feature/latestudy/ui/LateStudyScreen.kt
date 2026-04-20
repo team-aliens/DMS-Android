@@ -39,6 +39,8 @@ import team.aliens.dms.android.feature.latestudy.ui.component.LateStudyTeacherSe
 import java.time.YearMonth
 import java.time.LocalDate
 import TeacherResponse
+import androidx.hilt.navigation.compose.hiltViewModel
+import team.aliens.dms.android.feature.latestudy.viewmodel.LateStudyViewModel
 
 
 @Composable
@@ -65,7 +67,8 @@ fun LateStudyScreen(
     var selectedTeacherId by remember { mutableStateOf<String?>(null) }
     var selectedTeacherName by remember { mutableStateOf<String?>(null) }
 
-    var teachers by remember { mutableStateOf<List<TeacherResponse>>(emptyList()) }
+    val viewModel: LateStudyViewModel = hiltViewModel()
+    val teachers = viewModel.teachers
 
     val filteredTeachers = if (teacherKeyword.isBlank()) {
         emptyList()
