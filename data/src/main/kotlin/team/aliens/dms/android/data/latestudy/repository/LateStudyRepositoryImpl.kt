@@ -4,6 +4,7 @@ import team.aliens.dms.android.data.latestudy.mapper.toModel
 import team.aliens.dms.android.data.latestudy.model.StudyType
 import team.aliens.dms.android.network.latestudy.datasource.NetworkLateStudyDataSource
 import TeacherResponse
+import team.aliens.dms.android.network.latestudy.model.SubmitLateStudyRequest
 import javax.inject.Inject
 
 class LateStudyRepositoryImpl @Inject constructor(
@@ -15,4 +16,8 @@ class LateStudyRepositoryImpl @Inject constructor(
 
     override suspend fun fetchTeachers(): List<TeacherResponse> =
         networkLateStudyDataSource.fetchTeachers()
+
+    override suspend fun submitLateStudy(request: SubmitLateStudyRequest) {
+        networkLateStudyDataSource.submitLateStudy(request)
+    }
 }
