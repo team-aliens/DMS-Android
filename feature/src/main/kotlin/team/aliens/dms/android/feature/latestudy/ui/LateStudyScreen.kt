@@ -67,9 +67,15 @@ fun LateStudyScreen(
 
     var teachers by remember { mutableStateOf<List<TeacherResponse>>(emptyList()) }
 
+    val filteredTeachers = if (teacherKeyword.isBlank()) {
+        emptyList()
+    } else {
+        teachers.filter { teacher ->
+            teacher.teacherName.contains(teacherKeyword)
+        }
+    }
+
     var reason by remember { mutableStateOf("") }
-
-
 
     Column(
         modifier = Modifier
