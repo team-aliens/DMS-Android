@@ -3,7 +3,6 @@ package team.aliens.dms.android.feature.latestudy.ui.component
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -46,13 +45,10 @@ fun LateStudyTeacherSection(
             style = DmsTheme.typography.bodyB,
         )
 
-        Box(
+        Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(
-                    horizontal = 16.dp,
-                    vertical = 14.dp,
-                ),
+                .padding(horizontal = 16.dp, vertical = 14.dp),
         ) {
             Column(
                 modifier = Modifier
@@ -61,10 +57,7 @@ fun LateStudyTeacherSection(
                         color = DmsTheme.colorScheme.background,
                         shape = RoundedCornerShape(16.dp),
                     )
-                    .padding(
-                        horizontal = 16.dp,
-                        vertical = 18.dp,
-                    ),
+                    .padding(horizontal = 16.dp, vertical = 18.dp),
             ) {
                 BasicTextField(
                     value = value,
@@ -74,7 +67,7 @@ fun LateStudyTeacherSection(
                     ),
                     modifier = Modifier.fillMaxWidth(),
                     decorationBox = { innerTextField ->
-                        Box(
+                        Row(
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .background(
@@ -82,6 +75,7 @@ fun LateStudyTeacherSection(
                                     shape = RoundedCornerShape(16.dp),
                                 )
                                 .padding(horizontal = 16.dp, vertical = 14.dp),
+                            verticalAlignment = Alignment.CenterVertically,
                         ) {
                             if (value.isEmpty()) {
                                 Text(
@@ -89,54 +83,56 @@ fun LateStudyTeacherSection(
                                     color = DmsTheme.colorScheme.inverseSurface,
                                     style = DmsTheme.typography.bodyM,
                                 )
+                            } else {
+                                innerTextField()
                             }
-                            innerTextField()
                         }
                     },
                 )
             }
+        }
 
-            if (value.isNotBlank() && teachers.isNotEmpty()) {
-                Column(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .offset(y = 84.dp)
-                        .zIndex(1f)
-                        .shadow(
-                            elevation = 8.dp,
-                            shape = RoundedCornerShape(24.dp),
-                            clip = false,
+        if (value.isNotBlank() && teachers.isNotEmpty()) {
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 24.dp)
+                    .offset(y = (-6).dp)
+                    .zIndex(1f)
+                    .shadow(
+                        elevation = 10.dp,
+                        shape = RoundedCornerShape(28.dp),
+                        clip = false,
+                    )
+                    .background(
+                        color = DmsTheme.colorScheme.background,
+                        shape = RoundedCornerShape(28.dp),
+                    )
+                    .heightIn(max = 220.dp)
+                    .verticalScroll(rememberScrollState())
+                    .padding(vertical = 14.dp),
+            ) {
+                teachers.forEach { teacher ->
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .clickable { onTeacherClick(teacher) }
+                            .padding(horizontal = 20.dp, vertical = 14.dp),
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.spacedBy(10.dp),
+                    ) {
+                        Icon(
+                            imageVector = Icons.Outlined.Search,
+                            contentDescription = "검색",
+                            tint = DmsTheme.colorScheme.inverseSurface,
+                            modifier = Modifier.size(20.dp),
                         )
-                        .background(
-                            color = DmsTheme.colorScheme.background,
-                            shape = RoundedCornerShape(24.dp),
-                        )
-                        .heightIn(max = 220.dp)
-                        .verticalScroll(rememberScrollState())
-                        .padding(vertical = 12.dp),
-                ) {
-                    teachers.forEach { teacher ->
-                        Row(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .clickable { onTeacherClick(teacher) }
-                                .padding(horizontal = 20.dp, vertical = 12.dp),
-                            verticalAlignment = Alignment.CenterVertically,
-                            horizontalArrangement = Arrangement.spacedBy(10.dp),
-                        ) {
-                            Icon(
-                                imageVector = Icons.Outlined.Search,
-                                contentDescription = "검색",
-                                tint = DmsTheme.colorScheme.inverseSurface,
-                                modifier = Modifier.size(20.dp),
-                            )
 
-                            Text(
-                                text = teacher.name,
-                                color = DmsTheme.colorScheme.onBackground,
-                                style = DmsTheme.typography.bodyM,
-                            )
-                        }
+                        Text(
+                            text = teacher.name,
+                            color = DmsTheme.colorScheme.onBackground,
+                            style = DmsTheme.typography.bodyM,
+                        )
                     }
                 }
             }
