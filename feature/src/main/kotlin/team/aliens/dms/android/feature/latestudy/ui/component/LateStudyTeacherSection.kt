@@ -41,7 +41,11 @@ fun LateStudyTeacherSection(
     onTeacherClick: (TeacherResponse) -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    LateStudySectionCard(modifier = modifier) {
+    val isDropdownVisible = value.isNotBlank() && teachers.isNotEmpty()
+
+    LateStudySectionCard(
+        modifier = modifier.zIndex(if (isDropdownVisible) 1f else 0f),
+    ) {
         Text(
             text = "담당 선생님",
             modifier = Modifier.padding(horizontal = 16.dp),
@@ -60,22 +64,16 @@ fun LateStudyTeacherSection(
                 textStyle = DmsTheme.typography.bodyM.copy(
                     color = DmsTheme.colorScheme.onBackground,
                 ),
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .background(
-                        color = DmsTheme.colorScheme.surfaceVariant,
-                        shape = RoundedCornerShape(20.dp),
-                    )
-                    .padding(horizontal = 20.dp, vertical = 16.dp),
+                modifier = Modifier.fillMaxWidth(),
                 decorationBox = { innerTextField ->
                     Box(
                         modifier = Modifier
                             .fillMaxWidth()
                             .background(
-                                color = DmsTheme.colorScheme.surface,
-                                shape = RoundedCornerShape(18.dp),
+                                color = DmsTheme.colorScheme.surfaceVariant,
+                                shape = RoundedCornerShape(20.dp),
                             )
-                            .padding(horizontal = 18.dp, vertical = 14.dp),
+                            .padding(horizontal = 20.dp, vertical = 16.dp),
                     ) {
                         if (value.isEmpty()) {
                             Text(
@@ -89,19 +87,19 @@ fun LateStudyTeacherSection(
                 },
             )
 
-            if (value.isNotBlank() && teachers.isNotEmpty()) {
+            if (isDropdownVisible) {
                 Column(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .offset(y = 88.dp)
-                        .zIndex(1f)
+                        .offset(y = 76.dp)
+                        .zIndex(2f)
                         .shadow(
                             elevation = 10.dp,
                             shape = RoundedCornerShape(28.dp),
                             clip = false,
                         )
                         .background(
-                            color = DmsTheme.colorScheme.primary,
+                            color = DmsTheme.colorScheme.surface,
                             shape = RoundedCornerShape(28.dp),
                         )
                         .heightIn(max = 220.dp)
@@ -109,6 +107,8 @@ fun LateStudyTeacherSection(
                         .padding(vertical = 12.dp),
                 ) {
                     teachers.forEach { teacher ->
+                        val startIndex = teacher.name.indexOf(value)
+
                         Row(
                             modifier = Modifier
                                 .fillMaxWidth()
@@ -120,18 +120,18 @@ fun LateStudyTeacherSection(
                             Icon(
                                 imageVector = Icons.Outlined.Search,
                                 contentDescription = "검색",
-                                tint = DmsTheme.colorScheme.primary,
+                                tint = DmsTheme.colorScheme.onPrimary,
                                 modifier = Modifier.size(20.dp),
                             )
-
-                            val startIndex = teacher.name.indexOf(value)
 
                             Text(
                                 text = buildAnnotatedString {
                                     if (startIndex >= 0 && value.isNotEmpty()) {
                                         append(teacher.name.substring(0, startIndex))
                                         withStyle(
-                                            SpanStyle(color = DmsTheme.colorScheme.primaryContainer),
+                                            SpanStyle(
+                                                color = DmsTheme.colorScheme.primaryContainer,
+                                            ),
                                         ) {
                                             append(
                                                 teacher.name.substring(
