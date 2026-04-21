@@ -1,8 +1,8 @@
 package team.aliens.dms.android.data.latestudy.repository
 
 import team.aliens.dms.android.data.latestudy.model.StudyType
-import TeacherResponse
 import team.aliens.dms.android.network.latestudy.model.SubmitLateStudyRequest
+import team.aliens.dms.android.network.latestudy.model.TeacherResponse
 
 interface LateStudyRepository {
 
