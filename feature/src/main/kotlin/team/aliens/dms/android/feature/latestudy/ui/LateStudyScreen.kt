@@ -41,6 +41,21 @@ import java.time.LocalDate
 import team.aliens.dms.android.network.latestudy.model.TeacherResponse
 import androidx.hilt.navigation.compose.hiltViewModel
 import team.aliens.dms.android.feature.latestudy.viewmodel.LateStudyViewModel
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.heightIn
+import androidx.compose.foundation.layout.offset
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.outlined.Search
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.buildAnnotatedString
+import androidx.compose.ui.text.withStyle
+import androidx.compose.ui.zIndex
+import team.aliens.dms.android.core.designsystem.bodyM
 
 
 @Composable
@@ -68,7 +83,15 @@ fun LateStudyScreen(
     var selectedTeacherName by remember { mutableStateOf<String?>(null) }
 
     val viewModel: LateStudyViewModel = hiltViewModel()
-    val teachers = viewModel.teachers
+
+    val teachers = listOf(
+        TeacherResponse(id = "1", name = "정은진"),
+        TeacherResponse(id = "2", name = "권현진"),
+        TeacherResponse(id = "3", name = "양은정"),
+        TeacherResponse(id = "4", name = "서무성"),
+    )
+
+   // val teachers = viewModel.teachers
 
     val filteredTeachers = if (teacherKeyword.isBlank()) {
         emptyList()
@@ -110,20 +133,94 @@ fun LateStudyScreen(
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        LateStudyTeacherSection(
-            value = teacherKeyword,
-            onValueChange = {
-                teacherKeyword = it
-                selectedTeacherId = null
-                selectedTeacherName = null
-            },
-            teachers = filteredTeachers,
-            onTeacherClick = { teacher ->
-                teacherKeyword = teacher.name
-                selectedTeacherName = teacher.name
-                selectedTeacherId = teacher.id
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .zIndex(10f),
+        ) {
+            Column {
+                LateStudyTeacherSection(
+                    value = teacherKeyword,
+                    onValueChange = {
+                        teacherKeyword = it
+                        selectedTeacherId = null
+                        selectedTeacherName = null
+                    },
+                )
+
+                Spacer(modifier = Modifier.height(20.dp))
             }
-        )
+
+            if (teacherKeyword.isNotBlank() && filteredTeachers.isNotEmpty()) {
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 28.dp)
+                        .offset(y = 122.dp)
+                        .shadow(
+                            elevation = 10.dp,
+                            shape = RoundedCornerShape(28.dp),
+                            clip = false,
+                        )
+                        .background(
+                            color = DmsTheme.colorScheme.surface,
+                            shape = RoundedCornerShape(28.dp),
+                        )
+                        .heightIn(max = 220.dp)
+                        .verticalScroll(rememberScrollState())
+                        .padding(vertical = 12.dp),
+                ) {
+                    filteredTeachers.forEach { teacher ->
+                        val startIndex = teacher.name.indexOf(teacherKeyword)
+
+                        Row(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .clickable {
+                                    teacherKeyword = teacher.name
+                                    selectedTeacherName = teacher.name
+                                    selectedTeacherId = teacher.id
+                                }
+                                .padding(horizontal = 20.dp, vertical = 14.dp),
+                            verticalAlignment = Alignment.CenterVertically,
+                            horizontalArrangement = Arrangement.spacedBy(10.dp),
+                        ) {
+                            Icon(
+                                imageVector = Icons.Outlined.Search,
+                                contentDescription = "검색",
+                                tint = DmsTheme.colorScheme.onPrimary,
+                                modifier = Modifier.size(20.dp),
+                            )
+
+                            Text(
+                                text = buildAnnotatedString {
+                                    if (startIndex >= 0 && teacherKeyword.isNotEmpty()) {
+                                        append(teacher.name.substring(0, startIndex))
+                                        withStyle(
+                                            SpanStyle(color = DmsTheme.colorScheme.primaryContainer),
+                                        ) {
+                                            append(
+                                                teacher.name.substring(
+                                                    startIndex,
+                                                    startIndex + teacherKeyword.length,
+                                                ),
+                                            )
+                                        }
+                                        append(
+                                            teacher.name.substring(startIndex + teacherKeyword.length),
+                                        )
+                                    } else {
+                                        append(teacher.name)
+                                    }
+                                },
+                                color = DmsTheme.colorScheme.onBackground,
+                                style = DmsTheme.typography.bodyM,
+                            )
+                        }
+                    }
+                }
+            }
+        }
 
         Spacer(modifier = Modifier.height(20.dp))
 
