@@ -28,7 +28,7 @@ internal fun ApplicationContent(
         verticalArrangement = Arrangement.spacedBy(20.dp),
     ) {
         listOf(
-            Triple("잔류", R.drawable.img_home, onNavigateRemainApplication),
+            Triple("귀가/잔류 신청하기", R.drawable.img_home, onNavigateRemainApplication),
             Triple("외출 신청하기", R.drawable.img_outing, onNavigateOutingApplication),
             Triple("봉사 활동 신청하기", R.drawable.img_volunteer, onNavigateVolunteerApplication),
         ).forEach { (title, icon, onClick) ->
