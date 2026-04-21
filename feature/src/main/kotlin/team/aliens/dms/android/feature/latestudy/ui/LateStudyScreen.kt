@@ -74,7 +74,7 @@ fun LateStudyScreen(
         emptyList()
     } else {
         teachers.filter { teacher ->
-            teacher.teacherName.contains(teacherKeyword)
+            teacher.name.contains(teacherKeyword)
         }
     }
 
@@ -119,10 +119,10 @@ fun LateStudyScreen(
             },
             teachers = filteredTeachers,
             onTeacherClick = { teacher ->
-                teacherKeyword = teacher.teacherName
-                selectedTeacherName = teacher.teacherName
-                selectedTeacherId = teacher.teacherId
-            },
+                teacherKeyword = teacher.name
+                selectedTeacherName = teacher.name
+                selectedTeacherId = teacher.id
+            }
         )
 
         Spacer(modifier = Modifier.height(20.dp))

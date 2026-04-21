@@ -102,7 +102,7 @@ fun LateStudyTeacherSection(
                             )
 
                             Text(
-                                text = teacher.teacherName,
+                                text = teacher.name,
                                 color = DmsTheme.colorScheme.onBackground,
                                 style = DmsTheme.typography.bodyM,
                             )

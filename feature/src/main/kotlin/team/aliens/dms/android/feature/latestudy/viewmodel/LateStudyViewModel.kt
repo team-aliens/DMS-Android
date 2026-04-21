@@ -9,7 +9,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import team.aliens.dms.android.data.latestudy.model.StudyType
 import team.aliens.dms.android.data.latestudy.repository.LateStudyRepository
-import TeacherResponse
+import team.aliens.dms.android.network.latestudy.model.TeacherResponse
 import team.aliens.dms.android.network.latestudy.model.SubmitLateStudyRequest
 import javax.inject.Inject
 
