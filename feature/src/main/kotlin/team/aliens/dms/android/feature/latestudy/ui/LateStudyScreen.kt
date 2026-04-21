@@ -50,7 +50,10 @@ import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.outlined.Search
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.geometry.CornerRadius
+import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.withStyle
@@ -102,6 +105,8 @@ fun LateStudyScreen(
     }
 
     var reason by remember { mutableStateOf("") }
+
+    val dropdownShadowColor = DmsTheme.colorScheme.primary.copy(alpha = 0.15f)
 
     Column(
         modifier = Modifier
@@ -157,11 +162,13 @@ fun LateStudyScreen(
                         .fillMaxWidth()
                         .padding(horizontal = 28.dp)
                         .offset(y = 122.dp)
-                        .shadow(
-                            elevation = 10.dp,
-                            shape = RoundedCornerShape(28.dp),
-                            clip = false,
-                        )
+                        .drawBehind {
+                            drawRoundRect(
+                                color = dropdownShadowColor,
+                                cornerRadius = CornerRadius(28.dp.toPx(), 28.dp.toPx()),
+                                topLeft = Offset(0f, 6.dp.toPx()),
+                            )
+                        }
                         .background(
                             color = DmsTheme.colorScheme.surface,
                             shape = RoundedCornerShape(28.dp),
