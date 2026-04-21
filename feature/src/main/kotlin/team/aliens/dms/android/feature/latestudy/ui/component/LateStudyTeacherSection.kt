@@ -21,8 +21,7 @@ import androidx.compose.ui.unit.dp
 import team.aliens.dms.android.core.designsystem.DmsTheme
 import team.aliens.dms.android.core.designsystem.bodyB
 import team.aliens.dms.android.core.designsystem.bodyM
-import TeacherResponse
-
+import team.aliens.dms.android.network.latestudy.model.TeacherResponse
 @Composable
 fun LateStudyTeacherSection(
     value: String,

@@ -38,7 +38,7 @@ import team.aliens.dms.android.feature.latestudy.ui.component.LateStudyReasonSec
 import team.aliens.dms.android.feature.latestudy.ui.component.LateStudyTeacherSection
 import java.time.YearMonth
 import java.time.LocalDate
-import TeacherResponse
+import team.aliens.dms.android.network.latestudy.model.TeacherResponse
 import androidx.hilt.navigation.compose.hiltViewModel
 import team.aliens.dms.android.feature.latestudy.viewmodel.LateStudyViewModel
 
