@@ -1,11 +1,8 @@
 package team.aliens.dms.android.feature.main.application.ui
 
-import android.R
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.systemBarsPadding
@@ -31,10 +28,10 @@ import team.aliens.dms.android.core.designsystem.tab.DmsTab
 import team.aliens.dms.android.core.designsystem.tab.DmsTabRow
 import team.aliens.dms.android.core.ui.navigation.LocalResultStore
 import team.aliens.dms.android.data.voting.model.AllVoteSearch
-import team.aliens.dms.android.feature.main.application.viewmodel.ApplicationState
-import team.aliens.dms.android.feature.main.application.viewmodel.ApplicationViewModel
 import team.aliens.dms.android.feature.main.application.ui.component.ApplicationContent
 import team.aliens.dms.android.feature.main.application.ui.component.VoteContent
+import team.aliens.dms.android.feature.main.application.viewmodel.ApplicationState
+import team.aliens.dms.android.feature.main.application.viewmodel.ApplicationViewModel
 
 @Composable
 internal fun Application(
@@ -95,6 +92,7 @@ private fun ApplicationScreen(
         )
         val tabIndex = pagerState.currentPage
         val coroutineScope = rememberCoroutineScope()
+
         DmsTabRow(
             selectedTabIndex = tabIndex,
         ) {
@@ -110,6 +108,7 @@ private fun ApplicationScreen(
                 )
             }
         }
+
         HorizontalPager(
             modifier = Modifier.fillMaxSize(),
             state = pagerState,
@@ -123,6 +122,7 @@ private fun ApplicationScreen(
                 if (page == 0) {
                     ApplicationContent(
                         appliedTitle = state.remainApplicationTitle,
+                        lateStudyAppliedTitle = state.lateStudyApplicationTitle,
                         onNavigateOutingApplication = onNavigateOutingApplication,
                         onNavigateRemainApplication = onNavigateRemainApplication,
                         onNavigateVolunteerApplication = onNavigateVolunteerApplication,
@@ -140,6 +140,7 @@ private fun ApplicationScreen(
                             textAlign = TextAlign.Center,
                         )
                     }
+
                     VoteContent(
                         votes = state.votes.toPersistentList(),
                         onNavigateVote = onNavigateVote,
