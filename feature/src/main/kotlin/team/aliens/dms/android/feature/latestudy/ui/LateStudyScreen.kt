@@ -63,15 +63,7 @@ fun LateStudyScreen(
     onBack: () -> Unit,
     onShowSnackBar: (DmsSnackBarType, String) -> Unit,
 ) {
-    var selectedType by remember { mutableStateOf<String?>(null) }
-
-    val types = listOf(
-        "개인 공부",
-        "개인 프로젝트",
-        "팀 프로젝트",
-        "대회 프로젝트",
-        "기타",
-    )
+    var selectedTypeId by remember { mutableStateOf<String?>(null) }
 
     var currentMonth by remember { mutableStateOf(YearMonth.now()) }
 
@@ -85,6 +77,8 @@ fun LateStudyScreen(
 
     val viewModel: LateStudyViewModel = hiltViewModel()
     val focusManager = LocalFocusManager.current
+
+    val studyTypes = viewModel.studyTypes
 
     val teachers = listOf(
         TeacherResponse(id = "1", name = "정은진"),
@@ -261,11 +255,11 @@ fun LateStudyScreen(
 
             Spacer(Modifier.height(8.dp))
 
-            types.forEach { type ->
+            studyTypes.forEach { type ->
                 LateStudyTypeItem(
-                    text = type,
-                    selected = selectedType == type,
-                    onClick = { selectedType = type },
+                    text = type.name,
+                    selected = selectedTypeId == type.id,
+                    onClick = { selectedTypeId = type.id },
                 )
             }
         }
@@ -312,21 +306,21 @@ fun LateStudyScreen(
             buttonColor = ButtonColor.Primary,
             enabled =
                 selectedTeacherId != null &&
-                        selectedType != null &&
+                        selectedTypeId != null &&
                         startDate != null &&
                         endDate != null &&
                         reason.isNotBlank(),
             onClick = {
                 if (
                     selectedTeacherId != null &&
-                    selectedType != null &&
+                    selectedTypeId != null &&
                     startDate != null &&
                     endDate != null &&
                     reason.isNotBlank()
                 ) {
                     viewModel.submitLateStudy(
                         teacherId = selectedTeacherId!!,
-                        typeId = selectedType!!,
+                        typeId = selectedTypeId!!,
                         reason = reason,
                         startDate = startDate.toString(),
                         endDate = endDate.toString(),
