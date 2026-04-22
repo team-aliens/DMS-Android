@@ -12,6 +12,7 @@ import team.aliens.dms.android.core.jwt.exception.CannotUseAccessTokenException
 import team.aliens.dms.android.core.jwt.exception.CannotUseRefreshTokenException
 import team.aliens.dms.android.core.jwt.network.JwtReissueManager
 import team.aliens.dms.android.core.jwt.network.exception.CannotReissueTokenException
+import team.aliens.dms.android.shared.exception.util.runCatchingCancellable
 import javax.inject.Inject
 
 internal class JwtProviderImpl @Inject constructor(
@@ -100,6 +101,14 @@ internal class JwtProviderImpl @Inject constructor(
         }
     }
 
+    override suspend fun refreshSession(): Boolean {
+        tokenMutex.withLock {
+            reissueTokensLocked()
+            refreshTokenAbility()
+            return checkIsAccessTokenAvailable() || checkIsRefreshTokenAvailable()
+        }
+    }
+
     private fun refreshTokenAbility() {
         _isCachedAccessTokenAvailable.value = checkIsAccessTokenAvailable()
         _isCachedRefreshTokenAvailable.value = checkIsRefreshTokenAvailable()
@@ -133,7 +142,7 @@ internal class JwtProviderImpl @Inject constructor(
             updateTokensLocked(tokens = tokens)
             true
         } catch (exception: CannotReissueTokenException) {
-            if (exception.statusCode == 401) {
+            if (exception.statusCode == 401 || exception.statusCode == 404) {
                 clearCachesLocked()
             }
             false
@@ -148,7 +157,7 @@ internal class JwtProviderImpl @Inject constructor(
         this._cachedRefreshToken = tokens.refreshToken
         this.refreshTokenAbility()
 
-        runCatching {
+        runCatchingCancellable {
             jwtDataStoreDataSource.storeTokens(tokens = tokens)
         }.onFailure { exception ->
             this._cachedAccessToken = previousAccessToken
@@ -168,7 +177,7 @@ internal class JwtProviderImpl @Inject constructor(
         this._cachedRefreshToken = null
         this.refreshTokenAbility()
 
-        runCatching {
+        runCatchingCancellable {
             jwtDataStoreDataSource.clearTokens()
         }.onFailure { exception ->
             this._cachedAccessToken = previousAccessToken

@@ -120,6 +120,8 @@ private class FakeJwtProvider(
         return isCachedRefreshTokenAvailable.value
     }
 
+    override suspend fun refreshSession(): Boolean = resolveSession()
+
     fun updateRefreshAvailability(isAvailable: Boolean) {
         _isCachedAccessTokenAvailable.value = isAvailable
         _isCachedRefreshTokenAvailable.value = isAvailable
