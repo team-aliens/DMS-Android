@@ -12,10 +12,10 @@ import kotlinx.collections.immutable.toPersistentList
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import team.aliens.dms.android.core.ui.viewmodel.BaseStateViewModel
-import team.aliens.dms.android.data.latestudy.model.StudyApplicationStatus
 import team.aliens.dms.android.data.latestudy.repository.LateStudyRepository
 import team.aliens.dms.android.data.voting.model.AllVoteSearch
 import team.aliens.dms.android.data.voting.repository.VotingRepository
+import team.aliens.dms.android.network.latestudy.model.StudyApplicationStatusResponse
 import javax.inject.Inject
 
 @HiltViewModel
@@ -86,7 +86,7 @@ data class ApplicationState(
     val lateStudyApplicationTitle: String? = null,
 )
 
-private fun StudyApplicationStatus.toAppliedTitle(): String? {
+private fun StudyApplicationStatusResponse.toAppliedTitle(): String? {
     return when (status) {
         "FIRST_APPROVED" -> "$startDate ~ $endDate 승인됨"
         "REJECTED" -> "거절됨"
