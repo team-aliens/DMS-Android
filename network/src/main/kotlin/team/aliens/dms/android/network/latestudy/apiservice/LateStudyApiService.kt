@@ -9,16 +9,16 @@ import team.aliens.dms.android.network.latestudy.model.StudyApplicationStatusRes
 import team.aliens.dms.android.network.latestudy.model.SubmitLateStudyRequest
 
 interface LateStudyApiService {
-    @GET("/study-type")
+    @GET("/daybreaks/study-type")
     suspend fun fetchStudyTypes(): FetchStudyTypesResponse
 
-    @GET("/study-application/my")
+    @GET("/daybreaks/study-application/my")
     suspend fun fetchMyStudyApplicationStatus(): StudyApplicationStatusResponse
 
-    @GET("/general")
+    @GET("/teachers/general")
     suspend fun fetchTeachers(): FetchTeachersResponse
 
-    @POST("/study-application")
+    @POST("/daybreaks/study-application")
     suspend fun submitLateStudy(
         @Body request: SubmitLateStudyRequest
     )
