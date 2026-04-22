@@ -17,6 +17,9 @@ class LateStudyRepositoryImpl @Inject constructor(
     override suspend fun fetchTeachers(): List<TeacherResponse> =
         networkLateStudyDataSource.fetchTeachers().teachers
 
+    override suspend fun fetchMyStudyApplicationStatus(): StudyApplicationStatus =
+        networkLateStudyDataSource.fetchMyStudyApplicationStatus().toModel()
+
     override suspend fun submitLateStudy(request: SubmitLateStudyRequest) {
         networkLateStudyDataSource.submitLateStudy(request)
     }
