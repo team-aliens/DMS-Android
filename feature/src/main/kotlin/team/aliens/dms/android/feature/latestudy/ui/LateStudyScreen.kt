@@ -80,6 +80,7 @@ fun LateStudyScreen(
     var teacherKeyword by remember { mutableStateOf("") }
     var selectedTeacherId by remember { mutableStateOf<String?>(null) }
     var selectedTeacherName by remember { mutableStateOf<String?>(null) }
+    var isDropdownVisible by remember { mutableStateOf(false) }
 
     val viewModel: LateStudyViewModel = hiltViewModel()
 
@@ -147,13 +148,14 @@ fun LateStudyScreen(
                         teacherKeyword = it
                         selectedTeacherId = null
                         selectedTeacherName = null
+                        isDropdownVisible = true
                     },
                 )
 
                 Spacer(modifier = Modifier.height(20.dp))
             }
 
-            if (teacherKeyword.isNotBlank() && filteredTeachers.isNotEmpty()) {
+            if (isDropdownVisible && filteredTeachers.isNotEmpty()) {
                 Box(
                     modifier = Modifier
                         .fillMaxWidth()
@@ -197,6 +199,7 @@ fun LateStudyScreen(
                                         teacherKeyword = teacher.name
                                         selectedTeacherName = teacher.name
                                         selectedTeacherId = teacher.id
+                                        isDropdownVisible = false
                                     }
                                     .padding(horizontal = 20.dp, vertical = 14.dp),
                                 verticalAlignment = Alignment.CenterVertically,
