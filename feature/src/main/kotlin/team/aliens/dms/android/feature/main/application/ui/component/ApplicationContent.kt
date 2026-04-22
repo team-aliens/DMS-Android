@@ -13,6 +13,7 @@ import team.aliens.dms.android.core.designsystem.card.DmsApplicationCard
 @Composable
 internal fun ApplicationContent(
     appliedTitle: String?,
+    lateStudyAppliedTitle: String?,
     onNavigateRemainApplication: () -> Unit,
     onNavigateOutingApplication: () -> Unit,
     onNavigateVolunteerApplication: () -> Unit,
@@ -38,7 +39,11 @@ internal fun ApplicationContent(
                 title = title,
                 iconRes = icon,
                 onClick = onClick,
-                appliedTitle = if (title == "잔류") appliedTitle else null,
+                appliedTitle = when (title) {
+                    "잔류" -> appliedTitle
+                    "새벽 자습 신청하기" -> lateStudyAppliedTitle
+                    else -> null
+                },
             )
         }
     }
