@@ -4,6 +4,7 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import okhttp3.Authenticator
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import team.aliens.dms.android.core.network.file.FileUploadManager
@@ -28,8 +29,10 @@ internal object HttpClientModule {
     @GlobalHttpClient
     fun provideGlobalHttpClient(
         @DefaultHttpClient baseHttpClient: OkHttpClient,
+        @GlobalHttpAuthenticator globalAuthenticator: Authenticator,
         globalInterceptors: GlobalInterceptors,
     ): OkHttpClient = baseHttpClient.newBuilder().apply {
+        authenticator(globalAuthenticator)
         globalInterceptors.interceptors.forEach(this::addInterceptor)
     }.build()
 

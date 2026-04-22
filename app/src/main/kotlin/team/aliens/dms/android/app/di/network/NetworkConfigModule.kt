@@ -4,14 +4,17 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import okhttp3.Authenticator
 import okhttp3.Interceptor
 import okhttp3.logging.HttpLoggingInterceptor
 import team.aliens.dms.android.core.jwt.di.TokenReissueUrl
 import team.aliens.dms.android.core.jwt.network.IgnoreRequests
+import team.aliens.dms.android.core.jwt.network.authenticator.JwtAuthenticator
 import team.aliens.dms.android.core.jwt.network.interceptor.JwtInterceptor
 import team.aliens.dms.android.core.network.HttpMethod
 import team.aliens.dms.android.core.network.HttpRequest
 import team.aliens.dms.android.core.network.di.BaseUrl
+import team.aliens.dms.android.core.network.di.GlobalHttpAuthenticator
 import team.aliens.dms.android.core.network.di.DefaultHttpLoggingInterceptor
 import team.aliens.dms.android.core.network.httpclient.DefaultInterceptors
 import team.aliens.dms.android.core.network.httpclient.GlobalInterceptors
@@ -133,4 +136,11 @@ object NetworkConfigModule {
             jwtInterceptor,
         )
     }
+
+    @Provides
+    @Singleton
+    @GlobalHttpAuthenticator
+    fun provideGlobalAuthenticator(
+        jwtAuthenticator: JwtAuthenticator,
+    ): Authenticator = jwtAuthenticator
 }

@@ -41,6 +41,7 @@ android {
 
 dependencies {
     implementation(project(ProjectPaths.Shared.DATE))
+    implementation(project(ProjectPaths.Shared.EXCEPTION))
 
     implementation(project(ProjectPaths.Core.DATASTORE))
     implementation(project(ProjectPaths.Core.NETWORK))
