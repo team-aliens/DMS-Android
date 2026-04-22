@@ -1,18 +1,26 @@
 package team.aliens.dms.android.feature.latestudy.ui
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.outlined.Search
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
@@ -20,46 +28,34 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.unit.dp
-import team.aliens.dms.android.core.designsystem.DmsTheme
-import team.aliens.dms.android.core.designsystem.snackbar.DmsSnackBarType
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.buildAnnotatedString
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.withStyle
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.zIndex
+import androidx.hilt.navigation.compose.hiltViewModel
+import java.time.LocalDate
+import java.time.YearMonth
+import team.aliens.dms.android.core.designsystem.DmsTheme
 import team.aliens.dms.android.core.designsystem.bodyB
+import team.aliens.dms.android.core.designsystem.bodyM
 import team.aliens.dms.android.core.designsystem.button.ButtonColor
 import team.aliens.dms.android.core.designsystem.button.ButtonType
 import team.aliens.dms.android.core.designsystem.button.DmsLayeredButton
 import team.aliens.dms.android.core.designsystem.sTitleB
-import team.aliens.dms.android.feature.latestudy.ui.component.LateStudySectionCard
-import team.aliens.dms.android.feature.latestudy.ui.component.LateStudyTypeItem
+import team.aliens.dms.android.core.designsystem.snackbar.DmsSnackBarType
 import team.aliens.dms.android.feature.latestudy.ui.component.LateStudyCalendarSection
 import team.aliens.dms.android.feature.latestudy.ui.component.LateStudyReasonSection
+import team.aliens.dms.android.feature.latestudy.ui.component.LateStudySectionCard
 import team.aliens.dms.android.feature.latestudy.ui.component.LateStudyTeacherSection
-import java.time.YearMonth
-import java.time.LocalDate
-import team.aliens.dms.android.network.latestudy.model.TeacherResponse
-import androidx.hilt.navigation.compose.hiltViewModel
+import team.aliens.dms.android.feature.latestudy.ui.component.LateStudyTypeItem
 import team.aliens.dms.android.feature.latestudy.viewmodel.LateStudyViewModel
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.heightIn
-import androidx.compose.foundation.layout.offset
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.outlined.Search
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.draw.drawBehind
-import androidx.compose.ui.draw.shadow
-import androidx.compose.ui.geometry.CornerRadius
-import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.text.SpanStyle
-import androidx.compose.ui.text.buildAnnotatedString
-import androidx.compose.ui.text.withStyle
-import androidx.compose.ui.zIndex
-import team.aliens.dms.android.core.designsystem.bodyM
-
+import team.aliens.dms.android.network.latestudy.model.TeacherResponse
 
 @Composable
 fun LateStudyScreen(
@@ -94,19 +90,20 @@ fun LateStudyScreen(
         TeacherResponse(id = "4", name = "서무성"),
     )
 
-   // val teachers = viewModel.teachers
+    // val teachers = viewModel.teachers
 
-    val filteredTeachers = if (teacherKeyword.isBlank()) {
-        emptyList()
-    } else {
-        teachers.filter { teacher ->
-            teacher.name.contains(teacherKeyword)
+    val filteredTeachers =
+        if (teacherKeyword.isBlank()) {
+            emptyList()
+        } else {
+            teachers.filter { teacher ->
+                teacher.name.contains(teacherKeyword)
+            }
         }
-    }
 
     var reason by remember { mutableStateOf("") }
 
-    val dropdownShadowColor = DmsTheme.colorScheme.primary.copy(alpha = 0.15f)
+    val dropdownShadowColor = DmsTheme.colorScheme.primary.copy(alpha = 0.28f)
 
     Column(
         modifier = Modifier
@@ -157,72 +154,90 @@ fun LateStudyScreen(
             }
 
             if (teacherKeyword.isNotBlank() && filteredTeachers.isNotEmpty()) {
-                Column(
+                Box(
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(horizontal = 28.dp)
-                        .offset(y = 122.dp)
-                        .drawBehind {
-                            drawRoundRect(
-                                color = dropdownShadowColor,
-                                cornerRadius = CornerRadius(28.dp.toPx(), 28.dp.toPx()),
-                                topLeft = Offset(0f, 6.dp.toPx()),
-                            )
-                        }
-                        .background(
-                            color = DmsTheme.colorScheme.surface,
-                            shape = RoundedCornerShape(28.dp),
-                        )
-                        .heightIn(max = 220.dp)
-                        .verticalScroll(rememberScrollState())
-                        .padding(vertical = 12.dp),
+                        .offset(y = 150.dp)
+                        .zIndex(10f),
                 ) {
-                    filteredTeachers.forEach { teacher ->
-                        val startIndex = teacher.name.indexOf(teacherKeyword)
+                    Box(
+                        modifier = Modifier
+                            .matchParentSize()
+                            .offset(y = 10.dp)
+                            .background(
+                                color = dropdownShadowColor,
+                                shape = RoundedCornerShape(28.dp),
+                            ),
+                    )
 
-                        Row(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .clickable {
-                                    teacherKeyword = teacher.name
-                                    selectedTeacherName = teacher.name
-                                    selectedTeacherId = teacher.id
-                                }
-                                .padding(horizontal = 20.dp, vertical = 14.dp),
-                            verticalAlignment = Alignment.CenterVertically,
-                            horizontalArrangement = Arrangement.spacedBy(10.dp),
-                        ) {
-                            Icon(
-                                imageVector = Icons.Outlined.Search,
-                                contentDescription = "검색",
-                                tint = DmsTheme.colorScheme.onPrimary,
-                                modifier = Modifier.size(20.dp),
+                    Column(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .shadow(
+                                elevation = 12.dp,
+                                shape = RoundedCornerShape(28.dp),
+                                clip = false,
                             )
+                            .background(
+                                color = DmsTheme.colorScheme.surface,
+                                shape = RoundedCornerShape(28.dp),
+                            )
+                            .heightIn(max = 220.dp)
+                            .verticalScroll(rememberScrollState())
+                            .padding(vertical = 12.dp),
+                    ) {
+                        filteredTeachers.forEach { teacher ->
+                            val startIndex = teacher.name.indexOf(teacherKeyword)
 
-                            Text(
-                                text = buildAnnotatedString {
-                                    if (startIndex >= 0 && teacherKeyword.isNotEmpty()) {
-                                        append(teacher.name.substring(0, startIndex))
-                                        withStyle(
-                                            SpanStyle(color = DmsTheme.colorScheme.primaryContainer),
-                                        ) {
+                            Row(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .clickable {
+                                        teacherKeyword = teacher.name
+                                        selectedTeacherName = teacher.name
+                                        selectedTeacherId = teacher.id
+                                    }
+                                    .padding(horizontal = 20.dp, vertical = 14.dp),
+                                verticalAlignment = Alignment.CenterVertically,
+                                horizontalArrangement = Arrangement.spacedBy(10.dp),
+                            ) {
+                                Icon(
+                                    imageVector = Icons.Outlined.Search,
+                                    contentDescription = "검색",
+                                    tint = DmsTheme.colorScheme.onPrimary,
+                                    modifier = Modifier.size(20.dp),
+                                )
+
+                                Text(
+                                    text = buildAnnotatedString {
+                                        if (startIndex >= 0 && teacherKeyword.isNotEmpty()) {
+                                            append(teacher.name.substring(0, startIndex))
+                                            withStyle(
+                                                SpanStyle(
+                                                    color = DmsTheme.colorScheme.primaryContainer,
+                                                ),
+                                            ) {
+                                                append(
+                                                    teacher.name.substring(
+                                                        startIndex,
+                                                        startIndex + teacherKeyword.length,
+                                                    ),
+                                                )
+                                            }
                                             append(
                                                 teacher.name.substring(
-                                                    startIndex,
                                                     startIndex + teacherKeyword.length,
                                                 ),
                                             )
+                                        } else {
+                                            append(teacher.name)
                                         }
-                                        append(
-                                            teacher.name.substring(startIndex + teacherKeyword.length),
-                                        )
-                                    } else {
-                                        append(teacher.name)
-                                    }
-                                },
-                                color = DmsTheme.colorScheme.onBackground,
-                                style = DmsTheme.typography.bodyM,
-                            )
+                                    },
+                                    color = DmsTheme.colorScheme.onBackground,
+                                    style = DmsTheme.typography.bodyM,
+                                )
+                            }
                         }
                     }
                 }
@@ -287,8 +302,7 @@ fun LateStudyScreen(
         Spacer(modifier = Modifier.height(20.dp))
 
         DmsLayeredButton(
-            modifier = Modifier
-                .fillMaxWidth(),
+            modifier = Modifier.fillMaxWidth(),
             text = "신청하기",
             buttonType = ButtonType.Contained,
             buttonColor = ButtonColor.Primary,
@@ -319,7 +333,7 @@ fun LateStudyScreen(
                         "모두 선택해주세요",
                     )
                 }
-            }
+            },
         )
 
         Spacer(modifier = Modifier.height(12.dp))
