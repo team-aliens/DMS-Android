@@ -9,6 +9,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import team.aliens.dms.android.core.jwt.JwtProvider
 import team.aliens.dms.android.onboarding.datastore.OnboardingDataStoreDataSource
+import team.aliens.dms.android.shared.exception.util.runCatchingCancellable
 import javax.inject.Inject
 
 @HiltViewModel
@@ -29,7 +30,7 @@ class MainActivityViewModel @Inject constructor(
 
     init {
         viewModelScope.launch {
-            runCatching { jwtProvider.resolveSession() }
+            runCatchingCancellable { jwtProvider.resolveSession() }
             _isOnboardingCompleted.value = onboardingDataSource.getOnboardingCompleted()
             _isStartupResolved.value = true
         }
@@ -37,7 +38,7 @@ class MainActivityViewModel @Inject constructor(
 
     fun resolveSession() {
         viewModelScope.launch {
-            runCatching { jwtProvider.resolveSession() }
+            runCatchingCancellable { jwtProvider.resolveSession() }
         }
     }
 

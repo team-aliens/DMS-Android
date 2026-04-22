@@ -20,6 +20,11 @@ annotation class GlobalHttpClient
 @Qualifier
 @MustBeDocumented
 @Retention(AnnotationRetention.BINARY)
+annotation class GlobalHttpAuthenticator
+
+@Qualifier
+@MustBeDocumented
+@Retention(AnnotationRetention.BINARY)
 annotation class DefaultHttpLoggingInterceptor
 
 @Qualifier

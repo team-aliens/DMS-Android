@@ -34,7 +34,7 @@ class JwtInterceptor @Inject constructor(
         )
     }
 
-    private fun Builder.addAccessToken(): Builder = this@addAccessToken.addHeader(
+    private fun Builder.addAccessToken(): Builder = this@addAccessToken.header(
         name = "authorization",
         value = "Bearer ${jwtProvider.cachedAccessToken.value}",
     )
