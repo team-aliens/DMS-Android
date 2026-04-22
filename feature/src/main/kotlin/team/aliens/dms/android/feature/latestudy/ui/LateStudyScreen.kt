@@ -80,12 +80,7 @@ fun LateStudyScreen(
 
     val studyTypes = viewModel.studyTypes
 
-    val teachers = listOf(
-        TeacherResponse(id = "1", name = "정은진"),
-        TeacherResponse(id = "2", name = "권현진"),
-        TeacherResponse(id = "3", name = "양은정"),
-        TeacherResponse(id = "4", name = "서무성"),
-    )
+    val teachers = viewModel.teachers
 
     val filteredTeachers =
         if (teacherKeyword.isBlank()) {
