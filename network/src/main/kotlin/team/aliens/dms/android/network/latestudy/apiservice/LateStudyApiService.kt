@@ -5,11 +5,15 @@ import retrofit2.http.GET
 import retrofit2.http.POST
 import team.aliens.dms.android.network.latestudy.model.FetchStudyTypesResponse
 import team.aliens.dms.android.network.latestudy.model.FetchTeachersResponse
+import team.aliens.dms.android.network.latestudy.model.StudyApplicationStatusResponse
 import team.aliens.dms.android.network.latestudy.model.SubmitLateStudyRequest
 
 interface LateStudyApiService {
     @GET("/study-type")
     suspend fun fetchStudyTypes(): FetchStudyTypesResponse
+
+    @GET("/study-application/my")
+    suspend fun fetchMyStudyApplicationStatus(): StudyApplicationStatusResponse
 
     @GET("/general")
     suspend fun fetchTeachers(): FetchTeachersResponse
