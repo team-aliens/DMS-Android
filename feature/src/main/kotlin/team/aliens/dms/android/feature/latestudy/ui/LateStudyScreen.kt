@@ -157,8 +157,8 @@ fun LateStudyScreen(
                 Box(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(horizontal = 28.dp)
-                        .offset(y = 150.dp)
+                        .padding(horizontal = 12.dp)
+                        .offset(y = 120.dp)
                         .zIndex(10f),
                 ) {
                     Box(
