@@ -32,6 +32,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
@@ -83,6 +84,7 @@ fun LateStudyScreen(
     var isDropdownVisible by remember { mutableStateOf(false) }
 
     val viewModel: LateStudyViewModel = hiltViewModel()
+    val focusManager = LocalFocusManager.current
 
     val teachers = listOf(
         TeacherResponse(id = "1", name = "정은진"),
@@ -90,8 +92,6 @@ fun LateStudyScreen(
         TeacherResponse(id = "3", name = "양은정"),
         TeacherResponse(id = "4", name = "서무성"),
     )
-
-    // val teachers = viewModel.teachers
 
     val filteredTeachers =
         if (teacherKeyword.isBlank()) {
@@ -200,6 +200,7 @@ fun LateStudyScreen(
                                         selectedTeacherName = teacher.name
                                         selectedTeacherId = teacher.id
                                         isDropdownVisible = false
+                                        focusManager.clearFocus()
                                     }
                                     .padding(horizontal = 20.dp, vertical = 14.dp),
                                 verticalAlignment = Alignment.CenterVertically,
