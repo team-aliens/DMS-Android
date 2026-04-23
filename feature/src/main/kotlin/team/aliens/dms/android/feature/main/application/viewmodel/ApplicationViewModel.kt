@@ -88,7 +88,7 @@ data class ApplicationState(
 
 private fun StudyApplicationStatusResponse.toAppliedTitle(): String? {
     return when (status) {
-        "FIRST_APPROVED" -> "$startDate ~ $endDate 승인됨"
+        "SECOND_APPROVED" -> "$startDate ~ $endDate 승인됨"
         "REJECTED" -> "거절됨"
         "PENDING" -> "신청 중"
         else -> null
