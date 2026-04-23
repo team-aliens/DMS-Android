@@ -75,10 +75,10 @@ internal class ApplicationViewModel @Inject constructor(
                 val title = studyApplicationStatus.toAppliedTitle()
                 val statusUi = studyApplicationStatus.toUiStatus()
 
-                setState {
-                    it.copy(
-                        lateStudyApplicationTitle = title,
-                        lateStudyStatusUi = statusUi,
+                setState { current ->
+                    current.copy(
+                        lateStudyApplicationTitle = title ?: current.lateStudyApplicationTitle,
+                        lateStudyStatusUi = statusUi ?: current.lateStudyStatusUi,
                     )
                 }
                 if (title == null) {
