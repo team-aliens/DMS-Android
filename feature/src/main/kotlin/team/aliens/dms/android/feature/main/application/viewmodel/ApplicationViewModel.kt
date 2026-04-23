@@ -135,9 +135,12 @@ private fun StudyApplicationStatusResponse.toAppliedTitle(): String? {
                 }
             }
         }
+
         "PENDING" -> "신청 중"
+
         "REJECTED" -> {
             val rejectBaseDate = end ?: start
+
             if (rejectBaseDate != null && rejectBaseDate.isEqual(today)) {
                 when {
                     start != null && end != null -> {
@@ -152,6 +155,7 @@ private fun StudyApplicationStatusResponse.toAppliedTitle(): String? {
                 null
             }
         }
+
         else -> null
     }
 }
@@ -170,7 +174,9 @@ private fun StudyApplicationStatusResponse.toUiStatus(): LateStudyStatusUi? {
                 null
             }
         }
+
         "PENDING" -> LateStudyStatusUi.PENDING
+
         "REJECTED" -> {
             val rejectBaseDate = end ?: start
             if (rejectBaseDate != null && rejectBaseDate.isEqual(today)) {
@@ -179,6 +185,7 @@ private fun StudyApplicationStatusResponse.toUiStatus(): LateStudyStatusUi? {
                 null
             }
         }
+
         else -> null
     }
 }

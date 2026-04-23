@@ -58,6 +58,8 @@ fun DmsApplicationCard(
         label = "",
     )
 
+    val displayTitle = appliedTitle ?: chipStyle.toDisplayText()
+
     Column(
         modifier = modifier
             .fillMaxWidth()
@@ -90,10 +92,10 @@ fun DmsApplicationCard(
 
             Spacer(modifier = Modifier.weight(1f))
 
-            if (description == null && appliedTitle != null) {
+            if (description == null && displayTitle != null) {
                 AppliedTitleText(
                     modifier = Modifier.endPadding(16.dp),
-                    appliedTitle = appliedTitle,
+                    appliedTitle = displayTitle,
                     chipStyle = chipStyle,
                 )
             }
@@ -126,9 +128,9 @@ fun DmsApplicationCard(
 
                 Spacer(modifier = Modifier.weight(1f))
 
-                appliedTitle?.let {
+                if (displayTitle != null) {
                     AppliedTitleText(
-                        appliedTitle = appliedTitle,
+                        appliedTitle = displayTitle,
                         chipStyle = chipStyle,
                     )
                 }
@@ -168,4 +170,13 @@ private fun AppliedTitleText(
         style = DmsTheme.typography.labelB,
         color = textColor,
     )
+}
+
+private fun ApplicationChipStyle.toDisplayText(): String? {
+    return when (this) {
+        ApplicationChipStyle.APPROVED -> "승인됨"
+        ApplicationChipStyle.REJECTED -> "거절됨"
+        ApplicationChipStyle.PENDING -> "신청 중"
+        ApplicationChipStyle.DEFAULT -> null
+    }
 }
