@@ -56,10 +56,13 @@ internal class ApplicationViewModel @Inject constructor(
             runCatching {
                 lateStudyRepository.fetchMyStudyApplicationStatus()
             }.onSuccess { studyApplicationStatus ->
+                val title = studyApplicationStatus.toAppliedTitle()
+                val statusUi = studyApplicationStatus.toUiStatus()
+
                 setState {
                     it.copy(
-                        lateStudyApplicationTitle = studyApplicationStatus.toAppliedTitle(),
-                        lateStudyStatusUi = studyApplicationStatus.toUiStatus(),
+                        lateStudyApplicationTitle = title,
+                        lateStudyStatusUi = statusUi,
                     )
                 }
             }.onFailure {
@@ -109,24 +112,29 @@ enum class LateStudyStatusUi {
 private fun StudyApplicationStatusResponse.toAppliedTitle(): String? {
     return when (status) {
         "SECOND_APPROVED" -> {
-            when {
-                startDate != null && endDate != null -> "$startDate ~ $endDate 승인됨"
-                startDate != null -> "$startDate 승인됨"
-                endDate != null -> "$endDate 승인됨"
-                else -> "승인됨"
+            if (startDate != null && endDate != null) {
+                "$startDate ~ $endDate 승인됨"
+            } else {
+                null
             }
         }
-        "REJECTED" -> "거절됨"
-        "PENDING" -> "신청 중"
+        "REJECTED" -> null
+        "PENDING" -> null
         else -> null
     }
 }
 
 private fun StudyApplicationStatusResponse.toUiStatus(): LateStudyStatusUi? {
     return when (status) {
-        "SECOND_APPROVED" -> LateStudyStatusUi.APPROVED
-        "REJECTED" -> LateStudyStatusUi.REJECTED
-        "PENDING" -> LateStudyStatusUi.PENDING
+        "SECOND_APPROVED" -> {
+            if (startDate != null && endDate != null) {
+                LateStudyStatusUi.APPROVED
+            } else {
+                null
+            }
+        }
+        "REJECTED" -> null
+        "PENDING" -> null
         else -> null
     }
 }
