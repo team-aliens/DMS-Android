@@ -10,12 +10,14 @@ fun MyPageRoute(
     onNavigatePointHistory: (PointType) -> Unit,
     onNavigateSetting: () -> Unit,
     onNavigateNotification: () -> Unit,
+    onNavigateSelectProfile: () -> Unit,
     onShowSnackBar: (DmsSnackBarType, String) -> Unit,
 ) {
     MyPage(
         onNavigatePointHistory = onNavigatePointHistory,
         onNavigateSetting = onNavigateSetting,
         onNavigateNotification = onNavigateNotification,
+        onNavigateSelectProfile = onNavigateSelectProfile,
         onShowSnackBar = onShowSnackBar,
     )
 }

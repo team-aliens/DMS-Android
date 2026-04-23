@@ -1,6 +1,7 @@
 package team.aliens.dms.android.feature.main.mypage.ui.component
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -35,6 +36,7 @@ internal fun ProfileContent(
     schoolName: String,
     genderType: Sex,
     profileImageUrl: String?,
+    onProfileClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     Row(
@@ -47,7 +49,8 @@ internal fun ProfileContent(
         AsyncImage(
             modifier = Modifier
                 .size(60.dp)
-                .clip(CircleShape),
+                .clip(CircleShape)
+                .clickable(onClick = onProfileClick),
             model = profileImageUrl ?: DmsIcon.ProfileDefault,
             contentDescription = null,
             contentScale = ContentScale.Crop,
