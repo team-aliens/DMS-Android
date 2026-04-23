@@ -78,6 +78,15 @@ internal class ApplicationViewModel @Inject constructor(
         setState { it.copy(remainApplicationTitle = title) }
     }
 
+    internal fun setLateStudyApplication(title: String) {
+        setState {
+            it.copy(
+                lateStudyApplicationTitle = title,
+                lateStudyStatusUi = LateStudyStatusUi.PENDING,
+            )
+        }
+    }
+
     companion object {
         private const val KEY_APPLIED_REMAINS_TITLE = "applied_remains_title"
     }
