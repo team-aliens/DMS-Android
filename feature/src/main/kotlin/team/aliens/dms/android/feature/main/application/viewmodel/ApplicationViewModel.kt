@@ -99,7 +99,13 @@ enum class LateStudyStatusUi {
 
 private fun StudyApplicationStatusResponse.toAppliedTitle(): String? {
     return when (status) {
-        "SECOND_APPROVED" -> "$startDate ~ $endDate 승인됨"
+        "SECOND_APPROVED" -> {
+            if (startDate != null && endDate != null) {
+                "$startDate ~ $endDate 승인됨"
+            } else {
+                "승인됨"
+            }
+        }
         "REJECTED" -> "거절됨"
         "PENDING" -> "신청 중"
         else -> null
