@@ -50,6 +50,7 @@ import team.aliens.dms.android.core.designsystem.button.ButtonType
 import team.aliens.dms.android.core.designsystem.button.DmsLayeredButton
 import team.aliens.dms.android.core.designsystem.sTitleB
 import team.aliens.dms.android.core.designsystem.snackbar.DmsSnackBarType
+import team.aliens.dms.android.core.ui.navigation.LocalResultStore
 import team.aliens.dms.android.feature.latestudy.ui.component.LateStudyCalendarSection
 import team.aliens.dms.android.feature.latestudy.ui.component.LateStudyReasonSection
 import team.aliens.dms.android.feature.latestudy.ui.component.LateStudySectionCard
@@ -76,6 +77,7 @@ fun LateStudyScreen(
 
     val viewModel: LateStudyViewModel = hiltViewModel()
     val focusManager = LocalFocusManager.current
+    val resultStore = LocalResultStore.current
 
     val studyTypes = viewModel.studyTypes
 
