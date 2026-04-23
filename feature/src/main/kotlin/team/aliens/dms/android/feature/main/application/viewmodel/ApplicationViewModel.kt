@@ -16,6 +16,8 @@ import team.aliens.dms.android.data.latestudy.repository.LateStudyRepository
 import team.aliens.dms.android.data.voting.model.AllVoteSearch
 import team.aliens.dms.android.data.voting.repository.VotingRepository
 import team.aliens.dms.android.network.latestudy.model.StudyApplicationStatusResponse
+import java.time.LocalDate
+import java.time.format.DateTimeParseException
 import javax.inject.Inject
 
 @HiltViewModel
@@ -39,7 +41,8 @@ internal class ApplicationViewModel @Inject constructor(
             votingRepository.fetchAllVoteSearch()
                 .onSuccess { votes ->
                     setState { it.copy(votes = votes.toPersistentList()) }
-                }.onFailure {
+                }
+                .onFailure {
                 }
         }
     }
@@ -110,38 +113,82 @@ enum class LateStudyStatusUi {
 }
 
 private fun StudyApplicationStatusResponse.toAppliedTitle(): String? {
+    val today = LocalDate.now()
+    val start = startDate.toLocalDateOrNull()
+    val end = endDate.toLocalDateOrNull()
+
     return when (status) {
         "SECOND_APPROVED" -> {
-            when {
-                startDate != null && endDate != null -> {
-                    if (startDate == endDate) {
-                        "$startDate 승인됨"
-                    } else {
-                        "$startDate ~ $endDate 승인됨"
+            val actualEndDate = end ?: start
+
+            if (actualEndDate == null || today.isAfter(actualEndDate)) {
+                null
+            } else {
+                when {
+                    start != null && end != null -> {
+                        if (start == end) "$startDate 승인됨"
+                        else "$startDate ~ $endDate 승인됨"
                     }
+                    start != null -> "$startDate 승인됨"
+                    end != null -> "$endDate 승인됨"
+                    else -> null
                 }
-                startDate != null -> "$startDate 승인됨"
-                endDate != null -> "$endDate 승인됨"
-                else -> null
             }
         }
-        "REJECTED" -> null
-        "PENDING" -> null
+        "PENDING" -> "신청 중"
+        "REJECTED" -> {
+            val rejectBaseDate = end ?: start
+            if (rejectBaseDate != null && rejectBaseDate.isEqual(today)) {
+                when {
+                    start != null && end != null -> {
+                        if (start == end) "$startDate 거절됨"
+                        else "$startDate ~ $endDate 거절됨"
+                    }
+                    start != null -> "$startDate 거절됨"
+                    end != null -> "$endDate 거절됨"
+                    else -> "거절됨"
+                }
+            } else {
+                null
+            }
+        }
         else -> null
     }
 }
 
 private fun StudyApplicationStatusResponse.toUiStatus(): LateStudyStatusUi? {
+    val today = LocalDate.now()
+    val start = startDate.toLocalDateOrNull()
+    val end = endDate.toLocalDateOrNull()
+
     return when (status) {
         "SECOND_APPROVED" -> {
-            if (startDate != null || endDate != null) {
+            val actualEndDate = end ?: start
+            if (actualEndDate != null && !today.isAfter(actualEndDate)) {
                 LateStudyStatusUi.APPROVED
             } else {
                 null
             }
         }
-        "REJECTED" -> null
-        "PENDING" -> null
+        "PENDING" -> LateStudyStatusUi.PENDING
+        "REJECTED" -> {
+            val rejectBaseDate = end ?: start
+            if (rejectBaseDate != null && rejectBaseDate.isEqual(today)) {
+                LateStudyStatusUi.REJECTED
+            } else {
+                null
+            }
+        }
         else -> null
+    }
+}
+
+private fun String?.toLocalDateOrNull(): LocalDate? {
+    if (this.isNullOrBlank()) return null
+
+    return try {
+        LocalDate.parse(this)
+    } catch (_: DateTimeParseException) {
+        null
     }
 }
