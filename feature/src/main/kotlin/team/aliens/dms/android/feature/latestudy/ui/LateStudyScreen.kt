@@ -319,6 +319,13 @@ fun LateStudyScreen(
                         startDate = startDate.toString(),
                         endDate = endDate.toString(),
                     )
+
+                    resultStore.setResult(
+                        resultKey = "late_study_application_result",
+                        result = "신청 중",
+                    )
+
+                    onBack()
                 } else {
                     onShowSnackBar(
                         DmsSnackBarType.ERROR,
