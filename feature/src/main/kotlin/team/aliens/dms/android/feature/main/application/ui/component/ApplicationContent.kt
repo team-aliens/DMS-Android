@@ -9,11 +9,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import team.aliens.dms.android.core.designsystem.R
 import team.aliens.dms.android.core.designsystem.card.DmsApplicationCard
+import team.aliens.dms.android.feature.main.application.viewmodel.LateStudyStatusUi
 
 @Composable
 internal fun ApplicationContent(
     appliedTitle: String?,
     lateStudyAppliedTitle: String?,
+    lateStudyStatus: LateStudyStatusUi?,
     onNavigateRemainApplication: () -> Unit,
     onNavigateOutingApplication: () -> Unit,
     onNavigateVolunteerApplication: () -> Unit,
@@ -42,6 +44,10 @@ internal fun ApplicationContent(
                 appliedTitle = when (title) {
                     "잔류" -> appliedTitle
                     "새벽 자습 신청하기" -> lateStudyAppliedTitle
+                    else -> null
+                },
+                lateStudyStatus = when (title) {
+                    "새벽 자습 신청하기" -> lateStudyStatus
                     else -> null
                 },
             )

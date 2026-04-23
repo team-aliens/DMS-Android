@@ -59,11 +59,15 @@ internal class ApplicationViewModel @Inject constructor(
                 setState {
                     it.copy(
                         lateStudyApplicationTitle = studyApplicationStatus.toAppliedTitle(),
+                        lateStudyStatusUi = studyApplicationStatus.toUiStatus(),
                     )
                 }
             }.onFailure {
                 setState {
-                    it.copy(lateStudyApplicationTitle = null)
+                    it.copy(
+                        lateStudyApplicationTitle = null,
+                        lateStudyStatusUi = null,
+                    )
                 }
             }
         }
@@ -84,13 +88,29 @@ data class ApplicationState(
     val votes: ImmutableList<AllVoteSearch> = persistentListOf(),
     val remainApplicationTitle: String? = null,
     val lateStudyApplicationTitle: String? = null,
+    val lateStudyStatusUi: LateStudyStatusUi? = null,
 )
+
+enum class LateStudyStatusUi {
+    APPROVED,
+    REJECTED,
+    PENDING,
+}
 
 private fun StudyApplicationStatusResponse.toAppliedTitle(): String? {
     return when (status) {
         "SECOND_APPROVED" -> "$startDate ~ $endDate 승인됨"
         "REJECTED" -> "거절됨"
         "PENDING" -> "신청 중"
+        else -> null
+    }
+}
+
+private fun StudyApplicationStatusResponse.toUiStatus(): LateStudyStatusUi? {
+    return when (status) {
+        "SECOND_APPROVED" -> LateStudyStatusUi.APPROVED
+        "REJECTED" -> LateStudyStatusUi.REJECTED
+        "PENDING" -> LateStudyStatusUi.PENDING
         else -> null
     }
 }
