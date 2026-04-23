@@ -54,6 +54,16 @@ internal fun Application(
             }
         }
     }
+    LaunchedEffect(Unit) {
+        snapshotFlow {
+            resultStore.resultStateMap["late_study_application_result"]?.value as? String?
+        }.collect { result ->
+            if (result != null) {
+                viewModel.setLateStudyApplication(result)
+                resultStore.removeResult<String?>(resultKey = "late_study_application_result")
+            }
+        }
+    }
 
     ApplicationScreen(
         state = state,
@@ -123,6 +133,7 @@ private fun ApplicationScreen(
                     ApplicationContent(
                         appliedTitle = state.remainApplicationTitle,
                         lateStudyAppliedTitle = state.lateStudyApplicationTitle,
+                        lateStudyStatus = state.lateStudyStatusUi,
                         onNavigateOutingApplication = onNavigateOutingApplication,
                         onNavigateRemainApplication = onNavigateRemainApplication,
                         onNavigateVolunteerApplication = onNavigateVolunteerApplication,
