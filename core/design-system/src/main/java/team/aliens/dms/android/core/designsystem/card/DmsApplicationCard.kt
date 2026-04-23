@@ -147,14 +147,14 @@ private fun AppliedTitleText(
         ApplicationChipStyle.DEFAULT -> DmsTheme.colorScheme.primary
         ApplicationChipStyle.APPROVED -> DmsTheme.colorScheme.primary
         ApplicationChipStyle.REJECTED -> DmsTheme.colorScheme.errorContainer
-        ApplicationChipStyle.PENDING -> DmsTheme.colorScheme.surfaceVariant
+        ApplicationChipStyle.PENDING -> DmsTheme.colorScheme.surface
     }
 
     val textColor = when (chipStyle) {
         ApplicationChipStyle.DEFAULT -> DmsTheme.colorScheme.onPrimaryContainer
         ApplicationChipStyle.APPROVED -> DmsTheme.colorScheme.onPrimaryContainer
         ApplicationChipStyle.REJECTED -> DmsTheme.colorScheme.onErrorContainer
-        ApplicationChipStyle.PENDING -> DmsTheme.colorScheme.onSurfaceVariant
+        ApplicationChipStyle.PENDING -> DmsTheme.colorScheme.inverseSurface
     }
 
     Text(
