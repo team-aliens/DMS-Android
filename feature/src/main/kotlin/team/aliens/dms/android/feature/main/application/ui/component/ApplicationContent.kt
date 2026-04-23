@@ -8,8 +8,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import team.aliens.dms.android.core.designsystem.R
+import team.aliens.dms.android.core.designsystem.card.ApplicationChipStyle
 import team.aliens.dms.android.core.designsystem.card.DmsApplicationCard
 import team.aliens.dms.android.feature.main.application.viewmodel.LateStudyStatusUi
+
 
 @Composable
 internal fun ApplicationContent(
@@ -46,9 +48,14 @@ internal fun ApplicationContent(
                     "새벽 자습 신청하기" -> lateStudyAppliedTitle
                     else -> null
                 },
-                lateStudyStatus = when (title) {
-                    "새벽 자습 신청하기" -> lateStudyStatus
-                    else -> null
+                chipStyle = when (title) {
+                    "새벽 자습 신청하기" -> when (lateStudyStatus) {
+                        LateStudyStatusUi.APPROVED -> ApplicationChipStyle.APPROVED
+                        LateStudyStatusUi.REJECTED -> ApplicationChipStyle.REJECTED
+                        LateStudyStatusUi.PENDING -> ApplicationChipStyle.PENDING
+                        null -> ApplicationChipStyle.DEFAULT
+                    }
+                    else -> ApplicationChipStyle.DEFAULT
                 },
             )
         }
