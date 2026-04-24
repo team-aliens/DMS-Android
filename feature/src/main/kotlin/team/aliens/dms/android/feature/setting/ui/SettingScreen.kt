@@ -125,7 +125,7 @@ internal fun Setting(
         ThemeSelectDialog(
             currentThemeMode = state.themeMode,
             onDismissRequest = { onShouldShowThemeDialogChange(false) },
-            onThemeSelected = { mode ->
+            onThemeSelect = { mode ->
                 viewModel.setThemeMode(mode)
                 onShouldShowThemeDialogChange(false)
             },
@@ -221,7 +221,7 @@ private fun SettingScreen(
 private fun ThemeSelectDialog(
     currentThemeMode: ThemeMode,
     onDismissRequest: () -> Unit,
-    onThemeSelected: (ThemeMode) -> Unit,
+    onThemeSelect: (ThemeMode) -> Unit,
 ) {
     AlertDialog(
         title = { Text(text = "테마 설정", style = DmsTheme.typography.sTitleM) },
@@ -232,7 +232,7 @@ private fun ThemeSelectDialog(
                         text = if (mode == currentThemeMode) "✓ ${mode.toDisplayName()}" else mode.toDisplayName(),
                         buttonType = ButtonType.Text,
                         buttonColor = if (mode == currentThemeMode) ButtonColor.Primary else ButtonColor.Gray,
-                        onClick = { onThemeSelected(mode) },
+                        onClick = { onThemeSelect(mode) },
                     )
                 }
             }

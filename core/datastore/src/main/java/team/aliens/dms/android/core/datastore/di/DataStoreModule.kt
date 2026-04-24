@@ -10,8 +10,8 @@ import team.aliens.dms.android.core.datastore.DeviceDataStore
 import team.aliens.dms.android.core.datastore.FeaturesDataStore
 import team.aliens.dms.android.core.datastore.JwtDataStore
 import team.aliens.dms.android.core.datastore.OnboardingDataStore
-import team.aliens.dms.android.core.datastore.ThemeDataStore
 import team.aliens.dms.android.core.datastore.PreferencesDataStore
+import team.aliens.dms.android.core.datastore.ThemeDataStore
 import team.aliens.dms.android.core.datastore.deviceStore
 import team.aliens.dms.android.core.datastore.featuresStore
 import team.aliens.dms.android.core.datastore.jwtStore
