@@ -31,6 +31,7 @@ import team.aliens.dms.android.core.designsystem.button.DmsItemButton
 import team.aliens.dms.android.core.designsystem.dialog.AlertDialog
 import team.aliens.dms.android.core.designsystem.sTitleM
 import team.aliens.dms.android.core.designsystem.snackbar.DmsSnackBarType
+import team.aliens.dms.android.core.theme.ThemeMode
 import team.aliens.dms.android.feature.setting.ui.component.SettingRotateContent
 import team.aliens.dms.android.feature.setting.viewmodel.SettingSideEffect
 import team.aliens.dms.android.feature.setting.viewmodel.SettingViewModel
@@ -53,6 +54,9 @@ internal fun Setting(
         mutableStateOf(false)
     }
     val (shouldShowWithdrawDialog, onShouldShowWithdrawDialogChange) = remember {
+        mutableStateOf(false)
+    }
+    val (shouldShowThemeDialog, onShouldShowThemeDialogChange) = remember {
         mutableStateOf(false)
     }
 
@@ -117,8 +121,20 @@ internal fun Setting(
         )
     }
 
+    if (shouldShowThemeDialog) {
+        ThemeSelectDialog(
+            currentThemeMode = state.themeMode,
+            onDismissRequest = { onShouldShowThemeDialogChange(false) },
+            onThemeSelected = { mode ->
+                viewModel.setThemeMode(mode)
+                onShouldShowThemeDialogChange(false)
+            },
+        )
+    }
+
     SettingScreen(
         rotated = state.isOnNotification,
+        themeMode = state.themeMode,
         onNavigateEditPassword = onNavigateEditPassword,
         onNavigateSelectProfile = onNavigateSelectProfile,
         onNotificationClick = { viewModel.updateNotificationStatus(state.isOnNotification) },
@@ -131,6 +147,7 @@ internal fun Setting(
             context.startActivity(intent)
         },
         onShowWithdrawDialogChange = { onShouldShowWithdrawDialogChange(true) },
+        onShowThemeDialogChange = { onShouldShowThemeDialogChange(true) },
         onBack = onBack,
     )
 }
@@ -138,12 +155,14 @@ internal fun Setting(
 @Composable
 private fun SettingScreen(
     rotated: Boolean,
+    themeMode: ThemeMode,
     onNavigateEditPassword: () -> Unit,
     onNavigateSelectProfile: () -> Unit,
     onNotificationClick: () -> Unit,
     onShowSignOutDialogChange: () -> Unit,
     onReportFormClick: () -> Unit,
     onShowWithdrawDialogChange: () -> Unit,
+    onShowThemeDialogChange: () -> Unit,
     onBack: () -> Unit,
 ) {
     Column(
@@ -176,6 +195,10 @@ private fun SettingScreen(
                 onClick = onNotificationClick,
             )
             DmsItemButton(
+                text = "테마 설정 (${themeMode.toDisplayName()})",
+                onClick = onShowThemeDialogChange,
+            )
+            DmsItemButton(
                 iconRes = R.drawable.img_3d_out,
                 text = "로그아웃",
                 onClick = onShowSignOutDialogChange,
@@ -192,4 +215,43 @@ private fun SettingScreen(
             )
         }
     }
+}
+
+@Composable
+private fun ThemeSelectDialog(
+    currentThemeMode: ThemeMode,
+    onDismissRequest: () -> Unit,
+    onThemeSelected: (ThemeMode) -> Unit,
+) {
+    AlertDialog(
+        title = { Text(text = "테마 설정", style = DmsTheme.typography.sTitleM) },
+        text = {
+            Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                ThemeMode.entries.forEach { mode ->
+                    DmsButton(
+                        text = if (mode == currentThemeMode) "✓ ${mode.toDisplayName()}" else mode.toDisplayName(),
+                        buttonType = ButtonType.Text,
+                        buttonColor = if (mode == currentThemeMode) ButtonColor.Primary else ButtonColor.Gray,
+                        onClick = { onThemeSelected(mode) },
+                    )
+                }
+            }
+        },
+        onDismissRequest = onDismissRequest,
+        confirmButton = {},
+        dismissButton = {
+            DmsButton(
+                text = "취소",
+                buttonType = ButtonType.Text,
+                buttonColor = ButtonColor.Primary,
+                onClick = onDismissRequest,
+            )
+        },
+    )
+}
+
+private fun ThemeMode.toDisplayName(): String = when (this) {
+    ThemeMode.SYSTEM -> "시스템 기본"
+    ThemeMode.LIGHT -> "라이트"
+    ThemeMode.DARK -> "다크"
 }

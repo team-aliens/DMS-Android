@@ -5,6 +5,8 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import team.aliens.dms.android.core.device.datastore.DeviceDataStoreDataSource
+import team.aliens.dms.android.core.theme.ThemeMode
+import team.aliens.dms.android.core.theme.datastore.ThemeDataStoreDataSource
 import team.aliens.dms.android.core.ui.viewmodel.BaseStateViewModel
 import team.aliens.dms.android.data.auth.repository.AuthRepository
 import team.aliens.dms.android.data.notification.model.NotificationTopicGroup
@@ -18,10 +20,12 @@ class SettingViewModel @Inject constructor(
     val authRepository: AuthRepository,
     val deviceDataStoreDataSource: DeviceDataStoreDataSource,
     val studentRepository: StudentRepository,
+    val themeDataStoreDataSource: ThemeDataStoreDataSource,
 ): BaseStateViewModel<SettingState, SettingSideEffect>(SettingState()) {
 
     init {
         fetchDeviceToken()
+        observeThemeMode()
     }
 
     private fun fetchDeviceToken() {
@@ -34,6 +38,20 @@ class SettingViewModel @Inject constructor(
                 }
                 fetchNotificationStatus()
             }
+        }
+    }
+
+    private fun observeThemeMode() {
+        viewModelScope.launch {
+            themeDataStoreDataSource.getThemeModeFlow().collect { mode ->
+                setState { it.copy(themeMode = mode) }
+            }
+        }
+    }
+
+    internal fun setThemeMode(mode: ThemeMode) {
+        viewModelScope.launch(Dispatchers.IO) {
+            themeDataStoreDataSource.setThemeMode(mode)
         }
     }
 
@@ -85,7 +103,8 @@ class SettingViewModel @Inject constructor(
 data class SettingState(
     val deviceToken: String? = null,
     val isOnNotification: Boolean = true,
-    val notificationTopicStatus: List<NotificationTopicGroup.Status> = emptyList()
+    val notificationTopicStatus: List<NotificationTopicGroup.Status> = emptyList(),
+    val themeMode: ThemeMode = ThemeMode.SYSTEM,
 )
 
 sealed class SettingSideEffect {
