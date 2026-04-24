@@ -131,35 +131,39 @@ private fun ProfileImagePicker(
     onPickImage: () -> Unit,
 ) {
     val hasImage = selectedUri.isNotEmpty()
-    Box(
-        modifier = Modifier
-            .size(160.dp)
-            .clip(CircleShape)
-            .background(DmsTheme.colorScheme.surfaceVariant)
-            .border(2.dp, DmsTheme.colorScheme.primary, CircleShape)
-            .clickable(onClick = onPickImage),
-        contentAlignment = Alignment.Center,
+    Column(
+        horizontalAlignment = Alignment.CenterHorizontally,
     ) {
-        if (hasImage) {
-            AsyncImage(
-                model = selectedUri,
-                contentDescription = null,
-                contentScale = ContentScale.Crop,
-                modifier = Modifier.matchParentSize(),
-            )
-        } else {
-            Icon(
-                imageVector = Icons.Filled.AddAPhoto,
-                contentDescription = "사진 선택",
-                tint = DmsTheme.colorScheme.primary,
-                modifier = Modifier.size(48.dp),
-            )
+        Box(
+            modifier = Modifier
+                .size(160.dp)
+                .clip(CircleShape)
+                .background(DmsTheme.colorScheme.surfaceVariant)
+                .border(2.dp, DmsTheme.colorScheme.primary, CircleShape)
+                .clickable(onClick = onPickImage),
+            contentAlignment = Alignment.Center,
+        ) {
+            if (hasImage) {
+                AsyncImage(
+                    model = selectedUri,
+                    contentDescription = null,
+                    contentScale = ContentScale.Crop,
+                    modifier = Modifier.matchParentSize(),
+                )
+            } else {
+                Icon(
+                    imageVector = Icons.Filled.AddAPhoto,
+                    contentDescription = "사진 선택",
+                    tint = DmsTheme.colorScheme.primary,
+                    modifier = Modifier.size(48.dp),
+                )
+            }
         }
+        Spacer(modifier = Modifier.height(16.dp))
+        Text(
+            text = "탭하여 사진 선택",
+            style = DmsTheme.typography.labelM,
+            color = DmsTheme.colorScheme.inverseOnSurface,
+        )
     }
-    Spacer(modifier = Modifier.height(16.dp))
-    Text(
-        text = "탭하여 사진 선택",
-        style = DmsTheme.typography.labelM,
-        color = DmsTheme.colorScheme.inverseOnSurface,
-    )
 }
