@@ -142,8 +142,7 @@ fun LateStudyScreen(
                     },
                 )
 
-                Spacer(modifier = Modifier.height(20.dp))
-            }
+                Spacer(modifier = Modifier.height(8.dp))            }
 
             if (isDropdownVisible && filteredTeachers.isNotEmpty()) {
                 Box(
