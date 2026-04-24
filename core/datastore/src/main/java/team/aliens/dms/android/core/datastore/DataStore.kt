@@ -10,3 +10,5 @@ internal val Context.featuresStore: PreferencesDataStore by preferencesDataStore
 internal val Context.deviceStore: PreferencesDataStore by preferencesDataStore("device-datastore")
 
 internal val Context.onboardingStore: PreferencesDataStore by preferencesDataStore("onboarding-datastore")
+
+internal val Context.themeStore: PreferencesDataStore by preferencesDataStore("theme-datastore")
