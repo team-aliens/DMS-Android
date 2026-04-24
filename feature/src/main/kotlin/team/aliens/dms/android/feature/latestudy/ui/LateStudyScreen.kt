@@ -303,7 +303,6 @@ fun LateStudyScreen(
                 selectedTeacherId != null &&
                         selectedTypeId != null &&
                         startDate != null &&
-                        endDate != null &&
                         reason.isNotBlank(),
             onClick = {
                 if (
@@ -318,7 +317,7 @@ fun LateStudyScreen(
                         typeId = selectedTypeId!!,
                         reason = reason,
                         startDate = startDate.toString(),
-                        endDate = endDate.toString(),
+                        endDate = (endDate ?: startDate).toString(),
                     )
 
                     resultStore.setResult(
