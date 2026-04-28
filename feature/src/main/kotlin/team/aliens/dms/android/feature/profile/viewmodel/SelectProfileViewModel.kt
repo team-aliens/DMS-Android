@@ -1,9 +1,7 @@
 package team.aliens.dms.android.feature.profile.viewmodel
 
-import android.content.ContentUris
 import android.content.Context
 import android.net.Uri
-import android.provider.MediaStore
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
@@ -18,56 +16,13 @@ import javax.inject.Inject
 internal class SelectProfileViewModel @Inject constructor(
     @ApplicationContext private val context: Context,
     private val fileRepository: FileRepository,
-): BaseStateViewModel<SelectProfileState, SelectProfileSideEffect>(SelectProfileState()) {
-
-    internal fun loadImagesIfNeeded() {
-        if (uiState.value.uriList.isNotEmpty()) return
-        getUriImage()
-    }
-
-    internal fun getUriImage() {
-        viewModelScope.launch(Dispatchers.IO) {
-            val uriList = mutableListOf<String>()
-            val contentUri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI
-            val projection = arrayOf(MediaStore.Images.Media._ID)
-
-            val cursor = context.contentResolver.query(
-                contentUri,
-                projection,
-                null,
-                null,
-                "${MediaStore.Images.Media.DATE_ADDED} DESC"
-            )
-
-            cursor?.use {
-                val idColumn = cursor.getColumnIndexOrThrow(MediaStore.Images.Media._ID)
-                while (cursor.moveToNext()) {
-                    val id = cursor.getLong(idColumn)
-                    val imageUri = ContentUris.withAppendedId(contentUri, id)
-                    uriList.add(imageUri.toString())
-                }
-            }
-            setState { it.copy(uriList = uriList) }
-        }
-    }
+) : BaseStateViewModel<SelectProfileState, SelectProfileSideEffect>(SelectProfileState()) {
 
     internal fun selectImage(uri: String) {
-        with(uiState.value) {
-            val isSelected = selectedUri == uri && selectedUri.isNotBlank()
-
-            val newSelectedUri = if (isSelected) {
-                ""
-            } else {
-                uri
-            }
-
-            setState { it.copy(selectedUri = newSelectedUri, enabled = !isSelected) }
-        }
+        setState { it.copy(selectedUri = uri, enabled = uri.isNotBlank()) }
     }
 
-    internal fun uploadProfileImage(
-        uri: Uri?,
-    ) {
+    internal fun uploadProfileImage(uri: Uri?) {
         if (uri != null) {
             setState { it.copy(uri = uri) }
             fetchPresignedUrl(
@@ -81,9 +36,7 @@ internal class SelectProfileViewModel @Inject constructor(
         }
     }
 
-    internal fun fetchPresignedUrl(
-        file: File,
-    ) {
+    private fun fetchPresignedUrl(file: File) {
         viewModelScope.launch(Dispatchers.IO) {
             fileRepository.fetchPresignedUrl(file.name).fold(
                 onSuccess = { presignedInfo ->
@@ -104,7 +57,7 @@ internal class SelectProfileViewModel @Inject constructor(
                 },
                 onFailure = {
                     sendEffect(SelectProfileSideEffect.FailFetchPresignedUrl("프로필 이미지 업로드에 실패했습니다"))
-                }
+                },
             )
         }
     }
@@ -113,7 +66,6 @@ internal class SelectProfileViewModel @Inject constructor(
 data class SelectProfileState(
     val selectedUri: String = "",
     val enabled: Boolean = false,
-    val uriList: List<String> = emptyList(),
     val profileImageUrl: String? = null,
     val uri: Uri? = null,
     val buttonEnabled: Boolean = false,
@@ -122,8 +74,6 @@ data class SelectProfileState(
 sealed class SelectProfileSideEffect {
     data class SuccessProfileImage(val profileImageUrl: String) : SelectProfileSideEffect()
     data object ProfileImageBadRequest : SelectProfileSideEffect()
-
     data object FailProfileImage : SelectProfileSideEffect()
-
     data class FailFetchPresignedUrl(val message: String) : SelectProfileSideEffect()
 }

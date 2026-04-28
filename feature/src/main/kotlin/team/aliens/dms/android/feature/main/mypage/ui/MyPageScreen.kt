@@ -38,6 +38,7 @@ internal fun MyPage(
     onNavigatePointHistory: (PointType) -> Unit,
     onNavigateSetting: () -> Unit,
     onNavigateNotification: () -> Unit,
+    onNavigateSelectProfile: () -> Unit,
     onShowSnackBar: (DmsSnackBarType, String) -> Unit,
 ) {
     val viewModel: MyPageViewModel = hiltViewModel()
@@ -58,6 +59,7 @@ internal fun MyPage(
         state = state,
         onNavigatePointHistory = onNavigatePointHistory,
         onNavigateNotification = onNavigateNotification,
+        onNavigateSelectProfile = onNavigateSelectProfile,
         onSettingClick = onNavigateSetting,
     )
 }
@@ -67,6 +69,7 @@ private fun MyPageScreen(
     state: MyPageState,
     onNavigatePointHistory: (PointType) -> Unit,
     onNavigateNotification: () -> Unit,
+    onNavigateSelectProfile: () -> Unit,
     onSettingClick: () -> Unit,
 ) {
     Column(
@@ -103,6 +106,7 @@ private fun MyPageScreen(
                 schoolName = state.myPage.schoolName,
                 genderType = state.myPage.sex,
                 profileImageUrl = state.myPage.profileImageUrl,
+                onProfileClick = onNavigateSelectProfile,
             )
             PhraseContent(
                 phrase = state.myPage.phrase,

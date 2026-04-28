@@ -234,12 +234,15 @@ fun DmsApp(
                                 onNavigateSetting = {
                                     backStack.add(SettingScreenNav)
                                 },
+                                onNavigateNotification = {
+                                    backStack.add(NotificationScreenNav)
+                                },
+                                onNavigateSelectProfile = {
+                                    backStack.add(SelectProfileScreenNav)
+                                },
                                 onShowSnackBar = { snackBarType, message ->
                                     appState.showSnackBar(snackBarType, message)
                                 },
-                                onNavigateNotification = {
-                                    backStack.add(NotificationScreenNav)
-                                }
                             )
                         }
                         entry<MealScreenNav> {
