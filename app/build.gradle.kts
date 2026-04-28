@@ -92,6 +92,7 @@ dependencies {
     implementation(project(ProjectPaths.Core.DEVICE))
     implementation(project(ProjectPaths.Core.WIDGET))
     implementation(project(ProjectPaths.Core.ONBOARDING))
+    implementation(project(ProjectPaths.Core.THEME))
 
     implementation(project(ProjectPaths.DATA))
     implementation(project(ProjectPaths.DATABASE))

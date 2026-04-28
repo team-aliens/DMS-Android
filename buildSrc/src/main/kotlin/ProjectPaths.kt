@@ -20,6 +20,7 @@ object ProjectPaths {
         const val DEVICE = ":core:device"
         const val WIDGET = ":core:widget"
         const val ONBOARDING = ":core:onboarding"
+        const val THEME = ":core:theme"
     }
 
     object Shared {

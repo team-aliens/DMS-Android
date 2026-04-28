@@ -11,10 +11,12 @@ import team.aliens.dms.android.core.datastore.FeaturesDataStore
 import team.aliens.dms.android.core.datastore.JwtDataStore
 import team.aliens.dms.android.core.datastore.OnboardingDataStore
 import team.aliens.dms.android.core.datastore.PreferencesDataStore
+import team.aliens.dms.android.core.datastore.ThemeDataStore
 import team.aliens.dms.android.core.datastore.deviceStore
 import team.aliens.dms.android.core.datastore.featuresStore
 import team.aliens.dms.android.core.datastore.jwtStore
 import team.aliens.dms.android.core.datastore.onboardingStore
+import team.aliens.dms.android.core.datastore.themeStore
 import javax.inject.Singleton
 
 @Module
@@ -48,4 +50,11 @@ internal object DataStoreModule {
     fun provideOnboardingDataStore(
         @ApplicationContext context: Context,
     ): PreferencesDataStore = context.onboardingStore
+
+    @Provides
+    @Singleton
+    @ThemeDataStore
+    fun provideThemeDataStore(
+        @ApplicationContext context: Context,
+    ): PreferencesDataStore = context.themeStore
 }
