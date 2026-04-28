@@ -3,6 +3,7 @@ package team.aliens.dms.android.feature.main.home.model
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -27,6 +28,7 @@ fun DmsPointContent(
     bonusPoint: Int,
     minusPoint: Int,
     modifier: Modifier = Modifier,
+    onClick: (() -> Unit)? = null,
 ) {
     Column(
         modifier = modifier
@@ -36,6 +38,7 @@ fun DmsPointContent(
                 color = DmsTheme.colorScheme.surfaceTint,
                 shape = RoundedCornerShape(32.dp),
             )
+            .then(if (onClick != null) Modifier.clickable(onClick = onClick) else Modifier)
             .padding(24.dp),
     ) {
         Text(
