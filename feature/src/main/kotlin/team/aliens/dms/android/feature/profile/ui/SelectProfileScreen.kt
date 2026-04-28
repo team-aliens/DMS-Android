@@ -59,7 +59,7 @@ internal fun SelectProfile(
     ) { uri ->
         if (uri != null) {
             viewModel.selectImage(uri.toString())
-        } else {
+        } else if (state.selectedUri.isBlank()) {
             updatedOnBack()
         }
     }
