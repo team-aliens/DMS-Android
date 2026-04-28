@@ -6,6 +6,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import team.aliens.dms.android.core.jwt.JwtProvider
 import team.aliens.dms.android.core.theme.ThemeMode
@@ -38,6 +39,7 @@ class MainActivityViewModel @Inject constructor(
         viewModelScope.launch {
             runCatchingCancellable { jwtProvider.resolveSession() }
             _isOnboardingCompleted.value = onboardingDataSource.getOnboardingCompleted()
+            _themeMode.value = themeDataStoreDataSource.getThemeModeFlow().first()
             _isStartupResolved.value = true
         }
         viewModelScope.launch {
