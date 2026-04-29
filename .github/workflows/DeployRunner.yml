@@ -1,0 +1,72 @@
+name: Deploy Runner
+
+on:
+  push:
+    branches: [develop]
+    paths:
+      - 'services/auto-fix-runner/**'
+      - '.github/workflows/DeployRunner.yml'
+  workflow_dispatch:
+
+concurrency:
+  group: deploy-runner-${{ github.ref }}
+  cancel-in-progress: false
+
+env:
+  PROJECT_ID: team-dms
+  REGION: us-central1
+  SERVICE_NAME: auto-fix-runner
+  IMAGE: us-central1-docker.pkg.dev/team-dms/auto-fix-runner/runner
+
+jobs:
+  deploy:
+    name: Build & Deploy to Cloud Run
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Authenticate to Google Cloud
+        uses: google-github-actions/auth@v2
+        with:
+          workload_identity_provider: ${{ secrets.GCP_WORKLOAD_IDENTITY_PROVIDER }}
+          service_account: ${{ secrets.GCP_RUNNER_SERVICE_ACCOUNT }}
+
+      - name: Set up Cloud SDK
+        uses: google-github-actions/setup-gcloud@v2
+
+      - name: Configure Docker for Artifact Registry
+        run: gcloud auth configure-docker us-central1-docker.pkg.dev --quiet
+
+      - name: Build Docker image
+        run: |
+          docker build \
+            -t ${{ env.IMAGE }}:${{ github.sha }} \
+            -t ${{ env.IMAGE }}:latest \
+            services/auto-fix-runner/
+
+      - name: Push Docker image
+        run: |
+          docker push ${{ env.IMAGE }}:${{ github.sha }}
+          docker push ${{ env.IMAGE }}:latest
+
+      - name: Deploy to Cloud Run
+        run: |
+          gcloud run deploy ${{ env.SERVICE_NAME }} \
+            --image "${{ env.IMAGE }}:${{ github.sha }}" \
+            --region ${{ env.REGION }} \
+            --platform managed \
+            --allow-unauthenticated \
+            --set-secrets \
+              "RUNNER_SHARED_TOKEN=RUNNER_SHARED_TOKEN:latest,GITHUB_APP_ID=GITHUB_APP_ID:latest,GITHUB_INSTALLATION_ID=GITHUB_INSTALLATION_ID:latest,GITHUB_APP_PRIVATE_KEY=GITHUB_APP_PRIVATE_KEY:latest" \
+            --quiet
+
+      - name: Print service URL
+        run: |
+          gcloud run services describe ${{ env.SERVICE_NAME }} \
+            --region ${{ env.REGION }} \
+            --format "value(status.url)"
