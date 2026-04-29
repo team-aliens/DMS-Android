@@ -196,3 +196,7 @@ app/release/
 
 .claude/
 .gemini/
+.omx/
+
+functions/.env
+functions/.env.*
