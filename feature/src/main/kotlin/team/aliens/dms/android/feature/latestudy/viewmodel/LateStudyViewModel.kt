@@ -68,11 +68,11 @@ class LateStudyViewModel @Inject constructor(
             try {
                 lateStudyRepository.submitLateStudy(
                     SubmitLateStudyRequest(
-                        teacher_id = teacherId,
-                        type_id = typeId,
+                        teacherId = teacherId,
+                        typeId = typeId,
                         reason = reason,
-                        start_date = startDate,
-                        end_date = endDate,
+                        startDate = startDate,
+                        endDate = endDate,
                     ),
                 )
             } catch (e: IOException) {
