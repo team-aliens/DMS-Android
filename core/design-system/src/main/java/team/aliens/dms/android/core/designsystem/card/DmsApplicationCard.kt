@@ -30,13 +30,6 @@ import team.aliens.dms.android.core.designsystem.labelB
 import team.aliens.dms.android.core.designsystem.labelM
 import team.aliens.dms.android.core.designsystem.util.clickable
 
-enum class ApplicationChipStyle {
-    DEFAULT,
-    APPROVED,
-    REJECTED,
-    PENDING,
-}
-
 @Composable
 fun DmsApplicationCard(
     title: String,
