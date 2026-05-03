@@ -6,12 +6,13 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import java.io.IOException
+import javax.inject.Inject
 import kotlinx.coroutines.launch
 import team.aliens.dms.android.data.latestudy.model.StudyType
 import team.aliens.dms.android.data.latestudy.repository.LateStudyRepository
-import team.aliens.dms.android.network.latestudy.model.TeacherResponse
 import team.aliens.dms.android.network.latestudy.model.SubmitLateStudyRequest
-import javax.inject.Inject
+import team.aliens.dms.android.network.latestudy.model.TeacherResponse
 
 @HiltViewModel
 class LateStudyViewModel @Inject constructor(
@@ -36,7 +37,7 @@ class LateStudyViewModel @Inject constructor(
         viewModelScope.launch {
             try {
                 studyTypes = lateStudyRepository.fetchStudyTypes()
-            } catch (e: Exception) {
+            } catch (e: IOException) {
                 e.printStackTrace()
             }
         }
@@ -46,7 +47,7 @@ class LateStudyViewModel @Inject constructor(
         viewModelScope.launch {
             try {
                 teachers = lateStudyRepository.fetchTeachers()
-            } catch (e: Exception) {
+            } catch (e: IOException) {
                 e.printStackTrace()
             }
         }
@@ -74,7 +75,7 @@ class LateStudyViewModel @Inject constructor(
                         end_date = endDate,
                     ),
                 )
-            } catch (e: Exception) {
+            } catch (e: IOException) {
                 e.printStackTrace()
             }
         }
