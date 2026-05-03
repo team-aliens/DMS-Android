@@ -1,9 +1,15 @@
 package team.aliens.dms.android.network.latestudy.model
 
+import com.google.gson.annotations.SerializedName
+
 data class SubmitLateStudyRequest(
-    val teacher_id: String,
-    val type_id: String,
+    @SerializedName("teacher_id")
+    val teacherId: String,
+    @SerializedName("type_id")
+    val typeId: String,
     val reason: String,
-    val start_date: String,
-    val end_date: String,
+    @SerializedName("start_date")
+    val startDate: String,
+    @SerializedName("end_date")
+    val endDate: String,
 )
