@@ -41,7 +41,7 @@ fun LateStudyReasonSection(
             )
 
             Text(
-                text = "${value.length}/200",
+                text = "${value.length}/$REASON_MAX_LENGTH",
                 color = DmsTheme.colorScheme.inverseSurface,
                 style = DmsTheme.typography.labelM,
                 modifier = Modifier.padding(top = 4.dp, end = 10.dp)
@@ -62,7 +62,7 @@ fun LateStudyReasonSection(
             BasicTextField(
                 value = value,
                 onValueChange = { newValue ->
-                    if (newValue.length <= 200) {
+                    if (newValue.length <= REASON_MAX_LENGTH) {
                         onValueChange(newValue)
                     }
                 },
