@@ -32,10 +32,10 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
@@ -51,39 +51,36 @@ import team.aliens.dms.android.core.designsystem.button.DmsLayeredButton
 import team.aliens.dms.android.core.designsystem.sTitleB
 import team.aliens.dms.android.core.designsystem.snackbar.DmsSnackBarType
 import team.aliens.dms.android.core.ui.navigation.LocalResultStore
+import team.aliens.dms.android.data.latestudy.model.StudyType
 import team.aliens.dms.android.feature.latestudy.ui.component.LateStudyCalendarSection
 import team.aliens.dms.android.feature.latestudy.ui.component.LateStudyReasonSection
 import team.aliens.dms.android.feature.latestudy.ui.component.LateStudySectionCard
 import team.aliens.dms.android.feature.latestudy.ui.component.LateStudyTeacherSection
 import team.aliens.dms.android.feature.latestudy.ui.component.LateStudyTypeItem
 import team.aliens.dms.android.feature.latestudy.viewmodel.LateStudyViewModel
+import team.aliens.dms.android.network.latestudy.model.TeacherResponse
 
 @Composable
 fun LateStudyScreen(
     onBack: () -> Unit,
     onShowSnackBar: (DmsSnackBarType, String) -> Unit,
 ) {
-    var selectedTypeId by remember { mutableStateOf<String?>(null) }
-
-    var currentMonth by remember { mutableStateOf(YearMonth.now()) }
-
-    var startDate by remember { mutableStateOf<LocalDate?>(null) }
-    var endDate by remember { mutableStateOf<LocalDate?>(null) }
-
-    var teacherKeyword by remember { mutableStateOf("") }
-    var selectedTeacherId by remember { mutableStateOf<String?>(null) }
-    var selectedTeacherName by remember { mutableStateOf<String?>(null) }
-    var isDropdownVisible by remember { mutableStateOf(false) }
-
     val viewModel: LateStudyViewModel = hiltViewModel()
     val focusManager = LocalFocusManager.current
     val resultStore = LocalResultStore.current
 
+    var selectedTypeId by remember { mutableStateOf<String?>(null) }
+    var currentMonth by remember { mutableStateOf(YearMonth.now()) }
+    var startDate by remember { mutableStateOf<LocalDate?>(null) }
+    var endDate by remember { mutableStateOf<LocalDate?>(null) }
+    var teacherKeyword by remember { mutableStateOf("") }
+    var selectedTeacherId by remember { mutableStateOf<String?>(null) }
+    var isDropdownVisible by remember { mutableStateOf(false) }
+    var reason by remember { mutableStateOf("") }
+
     val studyTypes = viewModel.studyTypes
-
     val teachers = viewModel.teachers
-
-    val filteredTeachers =
+    val filteredTeachers = remember(teacherKeyword, teachers) {
         if (teacherKeyword.isBlank()) {
             emptyList()
         } else {
@@ -91,10 +88,7 @@ fun LateStudyScreen(
                 teacher.name.contains(teacherKeyword)
             }
         }
-
-    var reason by remember { mutableStateOf("") }
-
-    val dropdownShadowColor = DmsTheme.colorScheme.primary.copy(alpha = 0.28f)
+    }
 
     Column(
         modifier = Modifier
@@ -104,164 +98,32 @@ fun LateStudyScreen(
             .verticalScroll(rememberScrollState())
             .padding(horizontal = 14.dp, vertical = 16.dp),
     ) {
-        IconButton(
-            onClick = onBack,
-            modifier = Modifier.size(24.dp),
-        ) {
-            Icon(
-                imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                contentDescription = "뒤로가기",
-                tint = DmsTheme.colorScheme.onBackground,
-            )
-        }
+        LateStudyHeader(onBack = onBack)
 
-        Spacer(modifier = Modifier.height(20.dp))
-
-        Text(
-            text = "새벽 자습 신청",
-            color = DmsTheme.colorScheme.onBackground,
-            style = DmsTheme.typography.sTitleB,
-            fontWeight = FontWeight.Bold,
+        TeacherSearchSection(
+            teacherKeyword = teacherKeyword,
+            onKeywordChange = {
+                teacherKeyword = it
+                selectedTeacherId = null
+                isDropdownVisible = true
+            },
+            filteredTeachers = filteredTeachers,
+            isDropdownVisible = isDropdownVisible,
+            onTeacherClick = { teacher ->
+                teacherKeyword = teacher.name
+                selectedTeacherId = teacher.id
+                isDropdownVisible = false
+                focusManager.clearFocus()
+            },
         )
 
-        Spacer(modifier = Modifier.height(16.dp))
+        StudyTypeSection(
+            studyTypes = studyTypes,
+            selectedTypeId = selectedTypeId,
+            onTypeClick = { selectedTypeId = it },
+        )
 
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .zIndex(10f),
-        ) {
-            Column {
-                LateStudyTeacherSection(
-                    value = teacherKeyword,
-                    onValueChange = {
-                        teacherKeyword = it
-                        selectedTeacherId = null
-                        selectedTeacherName = null
-                        isDropdownVisible = true
-                    },
-                )
-
-                Spacer(modifier = Modifier.height(8.dp))            }
-
-            if (isDropdownVisible && filteredTeachers.isNotEmpty()) {
-                Box(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = 12.dp)
-                        .offset(y = 120.dp)
-                        .zIndex(10f),
-                ) {
-                    Box(
-                        modifier = Modifier
-                            .matchParentSize()
-                            .offset(y = 10.dp)
-                            .background(
-                                color = dropdownShadowColor,
-                                shape = RoundedCornerShape(28.dp),
-                            ),
-                    )
-
-                    Column(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .shadow(
-                                elevation = 12.dp,
-                                shape = RoundedCornerShape(28.dp),
-                                clip = false,
-                            )
-                            .background(
-                                color = DmsTheme.colorScheme.surface,
-                                shape = RoundedCornerShape(28.dp),
-                            )
-                            .heightIn(max = 220.dp)
-                            .verticalScroll(rememberScrollState())
-                            .padding(vertical = 12.dp),
-                    ) {
-                        filteredTeachers.forEach { teacher ->
-                            val startIndex = teacher.name.indexOf(teacherKeyword)
-
-                            Row(
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .clickable {
-                                        teacherKeyword = teacher.name
-                                        selectedTeacherName = teacher.name
-                                        selectedTeacherId = teacher.id
-                                        isDropdownVisible = false
-                                        focusManager.clearFocus()
-                                    }
-                                    .padding(horizontal = 20.dp, vertical = 14.dp),
-                                verticalAlignment = Alignment.CenterVertically,
-                                horizontalArrangement = Arrangement.spacedBy(10.dp),
-                            ) {
-                                Icon(
-                                    imageVector = Icons.Outlined.Search,
-                                    contentDescription = "검색",
-                                    tint = DmsTheme.colorScheme.onPrimary,
-                                    modifier = Modifier.size(20.dp),
-                                )
-
-                                Text(
-                                    text = buildAnnotatedString {
-                                        if (startIndex >= 0 && teacherKeyword.isNotEmpty()) {
-                                            append(teacher.name.substring(0, startIndex))
-                                            withStyle(
-                                                SpanStyle(
-                                                    color = DmsTheme.colorScheme.primaryContainer,
-                                                ),
-                                            ) {
-                                                append(
-                                                    teacher.name.substring(
-                                                        startIndex,
-                                                        startIndex + teacherKeyword.length,
-                                                    ),
-                                                )
-                                            }
-                                            append(
-                                                teacher.name.substring(
-                                                    startIndex + teacherKeyword.length,
-                                                ),
-                                            )
-                                        } else {
-                                            append(teacher.name)
-                                        }
-                                    },
-                                    color = DmsTheme.colorScheme.onBackground,
-                                    style = DmsTheme.typography.bodyM,
-                                )
-                            }
-                        }
-                    }
-                }
-            }
-        }
-
-        Spacer(modifier = Modifier.height(16.dp))
-
-        LateStudySectionCard {
-            Text(
-                text = "유형",
-                modifier = Modifier.padding(horizontal = 16.dp, vertical = 12.dp),
-                color = DmsTheme.colorScheme.onBackground,
-                style = DmsTheme.typography.bodyB,
-                fontWeight = FontWeight.SemiBold,
-            )
-
-            Spacer(Modifier.height(8.dp))
-
-            studyTypes.forEach { type ->
-                LateStudyTypeItem(
-                    text = type.name,
-                    selected = selectedTypeId == type.id,
-                    onClick = { selectedTypeId = type.id },
-                )
-            }
-        }
-
-        Spacer(modifier = Modifier.height(20.dp))
-
-        LateStudyCalendarSection(
+        DateSelectSection(
             currentMonth = currentMonth,
             startDate = startDate,
             endDate = endDate,
@@ -269,14 +131,8 @@ fun LateStudyScreen(
             onNextMonthClick = { currentMonth = currentMonth.plusMonths(1) },
             onDateClick = { clickedDate ->
                 when {
-                    startDate == null -> {
-                        startDate = clickedDate
-                    }
-
-                    endDate == null && !clickedDate.isBefore(startDate) -> {
-                        endDate = clickedDate
-                    }
-
+                    startDate == null -> startDate = clickedDate
+                    endDate == null && !clickedDate.isBefore(startDate) -> endDate = clickedDate
                     else -> {
                         startDate = clickedDate
                         endDate = null
@@ -285,8 +141,6 @@ fun LateStudyScreen(
             },
         )
 
-        Spacer(modifier = Modifier.height(20.dp))
-
         LateStudyReasonSection(
             value = reason,
             onValueChange = { reason = it },
@@ -294,22 +148,16 @@ fun LateStudyScreen(
 
         Spacer(modifier = Modifier.height(20.dp))
 
-        DmsLayeredButton(
-            modifier = Modifier.fillMaxWidth(),
-            text = "신청하기",
-            buttonType = ButtonType.Contained,
-            buttonColor = ButtonColor.Primary,
-            enabled =
-                selectedTeacherId != null &&
-                        selectedTypeId != null &&
-                        startDate != null &&
-                        reason.isNotBlank(),
+        SubmitButton(
+            enabled = selectedTeacherId != null &&
+                    selectedTypeId != null &&
+                    startDate != null &&
+                    reason.isNotBlank(),
             onClick = {
                 if (
                     selectedTeacherId != null &&
                     selectedTypeId != null &&
                     startDate != null &&
-                    endDate != null &&
                     reason.isNotBlank()
                 ) {
                     viewModel.submitLateStudy(
@@ -334,7 +182,239 @@ fun LateStudyScreen(
                 }
             },
         )
+    }
+}
 
-        Spacer(modifier = Modifier.height(12.dp))
+@Composable
+private fun LateStudyHeader(
+    onBack: () -> Unit,
+) {
+    IconButton(
+        onClick = onBack,
+        modifier = Modifier.size(24.dp),
+    ) {
+        Icon(
+            imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+            contentDescription = "뒤로가기",
+            tint = DmsTheme.colorScheme.onBackground,
+        )
+    }
+
+    Spacer(modifier = Modifier.height(20.dp))
+
+    Text(
+        text = "새벽 자습 신청",
+        color = DmsTheme.colorScheme.onBackground,
+        style = DmsTheme.typography.sTitleB,
+    )
+
+    Spacer(modifier = Modifier.height(16.dp))
+}
+
+@Composable
+private fun TeacherSearchSection(
+    teacherKeyword: String,
+    onKeywordChange: (String) -> Unit,
+    filteredTeachers: List<TeacherResponse>,
+    isDropdownVisible: Boolean,
+    onTeacherClick: (TeacherResponse) -> Unit,
+) {
+    Box(
+        modifier = Modifier
+            .fillMaxWidth()
+            .zIndex(10f),
+    ) {
+        Column {
+            LateStudyTeacherSection(
+                value = teacherKeyword,
+                onValueChange = onKeywordChange,
+            )
+
+            Spacer(modifier = Modifier.height(8.dp))
+        }
+
+        if (isDropdownVisible && filteredTeachers.isNotEmpty()) {
+            TeacherDropdown(
+                teachers = filteredTeachers,
+                keyword = teacherKeyword,
+                onTeacherClick = onTeacherClick,
+            )
+        }
+    }
+
+    Spacer(modifier = Modifier.height(16.dp))
+}
+
+@Composable
+private fun TeacherDropdown(
+    teachers: List<TeacherResponse>,
+    keyword: String,
+    onTeacherClick: (TeacherResponse) -> Unit,
+) {
+    val dropdownShadowColor = DmsTheme.colorScheme.primary.copy(alpha = 0.28f)
+    val highlightColor = DmsTheme.colorScheme.primaryContainer
+
+    Box(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 12.dp)
+            .offset(y = 120.dp)
+            .zIndex(10f),
+    ) {
+        Box(
+            modifier = Modifier
+                .matchParentSize()
+                .offset(y = 10.dp)
+                .background(
+                    color = dropdownShadowColor,
+                    shape = RoundedCornerShape(28.dp),
+                ),
+        )
+
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .shadow(
+                    elevation = 12.dp,
+                    shape = RoundedCornerShape(28.dp),
+                    clip = false,
+                )
+                .background(
+                    color = DmsTheme.colorScheme.surface,
+                    shape = RoundedCornerShape(28.dp),
+                )
+                .heightIn(max = 220.dp)
+                .verticalScroll(rememberScrollState())
+                .padding(vertical = 12.dp),
+        ) {
+            teachers.forEach { teacher ->
+                TeacherDropdownItem(
+                    teacher = teacher,
+                    keyword = keyword,
+                    highlightColor = highlightColor,
+                    onClick = { onTeacherClick(teacher) },
+                )
+            }
+        }
+    }
+}
+
+@Composable
+private fun TeacherDropdownItem(
+    teacher: TeacherResponse,
+    keyword: String,
+    highlightColor: Color,
+    onClick: () -> Unit,
+) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .clickable(onClick = onClick)
+            .padding(horizontal = 20.dp, vertical = 14.dp),
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.spacedBy(10.dp),
+    ) {
+        Icon(
+            imageVector = Icons.Outlined.Search,
+            contentDescription = "검색",
+            tint = DmsTheme.colorScheme.onPrimary,
+            modifier = Modifier.size(20.dp),
+        )
+
+        Text(
+            text = highlightText(
+                text = teacher.name,
+                keyword = keyword,
+                highlightColor = highlightColor,
+            ),
+            color = DmsTheme.colorScheme.onBackground,
+            style = DmsTheme.typography.bodyM,
+        )
+    }
+}
+
+@Composable
+private fun StudyTypeSection(
+    studyTypes: List<StudyType>,
+    selectedTypeId: String?,
+    onTypeClick: (String) -> Unit,
+) {
+    LateStudySectionCard {
+        Text(
+            text = "유형",
+            modifier = Modifier.padding(horizontal = 16.dp, vertical = 12.dp),
+            color = DmsTheme.colorScheme.onBackground,
+            style = DmsTheme.typography.bodyB,
+        )
+
+        Spacer(modifier = Modifier.height(8.dp))
+
+        studyTypes.forEach { type ->
+            LateStudyTypeItem(
+                text = type.name,
+                selected = selectedTypeId == type.id,
+                onClick = { onTypeClick(type.id) },
+            )
+        }
+    }
+
+    Spacer(modifier = Modifier.height(20.dp))
+}
+
+@Composable
+private fun DateSelectSection(
+    currentMonth: YearMonth,
+    startDate: LocalDate?,
+    endDate: LocalDate?,
+    onPrevMonthClick: () -> Unit,
+    onNextMonthClick: () -> Unit,
+    onDateClick: (LocalDate) -> Unit,
+) {
+    LateStudyCalendarSection(
+        currentMonth = currentMonth,
+        startDate = startDate,
+        endDate = endDate,
+        onPrevMonthClick = onPrevMonthClick,
+        onNextMonthClick = onNextMonthClick,
+        onDateClick = onDateClick,
+    )
+
+    Spacer(modifier = Modifier.height(20.dp))
+}
+
+@Composable
+private fun SubmitButton(
+    enabled: Boolean,
+    onClick: () -> Unit,
+) {
+    DmsLayeredButton(
+        modifier = Modifier.fillMaxWidth(),
+        text = "신청하기",
+        buttonType = ButtonType.Contained,
+        buttonColor = ButtonColor.Primary,
+        enabled = enabled,
+        onClick = onClick,
+    )
+
+    Spacer(modifier = Modifier.height(12.dp))
+}
+
+private fun highlightText(
+    text: String,
+    keyword: String,
+    highlightColor: Color,
+) = buildAnnotatedString {
+    val startIndex = text.indexOf(keyword)
+
+    if (startIndex >= 0 && keyword.isNotEmpty()) {
+        append(text.substring(0, startIndex))
+        withStyle(
+            style = SpanStyle(color = highlightColor),
+        ) {
+            append(text.substring(startIndex, startIndex + keyword.length))
+        }
+        append(text.substring(startIndex + keyword.length))
+    } else {
+        append(text)
     }
 }
