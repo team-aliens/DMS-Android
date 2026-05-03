@@ -9,7 +9,10 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.KeyboardArrowLeft
 import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
@@ -25,8 +28,6 @@ import team.aliens.dms.android.core.designsystem.labelM
 import java.time.YearMonth
 import java.time.DayOfWeek
 import java.time.LocalDate
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.shape.RoundedCornerShape
 
 @Composable
 fun LateStudyCalendarSection(
@@ -148,105 +149,140 @@ private fun CalendarDateCell(
     modifier: Modifier = Modifier,
 ) {
     val isSelected = isRangeStart || isRangeEnd
-
-    val textColor = when {
-        isSelected || isInRange -> DmsTheme.colorScheme.background
-
-        !isCurrentMonth && date.dayOfWeek == DayOfWeek.SUNDAY ->
-            DmsTheme.colorScheme.onError
-
-        !isCurrentMonth && date.dayOfWeek == DayOfWeek.SATURDAY ->
-            DmsTheme.colorScheme.onPrimary
-
-        !isCurrentMonth ->
-            DmsTheme.colorScheme.inverseSurface
-
-        date.dayOfWeek == DayOfWeek.SUNDAY ->
-            DmsTheme.colorScheme.onError
-
-        date.dayOfWeek == DayOfWeek.SATURDAY ->
-            DmsTheme.colorScheme.onPrimary
-
-        date.dayOfWeek == DayOfWeek.FRIDAY ->
-            DmsTheme.colorScheme.onSurfaceVariant
-
-        else ->
-            DmsTheme.colorScheme.onBackground
-    }
+    val textColor = calendarDateTextColor(
+        date = date,
+        isCurrentMonth = isCurrentMonth,
+        isSelected = isSelected,
+        isInRange = isInRange,
+    )
 
     Box(
         modifier = modifier.height(40.dp),
         contentAlignment = Alignment.Center,
     ) {
-        if (isRangeStart && !isSingleSelected) {
-            Box(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(30.dp)
-                    .padding(start = 15.dp)
-                    .background(
-                        color = DmsTheme.colorScheme.onPrimaryContainer.copy(alpha = 0.6f),
-                        shape = RoundedCornerShape(
-                            topStart = 999.dp,
-                            bottomStart = 999.dp,
-                        ),
-                    ),
-            )
-        }
-
-        if (isInRange) {
-            Box(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(30.dp)
-                    .background(
-                        color = DmsTheme.colorScheme.onPrimaryContainer.copy(alpha = 0.6f),
-                        ),
-            )
-        }
-
-        if (isRangeEnd && !isSingleSelected) {
-            Box(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(30.dp)
-                    .padding(end = 15.dp)
-                    .background(
-                        color = DmsTheme.colorScheme.onPrimaryContainer.copy(alpha = 0.6f),
-                        shape = RoundedCornerShape(
-                            topEnd = 999.dp,
-                            bottomEnd = 999.dp,
-                        ),
-                    ),
-            )
-        }
+        CalendarRangeBackground(
+            isRangeStart = isRangeStart,
+            isRangeEnd = isRangeEnd,
+            isInRange = isInRange,
+            isSingleSelected = isSingleSelected,
+        )
 
         if (isSelected) {
-            Box(
-                modifier = Modifier
-                    .size(30.dp)
-                    .background(
-                        color = DmsTheme.colorScheme.onPrimaryContainer,
-                        shape = CircleShape,
-                    ),
-            )
+            SelectedDateBackground()
         }
 
+        CalendarDateText(
+            date = date,
+            textColor = textColor,
+            isSelectable = isSelectable,
+            onClick = onClick,
+        )
+    }
+}
+
+@Composable
+private fun CalendarRangeBackground(
+    isRangeStart: Boolean,
+    isRangeEnd: Boolean,
+    isInRange: Boolean,
+    isSingleSelected: Boolean,
+) {
+    val rangeColor = DmsTheme.colorScheme.onPrimaryContainer.copy(alpha = 0.6f)
+
+    if (isRangeStart && !isSingleSelected) {
         Box(
             modifier = Modifier
-                .size(32.dp)
-                .clickable(
-                    enabled = isSelectable,
-                    onClick = onClick,
+                .fillMaxWidth()
+                .height(30.dp)
+                .padding(start = 15.dp)
+                .background(
+                    color = rangeColor,
+                    shape = RoundedCornerShape(
+                        topStart = 999.dp,
+                        bottomStart = 999.dp,
+                    ),
                 ),
-            contentAlignment = Alignment.Center,
-        ) {
-            Text(
-                text = date.dayOfMonth.toString(),
-                color = textColor,
-                style = DmsTheme.typography.caption,
-            )
-        }
+        )
+    }
+
+    if (isInRange) {
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(30.dp)
+                .background(color = rangeColor),
+        )
+    }
+
+    if (isRangeEnd && !isSingleSelected) {
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(30.dp)
+                .padding(end = 15.dp)
+                .background(
+                    color = rangeColor,
+                    shape = RoundedCornerShape(
+                        topEnd = 999.dp,
+                        bottomEnd = 999.dp,
+                    ),
+                ),
+        )
+    }
+}
+
+@Composable
+private fun SelectedDateBackground() {
+    Box(
+        modifier = Modifier
+            .size(30.dp)
+            .background(
+                color = DmsTheme.colorScheme.onPrimaryContainer,
+                shape = CircleShape,
+            ),
+    )
+}
+
+@Composable
+private fun CalendarDateText(
+    date: LocalDate,
+    textColor: androidx.compose.ui.graphics.Color,
+    isSelectable: Boolean,
+    onClick: () -> Unit,
+) {
+    Box(
+        modifier = Modifier
+            .size(32.dp)
+            .clickable(
+                enabled = isSelectable,
+                onClick = onClick,
+            ),
+        contentAlignment = Alignment.Center,
+    ) {
+        Text(
+            text = date.dayOfMonth.toString(),
+            color = textColor,
+            style = DmsTheme.typography.caption,
+        )
+    }
+}
+
+@Composable
+private fun calendarDateTextColor(
+    date: LocalDate,
+    isCurrentMonth: Boolean,
+    isSelected: Boolean,
+    isInRange: Boolean,
+): androidx.compose.ui.graphics.Color {
+    return when {
+        isSelected || isInRange -> DmsTheme.colorScheme.background
+        !isCurrentMonth && date.dayOfWeek == DayOfWeek.SUNDAY -> DmsTheme.colorScheme.onError
+        !isCurrentMonth && date.dayOfWeek == DayOfWeek.SATURDAY -> DmsTheme.colorScheme.onPrimary
+        !isCurrentMonth -> DmsTheme.colorScheme.inverseSurface
+        date.dayOfWeek == DayOfWeek.SUNDAY -> DmsTheme.colorScheme.onError
+        date.dayOfWeek == DayOfWeek.SATURDAY -> DmsTheme.colorScheme.onPrimary
+        date.dayOfWeek == DayOfWeek.FRIDAY -> DmsTheme.colorScheme.onSurfaceVariant
+        else -> DmsTheme.colorScheme.onBackground
     }
 }
 
@@ -346,9 +382,7 @@ private fun isSelectableDate(date: LocalDate): Boolean {
     return when (date.dayOfWeek) {
         DayOfWeek.FRIDAY,
         DayOfWeek.SATURDAY,
-        DayOfWeek.SUNDAY,
-            -> false
-
+        DayOfWeek.SUNDAY -> false
         else -> true
     }
 }
