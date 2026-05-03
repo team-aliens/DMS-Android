@@ -7,27 +7,28 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.KeyboardArrowLeft
 import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import java.time.DayOfWeek
+import java.time.LocalDate
+import java.time.YearMonth
 import team.aliens.dms.android.core.designsystem.DmsTheme
 import team.aliens.dms.android.core.designsystem.bodyB
 import team.aliens.dms.android.core.designsystem.labelM
-import java.time.YearMonth
-import java.time.DayOfWeek
-import java.time.LocalDate
 
 @Composable
 fun LateStudyCalendarSection(
@@ -66,14 +67,13 @@ fun LateStudyCalendarSection(
             modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp),
             verticalAlignment = Alignment.CenterVertically,
         ) {
-            Icon(
-                imageVector = Icons.AutoMirrored.Filled.KeyboardArrowLeft,
-                contentDescription = "이전 달",
-                tint = DmsTheme.colorScheme.onSurfaceVariant,
-                modifier = Modifier.clickable(onClick = onPrevMonthClick),
-            )
-
-            Spacer(modifier = Modifier.size(4.dp))
+            IconButton(onClick = onPrevMonthClick) {
+                Icon(
+                    imageVector = Icons.AutoMirrored.Filled.KeyboardArrowLeft,
+                    contentDescription = "이전 달",
+                    tint = DmsTheme.colorScheme.onSurfaceVariant,
+                )
+            }
 
             Text(
                 text = "${currentMonth.year} ${currentMonth.monthValue}월",
@@ -81,14 +81,13 @@ fun LateStudyCalendarSection(
                 style = DmsTheme.typography.bodyB,
             )
 
-            Spacer(modifier = Modifier.size(4.dp))
-
-            Icon(
-                imageVector = Icons.AutoMirrored.Filled.KeyboardArrowRight,
-                contentDescription = "다음 달",
-                tint = DmsTheme.colorScheme.onSurfaceVariant,
-                modifier = Modifier.clickable(onClick = onNextMonthClick),
-            )
+            IconButton(onClick = onNextMonthClick) {
+                Icon(
+                    imageVector = Icons.AutoMirrored.Filled.KeyboardArrowRight,
+                    contentDescription = "다음 달",
+                    tint = DmsTheme.colorScheme.onSurfaceVariant,
+                )
+            }
         }
 
         CalendarDayHeader()
@@ -246,7 +245,7 @@ private fun SelectedDateBackground() {
 @Composable
 private fun CalendarDateText(
     date: LocalDate,
-    textColor: androidx.compose.ui.graphics.Color,
+    textColor: Color,
     isSelectable: Boolean,
     onClick: () -> Unit,
 ) {
@@ -273,7 +272,7 @@ private fun calendarDateTextColor(
     isCurrentMonth: Boolean,
     isSelected: Boolean,
     isInRange: Boolean,
-): androidx.compose.ui.graphics.Color {
+): Color {
     return when {
         isSelected || isInRange -> DmsTheme.colorScheme.background
         !isCurrentMonth && date.dayOfWeek == DayOfWeek.SUNDAY -> DmsTheme.colorScheme.onError
@@ -340,10 +339,8 @@ private fun buildCalendarDates(
     val firstDayOfMonth = currentMonth.atDay(1)
     val firstDayOffset = firstDayOfMonth.dayOfWeek.value % 7
     val daysInMonth = currentMonth.lengthOfMonth()
-
     val previousMonth = currentMonth.minusMonths(1)
     val previousMonthLastDay = previousMonth.lengthOfMonth()
-
     val result = mutableListOf<CalendarDateUiModel>()
 
     repeat(firstDayOffset) { index ->
