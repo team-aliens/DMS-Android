@@ -191,7 +191,6 @@ private fun LateStudyHeader(
 ) {
     IconButton(
         onClick = onBack,
-        modifier = Modifier.size(24.dp),
     ) {
         Icon(
             imageVector = Icons.AutoMirrored.Filled.ArrowBack,
