@@ -4,6 +4,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -136,6 +137,51 @@ private fun CalendarDayHeader() {
 }
 
 @Composable
+private fun CalendarGrid(
+    currentMonth: YearMonth,
+    startDate: LocalDate?,
+    endDate: LocalDate?,
+    onDateClick: (LocalDate) -> Unit,
+) {
+    val dates = buildCalendarDates(currentMonth)
+
+    Column {
+        dates.chunked(7).forEach { week ->
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 16.dp, vertical = 6.dp),
+            ) {
+                week.forEach { item ->
+                    val isRangeStart = item.date == startDate
+                    val isRangeEnd = item.date == endDate
+                    val isInRange = startDate != null && endDate != null &&
+                            item.date.isAfter(startDate) && item.date.isBefore(endDate)
+                    val isSingleSelected = startDate != null && endDate == null && item.date == startDate
+                    val isSelectable = item.isCurrentMonth && isSelectableDate(item.date)
+
+                    CalendarDateCell(
+                        date = item.date,
+                        isCurrentMonth = item.isCurrentMonth,
+                        isRangeStart = isRangeStart,
+                        isRangeEnd = isRangeEnd,
+                        isInRange = isInRange,
+                        isSingleSelected = isSingleSelected,
+                        isSelectable = isSelectable,
+                        onClick = {
+                            if (isSelectable) {
+                                onDateClick(item.date)
+                            }
+                        },
+                        modifier = Modifier.weight(1f),
+                    )
+                }
+            }
+        }
+    }
+}
+
+@Composable
 private fun CalendarDateCell(
     date: LocalDate,
     isCurrentMonth: Boolean,
@@ -188,45 +234,52 @@ private fun CalendarRangeBackground(
 ) {
     val rangeColor = DmsTheme.colorScheme.onPrimaryContainer.copy(alpha = 0.6f)
 
-    if (isRangeStart && !isSingleSelected) {
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(30.dp)
-                .padding(start = 15.dp)
-                .background(
-                    color = rangeColor,
-                    shape = RoundedCornerShape(
-                        topStart = 999.dp,
-                        bottomStart = 999.dp,
+    Box(
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(40.dp),
+        contentAlignment = Alignment.Center,
+    ) {
+        if (isRangeStart && !isSingleSelected) {
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(30.dp)
+                    .padding(start = 15.dp)
+                    .background(
+                        color = rangeColor,
+                        shape = RoundedCornerShape(
+                            topStart = 999.dp,
+                            bottomStart = 999.dp,
+                        ),
                     ),
-                ),
-        )
-    }
+            )
+        }
 
-    if (isInRange) {
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(30.dp)
-                .background(color = rangeColor),
-        )
-    }
+        if (isInRange) {
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(30.dp)
+                    .background(color = rangeColor),
+            )
+        }
 
-    if (isRangeEnd && !isSingleSelected) {
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(30.dp)
-                .padding(end = 15.dp)
-                .background(
-                    color = rangeColor,
-                    shape = RoundedCornerShape(
-                        topEnd = 999.dp,
-                        bottomEnd = 999.dp,
+        if (isRangeEnd && !isSingleSelected) {
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(30.dp)
+                    .padding(end = 15.dp)
+                    .background(
+                        color = rangeColor,
+                        shape = RoundedCornerShape(
+                            topEnd = 999.dp,
+                            bottomEnd = 999.dp,
+                        ),
                     ),
-                ),
-        )
+            )
+        }
     }
 }
 
@@ -282,49 +335,6 @@ private fun calendarDateTextColor(
         date.dayOfWeek == DayOfWeek.SATURDAY -> DmsTheme.colorScheme.onPrimary
         date.dayOfWeek == DayOfWeek.FRIDAY -> DmsTheme.colorScheme.onSurfaceVariant
         else -> DmsTheme.colorScheme.onBackground
-    }
-}
-
-@Composable
-private fun CalendarGrid(
-    currentMonth: YearMonth,
-    startDate: LocalDate?,
-    endDate: LocalDate?,
-    onDateClick: (LocalDate) -> Unit,
-) {
-    val dates = buildCalendarDates(currentMonth)
-
-    dates.chunked(7).forEach { week ->
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 16.dp, vertical = 6.dp),
-        ) {
-            week.forEach { item ->
-                val isRangeStart = item.date == startDate
-                val isRangeEnd = item.date == endDate
-                val isInRange = startDate != null && endDate != null &&
-                        item.date.isAfter(startDate) && item.date.isBefore(endDate)
-                val isSingleSelected = startDate != null && endDate == null && item.date == startDate
-                val isSelectable = item.isCurrentMonth && isSelectableDate(item.date)
-
-                CalendarDateCell(
-                    date = item.date,
-                    isCurrentMonth = item.isCurrentMonth,
-                    isRangeStart = isRangeStart,
-                    isRangeEnd = isRangeEnd,
-                    isInRange = isInRange,
-                    isSingleSelected = isSingleSelected,
-                    isSelectable = isSelectable,
-                    onClick = {
-                        if (isSelectable) {
-                            onDateClick(item.date)
-                        }
-                    },
-                    modifier = Modifier.weight(1f),
-                )
-            }
-        }
     }
 }
 
