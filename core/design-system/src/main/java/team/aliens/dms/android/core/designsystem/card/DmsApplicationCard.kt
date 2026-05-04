@@ -87,8 +87,8 @@ fun DmsApplicationCard(
 
             if (description == null && displayTitle != null) {
                 AppliedTitleText(
-                    modifier = Modifier.endPadding(16.dp),
                     appliedTitle = displayTitle,
+                    modifier = Modifier.endPadding(16.dp),
                     chipStyle = chipStyle,
                 )
             }
@@ -135,8 +135,8 @@ fun DmsApplicationCard(
 @Composable
 private fun AppliedTitleText(
     appliedTitle: String,
-    chipStyle: ApplicationChipStyle = ApplicationChipStyle.DEFAULT,
     modifier: Modifier = Modifier,
+    chipStyle: ApplicationChipStyle = ApplicationChipStyle.DEFAULT,
 ) {
     val backgroundColor = when (chipStyle) {
         ApplicationChipStyle.DEFAULT -> DmsTheme.colorScheme.primary
