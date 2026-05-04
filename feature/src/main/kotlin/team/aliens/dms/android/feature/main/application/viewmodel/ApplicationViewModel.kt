@@ -132,39 +132,45 @@ private fun StudyApplicationStatusResponse.toAppliedTitle(): String? {
     val end = endDate.toLocalDateOrNull()
 
     return when (status) {
-        "SECOND_APPROVED" -> {
-            val actualEndDate = end ?: start
-            if (actualEndDate == null || today.isAfter(actualEndDate)) {
-                null
-            } else {
-                when {
-                    start != null && end != null -> {
-                        if (start == end) "$startDate 승인됨"
-                        else "$startDate ~ $endDate 승인됨"
-                    }
-                    start != null -> "$startDate 승인됨"
-                    end != null -> "$endDate 승인됨"
-                    else -> null
-                }
-            }
-        }
+        "SECOND_APPROVED" -> approvedTitle(today, start, end)
         "PENDING" -> "신청 중"
-        "REJECTED" -> {
-            val rejectBaseDate = end ?: start
-            if (rejectBaseDate != null && rejectBaseDate.isEqual(today)) {
-                when {
-                    start != null && end != null -> {
-                        if (start == end) "$startDate 거절됨"
-                        else "$startDate ~ $endDate 거절됨"
-                    }
-                    start != null -> "$startDate 거절됨"
-                    end != null -> "$endDate 거절됨"
-                    else -> "거절됨"
-                }
-            } else {
-                null
-            }
+        "REJECTED" -> rejectedTitle(today, start, end)
+        else -> null
+    }
+}
+
+private fun StudyApplicationStatusResponse.approvedTitle(
+    today: LocalDate,
+    start: LocalDate?,
+    end: LocalDate?,
+): String? {
+    val actualEndDate = end ?: start
+    if (actualEndDate == null || today.isAfter(actualEndDate)) return null
+    return buildRangeText(start, end, "승인됨")
+}
+
+private fun StudyApplicationStatusResponse.rejectedTitle(
+    today: LocalDate,
+    start: LocalDate?,
+    end: LocalDate?,
+): String? {
+    val rejectBaseDate = end ?: start
+    if (rejectBaseDate == null || !rejectBaseDate.isEqual(today)) return null
+    return buildRangeText(start, end, "거절됨") ?: "거절됨"
+}
+
+private fun StudyApplicationStatusResponse.buildRangeText(
+    start: LocalDate?,
+    end: LocalDate?,
+    suffix: String,
+): String? {
+    return when {
+        start != null && end != null -> {
+            if (start == end) "$startDate $suffix"
+            else "$startDate ~ $endDate $suffix"
         }
+        start != null -> "$startDate $suffix"
+        end != null -> "$endDate $suffix"
         else -> null
     }
 }
