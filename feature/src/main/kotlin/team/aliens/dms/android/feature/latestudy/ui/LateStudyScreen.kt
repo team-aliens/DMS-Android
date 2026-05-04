@@ -80,6 +80,12 @@ fun LateStudyScreen(
 
     val studyTypes = viewModel.studyTypes
     val teachers = viewModel.teachers
+    val isSubmitEnabled = isSubmitEnabled(
+        selectedTeacherId = selectedTeacherId,
+        selectedTypeId = selectedTypeId,
+        startDate = startDate,
+        reason = reason,
+    )
     val filteredTeachers = remember(teacherKeyword, teachers) {
         if (teacherKeyword.isBlank()) {
             emptyList()
@@ -100,6 +106,16 @@ fun LateStudyScreen(
     ) {
         LateStudyHeader(onBack = onBack)
 
+        Spacer(modifier = Modifier.height(20.dp))
+
+        Text(
+            text = "새벽 자습 신청",
+            color = DmsTheme.colorScheme.onBackground,
+            style = DmsTheme.typography.sTitleB,
+        )
+
+        Spacer(modifier = Modifier.height(16.dp))
+
         TeacherSearchSection(
             teacherKeyword = teacherKeyword,
             onKeywordChange = {
@@ -117,11 +133,15 @@ fun LateStudyScreen(
             },
         )
 
+        Spacer(modifier = Modifier.height(16.dp))
+
         StudyTypeSection(
             studyTypes = studyTypes,
             selectedTypeId = selectedTypeId,
             onTypeClick = { selectedTypeId = it },
         )
+
+        Spacer(modifier = Modifier.height(20.dp))
 
         DateSelectSection(
             currentMonth = currentMonth,
@@ -141,6 +161,8 @@ fun LateStudyScreen(
             },
         )
 
+        Spacer(modifier = Modifier.height(20.dp))
+
         LateStudyReasonSection(
             value = reason,
             onValueChange = { reason = it },
@@ -149,17 +171,9 @@ fun LateStudyScreen(
         Spacer(modifier = Modifier.height(20.dp))
 
         SubmitButton(
-            enabled = selectedTeacherId != null &&
-                    selectedTypeId != null &&
-                    startDate != null &&
-                    reason.isNotBlank(),
+            enabled = isSubmitEnabled,
             onClick = {
-                if (
-                    selectedTeacherId != null &&
-                    selectedTypeId != null &&
-                    startDate != null &&
-                    reason.isNotBlank()
-                ) {
+                if (isSubmitEnabled) {
                     viewModel.submitLateStudy(
                         teacherId = selectedTeacherId!!,
                         typeId = selectedTypeId!!,
@@ -182,6 +196,8 @@ fun LateStudyScreen(
                 }
             },
         )
+
+        Spacer(modifier = Modifier.height(12.dp))
     }
 }
 
@@ -198,16 +214,6 @@ private fun LateStudyHeader(
             tint = DmsTheme.colorScheme.onBackground,
         )
     }
-
-    Spacer(modifier = Modifier.height(20.dp))
-
-    Text(
-        text = "새벽 자습 신청",
-        color = DmsTheme.colorScheme.onBackground,
-        style = DmsTheme.typography.sTitleB,
-    )
-
-    Spacer(modifier = Modifier.height(16.dp))
 }
 
 @Composable
@@ -240,8 +246,6 @@ private fun TeacherSearchSection(
             )
         }
     }
-
-    Spacer(modifier = Modifier.height(16.dp))
 }
 
 @Composable
@@ -356,8 +360,6 @@ private fun StudyTypeSection(
             )
         }
     }
-
-    Spacer(modifier = Modifier.height(20.dp))
 }
 
 @Composable
@@ -377,8 +379,6 @@ private fun DateSelectSection(
         onNextMonthClick = onNextMonthClick,
         onDateClick = onDateClick,
     )
-
-    Spacer(modifier = Modifier.height(20.dp))
 }
 
 @Composable
@@ -394,8 +394,18 @@ private fun SubmitButton(
         enabled = enabled,
         onClick = onClick,
     )
+}
 
-    Spacer(modifier = Modifier.height(12.dp))
+private fun isSubmitEnabled(
+    selectedTeacherId: String?,
+    selectedTypeId: String?,
+    startDate: LocalDate?,
+    reason: String,
+): Boolean {
+    return selectedTeacherId != null &&
+            selectedTypeId != null &&
+            startDate != null &&
+            reason.isNotBlank()
 }
 
 private fun highlightText(
