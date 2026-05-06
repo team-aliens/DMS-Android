@@ -39,6 +39,7 @@ fun DmsApplicationCard(
     description: String? = null,
     period: String? = null,
     appliedTitle: String? = null,
+    chipStyle: ApplicationChipStyle = ApplicationChipStyle.DEFAULT,
     isSelected: Boolean = false,
 ) {
     val borderColor by animateColorAsState(
@@ -47,7 +48,11 @@ fun DmsApplicationCard(
         } else {
             DmsTheme.colorScheme.surfaceTint
         },
+        label = "",
     )
+
+    val displayTitle = appliedTitle ?: chipStyle.toDisplayText()
+
     Column(
         modifier = modifier
             .fillMaxWidth()
@@ -70,25 +75,31 @@ fun DmsApplicationCard(
                 painter = painterResource(iconRes),
                 contentDescription = null,
             )
+
             Text(
                 modifier = Modifier.padding(start = 8.dp),
                 text = title,
                 style = DmsTheme.typography.bodyB,
                 color = DmsTheme.colorScheme.inverseOnSurface,
             )
+
             Spacer(modifier = Modifier.weight(1f))
-            if (description == null && appliedTitle != null) {
+
+            if (description == null && displayTitle != null) {
                 AppliedTitleText(
+                    appliedTitle = displayTitle,
                     modifier = Modifier.endPadding(16.dp),
-                    appliedTitle = appliedTitle,
+                    chipStyle = chipStyle,
                 )
             }
+
             Icon(
                 painter = painterResource(DmsIcon.Forward),
                 tint = DmsTheme.colorScheme.scrim,
                 contentDescription = null,
             )
         }
+
         period?.let {
             Text(
                 text = period,
@@ -96,6 +107,7 @@ fun DmsApplicationCard(
                 color = DmsTheme.colorScheme.onPrimaryContainer,
             )
         }
+
         description?.let {
             Row(
                 verticalAlignment = Alignment.CenterVertically,
@@ -106,9 +118,14 @@ fun DmsApplicationCard(
                     style = DmsTheme.typography.labelM,
                     color = DmsTheme.colorScheme.inverseSurface,
                 )
+
                 Spacer(modifier = Modifier.weight(1f))
-                appliedTitle?.let {
-                    AppliedTitleText(appliedTitle = appliedTitle)
+
+                if (displayTitle != null) {
+                    AppliedTitleText(
+                        appliedTitle = displayTitle,
+                        chipStyle = chipStyle,
+                    )
                 }
             }
         }
@@ -119,16 +136,40 @@ fun DmsApplicationCard(
 private fun AppliedTitleText(
     appliedTitle: String,
     modifier: Modifier = Modifier,
+    chipStyle: ApplicationChipStyle = ApplicationChipStyle.DEFAULT,
 ) {
+    val backgroundColor = when (chipStyle) {
+        ApplicationChipStyle.DEFAULT -> DmsTheme.colorScheme.primary
+        ApplicationChipStyle.APPROVED -> DmsTheme.colorScheme.primary
+        ApplicationChipStyle.REJECTED -> DmsTheme.colorScheme.errorContainer
+        ApplicationChipStyle.PENDING -> DmsTheme.colorScheme.surfaceVariant
+    }
+
+    val textColor = when (chipStyle) {
+        ApplicationChipStyle.DEFAULT -> DmsTheme.colorScheme.onPrimaryContainer
+        ApplicationChipStyle.APPROVED -> DmsTheme.colorScheme.onPrimaryContainer
+        ApplicationChipStyle.REJECTED -> DmsTheme.colorScheme.onErrorContainer
+        ApplicationChipStyle.PENDING -> DmsTheme.colorScheme.inverseSurface
+    }
+
     Text(
         modifier = modifier
             .background(
-                color = DmsTheme.colorScheme.primary,
+                color = backgroundColor,
                 shape = RoundedCornerShape(6.dp),
             )
             .padding(horizontal = 22.dp, vertical = 8.dp),
         text = appliedTitle,
         style = DmsTheme.typography.labelB,
-        color = DmsTheme.colorScheme.onPrimaryContainer,
+        color = textColor,
     )
+}
+
+private fun ApplicationChipStyle.toDisplayText(): String? {
+    return when (this) {
+        ApplicationChipStyle.APPROVED -> "승인됨"
+        ApplicationChipStyle.REJECTED -> "거절됨"
+        ApplicationChipStyle.PENDING -> "신청 중"
+        ApplicationChipStyle.DEFAULT -> null
+    }
 }

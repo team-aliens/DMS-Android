@@ -27,6 +27,9 @@ data object VoteScreenNav : NavKey
 data object RemainScreenNav : NavKey
 
 @Serializable
+data object LateStudyNav : NavKey
+
+@Serializable
 data object MyPageScreenNav : NavKey
 
 @Serializable

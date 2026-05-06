@@ -8,14 +8,20 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import team.aliens.dms.android.core.designsystem.R
+import team.aliens.dms.android.core.designsystem.card.ApplicationChipStyle
 import team.aliens.dms.android.core.designsystem.card.DmsApplicationCard
+import team.aliens.dms.android.feature.main.application.viewmodel.LateStudyStatusUi
+
 
 @Composable
 internal fun ApplicationContent(
     appliedTitle: String?,
+    lateStudyAppliedTitle: String?,
+    lateStudyStatus: LateStudyStatusUi?,
     onNavigateRemainApplication: () -> Unit,
     onNavigateOutingApplication: () -> Unit,
     onNavigateVolunteerApplication: () -> Unit,
+    onNavigateLateStudyApplication: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     Column(
@@ -29,6 +35,7 @@ internal fun ApplicationContent(
     ) {
         listOf(
             Triple("잔류", R.drawable.img_home, onNavigateRemainApplication),
+            Triple("새벽 자습 신청하기", R.drawable.img_3d_dawn, onNavigateLateStudyApplication),
             Triple("외출 신청하기", R.drawable.img_outing, onNavigateOutingApplication),
             Triple("봉사 활동 신청하기", R.drawable.img_volunteer, onNavigateVolunteerApplication),
         ).forEach { (title, icon, onClick) ->
@@ -36,7 +43,20 @@ internal fun ApplicationContent(
                 title = title,
                 iconRes = icon,
                 onClick = onClick,
-                appliedTitle = if (title == "잔류") appliedTitle else null,
+                appliedTitle = when (title) {
+                    "잔류" -> appliedTitle
+                    "새벽 자습 신청하기" -> lateStudyAppliedTitle
+                    else -> null
+                },
+                chipStyle = when (title) {
+                    "새벽 자습 신청하기" -> when (lateStudyStatus) {
+                        LateStudyStatusUi.APPROVED -> ApplicationChipStyle.APPROVED
+                        LateStudyStatusUi.REJECTED -> ApplicationChipStyle.REJECTED
+                        LateStudyStatusUi.PENDING -> ApplicationChipStyle.PENDING
+                        null -> ApplicationChipStyle.DEFAULT
+                    }
+                    else -> ApplicationChipStyle.DEFAULT
+                },
             )
         }
     }
