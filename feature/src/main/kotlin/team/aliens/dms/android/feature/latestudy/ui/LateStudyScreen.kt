@@ -205,9 +205,7 @@ fun LateStudyScreen(
 private fun LateStudyHeader(
     onBack: () -> Unit,
 ) {
-    IconButton(
-        onClick = onBack,
-    ) {
+    IconButton(onClick = onBack) {
         Icon(
             imageVector = Icons.AutoMirrored.Filled.ArrowBack,
             contentDescription = "뒤로가기",
@@ -254,8 +252,8 @@ private fun TeacherDropdown(
     keyword: String,
     onTeacherClick: (TeacherResponse) -> Unit,
 ) {
-    val dropdownShadowColor = DmsTheme.colorScheme.primary.copy(alpha = 0.28f)
-    val highlightColor = DmsTheme.colorScheme.primaryContainer
+    val dropdownShadowColor = DmsTheme.colorScheme.scrim
+    val highlightColor = DmsTheme.colorScheme.primary
 
     Box(
         modifier = Modifier
@@ -283,7 +281,7 @@ private fun TeacherDropdown(
                     clip = false,
                 )
                 .background(
-                    color = DmsTheme.colorScheme.surface,
+                    color = DmsTheme.colorScheme.surfaceVariant,
                     shape = RoundedCornerShape(28.dp),
                 )
                 .heightIn(max = 220.dp)
@@ -320,7 +318,7 @@ private fun TeacherDropdownItem(
         Icon(
             imageVector = Icons.Outlined.Search,
             contentDescription = "검색",
-            tint = DmsTheme.colorScheme.onPrimary,
+            tint = DmsTheme.colorScheme.onSurfaceVariant,
             modifier = Modifier.size(20.dp),
         )
 
@@ -417,9 +415,7 @@ private fun highlightText(
 
     if (startIndex >= 0 && keyword.isNotEmpty()) {
         append(text.substring(0, startIndex))
-        withStyle(
-            style = SpanStyle(color = highlightColor),
-        ) {
+        withStyle(style = SpanStyle(color = highlightColor)) {
             append(text.substring(startIndex, startIndex + keyword.length))
         }
         append(text.substring(startIndex + keyword.length))

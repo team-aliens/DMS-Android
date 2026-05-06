@@ -7,8 +7,8 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -27,7 +27,6 @@ fun LateStudyReasonSection(
     modifier: Modifier = Modifier,
 ) {
     LateStudySectionCard(modifier = modifier) {
-
         Row(
             modifier = Modifier
                 .fillMaxWidth()
@@ -44,7 +43,7 @@ fun LateStudyReasonSection(
                 text = "${value.length}/$REASON_MAX_LENGTH",
                 color = DmsTheme.colorScheme.inverseSurface,
                 style = DmsTheme.typography.labelM,
-                modifier = Modifier.padding(top = 4.dp, end = 10.dp)
+                modifier = Modifier.padding(top = 4.dp, end = 10.dp),
             )
         }
 

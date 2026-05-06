@@ -21,7 +21,7 @@ fun LateStudySectionCard(
         modifier = modifier
             .fillMaxWidth()
             .background(
-                color = DmsTheme.colorScheme.surface,
+                color = DmsTheme.colorScheme.surfaceTint,
                 shape = RoundedCornerShape(24.dp),
             )
             .clip(RoundedCornerShape(24.dp))
