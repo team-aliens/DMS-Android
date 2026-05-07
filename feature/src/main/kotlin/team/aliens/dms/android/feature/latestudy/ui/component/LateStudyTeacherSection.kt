@@ -1,0 +1,62 @@
+package team.aliens.dms.android.feature.latestudy.ui.component
+
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.BasicTextField
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
+import team.aliens.dms.android.core.designsystem.DmsTheme
+import team.aliens.dms.android.core.designsystem.bodyB
+import team.aliens.dms.android.core.designsystem.bodyM
+
+@Composable
+fun LateStudyTeacherSection(
+    value: String,
+    onValueChange: (String) -> Unit,
+    modifier: Modifier = Modifier,
+) {
+    LateStudySectionCard(modifier = modifier) {
+        Text(
+            text = "담당 선생님",
+            modifier = Modifier.padding(horizontal = 16.dp),
+            color = DmsTheme.colorScheme.onBackground,
+            style = DmsTheme.typography.bodyB,
+        )
+
+        BasicTextField(
+            value = value,
+            onValueChange = onValueChange,
+            textStyle = DmsTheme.typography.bodyM.copy(
+                color = DmsTheme.colorScheme.onBackground,
+            ),
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 16.dp, vertical = 14.dp),
+            decorationBox = { innerTextField ->
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .background(
+                            color = DmsTheme.colorScheme.surfaceVariant,
+                            shape = RoundedCornerShape(20.dp),
+                        )
+                        .padding(horizontal = 20.dp, vertical = 16.dp),
+                ) {
+                    if (value.isEmpty()) {
+                        Text(
+                            text = "홍길동",
+                            color = DmsTheme.colorScheme.inverseSurface,
+                            style = DmsTheme.typography.bodyM,
+                        )
+                    }
+                    innerTextField()
+                }
+            },
+        )
+    }
+}

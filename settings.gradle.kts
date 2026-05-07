@@ -37,6 +37,7 @@ include(":core:notification")
 include(":core:device")
 include(":core:widget")
 include(":core:onboarding")
+include(":core:theme")
 
 include(":data")
 include(":network")

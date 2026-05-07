@@ -6,7 +6,10 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
+import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.runtime.getValue
 import androidx.core.view.WindowCompat
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import com.google.android.play.core.appupdate.AppUpdateManagerFactory
 import com.google.android.play.core.appupdate.AppUpdateOptions
@@ -19,6 +22,7 @@ import team.aliens.dms.android.app.ui.DmsApp
 import team.aliens.dms.android.core.designsystem.DmsTheme
 import team.aliens.dms.android.core.jwt.di.IsJwtAvailable
 import team.aliens.dms.android.core.notification.DeviceTokenManager
+import team.aliens.dms.android.core.theme.ThemeMode
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -52,7 +56,14 @@ class MainActivity : ComponentActivity() {
 
         checkAppUpdate()
         setContent {
-            DmsTheme {
+            val themeMode by mainViewModel.themeMode.collectAsStateWithLifecycle()
+            val systemIsDark = isSystemInDarkTheme()
+            val isDark = when (themeMode) {
+                ThemeMode.SYSTEM -> systemIsDark
+                ThemeMode.LIGHT -> false
+                ThemeMode.DARK -> true
+            }
+            DmsTheme(isDarkTheme = isDark) {
                 DmsApp()
             }
         }

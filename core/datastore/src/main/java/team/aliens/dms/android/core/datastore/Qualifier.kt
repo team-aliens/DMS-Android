@@ -17,3 +17,7 @@ annotation class JwtDataStore
 @Qualifier
 @Retention(AnnotationRetention.BINARY)
 annotation class OnboardingDataStore
+
+@Qualifier
+@Retention(AnnotationRetention.BINARY)
+annotation class ThemeDataStore
