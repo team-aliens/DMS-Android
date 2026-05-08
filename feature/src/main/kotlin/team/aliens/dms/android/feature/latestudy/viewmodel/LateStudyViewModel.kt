@@ -39,6 +39,8 @@ class LateStudyViewModel @Inject constructor(
                 studyTypes = lateStudyRepository.fetchStudyTypes()
             } catch (e: IOException) {
                 e.printStackTrace()
+            } catch (e: Exception) {
+                e.printStackTrace()
             }
         }
     }
@@ -48,6 +50,8 @@ class LateStudyViewModel @Inject constructor(
             try {
                 teachers = lateStudyRepository.fetchTeachers()
             } catch (e: IOException) {
+                e.printStackTrace()
+            } catch (e: Exception) {
                 e.printStackTrace()
             }
         }
@@ -76,6 +80,8 @@ class LateStudyViewModel @Inject constructor(
                     ),
                 )
             } catch (e: IOException) {
+                e.printStackTrace()
+            } catch (e: Exception) {
                 e.printStackTrace()
             }
         }
