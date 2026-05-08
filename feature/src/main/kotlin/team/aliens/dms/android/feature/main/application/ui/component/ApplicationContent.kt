@@ -12,7 +12,6 @@ import team.aliens.dms.android.core.designsystem.card.ApplicationChipStyle
 import team.aliens.dms.android.core.designsystem.card.DmsApplicationCard
 import team.aliens.dms.android.feature.main.application.viewmodel.LateStudyStatusUi
 
-
 @Composable
 internal fun ApplicationContent(
     appliedTitle: String?,
