@@ -9,6 +9,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import java.io.IOException
 import javax.inject.Inject
 import kotlinx.coroutines.launch
+import team.aliens.dms.android.core.network.exception.ConflictException
 import team.aliens.dms.android.data.latestudy.model.StudyType
 import team.aliens.dms.android.data.latestudy.repository.LateStudyRepository
 import team.aliens.dms.android.network.latestudy.model.SubmitLateStudyRequest
@@ -39,8 +40,6 @@ class LateStudyViewModel @Inject constructor(
                 studyTypes = lateStudyRepository.fetchStudyTypes()
             } catch (e: IOException) {
                 e.printStackTrace()
-            } catch (e: Exception) {
-                e.printStackTrace()
             }
         }
     }
@@ -50,8 +49,6 @@ class LateStudyViewModel @Inject constructor(
             try {
                 teachers = lateStudyRepository.fetchTeachers()
             } catch (e: IOException) {
-                e.printStackTrace()
-            } catch (e: Exception) {
                 e.printStackTrace()
             }
         }
@@ -82,12 +79,12 @@ class LateStudyViewModel @Inject constructor(
                     ),
                 )
                 onSuccess()
+            } catch (e: ConflictException) {
+                e.printStackTrace()
+                onFailure("이미 새벽 자습을 신청했습니다.")
             } catch (e: IOException) {
                 e.printStackTrace()
                 onFailure("새벽 자습 신청에 실패했습니다.")
-            } catch (e: Exception) {
-                e.printStackTrace()
-                onFailure("이미 새벽 자습을 신청했습니다.")
             }
         }
     }
