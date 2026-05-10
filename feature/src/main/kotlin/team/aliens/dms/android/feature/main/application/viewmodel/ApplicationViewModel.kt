@@ -121,7 +121,7 @@ data class ApplicationState(
 )
 
 enum class LateStudyStatusUi {
-    APPROVED,
+    SECOND_APPROVED,
     REJECTED,
     PENDING,
 }
@@ -184,7 +184,7 @@ private fun StudyApplicationStatusResponse.toUiStatus(): LateStudyStatusUi? {
         "SECOND_APPROVED" -> {
             val actualEndDate = end ?: start
             if (actualEndDate != null && !today.isAfter(actualEndDate)) {
-                LateStudyStatusUi.APPROVED
+                LateStudyStatusUi.SECOND_APPROVED
             } else {
                 null
             }

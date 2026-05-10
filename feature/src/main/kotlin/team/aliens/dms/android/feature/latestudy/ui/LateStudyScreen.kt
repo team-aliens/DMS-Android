@@ -180,14 +180,21 @@ fun LateStudyScreen(
                         reason = reason,
                         startDate = startDate.toString(),
                         endDate = (endDate ?: startDate).toString(),
-                    )
+                        onSuccess = {
+                            resultStore.setResult(
+                                resultKey = "late_study_application_result",
+                                result = "신청 중",
+                            )
 
-                    resultStore.setResult(
-                        resultKey = "late_study_application_result",
-                        result = "신청 중",
+                            onBack()
+                        },
+                        onFailure = { message ->
+                            onShowSnackBar(
+                                DmsSnackBarType.ERROR,
+                                message,
+                            )
+                        },
                     )
-
-                    onBack()
                 } else {
                     onShowSnackBar(
                         DmsSnackBarType.ERROR,
