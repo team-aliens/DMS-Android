@@ -8,7 +8,9 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import java.io.IOException
 import javax.inject.Inject
+import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.launch
+import team.aliens.dms.android.core.network.exception.ConflictException
 import team.aliens.dms.android.data.latestudy.model.StudyType
 import team.aliens.dms.android.data.latestudy.repository.LateStudyRepository
 import team.aliens.dms.android.network.latestudy.model.SubmitLateStudyRequest
@@ -37,6 +39,8 @@ class LateStudyViewModel @Inject constructor(
         viewModelScope.launch {
             try {
                 studyTypes = lateStudyRepository.fetchStudyTypes()
+            } catch (e: CancellationException) {
+                throw e
             } catch (e: IOException) {
                 e.printStackTrace()
             }
@@ -47,6 +51,8 @@ class LateStudyViewModel @Inject constructor(
         viewModelScope.launch {
             try {
                 teachers = lateStudyRepository.fetchTeachers()
+            } catch (e: CancellationException) {
+                throw e
             } catch (e: IOException) {
                 e.printStackTrace()
             }
@@ -63,6 +69,8 @@ class LateStudyViewModel @Inject constructor(
         reason: String,
         startDate: String,
         endDate: String,
+        onSuccess: () -> Unit,
+        onFailure: (String) -> Unit,
     ) {
         viewModelScope.launch {
             try {
@@ -75,8 +83,15 @@ class LateStudyViewModel @Inject constructor(
                         endDate = endDate,
                     ),
                 )
+                onSuccess()
+            } catch (e: CancellationException) {
+                throw e
             } catch (e: IOException) {
                 e.printStackTrace()
+                onFailure("새벽 자습 신청에 실패했습니다.")
+            } catch (e: ConflictException) {
+                e.printStackTrace()
+                onFailure("이미 새벽 자습을 신청했습니다.")
             }
         }
     }
