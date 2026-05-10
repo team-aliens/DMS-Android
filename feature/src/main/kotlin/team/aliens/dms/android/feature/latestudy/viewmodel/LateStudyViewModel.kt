@@ -8,6 +8,7 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import java.io.IOException
 import javax.inject.Inject
+import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.launch
 import team.aliens.dms.android.core.network.exception.ConflictException
 import team.aliens.dms.android.data.latestudy.model.StudyType
@@ -38,6 +39,8 @@ class LateStudyViewModel @Inject constructor(
         viewModelScope.launch {
             try {
                 studyTypes = lateStudyRepository.fetchStudyTypes()
+            } catch (e: CancellationException) {
+                throw e
             } catch (e: IOException) {
                 e.printStackTrace()
             }
@@ -48,6 +51,8 @@ class LateStudyViewModel @Inject constructor(
         viewModelScope.launch {
             try {
                 teachers = lateStudyRepository.fetchTeachers()
+            } catch (e: CancellationException) {
+                throw e
             } catch (e: IOException) {
                 e.printStackTrace()
             }
@@ -79,12 +84,14 @@ class LateStudyViewModel @Inject constructor(
                     ),
                 )
                 onSuccess()
-            } catch (e: ConflictException) {
-                e.printStackTrace()
-                onFailure("이미 새벽 자습을 신청했습니다.")
+            } catch (e: CancellationException) {
+                throw e
             } catch (e: IOException) {
                 e.printStackTrace()
                 onFailure("새벽 자습 신청에 실패했습니다.")
+            } catch (e: ConflictException) {
+                e.printStackTrace()
+                onFailure("이미 새벽 자습을 신청했습니다.")
             }
         }
     }
