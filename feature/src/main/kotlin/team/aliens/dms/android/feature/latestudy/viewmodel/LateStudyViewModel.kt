@@ -67,6 +67,8 @@ class LateStudyViewModel @Inject constructor(
         reason: String,
         startDate: String,
         endDate: String,
+        onSuccess: () -> Unit,
+        onFailure: (String) -> Unit,
     ) {
         viewModelScope.launch {
             try {
@@ -79,10 +81,13 @@ class LateStudyViewModel @Inject constructor(
                         endDate = endDate,
                     ),
                 )
+                onSuccess()
             } catch (e: IOException) {
                 e.printStackTrace()
+                onFailure("새벽 자습 신청에 실패했습니다.")
             } catch (e: Exception) {
                 e.printStackTrace()
+                onFailure("이미 새벽 자습을 신청했습니다.")
             }
         }
     }
