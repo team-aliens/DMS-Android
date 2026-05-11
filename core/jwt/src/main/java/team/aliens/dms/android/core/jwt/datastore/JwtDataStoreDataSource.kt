@@ -4,7 +4,7 @@ import team.aliens.dms.android.core.jwt.Tokens
 
 abstract class JwtDataStoreDataSource {
 
-    abstract fun loadTokens(): Tokens
+    abstract fun loadTokens(): Tokens?
 
     abstract suspend fun storeTokens(tokens: Tokens)
 

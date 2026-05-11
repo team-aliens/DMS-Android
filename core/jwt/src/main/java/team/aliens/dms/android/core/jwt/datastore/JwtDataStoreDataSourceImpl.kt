@@ -8,7 +8,7 @@ internal class JwtDataStoreDataSourceImpl @Inject constructor(
     private val jwtStore: JwtStore,
 ) : JwtDataStoreDataSource() {
 
-    override fun loadTokens(): Tokens = jwtStore.loadTokens()
+    override fun loadTokens(): Tokens? = jwtStore.loadTokens()
 
     override suspend fun storeTokens(tokens: Tokens) {
         jwtStore.storeTokens(tokens)

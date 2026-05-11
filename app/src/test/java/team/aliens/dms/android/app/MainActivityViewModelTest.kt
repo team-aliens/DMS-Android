@@ -1,8 +1,10 @@
 package team.aliens.dms.android.app
 
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.advanceUntilIdle
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals
@@ -14,6 +16,8 @@ import team.aliens.dms.android.core.jwt.AccessToken
 import team.aliens.dms.android.core.jwt.JwtProvider
 import team.aliens.dms.android.core.jwt.RefreshToken
 import team.aliens.dms.android.core.jwt.Tokens
+import team.aliens.dms.android.core.theme.ThemeMode
+import team.aliens.dms.android.core.theme.datastore.ThemeDataStoreDataSource
 import team.aliens.dms.android.onboarding.datastore.OnboardingDataStoreDataSource
 import team.aliens.dms.android.shared.date.util.now
 
@@ -31,6 +35,7 @@ class MainActivityViewModelTest {
         val viewModel = MainActivityViewModel(
             jwtProvider = jwtProvider,
             onboardingDataSource = onboardingDataSource,
+            themeDataStoreDataSource = FakeThemeDataStoreDataSource(),
         )
 
         advanceUntilIdle()
@@ -49,6 +54,7 @@ class MainActivityViewModelTest {
         val viewModel = MainActivityViewModel(
             jwtProvider = jwtProvider,
             onboardingDataSource = onboardingDataSource,
+            themeDataStoreDataSource = FakeThemeDataStoreDataSource(),
         )
         advanceUntilIdle()
 
@@ -71,6 +77,7 @@ class MainActivityViewModelTest {
         val viewModel = MainActivityViewModel(
             jwtProvider = jwtProvider,
             onboardingDataSource = onboardingDataSource,
+            themeDataStoreDataSource = FakeThemeDataStoreDataSource(),
         )
         advanceUntilIdle()
 
@@ -134,4 +141,10 @@ private class FakeOnboardingDataStoreDataSource(
     override suspend fun setOnboardingCompleted(isCompleted: Boolean) = Unit
 
     override suspend fun getOnboardingCompleted(): Boolean = isCompleted
+}
+
+private class FakeThemeDataStoreDataSource : ThemeDataStoreDataSource() {
+    override suspend fun setThemeMode(mode: ThemeMode) = Unit
+
+    override fun getThemeModeFlow(): Flow<ThemeMode> = flowOf(ThemeMode.SYSTEM)
 }

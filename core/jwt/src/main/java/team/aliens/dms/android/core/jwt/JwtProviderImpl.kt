@@ -63,10 +63,10 @@ internal class JwtProviderImpl @Inject constructor(
         runCatching {
             jwtDataStoreDataSource.loadTokens()
         }.onSuccess { tokens ->
-            this@JwtProviderImpl._cachedAccessToken = tokens.accessToken
-            this@JwtProviderImpl._cachedRefreshToken = tokens.refreshToken
+            this@JwtProviderImpl._cachedAccessToken = tokens?.accessToken
+            this@JwtProviderImpl._cachedRefreshToken = tokens?.refreshToken
         }.onFailure { exception ->
-            Log.e("JwtProvider", "Failed to persist tokens", exception)
+            Log.e("JwtProvider", "Failed to load tokens", exception)
         }
         this.refreshTokenAbility()
     }
