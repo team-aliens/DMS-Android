@@ -32,6 +32,7 @@ import team.aliens.dms.android.app.navigation.ResetPasswordScreenNav
 import team.aliens.dms.android.app.navigation.NoticeDetailScreenNav
 import team.aliens.dms.android.app.navigation.NotificationScreenNav
 import team.aliens.dms.android.app.navigation.OnboardingScreenNav
+import team.aliens.dms.android.app.navigation.SplashScreenNav
 import team.aliens.dms.android.app.navigation.PointHistoryScreenNav
 import team.aliens.dms.android.app.navigation.RemainScreenNav
 import team.aliens.dms.android.app.navigation.EditPasswordScreenNav
@@ -95,7 +96,7 @@ fun DmsApp(
     val isOnboardingCompleted by mainViewModel.isOnboardingCompleted.collectAsState()
     val isStartupResolved by mainViewModel.isStartupResolved.collectAsState()
 
-    val backStack = rememberNavBackStack(OnboardingScreenNav)
+    val backStack = rememberNavBackStack(SplashScreenNav)
     val resultStore = rememberResultStore()
     val currentScreen = backStack.lastOrNull()
     val shouldShowBottomBar = currentScreen in listOf(
@@ -154,6 +155,9 @@ fun DmsApp(
                     backStack = backStack,
                     onBack = { backStack.removeLastOrNull() },
                     entryProvider = entryProvider {
+                        entry<SplashScreenNav> {
+                            Box(modifier = Modifier.fillMaxSize())
+                        }
                         entry<OnboardingScreenNav> {
                             OnboardingRoute(
                                 navigateToSignIn = {
