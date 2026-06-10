@@ -41,7 +41,9 @@ internal class ApplicationViewModel @Inject constructor(
         viewModelScope.launch(Dispatchers.IO) {
             votingRepository.fetchAllVoteSearch()
                 .onSuccess { votes ->
-                    setState { it.copy(votes = votes.toPersistentList()) }
+                    setState {
+                        it.copy(votes = votes.toPersistentList())
+                    }
                 }
                 .onFailure {
                 }
@@ -50,13 +52,17 @@ internal class ApplicationViewModel @Inject constructor(
 
     private fun loadAppliedRemainsTitle() {
         val savedTitle = sharedPreferences.getString(KEY_APPLIED_REMAINS_TITLE, null)
+
         if (savedTitle != null) {
-            setState { it.copy(remainApplicationTitle = savedTitle) }
+            setState {
+                it.copy(remainApplicationTitle = savedTitle)
+            }
         }
     }
 
     private fun loadAppliedLateStudy() {
         val savedTitle = sharedPreferences.getString(KEY_APPLIED_LATE_STUDY_TITLE, null)
+
         if (savedTitle != null) {
             setState {
                 it.copy(
@@ -75,28 +81,42 @@ internal class ApplicationViewModel @Inject constructor(
                 val title = studyApplicationStatus.toAppliedTitle()
                 val statusUi = studyApplicationStatus.toUiStatus()
 
-                setState { current ->
-                    current.copy(
-                        lateStudyApplicationTitle = title ?: current.lateStudyApplicationTitle,
-                        lateStudyStatusUi = statusUi ?: current.lateStudyStatusUi,
+                setState {
+                    it.copy(
+                        lateStudyApplicationTitle = title,
+                        lateStudyStatusUi = statusUi,
                     )
                 }
+
                 if (title == null) {
-                    sharedPreferences.edit().remove(KEY_APPLIED_LATE_STUDY_TITLE).apply()
+                    sharedPreferences.edit()
+                        .remove(KEY_APPLIED_LATE_STUDY_TITLE)
+                        .apply()
                 } else {
-                    sharedPreferences.edit().putString(KEY_APPLIED_LATE_STUDY_TITLE, title).apply()
+                    sharedPreferences.edit()
+                        .putString(KEY_APPLIED_LATE_STUDY_TITLE, title)
+                        .apply()
                 }
+            }.onFailure {
+                // 서버 요청 실패 시에는 기존 SharedPreferences 값 유지
             }
         }
     }
 
     internal fun setRemainApplication(title: String) {
-        sharedPreferences.edit().putString(KEY_APPLIED_REMAINS_TITLE, title).apply()
-        setState { it.copy(remainApplicationTitle = title) }
+        sharedPreferences.edit()
+            .putString(KEY_APPLIED_REMAINS_TITLE, title)
+            .apply()
+
+        setState {
+            it.copy(remainApplicationTitle = title)
+        }
     }
 
     internal fun setLateStudyApplication(title: String) {
-        sharedPreferences.edit().putString(KEY_APPLIED_LATE_STUDY_TITLE, title).apply()
+        sharedPreferences.edit()
+            .putString(KEY_APPLIED_LATE_STUDY_TITLE, title)
+            .apply()
 
         setState {
             it.copy(
@@ -145,7 +165,11 @@ private fun StudyApplicationStatusResponse.approvedTitle(
     end: LocalDate?,
 ): String? {
     val actualEndDate = end ?: start
-    if (actualEndDate == null || today.isAfter(actualEndDate)) return null
+
+    if (actualEndDate == null || today.isAfter(actualEndDate)) {
+        return null
+    }
+
     return buildRangeText(start, end, "승인됨")
 }
 
@@ -155,7 +179,11 @@ private fun StudyApplicationStatusResponse.rejectedTitle(
     end: LocalDate?,
 ): String? {
     val rejectBaseDate = end ?: start
-    if (rejectBaseDate == null || !rejectBaseDate.isEqual(today)) return null
+
+    if (rejectBaseDate == null || !rejectBaseDate.isEqual(today)) {
+        return null
+    }
+
     return buildRangeText(start, end, "거절됨") ?: "거절됨"
 }
 
@@ -166,11 +194,17 @@ private fun StudyApplicationStatusResponse.buildRangeText(
 ): String? {
     return when {
         start != null && end != null -> {
-            if (start == end) "$startDate $suffix"
-            else "$startDate ~ $endDate $suffix"
+            if (start == end) {
+                "$startDate $suffix"
+            } else {
+                "$startDate ~ $endDate $suffix"
+            }
         }
+
         start != null -> "$startDate $suffix"
+
         end != null -> "$endDate $suffix"
+
         else -> null
     }
 }
@@ -183,27 +217,33 @@ private fun StudyApplicationStatusResponse.toUiStatus(): LateStudyStatusUi? {
     return when (status) {
         "SECOND_APPROVED" -> {
             val actualEndDate = end ?: start
+
             if (actualEndDate != null && !today.isAfter(actualEndDate)) {
                 LateStudyStatusUi.SECOND_APPROVED
             } else {
                 null
             }
         }
+
         "PENDING" -> LateStudyStatusUi.PENDING
+
         "REJECTED" -> {
             val rejectBaseDate = end ?: start
+
             if (rejectBaseDate != null && rejectBaseDate.isEqual(today)) {
                 LateStudyStatusUi.REJECTED
             } else {
                 null
             }
         }
+
         else -> null
     }
 }
 
 private fun String?.toLocalDateOrNull(): LocalDate? {
     if (this.isNullOrBlank()) return null
+
     return try {
         LocalDate.parse(this)
     } catch (_: DateTimeParseException) {
