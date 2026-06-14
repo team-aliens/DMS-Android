@@ -1,5 +1,6 @@
 package team.aliens.dms.android.feature.latestudy.ui.component
 
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -7,12 +8,19 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.relocation.BringIntoViewRequester
+import androidx.compose.foundation.relocation.bringIntoViewRequester
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.unit.dp
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import team.aliens.dms.android.core.designsystem.DmsTheme
 import team.aliens.dms.android.core.designsystem.bodyB
 import team.aliens.dms.android.core.designsystem.bodyM
@@ -20,12 +28,16 @@ import team.aliens.dms.android.core.designsystem.labelM
 
 private const val REASON_MAX_LENGTH = 200
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun LateStudyReasonSection(
     value: String,
     onValueChange: (String) -> Unit,
     modifier: Modifier = Modifier,
 ) {
+    val bringIntoViewRequester = remember { BringIntoViewRequester() }
+    val coroutineScope = rememberCoroutineScope()
+
     LateStudySectionCard(modifier = modifier) {
         Row(
             modifier = Modifier
@@ -56,6 +68,7 @@ fun LateStudyReasonSection(
                     shape = RoundedCornerShape(20.dp),
                 )
                 .height(180.dp)
+                .bringIntoViewRequester(bringIntoViewRequester)
                 .padding(horizontal = 16.dp, vertical = 16.dp),
         ) {
             BasicTextField(
@@ -65,7 +78,16 @@ fun LateStudyReasonSection(
                         onValueChange(newValue)
                     }
                 },
-                modifier = Modifier.fillMaxWidth(),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .onFocusChanged { focusState ->
+                        if (focusState.isFocused) {
+                            coroutineScope.launch {
+                                delay(250)
+                                bringIntoViewRequester.bringIntoView()
+                            }
+                        }
+                    },
                 textStyle = DmsTheme.typography.bodyM.copy(
                     color = DmsTheme.colorScheme.onBackground,
                 ),
