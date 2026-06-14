@@ -27,6 +27,7 @@ import androidx.compose.ui.unit.dp
 import java.time.DayOfWeek
 import java.time.LocalDate
 import java.time.YearMonth
+import java.time.temporal.TemporalAdjusters
 import team.aliens.dms.android.core.designsystem.DmsTheme
 import team.aliens.dms.android.core.designsystem.bodyB
 import team.aliens.dms.android.core.designsystem.labelM
@@ -56,7 +57,7 @@ fun LateStudyCalendarSection(
             )
 
             Text(
-                text = "(새벽 자습은 금, 토, 일요일은 불가능합니다)",
+                text = "(이번 주 월~목만 신청할 수 있습니다)",
                 color = DmsTheme.colorScheme.inverseSurface,
                 style = DmsTheme.typography.labelM,
             )
@@ -386,10 +387,20 @@ private fun buildCalendarDates(
 }
 
 private fun isSelectableDate(date: LocalDate): Boolean {
-    return when (date.dayOfWeek) {
-        DayOfWeek.FRIDAY,
-        DayOfWeek.SATURDAY,
-        DayOfWeek.SUNDAY -> false
-        else -> true
+    val today = LocalDate.now()
+
+    val startOfSelectableWeek = if (
+        today.dayOfWeek == DayOfWeek.FRIDAY ||
+        today.dayOfWeek == DayOfWeek.SATURDAY ||
+        today.dayOfWeek == DayOfWeek.SUNDAY
+    ) {
+        today.with(TemporalAdjusters.next(DayOfWeek.MONDAY))
+    } else {
+        today.with(TemporalAdjusters.previousOrSame(DayOfWeek.MONDAY))
     }
+
+    val endOfSelectableWeek = startOfSelectableWeek.plusDays(3)
+
+    return !date.isBefore(startOfSelectableWeek) &&
+            !date.isAfter(endOfSelectableWeek)
 }
