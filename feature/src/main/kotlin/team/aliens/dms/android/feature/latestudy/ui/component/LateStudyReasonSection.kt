@@ -1,6 +1,5 @@
 package team.aliens.dms.android.feature.latestudy.ui.component
 
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -28,7 +27,6 @@ import team.aliens.dms.android.core.designsystem.labelM
 
 private const val REASON_MAX_LENGTH = 200
 
-@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun LateStudyReasonSection(
     value: String,
