@@ -195,18 +195,22 @@ private fun StudyApplicationStatusResponse.buildRangeText(
     return when {
         start != null && end != null -> {
             if (start == end) {
-                "$startDate $suffix"
+                "${start.toMonthDayText()} $suffix"
             } else {
-                "$startDate ~ $endDate $suffix"
+                "${start.toMonthDayText()} ~ ${end.toMonthDayText()} $suffix"
             }
         }
 
-        start != null -> "$startDate $suffix"
+        start != null -> "${start.toMonthDayText()} $suffix"
 
-        end != null -> "$endDate $suffix"
+        end != null -> "${end.toMonthDayText()} $suffix"
 
         else -> null
     }
+}
+
+private fun LocalDate.toMonthDayText(): String {
+    return "${monthValue}.${dayOfMonth}"
 }
 
 private fun StudyApplicationStatusResponse.toUiStatus(): LateStudyStatusUi? {
