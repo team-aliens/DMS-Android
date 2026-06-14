@@ -387,10 +387,20 @@ private fun buildCalendarDates(
 }
 
 private fun isSelectableDate(date: LocalDate): Boolean {
-    val startOfThisWeek = LocalDate.now()
-        .with(TemporalAdjusters.previousOrSame(DayOfWeek.MONDAY))
-    val endOfThisWeek = startOfThisWeek.plusDays(3)
+    val today = LocalDate.now()
 
-    return !date.isBefore(startOfThisWeek) &&
-            !date.isAfter(endOfThisWeek)
+    val startOfSelectableWeek = if (
+        today.dayOfWeek == DayOfWeek.FRIDAY ||
+        today.dayOfWeek == DayOfWeek.SATURDAY ||
+        today.dayOfWeek == DayOfWeek.SUNDAY
+    ) {
+        today.with(TemporalAdjusters.next(DayOfWeek.MONDAY))
+    } else {
+        today.with(TemporalAdjusters.previousOrSame(DayOfWeek.MONDAY))
+    }
+
+    val endOfSelectableWeek = startOfSelectableWeek.plusDays(3)
+
+    return !date.isBefore(startOfSelectableWeek) &&
+            !date.isAfter(endOfSelectableWeek)
 }
