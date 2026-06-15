@@ -3,7 +3,7 @@ package team.aliens.dms.android.data.notification.model
 import team.aliens.dms.android.network.notification.model.BatchUpdateNotificationTopicRequest
 
 enum class NotificationTopic {
-    NOTICE, STUDY_ROOM_TIME_SLOT, STUDY_ROOM_APPLY, POINT, OUTING,
+    NOTICE, STUDY_ROOM_TIME_SLOT, STUDY_ROOM_APPLY, POINT, OUTING, DAYBREAK_STUDY_APPLICATION,
     ;
 
     data class Subscription(
