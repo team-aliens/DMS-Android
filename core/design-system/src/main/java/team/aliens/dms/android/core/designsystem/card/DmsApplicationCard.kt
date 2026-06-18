@@ -21,12 +21,12 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import team.aliens.dms.android.core.designsystem.DmsTheme
 import team.aliens.dms.android.core.designsystem.bodyB
 import team.aliens.dms.android.core.designsystem.endPadding
 import team.aliens.dms.android.core.designsystem.foundation.DmsIcon
-import team.aliens.dms.android.core.designsystem.labelB
 import team.aliens.dms.android.core.designsystem.labelM
 import team.aliens.dms.android.core.designsystem.util.clickable
 
@@ -158,10 +158,12 @@ private fun AppliedTitleText(
                 color = backgroundColor,
                 shape = RoundedCornerShape(6.dp),
             )
-            .padding(horizontal = 22.dp, vertical = 8.dp),
+            .padding(horizontal = 12.dp, vertical = 6.dp),
         text = appliedTitle,
-        style = DmsTheme.typography.labelB,
+        style = DmsTheme.typography.labelM,
         color = textColor,
+        maxLines = 1,
+        overflow = TextOverflow.Ellipsis,
     )
 }
 
