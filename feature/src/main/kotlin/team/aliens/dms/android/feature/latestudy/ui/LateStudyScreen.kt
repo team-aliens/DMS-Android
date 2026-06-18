@@ -81,18 +81,23 @@ fun LateStudyScreen(
 
     val studyTypes = viewModel.studyTypes
     val teachers = viewModel.teachers
+
     val isSubmitEnabled = isSubmitEnabled(
         selectedTeacherId = selectedTeacherId,
         selectedTypeId = selectedTypeId,
         startDate = startDate,
         reason = reason,
     )
+
     val filteredTeachers = remember(teacherKeyword, teachers) {
         if (teacherKeyword.isBlank()) {
             emptyList()
         } else {
             teachers.filter { teacher ->
-                teacher.name.contains(teacherKeyword)
+                teacher.name.contains(
+                    other = teacherKeyword,
+                    ignoreCase = true,
+                )
             }
         }
     }
@@ -149,12 +154,22 @@ fun LateStudyScreen(
             currentMonth = currentMonth,
             startDate = startDate,
             endDate = endDate,
-            onPrevMonthClick = { currentMonth = currentMonth.minusMonths(1) },
-            onNextMonthClick = { currentMonth = currentMonth.plusMonths(1) },
+            onPrevMonthClick = {
+                currentMonth = currentMonth.minusMonths(1)
+            },
+            onNextMonthClick = {
+                currentMonth = currentMonth.plusMonths(1)
+            },
             onDateClick = { clickedDate ->
                 when {
-                    startDate == null -> startDate = clickedDate
-                    endDate == null && !clickedDate.isBefore(startDate) -> endDate = clickedDate
+                    startDate == null -> {
+                        startDate = clickedDate
+                    }
+
+                    endDate == null && !clickedDate.isBefore(startDate) -> {
+                        endDate = clickedDate
+                    }
+
                     else -> {
                         startDate = clickedDate
                         endDate = null
@@ -187,7 +202,6 @@ fun LateStudyScreen(
                                 resultKey = "late_study_application_result",
                                 result = "신청 중",
                             )
-
                             onBack()
                         },
                         onFailure = { message ->
@@ -261,8 +275,9 @@ private fun TeacherDropdown(
     keyword: String,
     onTeacherClick: (TeacherResponse) -> Unit,
 ) {
-    val dropdownShadowColor = DmsTheme.colorScheme.scrim
-    val highlightColor = DmsTheme.colorScheme.primary
+    val shape = RoundedCornerShape(28.dp)
+    val primaryColor = DmsTheme.colorScheme.primary
+    val shadowColor = primaryColor.copy(alpha = 0.28f)
 
     Box(
         modifier = Modifier
@@ -274,10 +289,17 @@ private fun TeacherDropdown(
         Box(
             modifier = Modifier
                 .matchParentSize()
-                .offset(y = 10.dp)
+                .offset(y = 6.dp)
+                .shadow(
+                    elevation = 14.dp,
+                    shape = shape,
+                    clip = false,
+                    ambientColor = shadowColor,
+                    spotColor = shadowColor,
+                )
                 .background(
-                    color = dropdownShadowColor,
-                    shape = RoundedCornerShape(28.dp),
+                    color = primaryColor.copy(alpha = 0.06f),
+                    shape = shape,
                 ),
         )
 
@@ -285,13 +307,15 @@ private fun TeacherDropdown(
             modifier = Modifier
                 .fillMaxWidth()
                 .shadow(
-                    elevation = 12.dp,
-                    shape = RoundedCornerShape(28.dp),
+                    elevation = 3.dp,
+                    shape = shape,
                     clip = false,
+                    ambientColor = Color.Black.copy(alpha = 0.06f),
+                    spotColor = Color.Black.copy(alpha = 0.06f),
                 )
                 .background(
-                    color = DmsTheme.colorScheme.surfaceVariant,
-                    shape = RoundedCornerShape(28.dp),
+                    color = DmsTheme.colorScheme.surface,
+                    shape = shape,
                 )
                 .heightIn(max = 220.dp)
                 .verticalScroll(rememberScrollState())
@@ -301,7 +325,8 @@ private fun TeacherDropdown(
                 TeacherDropdownItem(
                     teacher = teacher,
                     keyword = keyword,
-                    highlightColor = highlightColor,
+                    highlightColor = primaryColor,
+                    iconColor = primaryColor.copy(alpha = 0.45f),
                     onClick = { onTeacherClick(teacher) },
                 )
             }
@@ -314,20 +339,24 @@ private fun TeacherDropdownItem(
     teacher: TeacherResponse,
     keyword: String,
     highlightColor: Color,
+    iconColor: Color,
     onClick: () -> Unit,
 ) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
             .clickable(onClick = onClick)
-            .padding(horizontal = 20.dp, vertical = 14.dp),
+            .padding(
+                horizontal = 20.dp,
+                vertical = 14.dp,
+            ),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(10.dp),
     ) {
         Icon(
             imageVector = Icons.Outlined.Search,
             contentDescription = "검색",
-            tint = DmsTheme.colorScheme.onSurfaceVariant,
+            tint = iconColor,
             modifier = Modifier.size(20.dp),
         )
 
@@ -352,7 +381,10 @@ private fun StudyTypeSection(
     LateStudySectionCard {
         Text(
             text = "유형",
-            modifier = Modifier.padding(horizontal = 16.dp, vertical = 12.dp),
+            modifier = Modifier.padding(
+                horizontal = 16.dp,
+                vertical = 12.dp,
+            ),
             color = DmsTheme.colorScheme.onBackground,
             style = DmsTheme.typography.bodyB,
         )
@@ -420,13 +452,25 @@ private fun highlightText(
     keyword: String,
     highlightColor: Color,
 ) = buildAnnotatedString {
-    val startIndex = text.indexOf(keyword)
+    val startIndex = text.indexOf(
+        string = keyword,
+        ignoreCase = true,
+    )
 
     if (startIndex >= 0 && keyword.isNotEmpty()) {
         append(text.substring(0, startIndex))
-        withStyle(style = SpanStyle(color = highlightColor)) {
-            append(text.substring(startIndex, startIndex + keyword.length))
+
+        withStyle(
+            style = SpanStyle(color = highlightColor),
+        ) {
+            append(
+                text.substring(
+                    startIndex,
+                    startIndex + keyword.length,
+                ),
+            )
         }
+
         append(text.substring(startIndex + keyword.length))
     } else {
         append(text)
