@@ -289,16 +289,16 @@ private fun TeacherDropdown(
         Box(
             modifier = Modifier
                 .matchParentSize()
-                .offset(y = 8.dp)
+                .offset(y = 3.dp)
                 .shadow(
-                    elevation = 16.dp,
+                    elevation = 8.dp,
                     shape = shape,
                     clip = false,
-                    ambientColor = shadowColor.copy(alpha = 0.7f),
-                    spotColor = shadowColor.copy(alpha = 0.7f),
+                    ambientColor = shadowColor.copy(alpha = 0.3f),
+                    spotColor = shadowColor.copy(alpha = 0.3f),
                 )
                 .background(
-                    color = shadowColor.copy(alpha = 0.28f),
+                    color = shadowColor.copy(alpha = 0.3f),
                     shape = shape,
                 ),
         )
