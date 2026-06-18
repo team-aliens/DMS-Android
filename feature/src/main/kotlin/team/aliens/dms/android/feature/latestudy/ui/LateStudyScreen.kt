@@ -268,7 +268,6 @@ private fun TeacherSearchSection(
         }
     }
 }
-
 @Composable
 private fun TeacherDropdown(
     teachers: List<TeacherResponse>,
@@ -276,8 +275,9 @@ private fun TeacherDropdown(
     onTeacherClick: (TeacherResponse) -> Unit,
 ) {
     val shape = RoundedCornerShape(28.dp)
-    val primaryColor = DmsTheme.colorScheme.primary
-    val shadowColor = primaryColor.copy(alpha = 0.28f)
+    val highlightColor = DmsTheme.colorScheme.onPrimaryContainer
+    val iconColor = DmsTheme.colorScheme.primaryContainer
+    val shadowColor = DmsTheme.colorScheme.primaryContainer
 
     Box(
         modifier = Modifier
@@ -289,16 +289,16 @@ private fun TeacherDropdown(
         Box(
             modifier = Modifier
                 .matchParentSize()
-                .offset(y = 6.dp)
+                .offset(y = 8.dp)
                 .shadow(
-                    elevation = 14.dp,
+                    elevation = 16.dp,
                     shape = shape,
                     clip = false,
-                    ambientColor = shadowColor,
-                    spotColor = shadowColor,
+                    ambientColor = shadowColor.copy(alpha = 0.7f),
+                    spotColor = shadowColor.copy(alpha = 0.7f),
                 )
                 .background(
-                    color = primaryColor.copy(alpha = 0.06f),
+                    color = shadowColor.copy(alpha = 0.28f),
                     shape = shape,
                 ),
         )
@@ -307,17 +307,17 @@ private fun TeacherDropdown(
             modifier = Modifier
                 .fillMaxWidth()
                 .shadow(
-                    elevation = 3.dp,
+                    elevation = 2.dp,
                     shape = shape,
                     clip = false,
-                    ambientColor = Color.Black.copy(alpha = 0.06f),
-                    spotColor = Color.Black.copy(alpha = 0.06f),
+                    ambientColor = Color.Black.copy(alpha = 0.05f),
+                    spotColor = Color.Black.copy(alpha = 0.05f),
                 )
                 .background(
                     color = DmsTheme.colorScheme.surface,
                     shape = shape,
                 )
-                .heightIn(max = 220.dp)
+                .heightIn(max = 300.dp)
                 .verticalScroll(rememberScrollState())
                 .padding(vertical = 12.dp),
         ) {
@@ -325,8 +325,8 @@ private fun TeacherDropdown(
                 TeacherDropdownItem(
                     teacher = teacher,
                     keyword = keyword,
-                    highlightColor = primaryColor,
-                    iconColor = primaryColor.copy(alpha = 0.45f),
+                    highlightColor = highlightColor,
+                    iconColor = iconColor,
                     onClick = { onTeacherClick(teacher) },
                 )
             }
