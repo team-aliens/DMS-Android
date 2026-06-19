@@ -105,9 +105,10 @@ internal class JwtProviderImpl @Inject constructor(
 
     override suspend fun refreshSession(): Boolean {
         tokenMutex.withLock {
-            reissueTokensLocked()
+            val reissued = reissueTokensLocked()
             refreshTokenAbility()
-            return checkIsAccessTokenAvailable() || checkIsRefreshTokenAvailable()
+
+            return reissued && checkIsAccessTokenAvailable()
         }
     }
 
