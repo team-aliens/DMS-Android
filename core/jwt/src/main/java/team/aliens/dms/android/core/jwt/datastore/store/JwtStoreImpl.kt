@@ -12,11 +12,7 @@ import team.aliens.dms.android.core.datastore.util.transform
 import team.aliens.dms.android.core.jwt.AccessToken
 import team.aliens.dms.android.core.jwt.RefreshToken
 import team.aliens.dms.android.core.jwt.Tokens
-import team.aliens.dms.android.core.jwt.datastore.store.exception.AccessTokenExpirationNotFoundException
-import team.aliens.dms.android.core.jwt.datastore.store.exception.AccessTokenNotFoundException
 import team.aliens.dms.android.core.jwt.datastore.store.exception.CannotStoreTokensException
-import team.aliens.dms.android.core.jwt.datastore.store.exception.RefreshTokenExpirationNotFoundException
-import team.aliens.dms.android.core.jwt.datastore.store.exception.RefreshTokenNotFoundException
 import team.aliens.dms.android.shared.date.toEpochMilli
 import team.aliens.dms.android.shared.date.toLocalDateTime
 import javax.inject.Inject
@@ -25,16 +21,16 @@ internal class JwtStoreImpl @Inject constructor(
     @JwtDataStore private val jwtDataStore: PreferencesDataStore,
 ) : JwtStore() {
 
-    override fun loadTokens(): Tokens = runBlocking {
+    override fun loadTokens(): Tokens? = runBlocking {
         jwtDataStore.data.map { preferences ->
             val accessTokenValue = preferences[ACCESS_TOKEN]
-                ?: throw AccessTokenNotFoundException()
+                ?: return@map null
             val accessTokenExpiration = preferences[ACCESS_TOKEN_EXPIRATION]
-                ?: throw AccessTokenExpirationNotFoundException()
+                ?: return@map null
             val refreshTokenValue = preferences[REFRESH_TOKEN]
-                ?: throw RefreshTokenNotFoundException()
+                ?: return@map null
             val refreshTokenExpiration = preferences[REFRESH_TOKEN_EXPIRATION]
-                ?: throw RefreshTokenExpirationNotFoundException()
+                ?: return@map null
 
             return@map Tokens(
                 accessToken = AccessToken(
