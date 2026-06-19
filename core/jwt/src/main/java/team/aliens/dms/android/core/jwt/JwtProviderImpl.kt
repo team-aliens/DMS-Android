@@ -90,14 +90,16 @@ internal class JwtProviderImpl @Inject constructor(
     override suspend fun resolveSession(): Boolean {
         tokenMutex.withLock {
             val accessToken = _cachedAccessToken
+
             if (accessToken != null && !accessToken.isExpired()) {
                 refreshTokenAbility()
                 return true
             }
 
-            reissueTokensLocked()
+            val reissued = reissueTokensLocked()
             refreshTokenAbility()
-            return checkIsAccessTokenAvailable() || checkIsRefreshTokenAvailable()
+
+            return reissued && checkIsAccessTokenAvailable()
         }
     }
 
