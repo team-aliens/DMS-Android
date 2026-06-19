@@ -49,7 +49,7 @@ class JwtInterceptor @Inject constructor(
             val requestMethod = method.toHttpMethod()
 
             path.contains(ignoreRequest.path) &&
-                    requestMethod == ignoreRequest.method
+                requestMethod == ignoreRequest.method
         }
     }
 

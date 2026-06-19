@@ -76,13 +76,13 @@ class JwtAuthenticator @Inject constructor(
 
     private fun Request.shouldBeIgnored(): Boolean =
         checkS3Request(url.toString()) ||
-                ignoreRequests.requests.any { ignoreRequest ->
-                    val path = url.encodedPath
-                    val requestMethod = method.toHttpMethod()
+            ignoreRequests.requests.any { ignoreRequest ->
+                val path = url.encodedPath
+                val requestMethod = method.toHttpMethod()
 
-                    path.contains(ignoreRequest.path) &&
-                            requestMethod == ignoreRequest.method
-                }
+                path.contains(ignoreRequest.path) &&
+                    requestMethod == ignoreRequest.method
+            }
 
     private val Response.retryCount: Int
         get() {
