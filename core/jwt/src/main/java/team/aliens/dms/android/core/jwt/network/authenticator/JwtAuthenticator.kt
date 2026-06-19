@@ -21,26 +21,48 @@ class JwtAuthenticator @Inject constructor(
     ): Request? {
         val request = response.request
 
-        if (request.shouldBeIgnored() || response.retryCount >= MAX_AUTH_RETRY_COUNT) {
+        if (
+            request.shouldBeIgnored() ||
+            response.retryCount >= MAX_AUTH_RETRY_COUNT
+        ) {
             return null
         }
 
-        val newAuthorization = refreshAuthorization()
+        val failedAuthorization = request.header(AUTHORIZATION_HEADER)
+        val newAuthorization = refreshAuthorization(
+            failedAuthorization = failedAuthorization,
+        )
 
         return newAuthorization
-            ?.takeUnless { refreshedAuthorization ->
-                refreshedAuthorization == request.header(AUTHORIZATION_HEADER)
+            ?.takeUnless { authorization ->
+                authorization == failedAuthorization
             }
-            ?.let { refreshedAuthorization ->
+            ?.let { authorization ->
                 request.newBuilder()
-                    .header(AUTHORIZATION_HEADER, refreshedAuthorization)
+                    .header(AUTHORIZATION_HEADER, authorization)
                     .build()
             }
     }
 
-    private fun refreshAuthorization(): String? {
+    @Synchronized
+    private fun refreshAuthorization(
+        failedAuthorization: String?,
+    ): String? {
+        val currentAuthorization = runCatching {
+            "Bearer ${jwtProvider.cachedAccessToken.value}"
+        }.getOrNull()
+
+        if (
+            currentAuthorization != null &&
+            currentAuthorization != failedAuthorization
+        ) {
+            return currentAuthorization
+        }
+
         val refreshed = runCatching {
-            runBlocking { jwtProvider.refreshSession() }
+            runBlocking {
+                jwtProvider.refreshSession()
+            }
         }.getOrDefault(false)
 
         if (!refreshed) {
@@ -52,12 +74,15 @@ class JwtAuthenticator @Inject constructor(
         }.getOrNull()
     }
 
-    private fun Request.shouldBeIgnored(): Boolean = ignoreRequests.requests.any { ignoreRequest ->
-        val path = this@shouldBeIgnored.url.encodedPath
-        val method = this@shouldBeIgnored.method.toHttpMethod()
+    private fun Request.shouldBeIgnored(): Boolean =
+        checkS3Request(url.toString()) ||
+            ignoreRequests.requests.any { ignoreRequest ->
+                val path = url.encodedPath
+                val requestMethod = method.toHttpMethod()
 
-        path.contains(ignoreRequest.path) && method == ignoreRequest.method || checkS3Request(url = this@shouldBeIgnored.url.toString())
-    }
+                path.contains(ignoreRequest.path) &&
+                    requestMethod == ignoreRequest.method
+            }
 
     private val Response.retryCount: Int
         get() {
@@ -72,7 +97,8 @@ class JwtAuthenticator @Inject constructor(
             return count
         }
 
-    private fun checkS3Request(url: String): Boolean = url.contains(ResourceKeys.IMAGE_URL)
+    private fun checkS3Request(url: String): Boolean =
+        url.contains(ResourceKeys.IMAGE_URL)
 
     private companion object {
         const val AUTHORIZATION_HEADER = "authorization"
