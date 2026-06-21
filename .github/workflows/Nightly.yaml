@@ -272,20 +272,20 @@ jobs:
             -eType HTML \
             -rType ALL
 
-      - name: Generate mendable JSON report (warnings only)
+      - name: Generate mendable JSON report
         run: |
           java -jar tools/mendable.jar \
             -i build/compose_metrics \
             -sr \
             -o build/mendable-output \
-            -oName mendable-warnings \
+            -oName mendable-all \
             -eType JSON \
-            -rType WITH_WARNINGS
+            -rType ALL
 
       - name: Check Compose metrics (skippable ratio)
         run: |
           python3 scripts/check_compose_metrics.py \
-            build/mendable-output/mendable-warnings.json \
+            build/mendable-output/mendable-all.json \
             --threshold 100
 
       - name: Upload mendable HTML report
