@@ -7,11 +7,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBarsPadding
-import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -27,6 +23,7 @@ import team.aliens.dms.android.feature.chatbot.ui.component.ChatBotSuggestionChi
 fun ChatBotRoute() {
     ChatBotScreen()
 }
+
 @Composable
 private fun ChatBotScreen() {
     Box(
@@ -42,11 +39,6 @@ private fun ChatBotScreen() {
                 .padding(horizontal = 24.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
-            ChatBotProfileIcon(
-                modifier = Modifier
-                    .align(Alignment.End)
-                    .padding(top = 26.dp, end = 8.dp),
-            )
             ChatBotHeader()
             ChatBotSuggestionQuestions()
         }
@@ -64,38 +56,9 @@ private fun ChatBotScreen() {
 }
 
 @Composable
-private fun ChatBotProfileIcon(
-    modifier: Modifier = Modifier,
-) {
-    Surface(
-        modifier = modifier.size(28.dp),
-        shape = CircleShape,
-        color = DmsTheme.colorScheme.inverseOnSurface,
-    ) {
-        Box(contentAlignment = Alignment.BottomCenter) {
-            Surface(
-                modifier = Modifier
-                    .padding(bottom = 15.dp)
-                    .size(9.dp),
-                shape = CircleShape,
-                color = DmsTheme.colorScheme.surfaceTint,
-            ) {}
-
-            Surface(
-                modifier = Modifier
-                    .padding(bottom = 3.dp)
-                    .size(width = 18.dp, height = 9.dp),
-                shape = RoundedCornerShape(topStart = 9.dp, topEnd = 9.dp),
-                color = DmsTheme.colorScheme.surfaceTint,
-            ) {}
-        }
-    }
-}
-
-@Composable
 private fun ChatBotHeader() {
     Column(
-        modifier = Modifier.padding(top = 44.dp),
+        modifier = Modifier.padding(top = 92.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         Text(
@@ -137,7 +100,7 @@ private fun ChatBotSuggestionQuestions() {
 )
 @Composable
 fun ChatBotScreenPreview() {
-    DmsTheme {
+    DmsTheme(isDarkTheme = false) {
         ChatBotScreen()
     }
 }
