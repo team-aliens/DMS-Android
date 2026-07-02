@@ -17,15 +17,15 @@ internal fun ChatBotSuggestionChip(
     modifier: Modifier = Modifier,
 ) {
     Surface(
-        modifier = modifier.widthIn(min = 168.dp),
+        modifier = modifier,
         shape = RoundedCornerShape(12.dp),
         color = DmsTheme.colorScheme.surfaceTint,
     ) {
         Text(
-            modifier = Modifier.padding(horizontal = 24.dp, vertical = 16.dp),
+            modifier = Modifier.padding(horizontal = 22.dp, vertical = 14.dp),
             text = text,
             color = DmsTheme.colorScheme.onBackground,
-            style = DmsTheme.typography.body2,
+            style = DmsTheme.typography.body3,
             textAlign = TextAlign.Center,
         )
     }
