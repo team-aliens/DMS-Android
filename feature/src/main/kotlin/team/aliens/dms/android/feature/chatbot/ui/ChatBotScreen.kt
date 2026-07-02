@@ -20,7 +20,6 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import team.aliens.dms.android.core.designsystem.DmsTheme
-import team.aliens.dms.android.feature.chatbot.ui.component.ChatBotBottomNavigation
 import team.aliens.dms.android.feature.chatbot.ui.component.ChatBotInputBar
 import team.aliens.dms.android.feature.chatbot.ui.component.ChatBotSuggestionChip
 
@@ -60,10 +59,6 @@ private fun ChatBotScreen() {
                     end = 20.dp,
                     bottom = 112.dp,
                 ),
-        )
-
-        ChatBotBottomNavigation(
-            modifier = Modifier.align(Alignment.BottomCenter),
         )
     }
 }
