@@ -7,12 +7,17 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBarsPadding
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import team.aliens.dms.android.core.designsystem.DmsTheme
 import team.aliens.dms.android.feature.chatbot.ui.component.ChatBotBottomNavigation
@@ -23,7 +28,6 @@ import team.aliens.dms.android.feature.chatbot.ui.component.ChatBotSuggestionChi
 fun ChatBotRoute() {
     ChatBotScreen()
 }
-
 @Composable
 private fun ChatBotScreen() {
     Box(
@@ -39,6 +43,11 @@ private fun ChatBotScreen() {
                 .padding(horizontal = 24.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
+            ChatBotProfileIcon(
+                modifier = Modifier
+                    .align(Alignment.End)
+                    .padding(top = 26.dp, end = 8.dp),
+            )
             ChatBotHeader()
             ChatBotSuggestionQuestions()
         }
@@ -49,7 +58,7 @@ private fun ChatBotScreen() {
                 .padding(
                     start = 20.dp,
                     end = 20.dp,
-                    bottom = 92.dp,
+                    bottom = 112.dp,
                 ),
         )
 
@@ -60,9 +69,38 @@ private fun ChatBotScreen() {
 }
 
 @Composable
+private fun ChatBotProfileIcon(
+    modifier: Modifier = Modifier,
+) {
+    Surface(
+        modifier = modifier.size(28.dp),
+        shape = CircleShape,
+        color = DmsTheme.colorScheme.inverseOnSurface,
+    ) {
+        Box(contentAlignment = Alignment.BottomCenter) {
+            Surface(
+                modifier = Modifier
+                    .padding(bottom = 15.dp)
+                    .size(9.dp),
+                shape = CircleShape,
+                color = DmsTheme.colorScheme.surfaceTint,
+            ) {}
+
+            Surface(
+                modifier = Modifier
+                    .padding(bottom = 3.dp)
+                    .size(width = 18.dp, height = 9.dp),
+                shape = RoundedCornerShape(topStart = 9.dp, topEnd = 9.dp),
+                color = DmsTheme.colorScheme.surfaceTint,
+            ) {}
+        }
+    }
+}
+
+@Composable
 private fun ChatBotHeader() {
     Column(
-        modifier = Modifier.padding(top = 108.dp),
+        modifier = Modifier.padding(top = 44.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         Text(
@@ -76,7 +114,7 @@ private fun ChatBotHeader() {
             modifier = Modifier.padding(top = 22.dp),
             text = "외출, 점호, 벌점, 세탁실 이용 등 기숙사 규정을 AI\n가 빠르고 정확하게 안내해 드립니다.",
             color = DmsTheme.colorScheme.inverseOnSurface,
-            style = DmsTheme.typography.body2,
+            style = DmsTheme.typography.body3,
             textAlign = TextAlign.Center,
         )
     }
@@ -85,7 +123,7 @@ private fun ChatBotHeader() {
 @Composable
 private fun ChatBotSuggestionQuestions() {
     Column(
-        modifier = Modifier.padding(top = 68.dp),
+        modifier = Modifier.padding(top = 74.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.spacedBy(18.dp),
     ) {
@@ -93,5 +131,18 @@ private fun ChatBotSuggestionQuestions() {
         ChatBotSuggestionChip("점호 시간 알려줘")
         ChatBotSuggestionChip("세탁실 이용 시간이 궁금해")
         ChatBotSuggestionChip("벌점 기준 알려줘")
+    }
+}
+
+@Preview(
+    name = "ChatBot Screen",
+    showBackground = true,
+    widthDp = 375,
+    heightDp = 812,
+)
+@Composable
+fun ChatBotScreenPreview() {
+    DmsTheme {
+        ChatBotScreen()
     }
 }
