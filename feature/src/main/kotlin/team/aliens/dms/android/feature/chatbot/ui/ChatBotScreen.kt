@@ -108,7 +108,7 @@ private fun ChatBotHeader() {
         Text(
             modifier = Modifier.padding(top = 22.dp),
             text = "외출, 점호, 벌점, 세탁실 이용 등 기숙사 규정을 AI\n가 빠르고 정확하게 안내해 드립니다.",
-            color = DmsTheme.colorScheme.inverseOnSurface,
+            color = DmsTheme.colorScheme.inverseSurface,
             style = DmsTheme.typography.body3,
             textAlign = TextAlign.Center,
         )
