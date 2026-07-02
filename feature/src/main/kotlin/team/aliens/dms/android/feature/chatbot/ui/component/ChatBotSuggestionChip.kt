@@ -22,7 +22,7 @@ internal fun ChatBotSuggestionChip(
         color = DmsTheme.colorScheme.surfaceTint,
     ) {
         Text(
-            modifier = Modifier.padding(horizontal = 22.dp, vertical = 14.dp),
+            modifier = Modifier.padding(horizontal = 16.dp, vertical = 12.dp),
             text = text,
             color = DmsTheme.colorScheme.surfaceBright,
             style = DmsTheme.typography.body3,

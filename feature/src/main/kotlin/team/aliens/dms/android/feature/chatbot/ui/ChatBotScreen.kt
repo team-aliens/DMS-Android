@@ -118,9 +118,9 @@ private fun ChatBotHeader() {
 @Composable
 private fun ChatBotSuggestionQuestions() {
     Column(
-        modifier = Modifier.padding(top = 74.dp),
+        modifier = Modifier.padding(top = 46.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.spacedBy(18.dp),
+        verticalArrangement = Arrangement.spacedBy(12.dp),
     ) {
         ChatBotSuggestionChip("외출 신청은 언제까지 해야 해?")
         ChatBotSuggestionChip("점호 시간 알려줘")
