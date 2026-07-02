@@ -49,7 +49,7 @@ private fun ChatBotScreen() {
                 .padding(
                     start = 20.dp,
                     end = 20.dp,
-                    bottom = 96.dp,
+                    bottom = 92.dp,
                 ),
         )
 
@@ -62,20 +62,20 @@ private fun ChatBotScreen() {
 @Composable
 private fun ChatBotHeader() {
     Column(
-        modifier = Modifier.padding(top = 120.dp),
+        modifier = Modifier.padding(top = 108.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         Text(
             text = "기숙사 생활,\n이제 바로 물어보세요",
             color = DmsTheme.colorScheme.onBackground,
-            style = DmsTheme.typography.headline1,
+            style = DmsTheme.typography.headline2,
             textAlign = TextAlign.Center,
         )
 
         Text(
-            modifier = Modifier.padding(top = 24.dp),
+            modifier = Modifier.padding(top = 22.dp),
             text = "외출, 점호, 벌점, 세탁실 이용 등 기숙사 규정을 AI\n가 빠르고 정확하게 안내해 드립니다.",
-            color = DmsTheme.colorScheme.onSurfaceVariant,
+            color = DmsTheme.colorScheme.inverseOnSurface,
             style = DmsTheme.typography.body2,
             textAlign = TextAlign.Center,
         )
@@ -85,7 +85,7 @@ private fun ChatBotHeader() {
 @Composable
 private fun ChatBotSuggestionQuestions() {
     Column(
-        modifier = Modifier.padding(top = 72.dp),
+        modifier = Modifier.padding(top = 68.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.spacedBy(18.dp),
     ) {
