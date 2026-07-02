@@ -31,28 +31,26 @@ internal fun ChatBotInputBar(
         Row(
             modifier = Modifier.padding(
                 start = 24.dp,
-                top = 10.dp,
-                end = 10.dp,
-                bottom = 10.dp,
+                top = 8.dp,
+                end = 8.dp,
+                bottom = 8.dp,
             ),
             verticalAlignment = Alignment.CenterVertically,
         ) {
             Text(
                 text = "DMS AI에게 질문해 보세요...",
-                color = DmsTheme.colorScheme.onSurfaceVariant,
+                color = DmsTheme.colorScheme.inverseOnSurface,
                 style = DmsTheme.typography.body2,
             )
 
             Spacer(modifier = Modifier.weight(1f))
 
             Surface(
-                modifier = Modifier.size(48.dp),
+                modifier = Modifier.size(44.dp),
                 shape = CircleShape,
                 color = DmsTheme.colorScheme.secondary,
             ) {
-                Box(
-                    contentAlignment = Alignment.Center,
-                ) {
+                Box(contentAlignment = Alignment.Center) {
                     Text(
                         text = "↑",
                         color = DmsTheme.colorScheme.surfaceTint,
