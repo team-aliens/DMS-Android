@@ -46,7 +46,11 @@ private fun ChatBotScreen() {
         ChatBotInputBar(
             modifier = Modifier
                 .align(Alignment.BottomCenter)
-                .padding(horizontal = 20.dp, bottom = 96.dp),
+                .padding(
+                    start = 20.dp,
+                    end = 20.dp,
+                    bottom = 96.dp,
+                ),
         )
 
         ChatBotBottomNavigation(
