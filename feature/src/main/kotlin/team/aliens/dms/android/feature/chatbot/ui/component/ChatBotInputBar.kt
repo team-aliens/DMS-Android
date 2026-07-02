@@ -14,6 +14,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import team.aliens.dms.android.core.designsystem.DmsTheme
 
@@ -24,37 +25,39 @@ internal fun ChatBotInputBar(
     Surface(
         modifier = modifier
             .fillMaxWidth()
-            .shadow(14.dp, RoundedCornerShape(28.dp)),
+            .shadow(4.dp, RoundedCornerShape(28.dp)),
         shape = RoundedCornerShape(28.dp),
         color = DmsTheme.colorScheme.surfaceTint,
     ) {
         Row(
             modifier = Modifier.padding(
                 start = 24.dp,
-                top = 8.dp,
-                end = 8.dp,
-                bottom = 8.dp,
+                top = 6.dp,
+                end = 6.dp,
+                bottom = 6.dp,
             ),
             verticalAlignment = Alignment.CenterVertically,
         ) {
             Text(
                 text = "DMS AI에게 질문해 보세요...",
                 color = DmsTheme.colorScheme.inverseOnSurface,
-                style = DmsTheme.typography.body2,
+                style = DmsTheme.typography.body3,
+                fontWeight = FontWeight.Normal,
             )
 
             Spacer(modifier = Modifier.weight(1f))
 
             Surface(
-                modifier = Modifier.size(44.dp),
+                modifier = Modifier.size(40.dp),
                 shape = CircleShape,
-                color = DmsTheme.colorScheme.secondary,
+                color = DmsTheme.colorScheme.onPrimaryContainer,
             ) {
                 Box(contentAlignment = Alignment.Center) {
                     Text(
                         text = "↑",
                         color = DmsTheme.colorScheme.surfaceTint,
-                        style = DmsTheme.typography.title2,
+                        style = DmsTheme.typography.title3,
+                        fontWeight = FontWeight.Normal,
                     )
                 }
             }
