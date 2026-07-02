@@ -31,26 +31,10 @@ internal fun ChatBotBottomNavigation(
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically,
         ) {
-            ChatBotBottomNavigationItem(
-                icon = "⌂",
-                label = "홈",
-                selected = false,
-            )
-            ChatBotBottomNavigationItem(
-                icon = "✓",
-                label = "신청",
-                selected = true,
-            )
-            ChatBotBottomNavigationItem(
-                icon = "▱",
-                label = "챗봇",
-                selected = false,
-            )
-            ChatBotBottomNavigationItem(
-                icon = "♙",
-                label = "마이페이지",
-                selected = false,
-            )
+            ChatBotBottomNavigationItem("⌂", "홈", false)
+            ChatBotBottomNavigationItem("✓", "신청", false)
+            ChatBotBottomNavigationItem("▱", "챗봇", true)
+            ChatBotBottomNavigationItem("♙", "마이페이지", false)
         }
     }
 }
@@ -61,9 +45,7 @@ private fun ChatBotBottomNavigationItem(
     label: String,
     selected: Boolean,
 ) {
-    Column(
-        horizontalAlignment = Alignment.CenterHorizontally,
-    ) {
+    Column(horizontalAlignment = Alignment.CenterHorizontally) {
         Surface(
             modifier = Modifier.size(32.dp),
             shape = CircleShape,
@@ -73,9 +55,7 @@ private fun ChatBotBottomNavigationItem(
                 DmsTheme.colorScheme.surfaceTint
             },
         ) {
-            Box(
-                contentAlignment = Alignment.Center,
-            ) {
+            Box(contentAlignment = Alignment.Center) {
                 Text(
                     text = icon,
                     color = if (selected) {
