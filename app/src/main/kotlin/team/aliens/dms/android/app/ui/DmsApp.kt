@@ -84,6 +84,8 @@ import team.aliens.dms.android.app.navigation.SignUpSetPasswordNav
 import team.aliens.dms.android.app.navigation.SignUpTermsNav
 import team.aliens.dms.android.feature.latestudy.navigation.LateStudyRoute
 import java.util.UUID
+import team.aliens.dms.android.app.navigation.ChatBotScreenNav
+import team.aliens.dms.android.feature.chatbot.ui.ChatBotRoute
 
 
 @Composable
@@ -101,6 +103,7 @@ fun DmsApp(
     val shouldShowBottomBar = currentScreen in listOf(
         HomeScreenNav,
         ApplicationScreenNav,
+        ChatBotScreenNav,
         MyPageScreenNav,
     )
 
@@ -137,9 +140,9 @@ fun DmsApp(
                                 }
                                 backStack.removeAll {
                                     it is ApplicationScreenNav ||
+                                            it is ChatBotScreenNav ||
                                             it is MyPageScreenNav
                                 }
-                                backStack.add(destination)
                             }
                         }
                     )
@@ -212,6 +215,9 @@ fun DmsApp(
                                     backStack.add(LateStudyNav)
                                 }
                             )
+                        }
+                        entry<ChatBotScreenNav> {
+                            ChatBotRoute()
                         }
                         entry<VoteScreenNav> {
                             VoteRoute(
