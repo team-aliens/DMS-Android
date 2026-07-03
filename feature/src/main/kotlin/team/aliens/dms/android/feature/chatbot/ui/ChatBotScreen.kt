@@ -16,6 +16,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -35,12 +36,17 @@ import team.aliens.dms.android.feature.chatbot.viewmodel.ChatBotViewModel
 fun ChatBotRoute() {
     val viewModel: ChatBotViewModel = hiltViewModel()
     val state by viewModel.state.collectAsStateWithLifecycle()
+    val keyboardController = LocalSoftwareKeyboardController.current
 
     ChatBotScreen(
         state = state,
         onInputChange = viewModel::onInputChange,
-        onSendClick = viewModel::sendQuestion,
+        onSendClick = {
+            keyboardController?.hide()
+            viewModel.sendQuestion()
+        },
         onSuggestionClick = { question ->
+            keyboardController?.hide()
             viewModel.onInputChange(question)
             viewModel.sendQuestion()
         },
