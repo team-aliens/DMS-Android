@@ -83,6 +83,7 @@ private fun ChatBotScreen(
             value = state.input,
             onValueChange = onInputChange,
             onSendClick = onSendClick,
+            enabled = !state.isLoading,
             modifier = Modifier
                 .align(Alignment.BottomCenter)
                 .padding(

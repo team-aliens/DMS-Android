@@ -29,6 +29,7 @@ internal fun ChatBotInputBar(
     onValueChange: (String) -> Unit,
     onSendClick: () -> Unit,
     modifier: Modifier = Modifier,
+    enabled: Boolean = true,
 ) {
     Surface(
         modifier = modifier
@@ -62,6 +63,7 @@ internal fun ChatBotInputBar(
                 BasicTextField(
                     value = value,
                     onValueChange = onValueChange,
+                    enabled = enabled,
                     textStyle = DmsTheme.typography.body3.copy(
                         color = DmsTheme.colorScheme.surfaceBright,
                         fontWeight = FontWeight.Normal,
@@ -72,7 +74,9 @@ internal fun ChatBotInputBar(
                     ),
                     keyboardActions = KeyboardActions(
                         onSend = {
-                            onSendClick()
+                            if (enabled) {
+                                onSendClick()
+                            }
                         },
                     ),
                     modifier = Modifier.fillMaxWidth(),
@@ -84,7 +88,10 @@ internal fun ChatBotInputBar(
             Surface(
                 modifier = Modifier
                     .size(40.dp)
-                    .clickable(onClick = onSendClick),
+                    .clickable(
+                        enabled = enabled,
+                        onClick = onSendClick,
+                    ),
                 shape = CircleShape,
                 color = DmsTheme.colorScheme.secondary,
             ) {
