@@ -8,6 +8,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.BasicTextField
+import androidx.compose.foundation.clickable
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -20,12 +22,15 @@ import team.aliens.dms.android.core.designsystem.DmsTheme
 
 @Composable
 internal fun ChatBotInputBar(
+    value: String,
+    onValueChange: (String) -> Unit,
+    onSendClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     Surface(
         modifier = modifier
             .fillMaxWidth()
-            .shadow(4.dp, RoundedCornerShape(28.dp)),
+            .shadow(12.dp, RoundedCornerShape(28.dp)),
         shape = RoundedCornerShape(28.dp),
         color = DmsTheme.colorScheme.surfaceTint,
     ) {
@@ -38,19 +43,39 @@ internal fun ChatBotInputBar(
             ),
             verticalAlignment = Alignment.CenterVertically,
         ) {
-            Text(
-                text = "DMS AI에게 질문해 보세요...",
-                color = DmsTheme.colorScheme.inverseOnSurface,
-                style = DmsTheme.typography.body3,
-                fontWeight = FontWeight.Normal,
-            )
+            Box(
+                modifier = Modifier.weight(1f),
+                contentAlignment = Alignment.CenterStart,
+            ) {
+                if (value.isEmpty()) {
+                    Text(
+                        text = "DMS AI에게 질문해 보세요...",
+                        color = DmsTheme.colorScheme.inverseOnSurface,
+                        style = DmsTheme.typography.body3,
+                        fontWeight = FontWeight.Normal,
+                    )
+                }
 
-            Spacer(modifier = Modifier.weight(1f))
+                BasicTextField(
+                    value = value,
+                    onValueChange = onValueChange,
+                    textStyle = DmsTheme.typography.body3.copy(
+                        color = DmsTheme.colorScheme.surfaceBright,
+                        fontWeight = FontWeight.Normal,
+                    ),
+                    singleLine = true,
+                    modifier = Modifier.fillMaxWidth(),
+                )
+            }
+
+            Spacer(modifier = Modifier.size(8.dp))
 
             Surface(
-                modifier = Modifier.size(40.dp),
+                modifier = Modifier
+                    .size(40.dp)
+                    .clickable(onClick = onSendClick),
                 shape = CircleShape,
-                color = DmsTheme.colorScheme.onPrimaryContainer,
+                color = DmsTheme.colorScheme.secondary,
             ) {
                 Box(contentAlignment = Alignment.Center) {
                     Text(
