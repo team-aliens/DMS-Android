@@ -9,6 +9,8 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBarsPadding
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -148,13 +150,13 @@ private fun ChatBotMessages(
     messages: List<ChatBotMessage>,
     isLoading: Boolean,
 ) {
-    Column(
+    LazyColumn(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(top = 52.dp),
+            .padding(top = 52.dp, bottom = 120.dp),
         verticalArrangement = Arrangement.spacedBy(16.dp),
     ) {
-        messages.forEach { message ->
+        items(messages) { message ->
             Box(
                 modifier = Modifier.fillMaxWidth(),
                 contentAlignment = if (message.isUser) {
@@ -171,11 +173,13 @@ private fun ChatBotMessages(
         }
 
         if (isLoading) {
-            Box(
-                modifier = Modifier.fillMaxWidth(),
-                contentAlignment = Alignment.CenterStart,
-            ) {
-                ChatBotTypingBubble()
+            item {
+                Box(
+                    modifier = Modifier.fillMaxWidth(),
+                    contentAlignment = Alignment.CenterStart,
+                ) {
+                    ChatBotTypingBubble()
+                }
             }
         }
     }
