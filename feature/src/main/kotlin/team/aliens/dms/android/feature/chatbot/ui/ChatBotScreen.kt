@@ -27,10 +27,10 @@ import team.aliens.dms.android.feature.chatbot.viewmodel.ChatBotMessage
 import team.aliens.dms.android.feature.chatbot.viewmodel.ChatBotState
 import team.aliens.dms.android.feature.chatbot.viewmodel.ChatBotViewModel
 
+
 @Composable
-fun ChatBotRoute(
-    viewModel: ChatBotViewModel = hiltViewModel(),
-) {
+fun ChatBotRoute() {
+    val viewModel: ChatBotViewModel = hiltViewModel()
     val state by viewModel.state.collectAsStateWithLifecycle()
 
     ChatBotScreen(
