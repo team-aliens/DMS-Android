@@ -15,6 +15,9 @@ data object SignInScreenNav : NavKey
 data object HomeScreenNav : NavKey
 
 @Serializable
+data object ChatBotScreenNav : NavKey
+
+@Serializable
 data object MealScreenNav : NavKey
 
 @Serializable
