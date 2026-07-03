@@ -6,6 +6,7 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import retrofit2.Retrofit
+import team.aliens.dms.android.core.network.di.DefaultRetrofitClient
 import team.aliens.dms.android.network.chatbot.apiservice.ChatBotApiService
 import team.aliens.dms.android.network.chatbot.datasource.NetworkChatBotDataSource
 import team.aliens.dms.android.network.chatbot.datasource.NetworkChatBotDataSourceImpl
@@ -24,7 +25,7 @@ internal abstract class ChatBotNetworkModule {
         @Provides
         @Singleton
         fun provideChatBotApiService(
-            retrofit: Retrofit,
+            @DefaultRetrofitClient retrofit: Retrofit,
         ): ChatBotApiService {
             return retrofit.create(ChatBotApiService::class.java)
         }
