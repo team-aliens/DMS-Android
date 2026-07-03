@@ -180,7 +180,6 @@ private fun ChatBotMessages(
     }
 }
 
-
 @Preview(
     name = "ChatBot Screen",
     showBackground = true,
