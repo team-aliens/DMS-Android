@@ -1,5 +1,6 @@
 package team.aliens.dms.android.feature.chatbot.ui.component
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Surface
@@ -14,15 +15,16 @@ import team.aliens.dms.android.core.designsystem.DmsTheme
 @Composable
 internal fun ChatBotSuggestionChip(
     text: String,
+    onClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     Surface(
-        modifier = modifier,
+        modifier = modifier.clickable(onClick = onClick),
         shape = RoundedCornerShape(12.dp),
         color = DmsTheme.colorScheme.surfaceTint,
     ) {
         Text(
-            modifier = Modifier.padding(horizontal = 16.dp, vertical = 12.dp),
+            modifier = Modifier.padding(horizontal = 22.dp, vertical = 14.dp),
             text = text,
             color = DmsTheme.colorScheme.surfaceBright,
             style = DmsTheme.typography.body3,
