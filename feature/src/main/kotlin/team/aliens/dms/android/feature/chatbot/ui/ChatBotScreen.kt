@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBarsPadding
@@ -147,16 +148,18 @@ private fun ChatBotMessages(
     isLoading: Boolean,
 ) {
     Column(
-        modifier = Modifier.padding(top = 52.dp),
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(top = 52.dp),
         verticalArrangement = Arrangement.spacedBy(16.dp),
     ) {
         messages.forEach { message ->
             Box(
-                modifier = Modifier.fillMaxSize(),
+                modifier = Modifier.fillMaxWidth(),
                 contentAlignment = if (message.isUser) {
-                    Alignment.TopEnd
+                    Alignment.CenterEnd
                 } else {
-                    Alignment.TopStart
+                    Alignment.CenterStart
                 },
             ) {
                 ChatBotMessageBubble(
@@ -168,14 +171,15 @@ private fun ChatBotMessages(
 
         if (isLoading) {
             Box(
-                modifier = Modifier.fillMaxSize(),
-                contentAlignment = Alignment.TopStart,
+                modifier = Modifier.fillMaxWidth(),
+                contentAlignment = Alignment.CenterStart,
             ) {
                 ChatBotTypingBubble()
             }
         }
     }
 }
+
 
 @Preview(
     name = "ChatBot Screen",
