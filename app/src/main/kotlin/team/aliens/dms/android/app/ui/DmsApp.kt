@@ -133,16 +133,13 @@ fun DmsApp(
                         currentScreen = currentScreen.toString(),
                         onNavigate = { destination ->
                             if (currentScreen != destination) {
-                                when (destination) {
-                                    is HomeScreenNav -> {
-                                        backStack.remove(HomeScreenNav)
-                                    }
-                                }
                                 backStack.removeAll {
-                                    it is ApplicationScreenNav ||
+                                    it is HomeScreenNav ||
+                                            it is ApplicationScreenNav ||
                                             it is ChatBotScreenNav ||
                                             it is MyPageScreenNav
                                 }
+                                backStack.add(destination)
                             }
                         }
                     )

@@ -52,9 +52,11 @@ fun BottomNavigationBar(
 
             NavigationBarItem(
                 selected = selected,
-                enabled = !selected,
+                enabled = true,
                 onClick = {
-                    onNavigate(destination.route)
+                    if (!selected) {
+                        onNavigate(destination.route)
+                    }
                 },
                 colors = NavigationBarItemDefaults.colors(
                     indicatorColor = Color.Transparent,
