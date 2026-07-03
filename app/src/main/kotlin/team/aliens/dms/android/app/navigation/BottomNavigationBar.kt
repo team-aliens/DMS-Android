@@ -25,6 +25,7 @@ import team.aliens.dms.android.core.designsystem.labelB
 private val bottomMenus = listOf(
     BottomMenu.Home,
     BottomMenu.Application,
+    BottomMenu.ChatBot,
     BottomMenu.MyPage,
 )
 
@@ -64,7 +65,13 @@ fun BottomNavigationBar(
                     ) {
                         Icon(
                             modifier = Modifier.size(32.dp),
-                            painter = painterResource(id = if (selected) destination.selectedIcon else destination.icon),
+                            painter = painterResource(
+                                id = if (selected) {
+                                    destination.selectedIcon
+                                } else {
+                                    destination.icon
+                                },
+                            ),
                             contentDescription = destination.title,
                             tint = color,
                         )
