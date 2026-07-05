@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.lazy.LazyColumn
@@ -20,7 +21,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -100,7 +100,11 @@ private fun ChatBotScreen(
                     .padding(horizontal = 20.dp),
                 contentPadding = PaddingValues(
                     top = 72.dp,
-                    bottom = if (isInputFocused) 76.dp else 208.dp,
+                    bottom = if (isInputFocused) {
+                        76.dp
+                    } else {
+                        208.dp
+                    },
                 ),
                 verticalArrangement = Arrangement.spacedBy(12.dp),
                 horizontalAlignment = Alignment.CenterHorizontally,
@@ -128,20 +132,20 @@ private fun ChatBotScreen(
             onValueChange = onInputChange,
             onSendClick = onSendClick,
             enabled = !state.isLoading,
+            onFocusChanged = { focused ->
+                isInputFocused = focused
+            },
             modifier = Modifier
                 .align(Alignment.BottomCenter)
+                .padding(horizontal = 20.dp)
+                .imePadding()
                 .padding(
-                    start = 20.dp,
-                    end = 20.dp,
                     bottom = if (isInputFocused) {
                         0.dp
                     } else {
                         112.dp
                     },
-                )
-                .onFocusChanged { focusState ->
-                    isInputFocused = focusState.hasFocus
-                },
+                ),
         )
     }
 }

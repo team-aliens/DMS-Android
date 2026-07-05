@@ -18,6 +18,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
@@ -30,6 +31,7 @@ internal fun ChatBotInputBar(
     onSendClick: () -> Unit,
     modifier: Modifier = Modifier,
     enabled: Boolean = true,
+    onFocusChanged: (Boolean) -> Unit = {},
 ) {
     Surface(
         modifier = modifier
@@ -79,7 +81,11 @@ internal fun ChatBotInputBar(
                             }
                         },
                     ),
-                    modifier = Modifier.fillMaxWidth(),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .onFocusChanged { focusState ->
+                            onFocusChanged(focusState.hasFocus)
+                        },
                 )
             }
 
