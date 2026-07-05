@@ -1,6 +1,5 @@
 package team.aliens.dms.android.feature.chatbot.viewmodel
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -54,13 +53,7 @@ internal class ChatBotViewModel @Inject constructor(
                         ),
                     )
                 }
-            }.onFailure { throwable ->
-                Log.e(
-                    "ChatBot",
-                    "request failed: ${throwable::class.java.simpleName}, message=${throwable.message}",
-                    throwable,
-                )
-
+            }.onFailure {
                 _state.update {
                     it.copy(
                         isLoading = false,
