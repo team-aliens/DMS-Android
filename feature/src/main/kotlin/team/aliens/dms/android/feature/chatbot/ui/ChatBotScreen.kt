@@ -4,19 +4,23 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.navigationBarsPadding
+import androidx.compose.foundation.layout.ime
+import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalSoftwareKeyboardController
+import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -31,24 +35,22 @@ import team.aliens.dms.android.feature.chatbot.viewmodel.ChatBotMessage
 import team.aliens.dms.android.feature.chatbot.viewmodel.ChatBotState
 import team.aliens.dms.android.feature.chatbot.viewmodel.ChatBotViewModel
 
-
 @Composable
 fun ChatBotRoute() {
     val viewModel: ChatBotViewModel = hiltViewModel()
     val state by viewModel.state.collectAsStateWithLifecycle()
-    val keyboardController = LocalSoftwareKeyboardController.current
+    val focusManager = LocalFocusManager.current
 
     ChatBotScreen(
         state = state,
         onInputChange = viewModel::onInputChange,
         onSendClick = {
-            keyboardController?.hide()
             viewModel.sendQuestion()
         },
         onSuggestionClick = { question ->
-            keyboardController?.hide()
             viewModel.onInputChange(question)
             viewModel.sendQuestion()
+            focusManager.clearFocus()
         },
     )
 }
@@ -60,30 +62,63 @@ private fun ChatBotScreen(
     onSendClick: () -> Unit,
     onSuggestionClick: (String) -> Unit,
 ) {
+    val density = LocalDensity.current
+    val isKeyboardVisible = WindowInsets.ime.getBottom(density) > 0
+    val listState = rememberLazyListState()
+
+    LaunchedEffect(state.messages.size, state.isLoading) {
+        if (state.messages.isNotEmpty() || state.isLoading) {
+            listState.animateScrollToItem(
+                index = state.messages.size + if (state.isLoading) 1 else 0,
+            )
+        }
+    }
+
     Box(
         modifier = Modifier
             .fillMaxSize()
             .background(DmsTheme.colorScheme.background)
-            .statusBarsPadding()
-            .navigationBarsPadding(),
+            .statusBarsPadding(),
     ) {
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(horizontal = 24.dp),
-            horizontalAlignment = Alignment.CenterHorizontally,
-        ) {
-            ChatBotHeader()
-
-            if (state.messages.isEmpty() && !state.isLoading) {
+        if (state.messages.isEmpty() && !isKeyboardVisible) {
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(horizontal = 24.dp),
+                horizontalAlignment = Alignment.CenterHorizontally,
+            ) {
+                ChatBotHeader()
                 ChatBotSuggestionQuestions(
                     onSuggestionClick = onSuggestionClick,
                 )
-            } else {
-                ChatBotMessages(
-                    messages = state.messages,
-                    isLoading = state.isLoading,
-                )
+            }
+        } else {
+            LazyColumn(
+                state = listState,
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(horizontal = 20.dp),
+                contentPadding = PaddingValues(
+                    top = if (isKeyboardVisible) 72.dp else 120.dp,
+                    bottom = if (isKeyboardVisible) 88.dp else 208.dp,
+                ),
+                verticalArrangement = Arrangement.spacedBy(12.dp),
+            ) {
+                item {
+                    ChatBotCompactHeader()
+                }
+
+                state.messages.forEach { message ->
+                    item {
+                        ChatBotMessageItem(message = message)
+                    }
+                }
+
+                if (state.isLoading) {
+                    item {
+                        ChatBotTypingBubble()
+                    }
+                }
             }
         }
 
@@ -94,10 +129,14 @@ private fun ChatBotScreen(
             enabled = !state.isLoading,
             modifier = Modifier
                 .align(Alignment.BottomCenter)
+                .padding(horizontal = 20.dp)
+                .imePadding()
                 .padding(
-                    start = 20.dp,
-                    end = 20.dp,
-                    bottom = 112.dp,
+                    bottom = if (isKeyboardVisible) {
+                        0.dp
+                    } else {
+                        112.dp
+                    },
                 ),
         )
     }
@@ -127,67 +166,60 @@ private fun ChatBotHeader() {
 }
 
 @Composable
+private fun ChatBotCompactHeader() {
+    Text(
+        modifier = Modifier.padding(top = 8.dp),
+        text = "외출, 점호, 벌점, 세탁실 이용 등 기숙사 규정을 AI\n가 빠르고 정확하게 안내해 드립니다.",
+        color = DmsTheme.colorScheme.inverseSurface,
+        style = DmsTheme.typography.body3,
+        textAlign = TextAlign.Center,
+    )
+}
+
+@Composable
 private fun ChatBotSuggestionQuestions(
     onSuggestionClick: (String) -> Unit,
 ) {
-    val suggestions = listOf(
-        "외출 신청은 언제까지 해야 해?",
-        "점호 시간 알려줘",
-        "세탁실 이용 시간이 궁금해",
-        "벌점 기준 알려줘",
-    )
-
     Column(
         modifier = Modifier.padding(top = 46.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.spacedBy(12.dp),
     ) {
-        suggestions.forEach { suggestion ->
-            ChatBotSuggestionChip(
-                text = suggestion,
-                onClick = { onSuggestionClick(suggestion) },
-            )
-        }
+        ChatBotSuggestionChip(
+            text = "외출 신청은 언제까지 해야 해?",
+            onClick = { onSuggestionClick("외출 신청은 언제까지 해야 해?") },
+        )
+        ChatBotSuggestionChip(
+            text = "점호 시간 알려줘",
+            onClick = { onSuggestionClick("점호 시간 알려줘") },
+        )
+        ChatBotSuggestionChip(
+            text = "세탁실 이용 시간이 궁금해",
+            onClick = { onSuggestionClick("세탁실 이용 시간이 궁금해") },
+        )
+        ChatBotSuggestionChip(
+            text = "벌점 기준 알려줘",
+            onClick = { onSuggestionClick("벌점 기준 알려줘") },
+        )
     }
 }
 
 @Composable
-private fun ChatBotMessages(
-    messages: List<ChatBotMessage>,
-    isLoading: Boolean,
+private fun ChatBotMessageItem(
+    message: ChatBotMessage,
 ) {
-    LazyColumn(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(top = 52.dp, bottom = 120.dp),
-        verticalArrangement = Arrangement.spacedBy(16.dp),
+    Box(
+        modifier = Modifier.fillMaxSize(),
+        contentAlignment = if (message.isUser) {
+            Alignment.CenterEnd
+        } else {
+            Alignment.CenterStart
+        },
     ) {
-        items(messages) { message ->
-            Box(
-                modifier = Modifier.fillMaxWidth(),
-                contentAlignment = if (message.isUser) {
-                    Alignment.CenterEnd
-                } else {
-                    Alignment.CenterStart
-                },
-            ) {
-                ChatBotMessageBubble(
-                    text = message.text,
-                    isUser = message.isUser,
-                )
-            }
-        }
-
-        if (isLoading) {
-            item {
-                Box(
-                    modifier = Modifier.fillMaxWidth(),
-                    contentAlignment = Alignment.CenterStart,
-                ) {
-                    ChatBotTypingBubble()
-                }
-            }
-        }
+        ChatBotMessageBubble(
+            text = message.text,
+            isUser = message.isUser,
+        )
     }
 }
 
@@ -198,14 +230,10 @@ private fun ChatBotMessages(
     heightDp = 812,
 )
 @Composable
-fun ChatBotScreenPreview() {
+private fun ChatBotScreenPreview() {
     DmsTheme(isDarkTheme = false) {
         ChatBotScreen(
-            state = ChatBotState(
-                input = "",
-                messages = emptyList(),
-                isLoading = false,
-            ),
+            state = ChatBotState(),
             onInputChange = {},
             onSendClick = {},
             onSuggestionClick = {},

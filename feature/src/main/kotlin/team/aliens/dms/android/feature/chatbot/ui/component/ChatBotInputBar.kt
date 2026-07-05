@@ -93,7 +93,7 @@ internal fun ChatBotInputBar(
                         onClick = onSendClick,
                     ),
                 shape = CircleShape,
-                color = DmsTheme.colorScheme.secondary,
+                color = DmsTheme.colorScheme.onPrimaryContainer,
             ) {
                 Box(contentAlignment = Alignment.Center) {
                     Text(
