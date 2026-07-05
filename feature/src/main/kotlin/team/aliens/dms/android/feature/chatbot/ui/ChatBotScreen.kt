@@ -74,7 +74,7 @@ private fun ChatBotScreen(
         if (state.messages.isNotEmpty() || state.isLoading) {
             listState.animateScrollToItem(
                 index = state.messages.size + if (state.isLoading) 1 else 0,
-                scrollOffset = 120,
+                scrollOffset = 80,
             )
         }
     }
@@ -106,9 +106,9 @@ private fun ChatBotScreen(
                 contentPadding = PaddingValues(
                     top = 72.dp,
                     bottom = if (isInputFocused) {
-                        120.dp
+                        112.dp
                     } else {
-                        320.dp
+                        132.dp
                     },
                 ),
                 verticalArrangement = Arrangement.spacedBy(12.dp),
@@ -150,7 +150,7 @@ private fun ChatBotScreen(
                     bottom = if (isInputFocused) {
                         12.dp
                     } else {
-                        112.dp
+                        16.dp
                     },
                 ),
         )
