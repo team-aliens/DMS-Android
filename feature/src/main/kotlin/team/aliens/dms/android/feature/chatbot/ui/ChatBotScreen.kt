@@ -5,10 +5,8 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.ime
-import androidx.compose.foundation.layout.imePadding
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.lazy.LazyColumn
@@ -17,9 +15,12 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -62,8 +63,7 @@ private fun ChatBotScreen(
     onSendClick: () -> Unit,
     onSuggestionClick: (String) -> Unit,
 ) {
-    val density = LocalDensity.current
-    val isKeyboardVisible = WindowInsets.ime.getBottom(density) > 0
+    var isInputFocused by remember { mutableStateOf(false) }
     val listState = rememberLazyListState()
 
     LaunchedEffect(state.messages.size, state.isLoading) {
@@ -80,7 +80,7 @@ private fun ChatBotScreen(
             .background(DmsTheme.colorScheme.background)
             .statusBarsPadding(),
     ) {
-        if (state.messages.isEmpty() && !isKeyboardVisible) {
+        if (state.messages.isEmpty() && !isInputFocused) {
             Column(
                 modifier = Modifier
                     .fillMaxSize()
@@ -99,10 +99,11 @@ private fun ChatBotScreen(
                     .fillMaxSize()
                     .padding(horizontal = 20.dp),
                 contentPadding = PaddingValues(
-                    top = if (isKeyboardVisible) 72.dp else 120.dp,
-                    bottom = if (isKeyboardVisible) 88.dp else 208.dp,
+                    top = 72.dp,
+                    bottom = if (isInputFocused) 76.dp else 208.dp,
                 ),
                 verticalArrangement = Arrangement.spacedBy(12.dp),
+                horizontalAlignment = Alignment.CenterHorizontally,
             ) {
                 item {
                     ChatBotCompactHeader()
@@ -129,15 +130,18 @@ private fun ChatBotScreen(
             enabled = !state.isLoading,
             modifier = Modifier
                 .align(Alignment.BottomCenter)
-                .padding(horizontal = 20.dp)
-                .imePadding()
                 .padding(
-                    bottom = if (isKeyboardVisible) {
+                    start = 20.dp,
+                    end = 20.dp,
+                    bottom = if (isInputFocused) {
                         0.dp
                     } else {
                         112.dp
                     },
-                ),
+                )
+                .onFocusChanged { focusState ->
+                    isInputFocused = focusState.hasFocus
+                },
         )
     }
 }
@@ -156,7 +160,9 @@ private fun ChatBotHeader() {
         )
 
         Text(
-            modifier = Modifier.padding(top = 22.dp),
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(top = 22.dp),
             text = "외출, 점호, 벌점, 세탁실 이용 등 기숙사 규정을 AI\n가 빠르고 정확하게 안내해 드립니다.",
             color = DmsTheme.colorScheme.inverseSurface,
             style = DmsTheme.typography.body3,
@@ -168,7 +174,9 @@ private fun ChatBotHeader() {
 @Composable
 private fun ChatBotCompactHeader() {
     Text(
-        modifier = Modifier.padding(top = 8.dp),
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(top = 8.dp),
         text = "외출, 점호, 벌점, 세탁실 이용 등 기숙사 규정을 AI\n가 빠르고 정확하게 안내해 드립니다.",
         color = DmsTheme.colorScheme.inverseSurface,
         style = DmsTheme.typography.body3,
@@ -209,7 +217,7 @@ private fun ChatBotMessageItem(
     message: ChatBotMessage,
 ) {
     Box(
-        modifier = Modifier.fillMaxSize(),
+        modifier = Modifier.fillMaxWidth(),
         contentAlignment = if (message.isUser) {
             Alignment.CenterEnd
         } else {
