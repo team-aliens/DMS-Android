@@ -143,7 +143,7 @@ private fun ChatBotScreen(
                     start = 20.dp,
                     end = 20.dp,
                     bottom = if (isInputFocused) {
-                        0.dp
+                        12.dp
                     } else {
                         112.dp
                     },
