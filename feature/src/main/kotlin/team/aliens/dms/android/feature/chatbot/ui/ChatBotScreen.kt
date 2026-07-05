@@ -31,7 +31,7 @@ import team.aliens.dms.android.core.designsystem.DmsTheme
 import team.aliens.dms.android.feature.chatbot.ui.component.ChatBotInputBar
 import team.aliens.dms.android.feature.chatbot.ui.component.ChatBotMessageBubble
 import team.aliens.dms.android.feature.chatbot.ui.component.ChatBotSuggestionChip
-import team.aliens.dms.android.feature.chatbot.ui.component.ChatBotTypingBubble
+import team.aliens.dms.android.feature.chatbot.ui.component.ChatBotTypingIndicator
 import team.aliens.dms.android.feature.chatbot.viewmodel.ChatBotMessage
 import team.aliens.dms.android.feature.chatbot.viewmodel.ChatBotState
 import team.aliens.dms.android.feature.chatbot.viewmodel.ChatBotViewModel
@@ -126,7 +126,7 @@ private fun ChatBotScreen(
 
                 if (state.isLoading) {
                     item {
-                        ChatBotTypingBubble()
+                        ChatBotTypingItem()
                     }
                 }
             }
@@ -239,6 +239,16 @@ private fun ChatBotMessageItem(
             text = message.text,
             isUser = message.isUser,
         )
+    }
+}
+
+@Composable
+private fun ChatBotTypingItem() {
+    Box(
+        modifier = Modifier.fillMaxWidth(),
+        contentAlignment = Alignment.CenterStart,
+    ) {
+        ChatBotTypingIndicator()
     }
 }
 
