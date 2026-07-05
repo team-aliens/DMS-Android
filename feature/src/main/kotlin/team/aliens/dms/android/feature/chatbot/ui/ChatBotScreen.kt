@@ -37,7 +37,9 @@ import team.aliens.dms.android.feature.chatbot.viewmodel.ChatBotState
 import team.aliens.dms.android.feature.chatbot.viewmodel.ChatBotViewModel
 
 @Composable
-fun ChatBotRoute() {
+fun ChatBotRoute(
+    onInputFocusChanged: (Boolean) -> Unit = {},
+) {
     val viewModel: ChatBotViewModel = hiltViewModel()
     val state by viewModel.state.collectAsStateWithLifecycle()
     val focusManager = LocalFocusManager.current
@@ -53,6 +55,7 @@ fun ChatBotRoute() {
             viewModel.sendQuestion()
             focusManager.clearFocus()
         },
+        onInputFocusChanged = onInputFocusChanged,
     )
 }
 
@@ -62,6 +65,7 @@ private fun ChatBotScreen(
     onInputChange: (String) -> Unit,
     onSendClick: () -> Unit,
     onSuggestionClick: (String) -> Unit,
+    onInputFocusChanged: (Boolean) -> Unit = {},
 ) {
     var isInputFocused by remember { mutableStateOf(false) }
     val listState = rememberLazyListState()
@@ -100,11 +104,7 @@ private fun ChatBotScreen(
                     .padding(horizontal = 20.dp),
                 contentPadding = PaddingValues(
                     top = 72.dp,
-                    bottom = if (isInputFocused) {
-                        76.dp
-                    } else {
-                        208.dp
-                    },
+                    bottom = 96.dp,
                 ),
                 verticalArrangement = Arrangement.spacedBy(12.dp),
                 horizontalAlignment = Alignment.CenterHorizontally,
@@ -134,12 +134,14 @@ private fun ChatBotScreen(
             enabled = !state.isLoading,
             onFocusChanged = { focused ->
                 isInputFocused = focused
+                onInputFocusChanged(focused)
             },
             modifier = Modifier
                 .align(Alignment.BottomCenter)
-                .padding(horizontal = 20.dp)
                 .imePadding()
                 .padding(
+                    start = 20.dp,
+                    end = 20.dp,
                     bottom = if (isInputFocused) {
                         0.dp
                     } else {
