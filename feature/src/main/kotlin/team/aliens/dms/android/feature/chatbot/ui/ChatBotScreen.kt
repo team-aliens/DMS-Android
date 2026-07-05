@@ -23,7 +23,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -249,23 +248,5 @@ private fun ChatBotTypingItem() {
         contentAlignment = Alignment.CenterStart,
     ) {
         ChatBotTypingIndicator()
-    }
-}
-
-@Preview(
-    name = "ChatBot Screen",
-    showBackground = true,
-    widthDp = 375,
-    heightDp = 812,
-)
-@Composable
-private fun ChatBotScreenPreview() {
-    DmsTheme(isDarkTheme = false) {
-        ChatBotScreen(
-            state = ChatBotState(),
-            onInputChange = {},
-            onSendClick = {},
-            onSuggestionClick = {},
-        )
     }
 }
