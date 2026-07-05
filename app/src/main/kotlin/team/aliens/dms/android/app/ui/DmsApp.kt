@@ -13,6 +13,9 @@ import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
@@ -84,6 +87,8 @@ import team.aliens.dms.android.app.navigation.SignUpSetPasswordNav
 import team.aliens.dms.android.app.navigation.SignUpTermsNav
 import team.aliens.dms.android.feature.latestudy.navigation.LateStudyRoute
 import java.util.UUID
+import team.aliens.dms.android.app.navigation.ChatBotScreenNav
+import team.aliens.dms.android.feature.chatbot.ui.ChatBotRoute
 
 
 @Composable
@@ -97,12 +102,14 @@ fun DmsApp(
 
     val backStack = rememberNavBackStack(OnboardingScreenNav)
     val resultStore = rememberResultStore()
+    var isChatInputFocused by remember { mutableStateOf(false) }
     val currentScreen = backStack.lastOrNull()
     val shouldShowBottomBar = currentScreen in listOf(
         HomeScreenNav,
         ApplicationScreenNav,
+        ChatBotScreenNav,
         MyPageScreenNav,
-    )
+    ) && !(currentScreen == ChatBotScreenNav && isChatInputFocused)
 
     LaunchedEffect(isStartupResolved, isOnboardingCompleted, isJwtAvailable) {
         if (!isStartupResolved) return@LaunchedEffect
@@ -130,13 +137,10 @@ fun DmsApp(
                         currentScreen = currentScreen.toString(),
                         onNavigate = { destination ->
                             if (currentScreen != destination) {
-                                when (destination) {
-                                    is HomeScreenNav -> {
-                                        backStack.remove(HomeScreenNav)
-                                    }
-                                }
                                 backStack.removeAll {
-                                    it is ApplicationScreenNav ||
+                                    it is HomeScreenNav ||
+                                            it is ApplicationScreenNav ||
+                                            it is ChatBotScreenNav ||
                                             it is MyPageScreenNav
                                 }
                                 backStack.add(destination)
@@ -211,6 +215,13 @@ fun DmsApp(
                                 onNavigateLateStudyApplication = {
                                     backStack.add(LateStudyNav)
                                 }
+                            )
+                        }
+                        entry<ChatBotScreenNav> {
+                            ChatBotRoute(
+                                onInputFocusChange = { focused ->
+                                    isChatInputFocused = focused
+                                },
                             )
                         }
                         entry<VoteScreenNav> {
