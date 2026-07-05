@@ -32,7 +32,7 @@ internal fun ChatBotInputBar(
     onSendClick: () -> Unit,
     modifier: Modifier = Modifier,
     enabled: Boolean = true,
-    onFocusChanged: (Boolean) -> Unit = {},
+    onFocusChange: (Boolean) -> Unit = {},
 ) {
     Surface(
         modifier = modifier
@@ -90,7 +90,7 @@ internal fun ChatBotInputBar(
                     modifier = Modifier
                         .fillMaxWidth()
                         .onFocusChanged { focusState ->
-                            onFocusChanged(focusState.hasFocus)
+                            onFocusChange(focusState.hasFocus)
                         },
                 )
             }

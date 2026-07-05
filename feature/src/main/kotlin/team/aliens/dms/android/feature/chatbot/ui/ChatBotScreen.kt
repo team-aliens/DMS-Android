@@ -38,7 +38,7 @@ import team.aliens.dms.android.feature.chatbot.viewmodel.ChatBotViewModel
 
 @Composable
 fun ChatBotRoute(
-    onInputFocusChanged: (Boolean) -> Unit = {},
+    onInputFocusChange: (Boolean) -> Unit = {},
 ) {
     val viewModel: ChatBotViewModel = hiltViewModel()
     val state by viewModel.state.collectAsStateWithLifecycle()
@@ -55,7 +55,7 @@ fun ChatBotRoute(
             viewModel.sendQuestion()
             focusManager.clearFocus()
         },
-        onInputFocusChanged = onInputFocusChanged,
+        onInputFocusChange = onInputFocusChange,
     )
 }
 
@@ -65,7 +65,7 @@ private fun ChatBotScreen(
     onInputChange: (String) -> Unit,
     onSendClick: () -> Unit,
     onSuggestionClick: (String) -> Unit,
-    onInputFocusChanged: (Boolean) -> Unit = {},
+    onInputFocusChange: (Boolean) -> Unit = {},
 ) {
     var isInputFocused by remember { mutableStateOf(false) }
     val listState = rememberLazyListState()
@@ -137,9 +137,9 @@ private fun ChatBotScreen(
             onValueChange = onInputChange,
             onSendClick = onSendClick,
             enabled = !state.isLoading,
-            onFocusChanged = { focused ->
+            onFocusChange = { focused ->
                 isInputFocused = focused
-                onInputFocusChanged(focused)
+                onInputFocusChange(focused)
             },
             modifier = Modifier
                 .align(Alignment.BottomCenter)

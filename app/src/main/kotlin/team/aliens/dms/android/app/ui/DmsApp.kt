@@ -219,7 +219,7 @@ fun DmsApp(
                         }
                         entry<ChatBotScreenNav> {
                             ChatBotRoute(
-                                onInputFocusChanged = { focused ->
+                                onInputFocusChange = { focused ->
                                     isChatInputFocused = focused
                                 },
                             )
