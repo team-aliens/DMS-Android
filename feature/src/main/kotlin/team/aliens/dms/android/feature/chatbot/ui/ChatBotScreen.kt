@@ -78,22 +78,21 @@ private fun ChatBotScreen(
         }
     }
 
-    Column(
+    Box(
         modifier = Modifier
             .fillMaxSize()
             .background(DmsTheme.colorScheme.background)
-            .statusBarsPadding()
-            .imePadding(),
+            .statusBarsPadding(),
     ) {
         if (state.messages.isEmpty() && !isInputFocused) {
             Column(
                 modifier = Modifier
-                    .weight(1f)
-                    .fillMaxWidth()
+                    .fillMaxSize()
                     .padding(horizontal = 24.dp),
                 horizontalAlignment = Alignment.CenterHorizontally,
             ) {
                 ChatBotHeader()
+
                 ChatBotSuggestionQuestions(
                     onSuggestionClick = onSuggestionClick,
                 )
@@ -102,12 +101,16 @@ private fun ChatBotScreen(
             LazyColumn(
                 state = listState,
                 modifier = Modifier
-                    .weight(1f)
-                    .fillMaxWidth()
+                    .fillMaxSize()
+                    .imePadding()
                     .padding(horizontal = 20.dp),
                 contentPadding = PaddingValues(
                     top = 72.dp,
-                    bottom = 24.dp,
+                    bottom = if (isInputFocused) {
+                        12.dp
+                    } else {
+                        112.dp
+                    },
                 ),
                 verticalArrangement = Arrangement.spacedBy(12.dp),
                 horizontalAlignment = Alignment.CenterHorizontally,
@@ -139,15 +142,18 @@ private fun ChatBotScreen(
                 isInputFocused = focused
                 onInputFocusChange(focused)
             },
-            modifier = Modifier.padding(
-                start = 20.dp,
-                end = 20.dp,
-                bottom = if (isInputFocused) {
-                    12.dp
-                } else {
-                    16.dp
-                },
-            ),
+            modifier = Modifier
+                .align(Alignment.BottomCenter)
+                .imePadding()
+                .padding(
+                    start = 20.dp,
+                    end = 20.dp,
+                    bottom = if (isInputFocused) {
+                        0.dp
+                    } else {
+                        112.dp
+                    },
+                ),
         )
     }
 }
