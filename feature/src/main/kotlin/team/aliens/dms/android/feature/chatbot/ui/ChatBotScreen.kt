@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.lazy.LazyColumn
@@ -138,11 +139,12 @@ private fun ChatBotScreen(
                 .fillMaxWidth()
                 .height(
                     if (isInputFocused) {
-                        12.dp
+                        72.dp
                     } else {
                         112.dp
                     },
                 )
+                .imePadding()
                 .background(DmsTheme.colorScheme.background),
         )
 
@@ -157,6 +159,7 @@ private fun ChatBotScreen(
             },
             modifier = Modifier
                 .align(Alignment.BottomCenter)
+                .imePadding()
                 .padding(
                     start = 20.dp,
                     end = 20.dp,
