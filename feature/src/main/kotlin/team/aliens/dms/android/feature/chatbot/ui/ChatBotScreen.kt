@@ -105,9 +105,9 @@ private fun ChatBotScreen(
                 contentPadding = PaddingValues(
                     top = 72.dp,
                     bottom = if (isInputFocused) {
-                        112.dp
+                        180.dp
                     } else {
-                        132.dp
+                        220.dp
                     },
                 ),
                 verticalArrangement = Arrangement.spacedBy(12.dp),
