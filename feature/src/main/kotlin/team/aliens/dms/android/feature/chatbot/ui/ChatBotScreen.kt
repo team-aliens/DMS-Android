@@ -78,16 +78,18 @@ private fun ChatBotScreen(
         }
     }
 
-    Box(
+    Column(
         modifier = Modifier
             .fillMaxSize()
             .background(DmsTheme.colorScheme.background)
-            .statusBarsPadding(),
+            .statusBarsPadding()
+            .imePadding(),
     ) {
         if (state.messages.isEmpty() && !isInputFocused) {
             Column(
                 modifier = Modifier
-                    .fillMaxSize()
+                    .weight(1f)
+                    .fillMaxWidth()
                     .padding(horizontal = 24.dp),
                 horizontalAlignment = Alignment.CenterHorizontally,
             ) {
@@ -100,15 +102,12 @@ private fun ChatBotScreen(
             LazyColumn(
                 state = listState,
                 modifier = Modifier
-                    .fillMaxSize()
+                    .weight(1f)
+                    .fillMaxWidth()
                     .padding(horizontal = 20.dp),
                 contentPadding = PaddingValues(
                     top = 72.dp,
-                    bottom = if (isInputFocused) {
-                        180.dp
-                    } else {
-                        220.dp
-                    },
+                    bottom = 24.dp,
                 ),
                 verticalArrangement = Arrangement.spacedBy(12.dp),
                 horizontalAlignment = Alignment.CenterHorizontally,
@@ -140,18 +139,15 @@ private fun ChatBotScreen(
                 isInputFocused = focused
                 onInputFocusChange(focused)
             },
-            modifier = Modifier
-                .align(Alignment.BottomCenter)
-                .imePadding()
-                .padding(
-                    start = 20.dp,
-                    end = 20.dp,
-                    bottom = if (isInputFocused) {
-                        12.dp
-                    } else {
-                        16.dp
-                    },
-                ),
+            modifier = Modifier.padding(
+                start = 20.dp,
+                end = 20.dp,
+                bottom = if (isInputFocused) {
+                    12.dp
+                } else {
+                    16.dp
+                },
+            ),
         )
     }
 }
