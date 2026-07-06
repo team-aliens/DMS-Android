@@ -13,9 +13,6 @@ import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
@@ -23,32 +20,47 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation3.runtime.entryProvider
 import androidx.navigation3.runtime.rememberNavBackStack
 import androidx.navigation3.ui.NavDisplay
+import team.aliens.dms.android.app.MainActivityViewModel
 import team.aliens.dms.android.app.navigation.AdjustProfileScreenNav
 import team.aliens.dms.android.app.navigation.ApplicationScreenNav
 import team.aliens.dms.android.app.navigation.BottomNavigationBar
+import team.aliens.dms.android.app.navigation.ChatBotScreenNav
 import team.aliens.dms.android.app.navigation.CheckPasswordScreenNav
+import team.aliens.dms.android.app.navigation.EditPasswordScreenNav
+import team.aliens.dms.android.app.navigation.FindIdScreenNav
 import team.aliens.dms.android.app.navigation.HomeScreenNav
+import team.aliens.dms.android.app.navigation.LateStudyNav
 import team.aliens.dms.android.app.navigation.MealScreenNav
 import team.aliens.dms.android.app.navigation.MyPageScreenNav
-import team.aliens.dms.android.app.navigation.FindIdScreenNav
-import team.aliens.dms.android.app.navigation.ResetPasswordScreenNav
 import team.aliens.dms.android.app.navigation.NoticeDetailScreenNav
 import team.aliens.dms.android.app.navigation.NotificationScreenNav
 import team.aliens.dms.android.app.navigation.OnboardingScreenNav
 import team.aliens.dms.android.app.navigation.PointHistoryScreenNav
 import team.aliens.dms.android.app.navigation.RemainScreenNav
-import team.aliens.dms.android.app.navigation.EditPasswordScreenNav
+import team.aliens.dms.android.app.navigation.ResetPasswordScreenNav
 import team.aliens.dms.android.app.navigation.SelectProfileScreenNav
 import team.aliens.dms.android.app.navigation.SettingScreenNav
 import team.aliens.dms.android.app.navigation.SignInScreenNav
+import team.aliens.dms.android.app.navigation.SignUpCompleteNav
+import team.aliens.dms.android.app.navigation.SignUpEnterEmailNav
+import team.aliens.dms.android.app.navigation.SignUpEnterEmailVerificationCodeNav
+import team.aliens.dms.android.app.navigation.SignUpEnterSchoolVerificationCodeNav
+import team.aliens.dms.android.app.navigation.SignUpEnterSchoolVerificationQuestionNav
+import team.aliens.dms.android.app.navigation.SignUpEnterStudentNumberNav
+import team.aliens.dms.android.app.navigation.SignUpSetIdNav
+import team.aliens.dms.android.app.navigation.SignUpSetPasswordNav
+import team.aliens.dms.android.app.navigation.SignUpTermsNav
 import team.aliens.dms.android.app.navigation.VoteScreenNav
-import team.aliens.dms.android.app.MainActivityViewModel
-import team.aliens.dms.android.app.navigation.LateStudyNav
 import team.aliens.dms.android.core.designsystem.snackbar.DmsSnackBar
 import team.aliens.dms.android.core.designsystem.snackbar.DmsSnackBarVisuals
 import team.aliens.dms.android.core.ui.navigation.LocalResultStore
 import team.aliens.dms.android.core.ui.navigation.rememberResultStore
 import team.aliens.dms.android.data.voting.model.AllVoteSearch
+import team.aliens.dms.android.feature.chatbot.ui.ChatBotRoute
+import team.aliens.dms.android.feature.editpassword.navigation.CheckPasswordRoute
+import team.aliens.dms.android.feature.editpassword.navigation.EditPasswordRoute
+import team.aliens.dms.android.feature.findid.navigation.FindIdRoute
+import team.aliens.dms.android.feature.latestudy.navigation.LateStudyRoute
 import team.aliens.dms.android.feature.main.application.navigation.ApplicationRoute
 import team.aliens.dms.android.feature.main.home.navigation.HomeRoute
 import team.aliens.dms.android.feature.main.mypage.navigation.MyPageRoute
@@ -60,9 +72,6 @@ import team.aliens.dms.android.feature.point.navigation.PointHistoryRoute
 import team.aliens.dms.android.feature.profile.route.AdjustProfileRoute
 import team.aliens.dms.android.feature.profile.route.SelectProfileRoute
 import team.aliens.dms.android.feature.remain.navigation.RemainApplicationRoute
-import team.aliens.dms.android.feature.editpassword.navigation.CheckPasswordRoute
-import team.aliens.dms.android.feature.editpassword.navigation.EditPasswordRoute
-import team.aliens.dms.android.feature.findid.navigation.FindIdRoute
 import team.aliens.dms.android.feature.resetpassword.navigation.ResetPasswordRoute
 import team.aliens.dms.android.feature.setting.navigation.SettingRoute
 import team.aliens.dms.android.feature.signin.navigation.SignInRoute
@@ -76,20 +85,7 @@ import team.aliens.dms.android.feature.signup.navigation.SignUpSetIdRoute
 import team.aliens.dms.android.feature.signup.navigation.SignUpSetPasswordRoute
 import team.aliens.dms.android.feature.signup.navigation.SignUpTermsRoute
 import team.aliens.dms.android.feature.vote.navigation.VoteRoute
-import team.aliens.dms.android.app.navigation.SignUpCompleteNav
-import team.aliens.dms.android.app.navigation.SignUpEnterEmailNav
-import team.aliens.dms.android.app.navigation.SignUpEnterEmailVerificationCodeNav
-import team.aliens.dms.android.app.navigation.SignUpEnterSchoolVerificationCodeNav
-import team.aliens.dms.android.app.navigation.SignUpEnterSchoolVerificationQuestionNav
-import team.aliens.dms.android.app.navigation.SignUpEnterStudentNumberNav
-import team.aliens.dms.android.app.navigation.SignUpSetIdNav
-import team.aliens.dms.android.app.navigation.SignUpSetPasswordNav
-import team.aliens.dms.android.app.navigation.SignUpTermsNav
-import team.aliens.dms.android.feature.latestudy.navigation.LateStudyRoute
 import java.util.UUID
-import team.aliens.dms.android.app.navigation.ChatBotScreenNav
-import team.aliens.dms.android.feature.chatbot.ui.ChatBotRoute
-
 
 @Composable
 fun DmsApp(
@@ -102,14 +98,13 @@ fun DmsApp(
 
     val backStack = rememberNavBackStack(OnboardingScreenNav)
     val resultStore = rememberResultStore()
-    var isChatInputFocused by remember { mutableStateOf(false) }
     val currentScreen = backStack.lastOrNull()
     val shouldShowBottomBar = currentScreen in listOf(
         HomeScreenNav,
         ApplicationScreenNav,
         ChatBotScreenNav,
         MyPageScreenNav,
-    ) && !(currentScreen == ChatBotScreenNav && isChatInputFocused)
+    )
 
     LaunchedEffect(isStartupResolved, isOnboardingCompleted, isJwtAvailable) {
         if (!isStartupResolved) return@LaunchedEffect
@@ -127,8 +122,7 @@ fun DmsApp(
     }
 
     Box(
-        modifier = Modifier
-            .fillMaxSize(),
+        modifier = Modifier.fillMaxSize(),
     ) {
         Scaffold(
             bottomBar = {
@@ -145,7 +139,7 @@ fun DmsApp(
                                 }
                                 backStack.add(destination)
                             }
-                        }
+                        },
                     )
                 }
             },
@@ -153,8 +147,7 @@ fun DmsApp(
         ) { paddingValues ->
             CompositionLocalProvider(LocalResultStore provides resultStore) {
                 NavDisplay(
-                    modifier = Modifier
-                        .padding(paddingValues),
+                    modifier = Modifier.padding(paddingValues),
                     backStack = backStack,
                     onBack = { backStack.removeLastOrNull() },
                     entryProvider = entryProvider {
@@ -214,22 +207,18 @@ fun DmsApp(
                                 },
                                 onNavigateLateStudyApplication = {
                                     backStack.add(LateStudyNav)
-                                }
+                                },
                             )
                         }
                         entry<ChatBotScreenNav> {
-                            ChatBotRoute(
-                                onInputFocusChange = { focused ->
-                                    isChatInputFocused = focused
-                                },
-                            )
+                            ChatBotRoute()
                         }
                         entry<VoteScreenNav> {
                             VoteRoute(
                                 onNavigateBack = { backStack.remove(VoteScreenNav) },
                                 onShowSnackBar = { snackBarType, message ->
                                     appState.showSnackBar(snackBarType, message)
-                                }
+                                },
                             )
                         }
                         entry<RemainScreenNav> {
@@ -240,7 +229,7 @@ fun DmsApp(
                                 },
                                 onShowSnackBar = { snackBarType, message ->
                                     appState.showSnackBar(snackBarType, message)
-                                }
+                                },
                             )
                         }
                         entry<LateStudyNav> {
@@ -274,7 +263,7 @@ fun DmsApp(
                         }
                         entry<MealScreenNav> {
                             MealRoute(
-                                onNavigateBack = { backStack.remove(MealScreenNav) }
+                                onNavigateBack = { backStack.remove(MealScreenNav) },
                             )
                         }
                         entry<SettingScreenNav> {
@@ -288,13 +277,13 @@ fun DmsApp(
                                 },
                                 onShowSnackBar = { snackBarType, message ->
                                     appState.showSnackBar(snackBarType, message)
-                                }
+                                },
                             )
                         }
                         entry<PointHistoryScreenNav> {
                             PointHistoryRoute(
                                 pointType = it.pointType,
-                                onBackClick = { backStack.remove(PointHistoryScreenNav(it.pointType)) }
+                                onBackClick = { backStack.remove(PointHistoryScreenNav(it.pointType)) },
                             )
                         }
                         entry<EditPasswordScreenNav> {
@@ -316,7 +305,7 @@ fun DmsApp(
                                 onNavigateEditPassword = { backStack.add(EditPasswordScreenNav(it)) },
                                 onShowSnackBar = { snackBar, message ->
                                     appState.showSnackBar(snackBar, message)
-                                }
+                                },
                             )
                         }
                         entry<SelectProfileScreenNav> {
@@ -325,7 +314,7 @@ fun DmsApp(
                                 onNavigateAdjustProfile = { backStack.add(AdjustProfileScreenNav(model = it)) },
                                 onShowSnackBar = { snackBar, message ->
                                     appState.showSnackBar(snackBar, message)
-                                }
+                                },
                             )
                         }
                         entry<AdjustProfileScreenNav> {
@@ -334,7 +323,7 @@ fun DmsApp(
                                 model = it.model,
                                 onShowSnackBar = { snackBar, message ->
                                     appState.showSnackBar(snackBar, message)
-                                }
+                                },
                             )
                         }
                         entry<NotificationScreenNav> {
@@ -349,7 +338,7 @@ fun DmsApp(
                                 },
                                 onShowSnackBar = { snackBarType, message ->
                                     appState.showSnackBar(snackBarType, message)
-                                }
+                                },
                             )
                         }
                         entry<NoticeDetailScreenNav> {
