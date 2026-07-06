@@ -8,6 +8,9 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.AnnotatedString
+import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import team.aliens.dms.android.core.designsystem.DmsTheme
@@ -29,7 +32,11 @@ internal fun ChatBotMessageBubble(
     ) {
         Text(
             modifier = Modifier.padding(horizontal = 18.dp, vertical = 14.dp),
-            text = text,
+            text = if (isUser) {
+                AnnotatedString(text)
+            } else {
+                text.toChatBotMarkdownText()
+            },
             color = DmsTheme.colorScheme.surfaceBright,
             style = DmsTheme.typography.body3,
             fontWeight = FontWeight.Normal,
@@ -51,5 +58,29 @@ internal fun ChatBotTypingBubble(
         ) {
             ChatBotTypingIndicator()
         }
+    }
+}
+
+private fun String.toChatBotMarkdownText(): AnnotatedString {
+    val convertedText = replace(
+        regex = Regex("""(?m)^\s*\*\s+"""),
+        replacement = "• ",
+    )
+    val boldRegex = Regex("""\*\*(.*?)\*\*""")
+
+    return buildAnnotatedString {
+        var currentIndex = 0
+
+        boldRegex.findAll(convertedText).forEach { matchResult ->
+            append(convertedText.substring(currentIndex, matchResult.range.first))
+
+            pushStyle(SpanStyle(fontWeight = FontWeight.Bold))
+            append(matchResult.groupValues[1])
+            pop()
+
+            currentIndex = matchResult.range.last + 1
+        }
+
+        append(convertedText.substring(currentIndex))
     }
 }
