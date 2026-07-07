@@ -1,16 +1,17 @@
 package team.aliens.dms.android.feature.chatbot.ui
 
+import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.ime
-import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.lazy.LazyColumn
@@ -24,7 +25,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -40,8 +40,9 @@ import team.aliens.dms.android.feature.chatbot.viewmodel.ChatBotState
 import team.aliens.dms.android.feature.chatbot.viewmodel.ChatBotViewModel
 
 private val ChatBotInputBarHeight = 64.dp
-private val ChatBotKeyboardInputBottomPadding = 8.dp
-private val ChatBotBottomNavigationInputPadding = 104.dp
+private val ChatBotKeyboardInputBottomPadding = 12.dp
+private val ChatBotBottomNavigationInputPadding = 16.dp
+private val ChatBotScaffoldBottomBarPadding = 104.dp
 private val ChatBotInputBarHorizontalPadding = 20.dp
 private val ChatBotMessageBottomSpacing = 24.dp
 
@@ -78,14 +79,25 @@ private fun ChatBotScreen(
 ) {
     var isInputFocused by remember { mutableStateOf(false) }
     val listState = rememberLazyListState()
-    val density = LocalDensity.current
-    val isKeyboardVisible = WindowInsets.ime.getBottom(density) > 0
+    val keyboardBottomPadding = WindowInsets.ime
+        .asPaddingValues()
+        .calculateBottomPadding()
+    val isKeyboardVisible = keyboardBottomPadding > 0.dp
 
-    val inputBottomPadding = if (isKeyboardVisible) {
-        ChatBotKeyboardInputBottomPadding
+    val targetInputBottomPadding = if (isKeyboardVisible) {
+        (
+                keyboardBottomPadding -
+                        ChatBotScaffoldBottomBarPadding +
+                        ChatBotKeyboardInputBottomPadding
+                ).coerceAtLeast(ChatBotKeyboardInputBottomPadding)
     } else {
         ChatBotBottomNavigationInputPadding
     }
+
+    val inputBottomPadding by animateDpAsState(
+        targetValue = targetInputBottomPadding,
+        label = "ChatBotInputBottomPadding",
+    )
 
     val inputBackgroundHeight = inputBottomPadding + ChatBotInputBarHeight
     val messageBottomPadding = inputBackgroundHeight + ChatBotMessageBottomSpacing
@@ -103,8 +115,7 @@ private fun ChatBotScreen(
         modifier = Modifier
             .fillMaxSize()
             .background(DmsTheme.colorScheme.background)
-            .statusBarsPadding()
-            .imePadding(),
+            .statusBarsPadding(),
     ) {
         if (state.messages.isEmpty() && !isInputFocused) {
             Column(
