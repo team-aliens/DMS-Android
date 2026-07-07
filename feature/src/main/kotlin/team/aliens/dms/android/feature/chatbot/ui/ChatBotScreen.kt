@@ -83,7 +83,8 @@ private fun ChatBotScreen(
         modifier = Modifier
             .fillMaxSize()
             .background(DmsTheme.colorScheme.background)
-            .statusBarsPadding(),
+            .statusBarsPadding()
+            .imePadding(),
     ) {
         if (state.messages.isEmpty() && !isInputFocused) {
             Column(
@@ -107,7 +108,7 @@ private fun ChatBotScreen(
                 contentPadding = PaddingValues(
                     top = 72.dp,
                     bottom = if (isInputFocused) {
-                        88.dp
+                        64.dp
                     } else {
                         112.dp
                     },
@@ -139,12 +140,11 @@ private fun ChatBotScreen(
                 .fillMaxWidth()
                 .height(
                     if (isInputFocused) {
-                        72.dp
+                        32.dp
                     } else {
                         112.dp
                     },
                 )
-                .imePadding()
                 .background(DmsTheme.colorScheme.background),
         )
 
@@ -159,12 +159,11 @@ private fun ChatBotScreen(
             },
             modifier = Modifier
                 .align(Alignment.BottomCenter)
-                .imePadding()
                 .padding(
                     start = 20.dp,
                     end = 20.dp,
                     bottom = if (isInputFocused) {
-                        0.dp
+                        (-24).dp
                     } else {
                         40.dp
                     },
