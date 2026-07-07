@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.ime
+import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBarsPadding
@@ -40,7 +41,7 @@ import team.aliens.dms.android.feature.chatbot.viewmodel.ChatBotState
 import team.aliens.dms.android.feature.chatbot.viewmodel.ChatBotViewModel
 
 private val ChatBotInputBarBottomPadding = 24.dp
-private val ChatBotInputBarKeyboardGap = 2.dp
+private val ChatBotInputBarKeyboardGap = 12.dp
 private val ChatBotMessageKeyboardBottomPadding = 88.dp
 private val ChatBotMessageBottomPadding = 216.dp
 
@@ -83,16 +84,7 @@ private fun ChatBotScreen(
     val navigationBarBottomPx = WindowInsets.navigationBars.getBottom(density)
     val isKeyboardVisible = imeBottomPx > 0
 
-    val imeHeightAboveNavigationBar: Dp = with(density) {
-        (imeBottomPx - navigationBarBottomPx).coerceAtLeast(0).toDp()
-    }
     val navigationBarHeight: Dp = with(density) { navigationBarBottomPx.toDp() }
-
-    val inputBarBottomPadding = if (isKeyboardVisible) {
-        imeHeightAboveNavigationBar + ChatBotInputBarKeyboardGap
-    } else {
-        navigationBarHeight + ChatBotInputBarBottomPadding
-    }
 
     val messageBottomPadding = if (isKeyboardVisible) {
         ChatBotMessageKeyboardBottomPadding
@@ -170,10 +162,15 @@ private fun ChatBotScreen(
             },
             modifier = Modifier
                 .align(Alignment.BottomCenter)
-                .padding(
-                    start = 20.dp,
-                    end = 20.dp,
-                    bottom = inputBarBottomPadding,
+                .padding(start = 20.dp, end = 20.dp)
+                .then(
+                    if (isKeyboardVisible) {
+                        Modifier
+                            .imePadding()
+                            .padding(bottom = ChatBotInputBarKeyboardGap)
+                    } else {
+                        Modifier.padding(bottom = navigationBarHeight + ChatBotInputBarBottomPadding)
+                    },
                 ),
         )
     }

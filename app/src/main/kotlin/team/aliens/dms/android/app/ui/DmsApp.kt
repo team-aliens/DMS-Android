@@ -13,6 +13,9 @@ import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
@@ -99,12 +102,13 @@ fun DmsApp(
     val backStack = rememberNavBackStack(OnboardingScreenNav)
     val resultStore = rememberResultStore()
     val currentScreen = backStack.lastOrNull()
+    var isChatInputFocused by remember { mutableStateOf(false) }
     val shouldShowBottomBar = currentScreen in listOf(
         HomeScreenNav,
         ApplicationScreenNav,
         ChatBotScreenNav,
         MyPageScreenNav,
-    )
+    ) && !(currentScreen == ChatBotScreenNav && isChatInputFocused)
 
     LaunchedEffect(isStartupResolved, isOnboardingCompleted, isJwtAvailable) {
         if (!isStartupResolved) return@LaunchedEffect
@@ -211,7 +215,11 @@ fun DmsApp(
                             )
                         }
                         entry<ChatBotScreenNav> {
-                            ChatBotRoute()
+                            ChatBotRoute(
+                                onInputFocusChange = { focused ->
+                                    isChatInputFocused = focused
+                                },
+                            )
                         }
                         entry<VoteScreenNav> {
                             VoteRoute(
