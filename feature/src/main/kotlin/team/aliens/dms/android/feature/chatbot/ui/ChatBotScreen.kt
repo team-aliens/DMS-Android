@@ -108,7 +108,7 @@ private fun ChatBotScreen(
                 contentPadding = PaddingValues(
                     top = 72.dp,
                     bottom = if (isInputFocused) {
-                        64.dp
+                        88.dp
                     } else {
                         112.dp
                     },
@@ -140,7 +140,7 @@ private fun ChatBotScreen(
                 .fillMaxWidth()
                 .height(
                     if (isInputFocused) {
-                        32.dp
+                        56.dp
                     } else {
                         112.dp
                     },
@@ -152,7 +152,7 @@ private fun ChatBotScreen(
             value = state.input,
             onValueChange = onInputChange,
             onSendClick = onSendClick,
-            enabled = !state.isLoading,
+            enabled = true,
             onFocusChange = { focused ->
                 isInputFocused = focused
                 onInputFocusChange(focused)
@@ -163,7 +163,7 @@ private fun ChatBotScreen(
                     start = 20.dp,
                     end = 20.dp,
                     bottom = if (isInputFocused) {
-                        (-24).dp
+                        0.dp
                     } else {
                         40.dp
                     },
