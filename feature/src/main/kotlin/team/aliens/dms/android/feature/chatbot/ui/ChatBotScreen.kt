@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.imePadding
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.lazy.LazyColumn
@@ -35,6 +36,8 @@ import team.aliens.dms.android.feature.chatbot.ui.component.ChatBotTypingIndicat
 import team.aliens.dms.android.feature.chatbot.viewmodel.ChatBotMessage
 import team.aliens.dms.android.feature.chatbot.viewmodel.ChatBotState
 import team.aliens.dms.android.feature.chatbot.viewmodel.ChatBotViewModel
+
+private val ChatBotInputBarKeyboardOffset = 56.dp
 
 @Composable
 fun ChatBotRoute(
@@ -138,6 +141,13 @@ private fun ChatBotScreen(
             modifier = Modifier
                 .align(Alignment.BottomCenter)
                 .fillMaxWidth()
+                .offset(
+                    y = if (isInputFocused) {
+                        ChatBotInputBarKeyboardOffset
+                    } else {
+                        0.dp
+                    },
+                )
                 .height(
                     if (isInputFocused) {
                         56.dp
@@ -159,6 +169,13 @@ private fun ChatBotScreen(
             },
             modifier = Modifier
                 .align(Alignment.BottomCenter)
+                .offset(
+                    y = if (isInputFocused) {
+                        ChatBotInputBarKeyboardOffset
+                    } else {
+                        0.dp
+                    },
+                )
                 .padding(
                     start = 20.dp,
                     end = 20.dp,
