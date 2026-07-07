@@ -143,10 +143,6 @@ private fun ChatBotScreen(
                 verticalArrangement = Arrangement.spacedBy(12.dp),
                 horizontalAlignment = Alignment.CenterHorizontally,
             ) {
-                item {
-                    ChatBotCompactHeader()
-                }
-
                 state.messages.forEach { message ->
                     item {
                         ChatBotMessageItem(message = message)
@@ -212,19 +208,6 @@ private fun ChatBotHeader() {
             textAlign = TextAlign.Center,
         )
     }
-}
-
-@Composable
-private fun ChatBotCompactHeader() {
-    Text(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(top = 8.dp),
-        text = "외출, 점호, 벌점, 세탁실 이용 등 기숙사 규정을 AI\n가 빠르고 정확하게 안내해 드립니다.",
-        color = DmsTheme.colorScheme.inverseSurface,
-        style = DmsTheme.typography.body3,
-        textAlign = TextAlign.Center,
-    )
 }
 
 @Composable
