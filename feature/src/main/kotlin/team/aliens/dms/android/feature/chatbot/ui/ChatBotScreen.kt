@@ -5,12 +5,9 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.ime
-import androidx.compose.foundation.layout.imePadding
-import androidx.compose.foundation.layout.navigationBars
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.lazy.LazyColumn
@@ -24,10 +21,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -40,10 +35,11 @@ import team.aliens.dms.android.feature.chatbot.viewmodel.ChatBotMessage
 import team.aliens.dms.android.feature.chatbot.viewmodel.ChatBotState
 import team.aliens.dms.android.feature.chatbot.viewmodel.ChatBotViewModel
 
-private val ChatBotInputBarBottomPadding = 24.dp
-private val ChatBotInputBarKeyboardGap = 12.dp
-private val ChatBotMessageKeyboardBottomPadding = 88.dp
-private val ChatBotMessageBottomPadding = 216.dp
+private val ChatBotInputBarHeight = 64.dp
+private val ChatBotKeyboardInputBottomPadding = 2.dp
+private val ChatBotBottomNavigationInputPadding = 104.dp
+private val ChatBotInputBarHorizontalPadding = 20.dp
+private val ChatBotMessageBottomSpacing = 24.dp
 
 @Composable
 fun ChatBotRoute(
@@ -78,19 +74,15 @@ private fun ChatBotScreen(
 ) {
     var isInputFocused by remember { mutableStateOf(false) }
     val listState = rememberLazyListState()
-    val density = LocalDensity.current
 
-    val imeBottomPx = WindowInsets.ime.getBottom(density)
-    val navigationBarBottomPx = WindowInsets.navigationBars.getBottom(density)
-    val isKeyboardVisible = imeBottomPx > 0
-
-    val navigationBarHeight: Dp = with(density) { navigationBarBottomPx.toDp() }
-
-    val messageBottomPadding = if (isKeyboardVisible) {
-        ChatBotMessageKeyboardBottomPadding
+    val inputBottomPadding = if (isInputFocused) {
+        ChatBotKeyboardInputBottomPadding
     } else {
-        ChatBotMessageBottomPadding
+        ChatBotBottomNavigationInputPadding
     }
+
+    val inputBackgroundHeight = inputBottomPadding + ChatBotInputBarHeight
+    val messageBottomPadding = inputBackgroundHeight + ChatBotMessageBottomSpacing
 
     LaunchedEffect(state.messages.size, state.isLoading) {
         if (state.messages.isNotEmpty() || state.isLoading) {
@@ -151,6 +143,14 @@ private fun ChatBotScreen(
             }
         }
 
+        Box(
+            modifier = Modifier
+                .align(Alignment.BottomCenter)
+                .fillMaxWidth()
+                .height(inputBackgroundHeight)
+                .background(DmsTheme.colorScheme.background),
+        )
+
         ChatBotInputBar(
             value = state.input,
             onValueChange = onInputChange,
@@ -162,15 +162,10 @@ private fun ChatBotScreen(
             },
             modifier = Modifier
                 .align(Alignment.BottomCenter)
-                .padding(start = 20.dp, end = 20.dp)
-                .then(
-                    if (isKeyboardVisible) {
-                        Modifier
-                            .imePadding()
-                            .padding(bottom = ChatBotInputBarKeyboardGap)
-                    } else {
-                        Modifier.padding(bottom = navigationBarHeight + ChatBotInputBarBottomPadding)
-                    },
+                .padding(
+                    start = ChatBotInputBarHorizontalPadding,
+                    end = ChatBotInputBarHorizontalPadding,
+                    bottom = inputBottomPadding,
                 ),
         )
     }
@@ -193,7 +188,7 @@ private fun ChatBotHeader() {
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(top = 22.dp),
-            text = "외출, 점호, 벌점, 세탁실 이용 등 기숙사 규정을 AI\n가 빠르고 정확하게 안내해 드립니다.",
+            text = "외출, 점호, 벌점, 세탁실 이용 등 기숙사 규정을 \nAI가 빠르고 정확하게 안내해 드립니다.",
             color = DmsTheme.colorScheme.inverseSurface,
             style = DmsTheme.typography.body3,
             textAlign = TextAlign.Center,
