@@ -50,6 +50,7 @@ import team.aliens.dms.android.feature.notification.viewmodel.NotificationSideEf
 import team.aliens.dms.android.feature.notification.viewmodel.NotificationState
 import team.aliens.dms.android.feature.notification.viewmodel.NotificationUi
 import team.aliens.dms.android.feature.notification.viewmodel.NotificationViewModel
+import team.aliens.dms.android.feature.notification.viewmodel.NoticeUi
 import java.util.UUID
 
 @Composable
@@ -77,10 +78,18 @@ internal fun Notification(
         viewModel.sideEffect.collect {
             when (it) {
                 is NotificationSideEffect.FailFetchNotification -> updatedOnShowSnackBar(
-                    DmsSnackBarType.ERROR, "알림 조회를 실패했어요"
+                    DmsSnackBarType.ERROR,
+                    "알림 조회를 실패했어요",
                 )
+
+                is NotificationSideEffect.FailFetchNotice -> updatedOnShowSnackBar(
+                    DmsSnackBarType.ERROR,
+                    "공지 조회를 실패했어요",
+                )
+
                 is NotificationSideEffect.FailUpdateNotification -> updatedOnShowSnackBar(
-                    DmsSnackBarType.ERROR, "업데이트 실패 했어요"
+                    DmsSnackBarType.ERROR,
+                    "업데이트 실패 했어요",
                 )
             }
         }
@@ -97,10 +106,7 @@ internal fun Notification(
             }
         },
         onBackClick = onBackClick,
-        onNotificationDetailClick = { linkId, notificationId ->
-            viewModel.updateNotificationReadStatus(notificationId)
-            onNavigateNotificationDetailClick(linkId)
-        },
+        onNotificationDetailClick = onNavigateNotificationDetailClick,
         onNotificationClick = { point, notificationId ->
             viewModel.updateNotificationReadStatus(notificationId)
             onNavigatePointHistory(point)
@@ -116,7 +122,7 @@ private fun NotificationScreen(
     tabIndex: Int,
     onTabClick: (Int) -> Unit,
     onBackClick: () -> Unit,
-    onNotificationDetailClick: (UUID, UUID) -> Unit,
+    onNotificationDetailClick: (UUID) -> Unit,
     onNotificationClick: (PointType, UUID) -> Unit,
 ) {
     Column(
@@ -126,9 +132,7 @@ private fun NotificationScreen(
             .systemBarsPadding(),
     ) {
         DmsTopAppBar(onBackClick = onBackClick)
-        DmsTabRow(
-            selectedTabIndex = tabIndex,
-        ) {
+        DmsTabRow(selectedTabIndex = tabIndex) {
             tabData.forEachIndexed { index, text ->
                 DmsTab(
                     selected = tabIndex == index,
@@ -140,7 +144,7 @@ private fun NotificationScreen(
         HorizontalPager(
             modifier = Modifier.fillMaxWidth(),
             state = pagerState,
-            beyondViewportPageCount = 1
+            beyondViewportPageCount = 1,
         ) { page ->
             if (page == 0) {
                 NotificationItems(
@@ -154,7 +158,6 @@ private fun NotificationScreen(
                 )
             }
         }
-
     }
 }
 
@@ -164,13 +167,11 @@ internal fun NotificationItems(
     onNotificationClick: (PointType, UUID) -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    LazyColumn(
-        modifier = modifier.fillMaxWidth()
-    ) {
+    LazyColumn(modifier = modifier.fillMaxWidth()) {
         items(
             items = notifications,
-            key = { item -> item.id }
-        ) {notification ->
+            key = { item -> item.id },
+        ) { notification ->
             NotificationItem(
                 notification = notification,
                 onNotificationClick = onNotificationClick,
@@ -181,13 +182,11 @@ internal fun NotificationItems(
 
 @Composable
 private fun NoticeItems(
-    notices: ImmutableList<NotificationUi>,
-    onNotificationDetailClick: (UUID, UUID) -> Unit,
+    notices: ImmutableList<NoticeUi>,
+    onNotificationDetailClick: (UUID) -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    LazyColumn(
-        modifier = modifier.fillMaxSize(),
-    ) {
+    LazyColumn(modifier = modifier.fillMaxSize()) {
         items(
             items = notices,
             key = { item -> item.id },
@@ -209,24 +208,33 @@ internal fun NotificationItem(
     Row(
         modifier = modifier
             .fillMaxWidth()
-            .clickable(onClick = { onNotificationClick(notification.pointDetailTopic, notification.id) })
+            .clickable(
+                onClick = {
+                    onNotificationClick(
+                        notification.pointDetailTopic,
+                        notification.id,
+                    )
+                },
+            )
             .padding(horizontal = 24.dp, vertical = 20.dp),
         verticalAlignment = Alignment.CenterVertically,
     ) {
         Image(
-            painter = painterResource(if (notification.pointDetailTopic == PointType.MINUS) DmsIcon.Minus else DmsIcon.Plus),
+            painter = painterResource(
+                if (notification.pointDetailTopic == PointType.MINUS) {
+                    DmsIcon.Minus
+                } else {
+                    DmsIcon.Plus
+                },
+            ),
             contentDescription = null,
         )
-        Column(
-            modifier = Modifier.startPadding(12.dp),
-        ) {
+        Column(modifier = Modifier.startPadding(12.dp)) {
             Text(
                 text = notification.title,
                 style = DmsTheme.typography.bodyM,
             )
-            Row(
-                modifier = Modifier.topPadding(6.dp)
-            ) {
+            Row(modifier = Modifier.topPadding(6.dp)) {
                 if (!notification.isRead) {
                     Icon(
                         modifier = Modifier.size(4.dp),
@@ -236,8 +244,7 @@ internal fun NotificationItem(
                     )
                 }
                 Text(
-                    modifier = Modifier
-                        .startPadding(4.dp),
+                    modifier = Modifier.startPadding(4.dp),
                     text = notification.content,
                     style = DmsTheme.typography.labelM,
                 )
