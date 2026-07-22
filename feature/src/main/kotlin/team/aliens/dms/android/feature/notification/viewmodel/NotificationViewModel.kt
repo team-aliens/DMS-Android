@@ -33,7 +33,7 @@ internal class NotificationViewModel @Inject constructor(
             notificationRepository.fetchNotifications()
                 .onSuccess { notifications ->
                     val notificationsUi = notifications
-                        .filter { notification -> notification.topic == NotificationTopic.POINT }
+                        .filter { notification -> notification.topic != NotificationTopic.NOTICE }
                         .map { notification ->
                             NotificationUi(
                                 id = notification.id,
