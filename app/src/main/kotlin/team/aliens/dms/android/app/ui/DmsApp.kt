@@ -23,7 +23,6 @@ import team.aliens.dms.android.app.MainActivityViewModel
 import team.aliens.dms.android.app.navigation.AdjustProfileScreenNav
 import team.aliens.dms.android.app.navigation.ApplicationScreenNav
 import team.aliens.dms.android.app.navigation.BottomNavigationBar
-import team.aliens.dms.android.app.navigation.ChatBotScreenNav
 import team.aliens.dms.android.app.navigation.CheckPasswordScreenNav
 import team.aliens.dms.android.app.navigation.EditPasswordScreenNav
 import team.aliens.dms.android.app.navigation.FindIdScreenNav
@@ -55,7 +54,6 @@ import team.aliens.dms.android.core.designsystem.snackbar.DmsSnackBarVisuals
 import team.aliens.dms.android.core.ui.navigation.LocalResultStore
 import team.aliens.dms.android.core.ui.navigation.rememberResultStore
 import team.aliens.dms.android.data.voting.model.AllVoteSearch
-import team.aliens.dms.android.feature.chatbot.ui.ChatBotRoute
 import team.aliens.dms.android.feature.editpassword.navigation.CheckPasswordRoute
 import team.aliens.dms.android.feature.editpassword.navigation.EditPasswordRoute
 import team.aliens.dms.android.feature.findid.navigation.FindIdRoute
@@ -101,7 +99,6 @@ fun DmsApp(
     val shouldShowBottomBar = currentScreen in listOf(
         HomeScreenNav,
         ApplicationScreenNav,
-        ChatBotScreenNav,
         MyPageScreenNav,
     )
 
@@ -133,7 +130,6 @@ fun DmsApp(
                                 backStack.removeAll {
                                     it is HomeScreenNav ||
                                             it is ApplicationScreenNav ||
-                                            it is ChatBotScreenNav ||
                                             it is MyPageScreenNav
                                 }
                                 backStack.add(destination)
@@ -208,9 +204,6 @@ fun DmsApp(
                                     backStack.add(LateStudyNav)
                                 },
                             )
-                        }
-                        entry<ChatBotScreenNav> {
-                            ChatBotRoute()
                         }
                         entry<VoteScreenNav> {
                             VoteRoute(

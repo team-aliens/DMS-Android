@@ -24,8 +24,6 @@ object DmsIcon {
     val HomeFill = R.drawable.ic_home_fill
     val CheckCircle = R.drawable.ic_application
     val CheckCircleFill = R.drawable.ic_application_fill
-    val ChatBot = R.drawable.ic_chatbot
-    val ChatBotFill = R.drawable.ic_chatbot_fill
     val MyPage = R.drawable.ic_my_page
     val MyPageFill = R.drawable.ic_my_page_fill
     val Information = R.drawable.ic_information
