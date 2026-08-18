@@ -25,7 +25,6 @@ import team.aliens.dms.android.core.designsystem.labelB
 private val bottomMenus = listOf(
     BottomMenu.Home,
     BottomMenu.Application,
-    BottomMenu.ChatBot,
     BottomMenu.MyPage,
 )
 

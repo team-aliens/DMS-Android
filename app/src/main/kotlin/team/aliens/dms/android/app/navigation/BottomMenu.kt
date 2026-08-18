@@ -27,13 +27,6 @@ sealed class BottomMenu(
         title = "신청",
     )
 
-    data object ChatBot : BottomMenu(
-        route = ChatBotScreenNav,
-        icon = DmsIcon.ChatBot,
-        selectedIcon = DmsIcon.ChatBotFill,
-        title = "챗봇",
-    )
-
     data object MyPage : BottomMenu(
         route = MyPageScreenNav,
         icon = DmsIcon.MyPage,
