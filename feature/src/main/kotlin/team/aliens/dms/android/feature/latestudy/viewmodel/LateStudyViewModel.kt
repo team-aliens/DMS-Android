@@ -30,6 +30,9 @@ class LateStudyViewModel @Inject constructor(
     var teachers by mutableStateOf<List<TeacherResponse>>(emptyList())
         private set
 
+    var isSubmitting by mutableStateOf(false)
+        private set
+
     init {
         fetchStudyTypes()
         fetchTeachers()
@@ -72,7 +75,11 @@ class LateStudyViewModel @Inject constructor(
         onSuccess: () -> Unit,
         onFailure: (String) -> Unit,
     ) {
+        if (isSubmitting) return
+
         viewModelScope.launch {
+            isSubmitting = true
+
             try {
                 lateStudyRepository.submitLateStudy(
                     SubmitLateStudyRequest(
@@ -86,12 +93,14 @@ class LateStudyViewModel @Inject constructor(
                 onSuccess()
             } catch (e: CancellationException) {
                 throw e
-            } catch (e: IOException) {
-                e.printStackTrace()
-                onFailure("새벽 자습 신청에 실패했습니다.")
             } catch (e: ConflictException) {
-                e.printStackTrace()
                 onFailure("이미 새벽 자습을 신청했습니다.")
+            } catch (e: IOException) {
+                onFailure("새벽 자습 신청에 실패했습니다.")
+            } catch (e: Exception) {
+                onFailure("새벽 자습 신청에 실패했습니다.")
+            } finally {
+                isSubmitting = false
             }
         }
     }
