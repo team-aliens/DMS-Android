@@ -81,13 +81,15 @@ fun LateStudyScreen(
 
     val studyTypes = viewModel.studyTypes
     val teachers = viewModel.teachers
+    val isSubmitting = viewModel.isSubmitting
 
-    val isSubmitEnabled = isSubmitEnabled(
+    val isFormValid = isSubmitEnabled(
         selectedTeacherId = selectedTeacherId,
         selectedTypeId = selectedTypeId,
         startDate = startDate,
         reason = reason,
     )
+    val isSubmitEnabled = isFormValid && !isSubmitting
 
     val filteredTeachers = remember(teacherKeyword, teachers) {
         if (teacherKeyword.isBlank()) {
