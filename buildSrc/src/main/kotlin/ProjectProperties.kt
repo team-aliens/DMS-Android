@@ -2,6 +2,6 @@ object ProjectProperties {
     const val COMPILE_SDK = 36
     const val MIN_SDK = 28
     const val TARGET_SDK = 36
-    const val VERSION_CODE = 43
-    const val VERSION_NAME = "2.1.13"
+    const val VERSION_CODE = 45
+    const val VERSION_NAME = "2.1.14"
 }
