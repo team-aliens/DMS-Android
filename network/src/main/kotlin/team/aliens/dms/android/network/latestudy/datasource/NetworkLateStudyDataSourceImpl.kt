@@ -1,5 +1,6 @@
 package team.aliens.dms.android.network.latestudy.datasource
 
+import team.aliens.dms.android.core.network.util.handleNetworkRequest
 import team.aliens.dms.android.network.latestudy.apiservice.LateStudyApiService
 import team.aliens.dms.android.network.latestudy.model.FetchStudyTypesResponse
 import team.aliens.dms.android.network.latestudy.model.FetchTeachersResponse
@@ -20,7 +21,8 @@ class NetworkLateStudyDataSourceImpl @Inject constructor(
     override suspend fun fetchMyStudyApplicationStatus(): StudyApplicationStatusResponse =
         lateStudyApiService.fetchMyStudyApplicationStatus()
 
-    override suspend fun submitLateStudy(request: SubmitLateStudyRequest) {
-        lateStudyApiService.submitLateStudy(request)
-    }
+    override suspend fun submitLateStudy(request: SubmitLateStudyRequest): Unit =
+        handleNetworkRequest {
+            lateStudyApiService.submitLateStudy(request)
+        }
 }
