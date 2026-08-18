@@ -96,6 +96,7 @@ dependencies {
     implementation(libs.threetenbp)
 
     testImplementation(libs.androidx.junit)
+    testImplementation(libs.coroutines.test)
     androidTestImplementation(libs.androidx.junit)
 }
 
