@@ -1,7 +1,6 @@
 package team.aliens.dms.android.data.file.repository
 
 import team.aliens.dms.android.data.file.mapper.toModel
-import team.aliens.dms.android.data.file.model.FileUrl
 import team.aliens.dms.android.data.file.model.PresignedFileUrl
 import team.aliens.dms.android.network.file.datasource.NetworkFileDataSource
 import java.io.File
@@ -14,7 +13,6 @@ internal class FileRepositoryImpl @Inject constructor(
         networkFileDataSource.fetchPresignedUrl(fileName = fileName)
             .map { it.toModel() }
 
-    override suspend fun uploadFile(presignedUrl: String, file: File): Result<FileUrl> =
+    override suspend fun uploadFile(presignedUrl: String, file: File): Result<Unit> =
         networkFileDataSource.uploadFile(presignedUrl = presignedUrl, file = file)
-            .map { it.toModel() }
 }
