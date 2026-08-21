@@ -51,5 +51,4 @@ class JwtInterceptor @Inject constructor(
                 requestMethod == ignoreRequest.method
         }
     }
-
 }
