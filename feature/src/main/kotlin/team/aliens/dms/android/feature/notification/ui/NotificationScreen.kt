@@ -142,7 +142,9 @@ private fun NotificationScreen(
             }
         }
         HorizontalPager(
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier
+                .fillMaxWidth()
+                .weight(1f),
             state = pagerState,
             beyondViewportPageCount = 1,
         ) { page ->
@@ -167,7 +169,7 @@ internal fun NotificationItems(
     onNotificationClick: (PointType, UUID) -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    LazyColumn(modifier = modifier.fillMaxWidth()) {
+    LazyColumn(modifier = modifier.fillMaxSize()) {
         items(
             items = notifications,
             key = { item -> item.id },

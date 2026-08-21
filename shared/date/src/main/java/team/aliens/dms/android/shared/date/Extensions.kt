@@ -42,6 +42,7 @@ fun LocalDateTime.toElapsedText(now: LocalDateTime): String {
         minutes < 60 -> "${minutes}분 전"
         hours < 24 -> "${hours}시간 전"
         days < 30 -> "${days}일 전"
+        months < 1 -> "${days}일 전"
         months < 12 -> "${months}달 전"
         else -> "${years}년 전"
     }

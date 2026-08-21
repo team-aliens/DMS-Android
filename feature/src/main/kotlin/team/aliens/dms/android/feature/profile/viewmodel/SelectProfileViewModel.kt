@@ -43,14 +43,14 @@ internal class SelectProfileViewModel @Inject constructor(
                     fileRepository.uploadFile(
                         presignedUrl = presignedInfo.fileUploadUrl,
                         file = file,
-                    ).onSuccess { fileUrl ->
+                    ).onSuccess {
                         setState {
                             it.copy(
-                                profileImageUrl = fileUrl.fileUrl,
+                                profileImageUrl = presignedInfo.fileUrl,
                                 buttonEnabled = true,
                             )
                         }
-                        sendEffect(SelectProfileSideEffect.SuccessProfileImage(fileUrl.fileUrl))
+                        sendEffect(SelectProfileSideEffect.SuccessProfileImage(presignedInfo.fileUrl))
                     }.onFailure {
                         sendEffect(SelectProfileSideEffect.FailProfileImage)
                     }
