@@ -6,7 +6,6 @@ import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.RequestBody.Companion.toRequestBody
 import team.aliens.dms.android.core.network.util.RequestType
 import team.aliens.dms.android.network.file.apiservice.FileApiService
-import team.aliens.dms.android.network.file.model.FetchFileUrlResponse
 import team.aliens.dms.android.network.file.model.FetchPresignedUrlResponse
 import team.aliens.dms.android.shared.exception.util.runCatchingCancellable
 import java.io.File
@@ -20,7 +19,7 @@ internal class NetworkFileDataSourceImpl @Inject constructor(
         runCatchingCancellable { fileApiService.fetchPresignedUrl(fileName) }
 
     @RequiresApi(Build.VERSION_CODES.O)
-    override suspend fun uploadFile(presignedUrl: String, file: File): Result<FetchFileUrlResponse> =
+    override suspend fun uploadFile(presignedUrl: String, file: File): Result<Unit> =
         runCatchingCancellable {
             fileApiService.uploadFile(
                 presignedUrl = presignedUrl,

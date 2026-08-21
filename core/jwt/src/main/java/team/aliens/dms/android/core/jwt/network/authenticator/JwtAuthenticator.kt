@@ -8,7 +8,6 @@ import okhttp3.Route
 import team.aliens.dms.android.core.jwt.JwtProvider
 import team.aliens.dms.android.core.jwt.network.IgnoreRequests
 import team.aliens.dms.android.core.network.toHttpMethod
-import team.aliens.dms.android.core.network.util.ResourceKeys
 import javax.inject.Inject
 
 class JwtAuthenticator @Inject constructor(
@@ -75,7 +74,7 @@ class JwtAuthenticator @Inject constructor(
     }
 
     private fun Request.shouldBeIgnored(): Boolean =
-        checkS3Request(url.toString()) ||
+        url.queryParameter("X-Amz-Signature") != null ||
             ignoreRequests.requests.any { ignoreRequest ->
                 val path = url.encodedPath
                 val requestMethod = method.toHttpMethod()
@@ -96,9 +95,6 @@ class JwtAuthenticator @Inject constructor(
 
             return count
         }
-
-    private fun checkS3Request(url: String): Boolean =
-        url.contains(ResourceKeys.IMAGE_URL)
 
     private companion object {
         const val AUTHORIZATION_HEADER = "authorization"
