@@ -8,7 +8,6 @@ import team.aliens.dms.android.core.jwt.JwtProvider
 import team.aliens.dms.android.core.jwt.exception.CannotUseAccessTokenException
 import team.aliens.dms.android.core.jwt.network.IgnoreRequests
 import team.aliens.dms.android.core.network.toHttpMethod
-import team.aliens.dms.android.core.network.util.ResourceKeys
 import javax.inject.Inject
 
 class JwtInterceptor @Inject constructor(
@@ -40,7 +39,7 @@ class JwtInterceptor @Inject constructor(
     )
 
     private fun Request.shouldBeIgnored(): Boolean {
-        if (checkS3Request(url.toString())) {
+        if (url.queryParameter("X-Amz-Signature") != null) {
             return true
         }
 
@@ -53,7 +52,4 @@ class JwtInterceptor @Inject constructor(
         }
     }
 
-    private fun checkS3Request(url: String): Boolean {
-        return url.contains(ResourceKeys.IMAGE_URL)
-    }
 }
