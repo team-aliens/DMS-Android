@@ -1,6 +1,7 @@
 package team.aliens.dms.android.app
 
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.test.advanceUntilIdle
@@ -14,6 +15,8 @@ import team.aliens.dms.android.core.jwt.AccessToken
 import team.aliens.dms.android.core.jwt.JwtProvider
 import team.aliens.dms.android.core.jwt.RefreshToken
 import team.aliens.dms.android.core.jwt.Tokens
+import team.aliens.dms.android.core.theme.ThemeMode
+import team.aliens.dms.android.core.theme.datastore.ThemeDataStoreDataSource
 import team.aliens.dms.android.onboarding.datastore.OnboardingDataStoreDataSource
 import team.aliens.dms.android.shared.date.util.now
 
@@ -27,10 +30,12 @@ class MainActivityViewModelTest {
     fun init_resolvesSessionAndMarksStartupResolved() = runTest(mainDispatcherRule.dispatcher) {
         val jwtProvider = FakeJwtProvider(isJwtAvailable = true)
         val onboardingDataSource = FakeOnboardingDataStoreDataSource(isCompleted = true)
+        val themeDataStoreDataSource = FakeThemeDataStoreDataSource()
 
         val viewModel = MainActivityViewModel(
             jwtProvider = jwtProvider,
             onboardingDataSource = onboardingDataSource,
+            themeDataStoreDataSource = themeDataStoreDataSource,
         )
 
         advanceUntilIdle()
@@ -45,10 +50,12 @@ class MainActivityViewModelTest {
     fun resolveSession_rechecksSessionAvailability() = runTest(mainDispatcherRule.dispatcher) {
         val jwtProvider = FakeJwtProvider(isJwtAvailable = true)
         val onboardingDataSource = FakeOnboardingDataStoreDataSource(isCompleted = true)
+        val themeDataStoreDataSource = FakeThemeDataStoreDataSource()
 
         val viewModel = MainActivityViewModel(
             jwtProvider = jwtProvider,
             onboardingDataSource = onboardingDataSource,
+            themeDataStoreDataSource = themeDataStoreDataSource,
         )
         advanceUntilIdle()
 
@@ -67,10 +74,12 @@ class MainActivityViewModelTest {
             shouldFailResolveSession = true
         }
         val onboardingDataSource = FakeOnboardingDataStoreDataSource(isCompleted = true)
+        val themeDataStoreDataSource = FakeThemeDataStoreDataSource()
 
         val viewModel = MainActivityViewModel(
             jwtProvider = jwtProvider,
             onboardingDataSource = onboardingDataSource,
+            themeDataStoreDataSource = themeDataStoreDataSource,
         )
         advanceUntilIdle()
 
@@ -134,4 +143,10 @@ private class FakeOnboardingDataStoreDataSource(
     override suspend fun setOnboardingCompleted(isCompleted: Boolean) = Unit
 
     override suspend fun getOnboardingCompleted(): Boolean = isCompleted
+}
+
+private class FakeThemeDataStoreDataSource : ThemeDataStoreDataSource() {
+    override suspend fun setThemeMode(mode: ThemeMode) = Unit
+
+    override fun getThemeModeFlow(): Flow<ThemeMode> = MutableStateFlow(ThemeMode.SYSTEM)
 }

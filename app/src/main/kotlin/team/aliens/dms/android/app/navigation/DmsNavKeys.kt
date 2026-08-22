@@ -6,6 +6,9 @@ import team.aliens.dms.android.data.point.model.PointType
 import team.aliens.dms.android.feature.signup.model.SignUpData
 
 @Serializable
+data object SplashScreenNav : NavKey
+
+@Serializable
 data object OnboardingScreenNav : NavKey
 
 @Serializable
