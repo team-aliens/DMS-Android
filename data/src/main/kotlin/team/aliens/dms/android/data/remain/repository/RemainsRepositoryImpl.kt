@@ -15,9 +15,9 @@ internal class RemainsRepositoryImpl @Inject constructor(
     override suspend fun updateRemainsOption(optionId: UUID): Result<Unit> =
         networkRemainsDataSource.updateRemainsOption(optionId)
 
-    override suspend fun fetchAppliedRemainsOption(): Result<AppliedRemainsOption> =
+    override suspend fun fetchAppliedRemainsOption(): Result<AppliedRemainsOption?> =
         networkRemainsDataSource.fetchAppliedRemainsOption()
-            .map { it.toModel() }
+            .map { it?.toModel() }
 
     override suspend fun fetchRemainsApplicationTime(): Result<RemainsApplicationTime> =
         networkRemainsDataSource.fetchRemainsApplicationTime()
