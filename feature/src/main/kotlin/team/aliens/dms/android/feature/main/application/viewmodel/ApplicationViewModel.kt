@@ -31,6 +31,7 @@ internal class ApplicationViewModel @Inject constructor(
 
     private val sharedPreferences: SharedPreferences =
         context.getSharedPreferences("application_prefs", Context.MODE_PRIVATE)
+    private var remainApplicationTitleVersion = 0
 
     init {
         getAllVotes()
@@ -53,9 +54,13 @@ internal class ApplicationViewModel @Inject constructor(
     }
 
     private fun fetchAppliedRemainsOption() {
-        viewModelScope.launch(Dispatchers.IO) {
+        val titleVersion = remainApplicationTitleVersion
+
+        viewModelScope.launch {
             remainsRepository.fetchAppliedRemainsOption()
                 .onSuccess { appliedOption ->
+                    if (titleVersion != remainApplicationTitleVersion) return@onSuccess
+
                     setState { it.copy(remainApplicationTitle = appliedOption?.title) }
                 }
         }
@@ -105,6 +110,8 @@ internal class ApplicationViewModel @Inject constructor(
     }
 
     internal fun setRemainApplication(title: String) {
+        remainApplicationTitleVersion += 1
+
         setState {
             it.copy(remainApplicationTitle = title)
         }
