@@ -9,7 +9,7 @@ abstract class NetworkRemainsDataSource {
 
     abstract suspend fun updateRemainsOption(optionId: UUID): Result<Unit>
 
-    abstract suspend fun fetchAppliedRemainsOption(): Result<FetchAppliedRemainsOptionResponse>
+    abstract suspend fun fetchAppliedRemainsOption(): Result<FetchAppliedRemainsOptionResponse?>
 
     abstract suspend fun fetchRemainsApplicationTime(): Result<FetchRemainsApplicationTimeResponse>
 

@@ -129,7 +129,7 @@ private fun RemainApplicationScreen(
             text = "변경하기",
             buttonType = ButtonType.Contained,
             buttonColor = ButtonColor.Primary,
-            enabled = state.selectRemainsOptionId != null,
+            enabled = state.selectRemainsOptionId != null && !state.isChangingRemainsOption,
             onClick = changeRemainsOption,
         )
     }
