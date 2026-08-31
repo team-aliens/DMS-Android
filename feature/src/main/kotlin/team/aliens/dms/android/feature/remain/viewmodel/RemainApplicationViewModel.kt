@@ -28,7 +28,7 @@ class RemainApplicationViewModel @Inject constructor(
         viewModelScope.launch {
             remainsRepository.fetchRemainsOptions().onSuccess { remainsOptions ->
                 val selectRemainsOptionId =
-                    remainsOptions.find { it.applied }?.id ?: UUID.randomUUID()
+                    remainsOptions.find { it.applied }?.id
                 setState {
                     it.copy(
                         remainsOptions = remainsOptions,
@@ -48,6 +48,8 @@ class RemainApplicationViewModel @Inject constructor(
     }
 
     internal fun setSelectRemainsOption(remainsOptionId: UUID?) {
+        if (uiState.value.isChangingRemainsOption) return
+
         setState { it.copy(selectRemainsOptionId = remainsOptionId) }
     }
 
@@ -55,29 +57,35 @@ class RemainApplicationViewModel @Inject constructor(
         onShowSnackBar: (DmsSnackBarType, String) -> Unit,
     ) {
         viewModelScope.launch {
+            if (uiState.value.isChangingRemainsOption) return@launch
+
             if (!isWithinApplicationTime()) {
                 onShowSnackBar(DmsSnackBarType.ERROR, "잔류 신청 시간이 아닙니다")
                 return@launch
             }
-            uiState.value.selectRemainsOptionId?.let { optionId ->
-                remainsRepository.updateRemainsOption(optionId = optionId)
-                    .onSuccess {
-                        val remainsOptions = uiState.value.remainsOptions.map { remainsOption ->
-                            remainsOption.copy(applied = remainsOption.id == uiState.value.selectRemainsOptionId)
-                        }
-                        val appliedOption = remainsOptions.find { it.applied }
-                        setState {
-                            it.copy(
-                                remainsOptions = remainsOptions,
-                                selectedRemainTitle = appliedOption?.title
-                            )
-                        }
-                        onShowSnackBar(DmsSnackBarType.SUCCESS, "잔류 신청이 완료되었습니다")
-                    }.onFailure {
-                        onShowSnackBar(DmsSnackBarType.ERROR, "잔류 신청에 실패했습니다")
+            val optionId = uiState.value.selectRemainsOptionId ?: return@launch
+            setState { it.copy(isChangingRemainsOption = true) }
+
+            remainsRepository.updateRemainsOption(optionId = optionId)
+                .onSuccess {
+                    val remainsOptions = uiState.value.remainsOptions.map { remainsOption ->
+                        remainsOption.copy(applied = remainsOption.id == optionId)
                     }
+                    val appliedOption = remainsOptions.find { it.applied }
+                    setState {
+                        it.copy(
+                            remainsOptions = remainsOptions,
+                            selectRemainsOptionId = optionId,
+                            selectedRemainTitle = appliedOption?.title,
+                            isChangingRemainsOption = false,
+                        )
+                    }
+                    onShowSnackBar(DmsSnackBarType.SUCCESS, "잔류 신청이 완료되었습니다")
+                }.onFailure {
+                    setState { it.copy(isChangingRemainsOption = false) }
+                    onShowSnackBar(DmsSnackBarType.ERROR, "잔류 신청에 실패했습니다")
                 }
-            }
+        }
     }
 
     private fun isWithinApplicationTime(): Boolean {
@@ -115,5 +123,6 @@ data class RemainApplicationState(
     val remainsOptions: List<RemainsOption> = emptyList(),
     val selectRemainsOptionId: UUID? = null,
     val selectedRemainTitle: String? = null,
+    val isChangingRemainsOption: Boolean = false,
     val remainsApplicationTime: RemainsApplicationTime = RemainsApplicationTime(),
 )
