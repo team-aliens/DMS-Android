@@ -65,6 +65,8 @@ internal fun Setting(
             when (it) {
                 is SettingSideEffect.CannotFetchNotificationStatus ->
                     updatedOnShowSnackBar(DmsSnackBarType.ERROR, "알림 상태 조회를 실패했어요")
+                is SettingSideEffect.CannotUpdateNotificationStatus ->
+                    updatedOnShowSnackBar(DmsSnackBarType.ERROR, "알림 상태 변경을 실패했어요")
                 is SettingSideEffect.SignOutSuccess -> updatedOnNavigateSignIn()
                 is SettingSideEffect.WithdrawSuccess -> updatedOnNavigateSignIn()
                 is SettingSideEffect.WithdrawFailed ->

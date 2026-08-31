@@ -23,20 +23,26 @@ fun FetchNotificationTopicStatusResponse.toModel(): List<NotificationTopicGroup.
 
 @JvmName("ListTopicGroupResponse")
 private fun List<FetchNotificationTopicStatusResponse.TopicGroupResponse>.toModel(): List<NotificationTopicGroup.Status> =
-    this.map(FetchNotificationTopicStatusResponse.TopicGroupResponse::toModel)
+    this.mapNotNull(FetchNotificationTopicStatusResponse.TopicGroupResponse::toModel)
 
-private fun FetchNotificationTopicStatusResponse.TopicGroupResponse.toModel(): NotificationTopicGroup.Status =
-    NotificationTopicGroup.Status(
-        topicGroup = NotificationTopicGroup.valueOf(this.topicGroup),
+private fun FetchNotificationTopicStatusResponse.TopicGroupResponse.toModel(): NotificationTopicGroup.Status? {
+    val topicGroup = NotificationTopicGroup.entries.find { it.name == this.topicGroup } ?: return null
+
+    return NotificationTopicGroup.Status(
+        topicGroup = topicGroup,
         groupName = this.groupName,
         topicSubscriptions = this.topicSubscriptions.toModel(),
     )
+}
 
 private fun List<FetchNotificationTopicStatusResponse.TopicGroupResponse.TopicSubscriptionResponse>.toModel(): List<NotificationTopicGroup.Status.TopicSubscription> =
-    this.map(FetchNotificationTopicStatusResponse.TopicGroupResponse.TopicSubscriptionResponse::toModel)
+    this.mapNotNull(FetchNotificationTopicStatusResponse.TopicGroupResponse.TopicSubscriptionResponse::toModel)
 
-private fun FetchNotificationTopicStatusResponse.TopicGroupResponse.TopicSubscriptionResponse.toModel(): NotificationTopicGroup.Status.TopicSubscription =
-    NotificationTopicGroup.Status.TopicSubscription(
-        topic = NotificationTopic.valueOf(this.topic),
+private fun FetchNotificationTopicStatusResponse.TopicGroupResponse.TopicSubscriptionResponse.toModel(): NotificationTopicGroup.Status.TopicSubscription? {
+    val topic = NotificationTopic.entries.find { it.name == this.topic } ?: return null
+
+    return NotificationTopicGroup.Status.TopicSubscription(
+        topic = topic,
         subscribed = this.subscribed,
     )
+}

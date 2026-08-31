@@ -9,9 +9,10 @@ import team.aliens.dms.android.core.theme.ThemeMode
 import team.aliens.dms.android.core.theme.datastore.ThemeDataStoreDataSource
 import team.aliens.dms.android.core.ui.viewmodel.BaseStateViewModel
 import team.aliens.dms.android.data.auth.repository.AuthRepository
+import team.aliens.dms.android.data.notification.model.NotificationTopic
 import team.aliens.dms.android.data.notification.model.NotificationTopicGroup
-import team.aliens.dms.android.data.student.repository.StudentRepository
 import team.aliens.dms.android.data.notification.repository.NotificationRepository
+import team.aliens.dms.android.data.student.repository.StudentRepository
 import javax.inject.Inject
 
 @HiltViewModel
@@ -89,14 +90,40 @@ class SettingViewModel @Inject constructor(
     }
 
     internal fun updateNotificationStatus(isOnNotification: Boolean) {
-        setState { settingState ->
-            settingState.copy(isOnNotification = !isOnNotification)
+        val subscriptions = uiState.value.notificationTopicStatus.flatMap { status ->
+            status.topicSubscriptions.map { subscription ->
+                NotificationTopic.Subscription(
+                    topic = subscription.topic,
+                    subscribe = !isOnNotification,
+                )
+            }
         }
-        if (isOnNotification) /* 구독 취소 */ setNotificationStatus() else return // TODO 구독 업데이트 (false -> true)
-    }
 
-    private fun setNotificationStatus() {
-        // TODO: implement notification subscription update
+        if (subscriptions.isEmpty()) {
+            sendEffect(SettingSideEffect.CannotUpdateNotificationStatus)
+            return
+        }
+
+        viewModelScope.launch {
+            notificationRepository.batchUpdateNotificationTopic(subscriptions)
+                .onSuccess {
+                    setState { settingState ->
+                        settingState.copy(
+                            isOnNotification = !isOnNotification,
+                            notificationTopicStatus = settingState.notificationTopicStatus.map { status ->
+                                status.copy(
+                                    topicSubscriptions = status.topicSubscriptions.map { subscription ->
+                                        subscription.copy(subscribed = !isOnNotification)
+                                    },
+                                )
+                            },
+                        )
+                    }
+                }
+                .onFailure {
+                    sendEffect(SettingSideEffect.CannotUpdateNotificationStatus)
+                }
+        }
     }
 }
 
@@ -109,6 +136,7 @@ data class SettingState(
 
 sealed class SettingSideEffect {
     object CannotFetchNotificationStatus : SettingSideEffect()
+    object CannotUpdateNotificationStatus : SettingSideEffect()
     object SignOutSuccess : SettingSideEffect()
     object WithdrawSuccess : SettingSideEffect()
     object WithdrawFailed : SettingSideEffect()

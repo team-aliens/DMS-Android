@@ -64,10 +64,10 @@ internal class NotificationRepositoryImpl @Inject constructor(
         deviceToken: String,
     ): Result<List<NotificationTopicGroup.Status>> =
         networkNotificationDataSource.fetchNotificationTopicStatus(deviceToken = deviceToken)
-            .map { it.toModel() }
+            .mapCatching { it.toModel() }
 
     override suspend fun fetchNotifications(): Result<List<Notification>> =
-        networkNotificationDataSource.fetchNotifications().map { it.toModel() }
+        networkNotificationDataSource.fetchNotifications().mapCatching { it.toModel() }
 
     override suspend fun saveDeviceToken(deviceToken: String): Result<Unit> =
         deviceDataStoreDataSource.storeDeviceToken(deviceToken)
