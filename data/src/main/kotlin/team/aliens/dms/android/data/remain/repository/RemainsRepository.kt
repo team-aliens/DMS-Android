@@ -9,7 +9,7 @@ abstract class RemainsRepository {
 
     abstract suspend fun updateRemainsOption(optionId: UUID): Result<Unit>
 
-    abstract suspend fun fetchAppliedRemainsOption(): Result<AppliedRemainsOption>
+    abstract suspend fun fetchAppliedRemainsOption(): Result<AppliedRemainsOption?>
 
     abstract suspend fun fetchRemainsApplicationTime(): Result<RemainsApplicationTime>
 

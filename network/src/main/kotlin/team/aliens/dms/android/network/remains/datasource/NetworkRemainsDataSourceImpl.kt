@@ -4,6 +4,7 @@ import team.aliens.dms.android.network.remains.model.FetchAppliedRemainsOptionRe
 import team.aliens.dms.android.network.remains.model.FetchRemainsApplicationTimeResponse
 import team.aliens.dms.android.network.remains.model.FetchRemainsOptionsResponse
 import team.aliens.dms.android.shared.exception.util.runCatchingCancellable
+import retrofit2.HttpException
 import java.util.UUID
 import javax.inject.Inject
 
@@ -13,8 +14,14 @@ internal class NetworkRemainsDataSourceImpl @Inject constructor(
     override suspend fun updateRemainsOption(optionId: UUID): Result<Unit> =
         runCatchingCancellable { remainsApiService.updateRemainsOption(optionId) }
 
-    override suspend fun fetchAppliedRemainsOption(): Result<FetchAppliedRemainsOptionResponse> =
-        runCatchingCancellable { remainsApiService.fetchAppliedRemainsOption() }
+    override suspend fun fetchAppliedRemainsOption(): Result<FetchAppliedRemainsOptionResponse?> =
+        runCatchingCancellable {
+            try {
+                remainsApiService.fetchAppliedRemainsOption()
+            } catch (exception: HttpException) {
+                if (exception.code() == 404) null else throw exception
+            }
+        }
 
     override suspend fun fetchRemainsApplicationTime(): Result<FetchRemainsApplicationTimeResponse> =
         runCatchingCancellable { remainsApiService.fetchRemainsApplicationTime() }

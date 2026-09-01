@@ -18,15 +18,20 @@ data class Notification(
 )
 
 fun FetchNotificationsResponse.toModel(): List<Notification> =
-    this.notifications.map(FetchNotificationsResponse.NotificationResponse::toModel)
+    this.notifications.mapNotNull(FetchNotificationsResponse.NotificationResponse::toModel)
 
-private fun FetchNotificationsResponse.NotificationResponse.toModel(): Notification = Notification(
-    id = this.id,
-    topic = NotificationTopic.valueOf(this.topic),
-    pointDetailTopic = PointType.valueOf(this.pointDetailTopic ?: "ALL"),
-    linkId = this.linkId,
-    title = this.title,
-    content = this.content,
-    createdAt = this.createdAt.toLocalDateTime(),
-    isRead = this.isRead,
-)
+private fun FetchNotificationsResponse.NotificationResponse.toModel(): Notification? {
+    val topic = NotificationTopic.entries.find { it.name == this.topic } ?: return null
+    val pointDetailTopic = PointType.entries.find { it.name == (this.pointDetailTopic ?: "ALL") } ?: return null
+
+    return Notification(
+        id = this.id,
+        topic = topic,
+        pointDetailTopic = pointDetailTopic,
+        linkId = this.linkId,
+        title = this.title,
+        content = this.content,
+        createdAt = this.createdAt.toLocalDateTime(),
+        isRead = this.isRead,
+    )
+}
