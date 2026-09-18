@@ -18,6 +18,7 @@ import javax.inject.Inject
 internal class JwtProviderImpl @Inject constructor(
     private val jwtDataStoreDataSource: JwtDataStoreDataSource,
     private val jwtReissueManager: JwtReissueManager,
+    private val sessionCleaner: SessionCleaner,
 ) : JwtProvider() {
     private val tokenMutex = Mutex()
 
@@ -94,28 +95,45 @@ internal class JwtProviderImpl @Inject constructor(
         }
     }
 
-    override suspend fun resolveSession(): Boolean =
-        tokenMutex.withLock {
+    override suspend fun resolveSession(): Boolean {
+        val reissueResult = tokenMutex.withLock {
             val accessToken = _cachedAccessToken
 
             if (accessToken != null && !accessToken.isExpired()) {
                 refreshTokenAbility()
-                return@withLock true
+                return@withLock ReissueResult(
+                    isReissued = true,
+                    isSessionEnded = false,
+                )
             }
 
-            val reissued = reissueTokensLocked()
+            val result = reissueTokensLocked()
             refreshTokenAbility()
 
-            reissued && checkIsAccessTokenAvailable()
+            result
         }
 
-    override suspend fun refreshSession(): Boolean =
-        tokenMutex.withLock {
-            val reissued = reissueTokensLocked()
+        if (reissueResult.isSessionEnded) {
+            sessionCleaner.clearSession(tokensAlreadyCleared = true)
+        }
+
+        return reissueResult.isReissued && checkIsAccessTokenAvailable()
+    }
+
+    override suspend fun refreshSession(): Boolean {
+        val reissueResult = tokenMutex.withLock {
+            val result = reissueTokensLocked()
             refreshTokenAbility()
 
-            reissued && checkIsAccessTokenAvailable()
+            result
         }
+
+        if (reissueResult.isSessionEnded) {
+            sessionCleaner.clearSession(tokensAlreadyCleared = true)
+        }
+
+        return reissueResult.isReissued && checkIsAccessTokenAvailable()
+    }
 
     private fun refreshTokenAbility() {
         _isCachedAccessTokenAvailable.value =
@@ -134,13 +152,15 @@ internal class JwtProviderImpl @Inject constructor(
             !refreshToken.isExpired()
         } ?: false
 
-    private suspend fun reissueTokensLocked(): Boolean {
+    private suspend fun reissueTokensLocked(): ReissueResult {
         val refreshToken = _cachedRefreshToken
 
         if (refreshToken == null || refreshToken.isExpired()) {
             clearCachesLocked()
-            refreshTokenAbility()
-            return false
+            return ReissueResult(
+                isReissued = false,
+                isSessionEnded = true,
+            )
         }
 
         return try {
@@ -149,16 +169,23 @@ internal class JwtProviderImpl @Inject constructor(
             )
 
             updateTokensLocked(tokens = tokens)
-            true
+            ReissueResult(
+                isReissued = true,
+                isSessionEnded = false,
+            )
         } catch (exception: CannotReissueTokenException) {
-            if (
+            val isSessionEnded =
                 exception.statusCode == 401 ||
-                exception.statusCode == 404
-            ) {
+                    exception.statusCode == 404
+
+            if (isSessionEnded) {
                 clearCachesLocked()
             }
 
-            false
+            ReissueResult(
+                isReissued = false,
+                isSessionEnded = isSessionEnded,
+            )
         }
     }
 
@@ -218,3 +245,8 @@ internal class JwtProviderImpl @Inject constructor(
         }
     }
 }
+
+private data class ReissueResult(
+    val isReissued: Boolean,
+    val isSessionEnded: Boolean,
+)

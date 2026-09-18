@@ -62,6 +62,8 @@ internal class SchoolProviderImpl @Inject constructor(
     }
 
     override fun clearCaches() {
+        _features = null
+        _isFeaturesAvailable.value = false
         runBlocking {
             featuresDataStoreDataSource.clearFeatures()
         }
