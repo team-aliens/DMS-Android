@@ -37,9 +37,14 @@ internal class MealRepositoryImpl @Inject constructor(
             onSuccess = { response ->
                 runCatchingCancellable {
                     val meals = response.toModel()
+                    val requestedMeal = meals.find { it.date == date }
+
+                    if (requestedMeal?.hasMenu() != true) {
+                        databaseMealDataSource.deleteMeal(date)
+                    }
                     databaseMealDataSource.saveMeals(meals.filter { it.hasMenu() }.toEntity())
 
-                    meals.find { it.date == date } ?: throw CannotFindMealException()
+                    requestedMeal ?: throw CannotFindMealException()
                 }
             },
             onFailure = { Result.failure(it) },
