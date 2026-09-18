@@ -73,7 +73,7 @@ class MealWorker @AssistedInject constructor(
                     context = context,
                     glanceId = glanceId,
                     definition = MealInfoStateDefinition,
-                    updateState = { MealInfo.Loading },
+                    updateState = { MealInfo.Unavailable },
                 )
             }
             MealGlanceWidget().updateAll(context)
