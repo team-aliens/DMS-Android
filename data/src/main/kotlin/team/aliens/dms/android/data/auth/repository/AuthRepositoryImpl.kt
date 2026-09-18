@@ -1,7 +1,6 @@
 package team.aliens.dms.android.data.auth.repository
 
-import kotlinx.coroutines.NonCancellable
-import kotlinx.coroutines.withContext
+import team.aliens.dms.android.core.jwt.SessionCleaner
 import team.aliens.dms.android.core.jwt.JwtProvider
 import team.aliens.dms.android.core.school.SchoolProvider
 import team.aliens.dms.android.data.auth.mapper.extractFeatures
@@ -17,6 +16,7 @@ import javax.inject.Inject
 
 internal class AuthRepositoryImpl @Inject constructor(
     private val networkAuthDataSource: NetworkAuthDataSource,
+    private val sessionCleaner: SessionCleaner,
     private val jwtProvider: JwtProvider,
     private val schoolProvider: SchoolProvider,
 ) : AuthRepository() {
@@ -70,13 +70,6 @@ internal class AuthRepositoryImpl @Inject constructor(
 //        ).email
     override suspend fun signOut(): Result<Unit> =
         runCatchingCancellable {
-            clearSessionCaches()
+            sessionCleaner.clearSession()
         }
-
-    private suspend fun clearSessionCaches() {
-        withContext(NonCancellable) {
-            jwtProvider.clearCaches()
-            schoolProvider.clearCaches()
-        }
-    }
 }
