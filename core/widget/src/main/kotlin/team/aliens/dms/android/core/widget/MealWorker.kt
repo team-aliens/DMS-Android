@@ -35,7 +35,7 @@ class MealWorker @AssistedInject constructor(
     companion object {
         private val uniqueWorkName = MealWorker::class.java.simpleName
 
-        internal fun enqueue(context: Context) {
+        fun enqueue(context: Context) {
             val manager = WorkManager.getInstance(context)
             val request: PeriodicWorkRequest = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 PeriodicWorkRequestBuilder<MealWorker>(Duration.ofHours(1))
@@ -59,14 +59,34 @@ class MealWorker @AssistedInject constructor(
                 .setRequiresBatteryNotLow(true)
                 .build()
 
-        internal fun cancel(context: Context) {
+        fun cancel(context: Context) {
             WorkManager.getInstance(context).cancelUniqueWork(uniqueWorkName)
+        }
+
+        suspend fun clear(context: Context) {
+            cancel(context)
+            val manager = GlanceAppWidgetManager(context)
+            val glanceIds = manager.getGlanceIds(MealGlanceWidget::class.java)
+
+            glanceIds.forEach { glanceId ->
+                updateAppWidgetState(
+                    context = context,
+                    glanceId = glanceId,
+                    definition = MealInfoStateDefinition,
+                    updateState = { MealInfo.Loading },
+                )
+            }
+            MealGlanceWidget().updateAll(context)
         }
     }
 
     override suspend fun doWork(): Result {
         val manager = GlanceAppWidgetManager(context)
         val glanceIds = manager.getGlanceIds(MealGlanceWidget::class.java)
+
+        if (glanceIds.isEmpty()) {
+            return Result.success()
+        }
 
         setWidgetState(glanceIds, MealInfo.Loading)
 
