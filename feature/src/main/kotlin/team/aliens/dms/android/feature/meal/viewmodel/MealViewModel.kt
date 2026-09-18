@@ -17,7 +17,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 internal class MealViewModel @Inject constructor(
-    private val mealRepository: MealRepository, // TODO :: 필요한 경우 매핑 유스케이스 구현
+    private val mealRepository: MealRepository,
 ) : BaseStateViewModel<MealState, Unit>(MealState()) {
 
     init {
@@ -26,11 +26,30 @@ internal class MealViewModel @Inject constructor(
 
     private fun getMeal(date: LocalDate? = null) {
         val selectedDate = date ?: uiState.value.selectedDate
+        setState { it.copy(loadState = MealLoadState.LOADING) }
         viewModelScope.launch(Dispatchers.IO) {
-            mealRepository.fetchMeal(date = selectedDate).onSuccess { successfulMeal ->
-                setState { it.copy(meal = successfulMeal) }
-            }
+            mealRepository.fetchMeal(date = selectedDate)
+                .onSuccess { successfulMeal ->
+                    if (uiState.value.selectedDate == selectedDate) {
+                        setState {
+                            it.copy(
+                                meal = successfulMeal,
+                                loadState = successfulMeal.toLoadState(),
+                            )
+                        }
+                    }
+                }
+                .onFailure { exception ->
+                    Log.e(TAG, "Failed to load meal for $selectedDate", exception)
+                    if (uiState.value.selectedDate == selectedDate) {
+                        setState { it.copy(loadState = MealLoadState.ERROR) }
+                    }
+                }
         }
+    }
+
+    internal fun retryMeal() {
+        getMeal()
     }
 
     internal fun setDate(date: LocalDate) {
@@ -89,8 +108,16 @@ internal data class MealState(
     val meal: Meal = Meal(),
     val selectedDate: LocalDate = getInitialDate(),
     val isShowCalendar: Boolean = false,
-    val currentCardType: MealCardType = getProperMeal()
+    val currentCardType: MealCardType = getProperMeal(),
+    val loadState: MealLoadState = MealLoadState.LOADING,
 )
+
+internal enum class MealLoadState {
+    LOADING,
+    CONTENT,
+    EMPTY,
+    ERROR,
+}
 
 private const val BREAKFAST_START_TIME: Int = 9
 private const val LUNCH_START_TIME: Int = 13
@@ -104,3 +131,12 @@ internal fun getProperMeal(): MealCardType = when (now.hour) {
 
 private fun getInitialDate(): LocalDate =
     if (now.hour >= DINNER_START_TIME) today.plusDays(1) else today
+
+private fun Meal.toLoadState(): MealLoadState =
+    if (breakfast.isEmpty() && lunch.isEmpty() && dinner.isEmpty()) {
+        MealLoadState.EMPTY
+    } else {
+        MealLoadState.CONTENT
+    }
+
+private const val TAG = "MealViewModel"
