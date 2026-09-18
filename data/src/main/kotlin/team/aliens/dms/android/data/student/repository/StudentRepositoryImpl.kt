@@ -1,7 +1,6 @@
 package team.aliens.dms.android.data.student.repository
 
-import kotlinx.coroutines.NonCancellable
-import kotlinx.coroutines.withContext
+import team.aliens.dms.android.core.jwt.SessionCleaner
 import team.aliens.dms.android.core.jwt.JwtProvider
 import team.aliens.dms.android.core.school.SchoolProvider
 import team.aliens.dms.android.data.student.mapper.toModel
@@ -23,6 +22,7 @@ import javax.inject.Inject
 
 internal class StudentRepositoryImpl @Inject constructor(
     private val networkStudentDataSource: NetworkStudentDataSource,
+    private val sessionCleaner: SessionCleaner,
     private val jwtProvider: JwtProvider,
     private val schoolProvider: SchoolProvider,
 ) : StudentRepository() {
@@ -107,18 +107,11 @@ internal class StudentRepositoryImpl @Inject constructor(
 
     override suspend fun withdraw(): Result<Unit> {
         return networkStudentDataSource.withdraw().fold(
-            onSuccess = { runCatchingCancellable { clearSessionCaches() } },
+            onSuccess = { runCatchingCancellable { sessionCleaner.clearSession() } },
             onFailure = { Result.failure(it) },
         )
     }
 
     override suspend fun fetchStudents(): Result<List<Student>> =
         networkStudentDataSource.fetchStudents().map { it.toModel() }
-
-    private suspend fun clearSessionCaches() {
-        withContext(NonCancellable) {
-            jwtProvider.clearCaches()
-            schoolProvider.clearCaches()
-        }
-    }
 }
