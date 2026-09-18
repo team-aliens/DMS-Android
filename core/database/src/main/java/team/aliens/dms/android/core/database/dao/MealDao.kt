@@ -19,6 +19,14 @@ abstract class MealDao {
     )
     abstract fun findByDate(date: LocalDate): MealEntity
 
+    @Query(
+        """
+            DELETE FROM tbl_meals
+            WHERE date = :date;
+        """,
+    )
+    abstract fun deleteByDate(date: LocalDate)
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     abstract fun save(meal: MealEntity)
 
