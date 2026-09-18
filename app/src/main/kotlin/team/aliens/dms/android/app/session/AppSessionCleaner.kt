@@ -10,6 +10,7 @@ import team.aliens.dms.android.core.jwt.JwtProvider
 import team.aliens.dms.android.core.jwt.SessionCleaner
 import team.aliens.dms.android.core.school.SchoolProvider
 import team.aliens.dms.android.core.widget.MealWorker
+import team.aliens.dms.android.shared.exception.util.runCatchingCancellable
 import java.util.concurrent.atomic.AtomicBoolean
 import javax.inject.Inject
 import javax.inject.Provider
@@ -32,12 +33,27 @@ internal class AppSessionCleaner @Inject constructor(
 
         try {
             withContext(Dispatchers.IO + NonCancellable) {
+                val failures = mutableListOf<Throwable>()
+
                 if (!tokensAlreadyCleared) {
-                    jwtProvider.get().clearCaches()
+                    runCatchingCancellable {
+                        jwtProvider.get().clearCaches()
+                    }.exceptionOrNull()?.let(failures::add)
                 }
-                schoolProvider.get().clearCaches()
-                database.clearAllTables()
-                MealWorker.clear(context)
+                runCatchingCancellable {
+                    schoolProvider.get().clearCaches()
+                }.exceptionOrNull()?.let(failures::add)
+                runCatchingCancellable {
+                    database.clearAllTables()
+                }.exceptionOrNull()?.let(failures::add)
+                runCatchingCancellable {
+                    MealWorker.clear(context)
+                }.exceptionOrNull()?.let(failures::add)
+
+                failures.firstOrNull()?.let { firstFailure ->
+                    failures.drop(1).forEach(firstFailure::addSuppressed)
+                    throw firstFailure
+                }
             }
         } finally {
             isCleaning.set(false)
