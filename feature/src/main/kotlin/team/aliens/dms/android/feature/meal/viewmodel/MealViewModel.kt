@@ -7,6 +7,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.time.LocalDate
+import java.util.concurrent.atomic.AtomicLong
 import team.aliens.dms.android.core.ui.viewmodel.BaseStateViewModel
 import team.aliens.dms.android.data.meal.model.Meal
 import team.aliens.dms.android.data.meal.repository.MealRepository
@@ -20,17 +21,20 @@ internal class MealViewModel @Inject constructor(
     private val mealRepository: MealRepository,
 ) : BaseStateViewModel<MealState, Unit>(MealState()) {
 
+    private val latestMealRequestId = AtomicLong()
+
     init {
         getMeal()
     }
 
     private fun getMeal(date: LocalDate? = null) {
         val selectedDate = date ?: uiState.value.selectedDate
+        val requestId = latestMealRequestId.incrementAndGet()
         setState { it.copy(loadState = MealLoadState.LOADING) }
         viewModelScope.launch(Dispatchers.IO) {
             mealRepository.fetchMeal(date = selectedDate)
                 .onSuccess { successfulMeal ->
-                    if (uiState.value.selectedDate == selectedDate) {
+                    if (latestMealRequestId.get() == requestId) {
                         setState {
                             it.copy(
                                 meal = successfulMeal,
@@ -41,7 +45,7 @@ internal class MealViewModel @Inject constructor(
                 }
                 .onFailure { exception ->
                     Log.e(TAG, "Failed to load meal for $selectedDate", exception)
-                    if (uiState.value.selectedDate == selectedDate) {
+                    if (latestMealRequestId.get() == requestId) {
                         setState { it.copy(loadState = MealLoadState.ERROR) }
                     }
                 }
