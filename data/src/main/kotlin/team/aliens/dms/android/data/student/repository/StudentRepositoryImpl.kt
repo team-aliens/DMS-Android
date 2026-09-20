@@ -106,8 +106,14 @@ internal class StudentRepositoryImpl @Inject constructor(
 
 
     override suspend fun withdraw(): Result<Unit> {
+        sessionCleaner.unregisterDeviceToken()
+
         return networkStudentDataSource.withdraw().fold(
-            onSuccess = { runCatchingCancellable { sessionCleaner.clearSession() } },
+            onSuccess = {
+                runCatchingCancellable {
+                    sessionCleaner.clearSession(shouldUnregisterDeviceToken = false)
+                }
+            },
             onFailure = { Result.failure(it) },
         )
     }
