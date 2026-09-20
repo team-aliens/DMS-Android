@@ -28,18 +28,20 @@ class RemainApplicationViewModel @Inject constructor(
         viewModelScope.launch {
             val remainsOptions = remainsRepository.fetchRemainsOptions().getOrNull()
                 ?: return@launch
-            val appliedRemainsOption = remainsRepository.fetchAppliedRemainsOption().getOrNull()
-            val appliedRemainsOptionId = appliedRemainsOption?.id
-            val appliedRemainsOptionTitle = appliedRemainsOption?.title
 
-            setState {
-                it.copy(
-                    remainsOptions = remainsOptions.map { remainsOption ->
-                        remainsOption.copy(applied = remainsOption.id == appliedRemainsOptionId)
-                    },
-                    selectRemainsOptionId = appliedRemainsOptionId,
-                    selectedRemainTitle = appliedRemainsOptionTitle,
-                )
+            remainsRepository.fetchAppliedRemainsOption().onSuccess { appliedRemainsOption ->
+                val appliedRemainsOptionId = appliedRemainsOption?.id
+                val appliedRemainsOptionTitle = appliedRemainsOption?.title
+
+                setState {
+                    it.copy(
+                        remainsOptions = remainsOptions.map { remainsOption ->
+                            remainsOption.copy(applied = remainsOption.id == appliedRemainsOptionId)
+                        },
+                        selectRemainsOptionId = appliedRemainsOptionId,
+                        selectedRemainTitle = appliedRemainsOptionTitle,
+                    )
+                }
             }
         }
     }
