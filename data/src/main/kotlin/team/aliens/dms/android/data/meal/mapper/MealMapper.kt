@@ -30,14 +30,23 @@ private fun Meal.toEntity() = MealEntity(
 internal fun FetchMealsResponse.toModel(): List<Meal> = this.meals.toModel()
 
 private fun List<FetchMealsResponse.MealResponse>.toModel(): List<Meal> =
-    this.map(FetchMealsResponse.MealResponse::toModel)
+    this.mapNotNull { meal -> runCatching { meal.toModel() }.getOrNull() }
 
-private fun FetchMealsResponse.MealResponse.toModel(): Meal = Meal(
-    date = this.date.toLocalDate(),
-    breakfast = this.breakfast.dropLast(1),
-    kcalOfBreakfast = this.breakfast.last(),
-    lunch = this.lunch.dropLast(1),
-    kcalOfLunch = this.lunch.last(),
-    dinner = this.dinner.dropLast(1),
-    kcalOfDinner = this.dinner.last(),
-)
+private fun FetchMealsResponse.MealResponse.toModel(): Meal {
+    val (breakfast, kcalOfBreakfast) = breakfast.toMenuAndKcal()
+    val (lunch, kcalOfLunch) = lunch.toMenuAndKcal()
+    val (dinner, kcalOfDinner) = dinner.toMenuAndKcal()
+
+    return Meal(
+        date = date.toLocalDate(),
+        breakfast = breakfast,
+        kcalOfBreakfast = kcalOfBreakfast,
+        lunch = lunch,
+        kcalOfLunch = kcalOfLunch,
+        dinner = dinner,
+        kcalOfDinner = kcalOfDinner,
+    )
+}
+
+private fun List<String>?.toMenuAndKcal(): Pair<List<String>, String?> =
+    orEmpty().dropLast(1) to this?.lastOrNull()

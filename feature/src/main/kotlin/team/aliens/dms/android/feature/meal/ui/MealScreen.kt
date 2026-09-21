@@ -9,8 +9,10 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.navigationBarsPadding
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.systemBarsPadding
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.PagerState
 import androidx.compose.foundation.pager.rememberPagerState
@@ -18,6 +20,7 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ModalBottomSheet
+import androidx.compose.material3.Text
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -35,6 +38,7 @@ import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import kotlinx.collections.immutable.ImmutableList
@@ -44,6 +48,10 @@ import kotlinx.coroutines.launch
 import team.aliens.dms.android.core.designsystem.DmsTheme
 import team.aliens.dms.android.core.designsystem.R
 import team.aliens.dms.android.core.designsystem.appbar.DmsTopAppBar
+import team.aliens.dms.android.core.designsystem.bodyB
+import team.aliens.dms.android.core.designsystem.button.ButtonColor
+import team.aliens.dms.android.core.designsystem.button.ButtonType
+import team.aliens.dms.android.core.designsystem.button.DmsButton
 import team.aliens.dms.android.core.designsystem.button.DmsIconButton
 import team.aliens.dms.android.core.designsystem.button.DmsItemButton
 import team.aliens.dms.android.core.designsystem.calendar.DmsCalendar
@@ -52,9 +60,11 @@ import team.aliens.dms.android.core.designsystem.foundation.DmsIcon
 import team.aliens.dms.android.core.designsystem.horizontalPadding
 import team.aliens.dms.android.core.designsystem.startPadding
 import team.aliens.dms.android.core.designsystem.topPadding
+import team.aliens.dms.android.core.designsystem.indicator.DmsDotsLoadingIndicator
 import team.aliens.dms.android.core.ui.util.toLocale
 import team.aliens.dms.android.feature.meal.component.DateChip
 import team.aliens.dms.android.feature.meal.component.MealContent
+import team.aliens.dms.android.feature.meal.viewmodel.MealLoadState
 import team.aliens.dms.android.feature.meal.viewmodel.MealState
 import team.aliens.dms.android.feature.meal.viewmodel.MealViewModel
 import team.aliens.dms.android.feature.meal.viewmodel.getProperMeal
@@ -129,7 +139,8 @@ internal fun Meal(
             scope.launch {
                 pagerState.animateScrollToPage(pagerState.currentPage + 1)
             }
-        }
+        },
+        onRetryClick = viewModel::retryMeal,
     )
 }
 
@@ -145,6 +156,7 @@ private fun MealScreen(
     onCalendarClick: () -> Unit,
     onPreviousClick: () -> Unit,
     onNextClick: () -> Unit,
+    onRetryClick: () -> Unit,
 ) {
     Column(
         modifier = Modifier
@@ -223,14 +235,30 @@ private fun MealScreen(
                         onClick = onNextClick,
                     )
                 }
-                MealContent(
-                    modifier = Modifier
-                        .topPadding(20.dp)
-                        .horizontalPadding(10.dp),
-                    daily = currentCardType.title,
-                    kcal = kcal,
-                    meal = dailyMeals,
-                )
+                when (state.loadState) {
+                    MealLoadState.CONTENT -> MealContent(
+                        modifier = Modifier
+                            .topPadding(20.dp)
+                            .horizontalPadding(10.dp),
+                        daily = currentCardType.title,
+                        kcal = kcal,
+                        meal = dailyMeals,
+                    )
+
+                    MealLoadState.LOADING -> MealStatusContent(
+                        text = "급식을 불러오는 중이에요",
+                        isLoading = true,
+                    )
+
+                    MealLoadState.EMPTY -> MealStatusContent(
+                        text = "등록된 급식이 없어요",
+                    )
+
+                    MealLoadState.ERROR -> MealStatusContent(
+                        text = "급식을 불러오지 못했어요",
+                        onRetryClick = onRetryClick,
+                    )
+                }
                 DmsItemButton(
                     modifier = Modifier
                         .fillMaxWidth()
@@ -241,6 +269,50 @@ private fun MealScreen(
                     onClick = onCalendarClick,
                 )
             }
+        }
+    }
+}
+
+@Composable
+private fun MealStatusContent(
+    text: String,
+    isLoading: Boolean = false,
+    onRetryClick: (() -> Unit)? = null,
+) {
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .topPadding(20.dp)
+            .horizontalPadding(10.dp)
+            .wrapContentHeight()
+            .background(
+                color = DmsTheme.colorScheme.surfaceTint,
+                shape = androidx.compose.foundation.shape.RoundedCornerShape(32.dp),
+            )
+            .padding(24.dp),
+        horizontalAlignment = Alignment.CenterHorizontally,
+    ) {
+        Text(
+            modifier = Modifier.fillMaxWidth(),
+            text = text,
+            style = DmsTheme.typography.bodyB,
+            color = DmsTheme.colorScheme.inverseSurface,
+            textAlign = TextAlign.Center,
+        )
+        if (isLoading) {
+            DmsDotsLoadingIndicator(
+                modifier = Modifier.topPadding(16.dp),
+                activeColor = DmsTheme.colorScheme.inverseSurface,
+            )
+        }
+        if (onRetryClick != null) {
+            DmsButton(
+                modifier = Modifier.topPadding(16.dp),
+                text = "다시 시도",
+                buttonType = ButtonType.Contained,
+                buttonColor = ButtonColor.Primary,
+                onClick = onRetryClick,
+            )
         }
     }
 }

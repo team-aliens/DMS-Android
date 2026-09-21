@@ -5,6 +5,7 @@ import java.time.LocalDate
 
 abstract class DatabaseMealDataSource {
     abstract suspend fun queryMeal(date: LocalDate): MealEntity
+    abstract suspend fun deleteMeal(date: LocalDate)
     abstract suspend fun saveMeal(meal: MealEntity)
     abstract suspend fun saveMeals(meals: List<MealEntity>)
 }

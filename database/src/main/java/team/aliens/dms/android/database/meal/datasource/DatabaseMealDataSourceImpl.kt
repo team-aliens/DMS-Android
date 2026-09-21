@@ -12,6 +12,10 @@ internal class DatabaseMealDataSourceImpl @Inject constructor(
         return mealDao.findByDate(date)
     }
 
+    override suspend fun deleteMeal(date: LocalDate) {
+        mealDao.deleteByDate(date)
+    }
+
     override suspend fun saveMeal(meal: MealEntity) {
         mealDao.save(meal)
     }

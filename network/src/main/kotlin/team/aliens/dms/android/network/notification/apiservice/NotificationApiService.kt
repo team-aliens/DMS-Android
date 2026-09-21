@@ -2,7 +2,6 @@ package team.aliens.dms.android.network.notification.apiservice
 
 import retrofit2.Response
 import retrofit2.http.Body
-import retrofit2.http.DELETE
 import retrofit2.http.GET
 import retrofit2.http.HTTP
 import retrofit2.http.PATCH
@@ -25,7 +24,7 @@ internal interface NotificationApiService {
         @Body request: RegisterFcmDeviceTokenRequest,
     )
 
-    @DELETE("/notifications/token")
+    @HTTP(method = "DELETE", path = "/notifications/token", hasBody = true)
     suspend fun cancelFcmDeviceTokenRegistration(
         @Body request: CancelFcmDeviceTokenRegistrationRequest,
     )

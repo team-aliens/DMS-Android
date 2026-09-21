@@ -2,7 +2,6 @@ package team.aliens.dms.android.data.meal.repository
 
 import java.time.LocalDate
 import team.aliens.dms.android.data.meal.exception.CannotFindMealException
-import team.aliens.dms.android.data.meal.exception.CannotSaveMealException
 import team.aliens.dms.android.data.meal.mapper.toEntity
 import team.aliens.dms.android.data.meal.mapper.toModel
 import team.aliens.dms.android.data.meal.model.Meal
@@ -16,19 +15,20 @@ internal class MealRepositoryImpl @Inject constructor(
     private val networkMealDataSource: NetworkMealDataSource,
 ) : MealRepository() {
     override suspend fun fetchMeal(date: LocalDate): Result<Meal> {
-        val cachedMeal = runCatchingCancellable { databaseMealDataSource.queryMeal(date).toModel() }
-        if (cachedMeal.isSuccess) {
-            return cachedMeal
+        val refreshedMeal = updateMeal(date)
+        val refreshFailure = refreshedMeal.exceptionOrNull()
+
+        if (refreshFailure == null || refreshFailure is CannotFindMealException) {
+            return refreshedMeal
         }
 
-        return updateMeal(date).fold(
-            onSuccess = { Result.success(it) },
-            onFailure = { exception ->
-                when (exception) {
-                    is CannotSaveMealException -> Result.failure(exception)
-                    else -> Result.failure(CannotSaveMealException())
-                }
-            },
+        return runCatchingCancellable {
+            databaseMealDataSource.queryMeal(date).toModel()
+                .takeIf { it.hasMenu() }
+                ?: throw refreshFailure
+        }.fold(
+            onSuccess = Result.Companion::success,
+            onFailure = { Result.failure(refreshFailure) },
         )
     }
 
@@ -37,11 +37,19 @@ internal class MealRepositoryImpl @Inject constructor(
             onSuccess = { response ->
                 runCatchingCancellable {
                     val meals = response.toModel()
-                    databaseMealDataSource.saveMeals(meals.toEntity())
+                    val requestedMeal = meals.find { it.date == date }
 
-                    meals.find { it.date == date } ?: throw CannotFindMealException()
+                    if (requestedMeal?.hasMenu() != true) {
+                        databaseMealDataSource.deleteMeal(date)
+                    }
+                    databaseMealDataSource.saveMeals(meals.filter { it.hasMenu() }.toEntity())
+
+                    requestedMeal ?: throw CannotFindMealException()
                 }
             },
             onFailure = { Result.failure(it) },
         )
 }
+
+private fun Meal.hasMenu(): Boolean =
+    breakfast.isNotEmpty() || lunch.isNotEmpty() || dinner.isNotEmpty()
