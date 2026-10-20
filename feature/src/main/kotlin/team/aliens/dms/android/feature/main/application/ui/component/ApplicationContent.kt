@@ -49,6 +49,7 @@ internal fun ApplicationContent(
                 },
                 chipStyle = when (title) {
                     "새벽 자습 신청하기" -> when (lateStudyStatus) {
+                        LateStudyStatusUi.FIRST_APPROVED,
                         LateStudyStatusUi.SECOND_APPROVED -> ApplicationChipStyle.APPROVED
                         LateStudyStatusUi.REJECTED -> ApplicationChipStyle.REJECTED
                         LateStudyStatusUi.PENDING -> ApplicationChipStyle.PENDING
