@@ -17,8 +17,6 @@ import team.aliens.dms.android.data.remain.repository.RemainsRepository
 import team.aliens.dms.android.data.voting.model.AllVoteSearch
 import team.aliens.dms.android.data.voting.repository.VotingRepository
 import team.aliens.dms.android.network.latestudy.model.StudyApplicationStatusResponse
-import java.time.LocalDate
-import java.time.format.DateTimeParseException
 import javax.inject.Inject
 
 @HiltViewModel
@@ -84,6 +82,11 @@ internal class ApplicationViewModel @Inject constructor(
             runCatching {
                 lateStudyRepository.fetchMyStudyApplicationStatus()
             }.onSuccess { studyApplicationStatus ->
+                if (studyApplicationStatus == null) {
+                    clearLateStudyApplication()
+                    return@onSuccess
+                }
+
                 val title = studyApplicationStatus.toAppliedTitle()
                 val statusUi = studyApplicationStatus.toUiStatus()
 
@@ -94,14 +97,12 @@ internal class ApplicationViewModel @Inject constructor(
                     )
                 }
 
-                if (title == null) {
-                    sharedPreferences.edit()
-                        .remove(KEY_APPLIED_LATE_STUDY_TITLE)
-                        .apply()
-                } else {
+                if (title != null) {
                     sharedPreferences.edit()
                         .putString(KEY_APPLIED_LATE_STUDY_TITLE, title)
                         .apply()
+                } else {
+                    clearLateStudyApplication()
                 }
             }.onFailure {
                 // 서버 요청 실패 시에는 기존 SharedPreferences 값 유지
@@ -130,6 +131,19 @@ internal class ApplicationViewModel @Inject constructor(
         }
     }
 
+    private fun clearLateStudyApplication() {
+        sharedPreferences.edit()
+            .remove(KEY_APPLIED_LATE_STUDY_TITLE)
+            .apply()
+
+        setState {
+            it.copy(
+                lateStudyApplicationTitle = null,
+                lateStudyStatusUi = null,
+            )
+        }
+    }
+
     companion object {
         private const val KEY_APPLIED_LATE_STUDY_TITLE = "applied_late_study_title"
     }
@@ -144,116 +158,30 @@ data class ApplicationState(
 )
 
 enum class LateStudyStatusUi {
+    FIRST_APPROVED,
     SECOND_APPROVED,
     REJECTED,
     PENDING,
 }
 
 private fun StudyApplicationStatusResponse.toAppliedTitle(): String? {
-    val today = LocalDate.now()
-    val start = startDate.toLocalDateOrNull()
-    val end = endDate.toLocalDateOrNull()
-
     return when (status) {
-        "SECOND_APPROVED" -> approvedTitle(today, start, end)
+        "FIRST_APPROVED" -> "1차 승인"
+        "SECOND_APPROVED" -> "최종 승인"
         "PENDING" -> "신청 중"
-        "REJECTED" -> rejectedTitle(today, start, end)
+        "REJECTED" -> "거절됨"
+        "EXPIRED" -> null
         else -> null
     }
-}
-
-private fun StudyApplicationStatusResponse.approvedTitle(
-    today: LocalDate,
-    start: LocalDate?,
-    end: LocalDate?,
-): String? {
-    val actualEndDate = end ?: start
-
-    if (actualEndDate == null || today.isAfter(actualEndDate)) {
-        return null
-    }
-
-    return buildRangeText(start, end, "승인됨")
-}
-
-private fun StudyApplicationStatusResponse.rejectedTitle(
-    today: LocalDate,
-    start: LocalDate?,
-    end: LocalDate?,
-): String? {
-    val rejectBaseDate = end ?: start
-
-    if (rejectBaseDate == null || !rejectBaseDate.isEqual(today)) {
-        return null
-    }
-
-    return buildRangeText(start, end, "거절됨") ?: "거절됨"
-}
-
-private fun StudyApplicationStatusResponse.buildRangeText(
-    start: LocalDate?,
-    end: LocalDate?,
-    suffix: String,
-): String? {
-    return when {
-        start != null && end != null -> {
-            if (start == end) {
-                "${start.toMonthDayText()} $suffix"
-            } else {
-                "${start.toMonthDayText()} ~ ${end.toMonthDayText()} $suffix"
-            }
-        }
-
-        start != null -> "${start.toMonthDayText()} $suffix"
-
-        end != null -> "${end.toMonthDayText()} $suffix"
-
-        else -> null
-    }
-}
-
-private fun LocalDate.toMonthDayText(): String {
-    return "${monthValue}.${dayOfMonth}"
 }
 
 private fun StudyApplicationStatusResponse.toUiStatus(): LateStudyStatusUi? {
-    val today = LocalDate.now()
-    val start = startDate.toLocalDateOrNull()
-    val end = endDate.toLocalDateOrNull()
-
     return when (status) {
-        "SECOND_APPROVED" -> {
-            val actualEndDate = end ?: start
-
-            if (actualEndDate != null && !today.isAfter(actualEndDate)) {
-                LateStudyStatusUi.SECOND_APPROVED
-            } else {
-                null
-            }
-        }
-
+        "FIRST_APPROVED" -> LateStudyStatusUi.FIRST_APPROVED
+        "SECOND_APPROVED" -> LateStudyStatusUi.SECOND_APPROVED
         "PENDING" -> LateStudyStatusUi.PENDING
-
-        "REJECTED" -> {
-            val rejectBaseDate = end ?: start
-
-            if (rejectBaseDate != null && rejectBaseDate.isEqual(today)) {
-                LateStudyStatusUi.REJECTED
-            } else {
-                null
-            }
-        }
-
+        "REJECTED" -> LateStudyStatusUi.REJECTED
+        "EXPIRED" -> null
         else -> null
-    }
-}
-
-private fun String?.toLocalDateOrNull(): LocalDate? {
-    if (this.isNullOrBlank()) return null
-
-    return try {
-        LocalDate.parse(this)
-    } catch (_: DateTimeParseException) {
-        null
     }
 }
