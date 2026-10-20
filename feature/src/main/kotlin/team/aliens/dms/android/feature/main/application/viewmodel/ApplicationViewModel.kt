@@ -3,6 +3,7 @@ package team.aliens.dms.android.feature.main.application.viewmodel
 import android.content.Context
 import android.content.SharedPreferences
 import androidx.compose.runtime.Immutable
+import androidx.core.content.edit
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
@@ -66,12 +67,15 @@ internal class ApplicationViewModel @Inject constructor(
 
     private fun loadAppliedLateStudy() {
         val savedTitle = sharedPreferences.getString(KEY_APPLIED_LATE_STUDY_TITLE, null)
+        val savedStatus = sharedPreferences.getString(KEY_APPLIED_LATE_STUDY_STATUS, null)
+            ?.let(LateStudyStatusUi::fromStoredValue)
+            ?: LateStudyStatusUi.PENDING
 
         if (savedTitle != null) {
             setState {
                 it.copy(
                     lateStudyApplicationTitle = savedTitle,
-                    lateStudyStatusUi = LateStudyStatusUi.PENDING,
+                    lateStudyStatusUi = savedStatus,
                 )
             }
         }
@@ -90,19 +94,17 @@ internal class ApplicationViewModel @Inject constructor(
                 val title = studyApplicationStatus.toAppliedTitle()
                 val statusUi = studyApplicationStatus.toUiStatus()
 
+                if (title == null || statusUi == null) {
+                    clearLateStudyApplication()
+                    return@onSuccess
+                }
+
+                saveLateStudyApplication(title, statusUi)
                 setState {
                     it.copy(
                         lateStudyApplicationTitle = title,
                         lateStudyStatusUi = statusUi,
                     )
-                }
-
-                if (title != null) {
-                    sharedPreferences.edit()
-                        .putString(KEY_APPLIED_LATE_STUDY_TITLE, title)
-                        .apply()
-                } else {
-                    clearLateStudyApplication()
                 }
             }.onFailure {
                 // 서버 요청 실패 시에는 기존 SharedPreferences 값 유지
@@ -119,9 +121,7 @@ internal class ApplicationViewModel @Inject constructor(
     }
 
     internal fun setLateStudyApplication(title: String) {
-        sharedPreferences.edit()
-            .putString(KEY_APPLIED_LATE_STUDY_TITLE, title)
-            .apply()
+        saveLateStudyApplication(title, LateStudyStatusUi.PENDING)
 
         setState {
             it.copy(
@@ -132,9 +132,10 @@ internal class ApplicationViewModel @Inject constructor(
     }
 
     private fun clearLateStudyApplication() {
-        sharedPreferences.edit()
-            .remove(KEY_APPLIED_LATE_STUDY_TITLE)
-            .apply()
+        sharedPreferences.edit {
+            remove(KEY_APPLIED_LATE_STUDY_TITLE)
+            remove(KEY_APPLIED_LATE_STUDY_STATUS)
+        }
 
         setState {
             it.copy(
@@ -144,8 +145,16 @@ internal class ApplicationViewModel @Inject constructor(
         }
     }
 
+    private fun saveLateStudyApplication(title: String, status: LateStudyStatusUi) {
+        sharedPreferences.edit {
+            putString(KEY_APPLIED_LATE_STUDY_TITLE, title)
+            putString(KEY_APPLIED_LATE_STUDY_STATUS, status.name)
+        }
+    }
+
     companion object {
         private const val KEY_APPLIED_LATE_STUDY_TITLE = "applied_late_study_title"
+        private const val KEY_APPLIED_LATE_STUDY_STATUS = "applied_late_study_status"
     }
 }
 
@@ -161,7 +170,12 @@ enum class LateStudyStatusUi {
     FIRST_APPROVED,
     SECOND_APPROVED,
     REJECTED,
-    PENDING,
+    PENDING;
+
+    companion object {
+        fun fromStoredValue(value: String): LateStudyStatusUi? =
+            entries.firstOrNull { it.name == value }
+    }
 }
 
 private fun StudyApplicationStatusResponse.toAppliedTitle(): String? {
