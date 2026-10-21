@@ -41,6 +41,7 @@ import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
 import androidx.hilt.navigation.compose.hiltViewModel
+import java.time.DayOfWeek
 import java.time.LocalDate
 import java.time.YearMonth
 import team.aliens.dms.android.core.designsystem.DmsTheme
@@ -72,8 +73,7 @@ fun LateStudyScreen(
 
     var selectedTypeId by remember { mutableStateOf<String?>(null) }
     var currentMonth by remember { mutableStateOf(YearMonth.now()) }
-    var startDate by remember { mutableStateOf<LocalDate?>(null) }
-    var endDate by remember { mutableStateOf<LocalDate?>(null) }
+    var selectedDates by remember { mutableStateOf<Set<LocalDate>>(emptySet()) }
     var teacherKeyword by remember { mutableStateOf("") }
     var selectedTeacherId by remember { mutableStateOf<String?>(null) }
     var isDropdownVisible by remember { mutableStateOf(false) }
@@ -86,7 +86,7 @@ fun LateStudyScreen(
     val isFormValid = isSubmitEnabled(
         selectedTeacherId = selectedTeacherId,
         selectedTypeId = selectedTypeId,
-        startDate = startDate,
+        selectedDates = selectedDates,
         reason = reason,
     )
     val isSubmitEnabled = isFormValid && !isSubmitting
@@ -154,8 +154,7 @@ fun LateStudyScreen(
 
         DateSelectSection(
             currentMonth = currentMonth,
-            startDate = startDate,
-            endDate = endDate,
+            selectedDates = selectedDates,
             onPrevMonthClick = {
                 currentMonth = currentMonth.minusMonths(1)
             },
@@ -163,20 +162,10 @@ fun LateStudyScreen(
                 currentMonth = currentMonth.plusMonths(1)
             },
             onDateClick = { clickedDate ->
-                when {
-                    startDate == null -> {
-                        startDate = clickedDate
-                    }
-
-                    endDate == null && !clickedDate.isBefore(startDate) -> {
-                        endDate = clickedDate
-                    }
-
-                    else -> {
-                        startDate = clickedDate
-                        endDate = null
-                    }
-                }
+                selectedDates = selectedDates.toggle(clickedDate)
+            },
+            onDateRangeSelect = { startDate, endDate ->
+                selectedDates = selectedDates + selectableDatesBetween(startDate, endDate)
             },
         )
 
@@ -197,8 +186,9 @@ fun LateStudyScreen(
                         teacherId = selectedTeacherId!!,
                         typeId = selectedTypeId!!,
                         reason = reason,
-                        startDate = startDate.toString(),
-                        endDate = (endDate ?: startDate).toString(),
+                        dates = selectedDates
+                            .sorted()
+                            .map(LocalDate::toString),
                         onSuccess = {
                             resultStore.setResult(
                                 resultKey = "late_study_application_result",
@@ -406,19 +396,19 @@ private fun StudyTypeSection(
 @Composable
 private fun DateSelectSection(
     currentMonth: YearMonth,
-    startDate: LocalDate?,
-    endDate: LocalDate?,
+    selectedDates: Set<LocalDate>,
     onPrevMonthClick: () -> Unit,
     onNextMonthClick: () -> Unit,
     onDateClick: (LocalDate) -> Unit,
+    onDateRangeSelect: (LocalDate, LocalDate) -> Unit,
 ) {
     LateStudyCalendarSection(
         currentMonth = currentMonth,
-        startDate = startDate,
-        endDate = endDate,
+        selectedDates = selectedDates,
         onPrevMonthClick = onPrevMonthClick,
         onNextMonthClick = onNextMonthClick,
         onDateClick = onDateClick,
+        onDateRangeSelect = onDateRangeSelect,
     )
 }
 
@@ -440,13 +430,30 @@ private fun SubmitButton(
 private fun isSubmitEnabled(
     selectedTeacherId: String?,
     selectedTypeId: String?,
-    startDate: LocalDate?,
+    selectedDates: Set<LocalDate>,
     reason: String,
 ): Boolean {
     return selectedTeacherId != null &&
             selectedTypeId != null &&
-            startDate != null &&
+            selectedDates.isNotEmpty() &&
             reason.isNotBlank()
+}
+
+private fun Set<LocalDate>.toggle(date: LocalDate): Set<LocalDate> =
+    if (date in this) this - date else this + date
+
+private fun selectableDatesBetween(
+    firstDate: LocalDate,
+    secondDate: LocalDate,
+): Set<LocalDate> {
+    val startDate = minOf(firstDate, secondDate)
+    val endDate = maxOf(firstDate, secondDate)
+
+    return generateSequence(startDate) { date ->
+        date.plusDays(1).takeIf { it <= endDate }
+    }.filter { date ->
+        date.dayOfWeek.value in DayOfWeek.MONDAY.value..DayOfWeek.THURSDAY.value
+    }.toSet()
 }
 
 private fun highlightText(
