@@ -241,11 +241,12 @@ private fun CalendarGrid(
                         isConnectedToPrevious = isConnectedToPrevious,
                         isConnectedToNext = isConnectedToNext,
                         onClick = {
-                            if (item.date.isBefore(LocalDate.now())) {
-                                onPastDateClick()
-                            } else if (isSelectable) {
-                                onDateClick(item.date)
-                            }
+                            handleCalendarDateClick(
+                                date = item.date,
+                                isSelectable = isSelectable,
+                                onDateClick = onDateClick,
+                                onPastDateClick = onPastDateClick,
+                            )
                         },
                         isEnabled = item.isCurrentMonth,
                         modifier = Modifier.weight(1f),
@@ -420,19 +421,48 @@ private fun calendarDateAtPosition(
 ): LocalDate? {
     val contentWidth = gridWidth - (horizontalPadding * 2)
     val gridHeight = ((dates.size + 6) / 7) * rowHeight
-    if (
-        contentWidth <= 0f ||
-        position.x < horizontalPadding ||
-        position.x >= gridWidth - horizontalPadding ||
-        position.y < 0f ||
-        position.y >= gridHeight
-    ) {
+    if (contentWidth <= 0f) {
+        return null
+    }
+    if (position.isOutsideCalendarGrid(gridWidth, horizontalPadding, gridHeight)) {
         return null
     }
 
     val column = ((position.x - horizontalPadding) / (contentWidth / 7)).toInt()
     val row = (position.y / rowHeight).toInt()
     return dates.getOrNull(row * 7 + column)?.date
+}
+
+private fun handleCalendarDateClick(
+    date: LocalDate,
+    isSelectable: Boolean,
+    onDateClick: (LocalDate) -> Unit,
+    onPastDateClick: () -> Unit,
+) {
+    when {
+        date.isBefore(LocalDate.now()) -> onPastDateClick()
+        isSelectable -> onDateClick(date)
+    }
+}
+
+private fun Offset.isOutsideCalendarGrid(
+    gridWidth: Float,
+    horizontalPadding: Float,
+    gridHeight: Float,
+): Boolean {
+    return isOutsideHorizontalBounds(gridWidth, horizontalPadding) ||
+        isOutsideVerticalBounds(gridHeight)
+}
+
+private fun Offset.isOutsideHorizontalBounds(
+    gridWidth: Float,
+    horizontalPadding: Float,
+): Boolean {
+    return x < horizontalPadding || x >= gridWidth - horizontalPadding
+}
+
+private fun Offset.isOutsideVerticalBounds(gridHeight: Float): Boolean {
+    return y < 0f || y >= gridHeight
 }
 
 private data class CalendarDateUiModel(
