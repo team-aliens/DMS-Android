@@ -167,6 +167,12 @@ fun LateStudyScreen(
             onDateRangeSelect = { startDate, endDate ->
                 selectedDates = selectedDates + selectableDatesBetween(startDate, endDate)
             },
+            onPastDateClick = {
+                onShowSnackBar(
+                    DmsSnackBarType.ERROR,
+                    "오늘 이후 날짜만 선택할 수 있어요",
+                )
+            },
         )
 
         Spacer(modifier = Modifier.height(20.dp))
@@ -401,6 +407,7 @@ private fun DateSelectSection(
     onNextMonthClick: () -> Unit,
     onDateClick: (LocalDate) -> Unit,
     onDateRangeSelect: (LocalDate, LocalDate) -> Unit,
+    onPastDateClick: () -> Unit,
 ) {
     LateStudyCalendarSection(
         currentMonth = currentMonth,
@@ -409,6 +416,7 @@ private fun DateSelectSection(
         onNextMonthClick = onNextMonthClick,
         onDateClick = onDateClick,
         onDateRangeSelect = onDateRangeSelect,
+        onPastDateClick = onPastDateClick,
     )
 }
 

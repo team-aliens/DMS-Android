@@ -52,6 +52,7 @@ fun LateStudyCalendarSection(
     onNextMonthClick: () -> Unit,
     onDateClick: (LocalDate) -> Unit,
     onDateRangeSelect: (LocalDate, LocalDate) -> Unit,
+    onPastDateClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     LateStudySectionCard(modifier = modifier) {
@@ -111,6 +112,7 @@ fun LateStudyCalendarSection(
             selectedDates = selectedDates,
             onDateClick = onDateClick,
             onDateRangeSelect = onDateRangeSelect,
+            onPastDateClick = onPastDateClick,
         )
 
         Spacer(modifier = Modifier.size(4.dp))
@@ -155,6 +157,7 @@ private fun CalendarGrid(
     selectedDates: Set<LocalDate>,
     onDateClick: (LocalDate) -> Unit,
     onDateRangeSelect: (LocalDate, LocalDate) -> Unit,
+    onPastDateClick: () -> Unit,
 ) {
     val dates = buildCalendarDates(currentMonth)
     val density = LocalDensity.current
@@ -174,13 +177,17 @@ private fun CalendarGrid(
             .pointerInput(dates) {
                 detectDragGesturesAfterLongPress(
                     onDragStart = { position ->
-                        rangeStartDate = calendarDateAtPosition(
+                        val date = calendarDateAtPosition(
                             position = position,
                             dates = dates,
                             gridWidth = size.width.toFloat(),
                             horizontalPadding = horizontalPadding,
                             rowHeight = rowHeight,
-                        )?.takeIf(::isSelectableDate)
+                        )
+                        if (date?.isBefore(LocalDate.now()) == true) {
+                            onPastDateClick()
+                        }
+                        rangeStartDate = date?.takeIf(::isSelectableDate)
                         rangeEndDate = rangeStartDate
                         if (rangeStartDate != null) {
                             haptic.performHapticFeedback(HapticFeedbackType.LongPress)
@@ -233,12 +240,14 @@ private fun CalendarGrid(
                         isSelected = isSelected,
                         isConnectedToPrevious = isConnectedToPrevious,
                         isConnectedToNext = isConnectedToNext,
-                        isSelectable = isSelectable,
                         onClick = {
-                            if (isSelectable) {
+                            if (item.date.isBefore(LocalDate.now())) {
+                                onPastDateClick()
+                            } else if (isSelectable) {
                                 onDateClick(item.date)
                             }
                         },
+                        isEnabled = item.isCurrentMonth,
                         modifier = Modifier.weight(1f),
                     )
                 }
@@ -254,8 +263,8 @@ private fun CalendarDateCell(
     isSelected: Boolean,
     isConnectedToPrevious: Boolean,
     isConnectedToNext: Boolean,
-    isSelectable: Boolean,
     onClick: () -> Unit,
+    isEnabled: Boolean,
     modifier: Modifier = Modifier,
 ) {
     val textColor = calendarDateTextColor(
@@ -278,7 +287,7 @@ private fun CalendarDateCell(
         CalendarDateText(
             date = date,
             textColor = textColor,
-            isSelectable = isSelectable,
+            isEnabled = isEnabled,
             onClick = onClick,
         )
     }
@@ -364,14 +373,14 @@ private fun SelectedDateBackground(
 private fun CalendarDateText(
     date: LocalDate,
     textColor: Color,
-    isSelectable: Boolean,
+    isEnabled: Boolean,
     onClick: () -> Unit,
 ) {
     Box(
         modifier = Modifier
             .size(32.dp)
             .clickable(
-                enabled = isSelectable,
+                enabled = isEnabled,
                 onClick = onClick,
             ),
         contentAlignment = Alignment.Center,
@@ -504,6 +513,7 @@ private fun isSelectableDate(date: LocalDate): Boolean {
 
     val endOfSelectableWeek = startOfSelectableWeek.plusDays(3)
 
-    return !date.isBefore(startOfSelectableWeek) &&
+    return !date.isBefore(today) &&
+            !date.isBefore(startOfSelectableWeek) &&
             !date.isAfter(endOfSelectableWeek)
 }
