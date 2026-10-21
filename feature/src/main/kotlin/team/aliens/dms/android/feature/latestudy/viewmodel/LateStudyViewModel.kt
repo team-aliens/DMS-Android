@@ -73,8 +73,7 @@ class LateStudyViewModel @Inject constructor(
         teacherId: String,
         typeId: String,
         reason: String,
-        startDate: String,
-        endDate: String,
+        dates: List<String>,
         onSuccess: () -> Unit,
         onFailure: (String) -> Unit,
     ) {
@@ -89,8 +88,7 @@ class LateStudyViewModel @Inject constructor(
                         teacherId = teacherId,
                         typeId = typeId,
                         reason = reason,
-                        startDate = startDate,
-                        endDate = endDate,
+                        dates = dates,
                     ),
                 )
             } catch (e: CancellationException) {
