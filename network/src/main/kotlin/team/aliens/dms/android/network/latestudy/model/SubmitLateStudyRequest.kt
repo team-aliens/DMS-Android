@@ -8,8 +8,5 @@ data class SubmitLateStudyRequest(
     @SerializedName("type_id")
     val typeId: String,
     val reason: String,
-    @SerializedName("start_date")
-    val startDate: String,
-    @SerializedName("end_date")
-    val endDate: String,
+    val dates: List<String>,
 )
