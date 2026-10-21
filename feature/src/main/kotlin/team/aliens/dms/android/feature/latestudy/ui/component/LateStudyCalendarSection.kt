@@ -410,7 +410,14 @@ private fun calendarDateAtPosition(
     rowHeight: Float,
 ): LocalDate? {
     val contentWidth = gridWidth - (horizontalPadding * 2)
-    if (contentWidth <= 0f || position.x !in horizontalPadding..(gridWidth - horizontalPadding)) {
+    val gridHeight = ((dates.size + 6) / 7) * rowHeight
+    if (
+        contentWidth <= 0f ||
+        position.x < horizontalPadding ||
+        position.x >= gridWidth - horizontalPadding ||
+        position.y < 0f ||
+        position.y >= gridHeight
+    ) {
         return null
     }
 
