@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBarsPadding
@@ -125,81 +126,142 @@ private fun LateStudyDetailContent(
     onCancelClick: () -> Unit,
     isCancelling: Boolean,
 ) {
-    val selectedDates = remember(application.dates) { application.dates.toLocalDates() }
+    val selectedDates = remember(application.applicationDates) { application.applicationDates.toLocalDates() }
     var displayedMonth by remember(selectedDates) {
         mutableStateOf(selectedDates.firstOrNull()?.let(YearMonth::from) ?: YearMonth.now())
     }
     val canCancel = application.status == PENDING_STATUS
 
-    Column(
+    Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(DmsTheme.colorScheme.background)
-            .statusBarsPadding()
-            .verticalScroll(rememberScrollState())
-            .padding(horizontal = 10.dp, vertical = 16.dp),
+            .background(DmsTheme.colorScheme.background),
     ) {
-        IconButton(onClick = onBack) {
-            Icon(
-                imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                contentDescription = "뒤로가기",
-                tint = DmsTheme.colorScheme.onBackground,
-            )
-        }
-
-        Spacer(modifier = Modifier.height(20.dp))
-
-        Text(
-            text = "새벽 자습 신청 상세",
-            color = DmsTheme.colorScheme.onBackground,
-            style = DmsTheme.typography.sTitleB,
-            modifier = Modifier.padding(horizontal = 14.dp),
-        )
-
-        Spacer(modifier = Modifier.height(20.dp))
-
-        LateStudySectionCard(
-            modifier = Modifier.padding(horizontal = 0.dp),
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .statusBarsPadding()
+                .verticalScroll(rememberScrollState())
+                .padding(horizontal = 10.dp, vertical = 16.dp)
+                .padding(bottom = if (canCancel) 112.dp else 0.dp),
         ) {
-            DetailValueSection(
-                title = "신청 상태",
-                value = application.status.toKoreanStatus(),
-            )
+            IconButton(onClick = onBack) {
+                Icon(
+                    imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                    contentDescription = "뒤로가기",
+                    tint = DmsTheme.colorScheme.onBackground,
+                )
+            }
 
-            Spacer(modifier = Modifier.height(24.dp))
+            Spacer(modifier = Modifier.height(20.dp))
 
             Text(
-                text = "일정",
-                color = DmsTheme.colorScheme.inverseOnSurface,
-                style = DmsTheme.typography.bodyB,
-                modifier = Modifier.padding(horizontal = 16.dp),
+                text = "새벽 자습 신청 상세",
+                color = DmsTheme.colorScheme.onBackground,
+                style = DmsTheme.typography.sTitleB,
+                modifier = Modifier.padding(horizontal = 14.dp),
             )
 
-            Spacer(modifier = Modifier.height(10.dp))
+            Spacer(modifier = Modifier.height(20.dp))
 
-            DetailCalendar(
-                month = displayedMonth,
-                selectedDates = selectedDates,
-                onPreviousMonth = { displayedMonth = displayedMonth.minusMonths(1) },
-                onNextMonth = { displayedMonth = displayedMonth.plusMonths(1) },
-            )
+            LateStudySectionCard(
+                modifier = Modifier.padding(horizontal = 0.dp),
+            ) {
+                DetailValueSection(
+                    title = "담당 선생님",
+                    value = application.teacherName.orUnavailable(),
+                )
+
+                Spacer(modifier = Modifier.height(16.dp))
+
+                DetailValueSection(
+                    title = "유형",
+                    value = application.typeName.orUnavailable(),
+                )
+
+                Spacer(modifier = Modifier.height(16.dp))
+
+                Text(
+                    text = "일정",
+                    color = DmsTheme.colorScheme.inverseOnSurface,
+                    style = DmsTheme.typography.bodyB,
+                    modifier = Modifier.padding(horizontal = 16.dp),
+                )
+
+                Spacer(modifier = Modifier.height(10.dp))
+
+                DetailCalendar(
+                    month = displayedMonth,
+                    selectedDates = selectedDates,
+                    onPreviousMonth = { displayedMonth = displayedMonth.minusMonths(1) },
+                    onNextMonth = { displayedMonth = displayedMonth.plusMonths(1) },
+                )
+
+                Spacer(modifier = Modifier.height(16.dp))
+
+                DetailReasonSection(reason = application.reason.orUnavailable())
+            }
+
+            Spacer(modifier = Modifier.height(24.dp))
         }
-
-        Spacer(modifier = Modifier.height(24.dp))
 
         if (canCancel) {
-            DmsButton(
-                modifier = Modifier.fillMaxWidth(),
-                text = "신청 취소",
-                buttonType = ButtonType.Contained,
-                buttonColor = ButtonColor.Error,
-                enabled = !isCancelling,
-                isLoading = isCancelling,
-                onClick = onCancelClick,
+            LateStudySectionCard(
+                modifier = Modifier
+                    .align(Alignment.BottomCenter)
+                    .navigationBarsPadding(),
+            ) {
+                DmsButton(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 16.dp),
+                    text = "신청 취소하기",
+                    buttonType = ButtonType.Contained,
+                    buttonColor = ButtonColor.Error,
+                    enabled = !isCancelling,
+                    isLoading = isCancelling,
+                    onClick = onCancelClick,
+                )
+            }
+        }
+    }
+}
+
+@Composable
+private fun DetailReasonSection(reason: String) {
+    Column {
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 16.dp),
+            horizontalArrangement = Arrangement.SpaceBetween,
+        ) {
+            Text(
+                text = "사유",
+                color = DmsTheme.colorScheme.inverseOnSurface,
+                style = DmsTheme.typography.bodyB,
+            )
+            Text(
+                text = "${reason.length}/200",
+                color = DmsTheme.colorScheme.inverseSurface,
+                style = DmsTheme.typography.labelB,
             )
         }
 
-        Spacer(modifier = Modifier.height(12.dp))
+        Text(
+            text = reason,
+            color = DmsTheme.colorScheme.onBackground,
+            style = DmsTheme.typography.bodyM,
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(180.dp)
+                .padding(horizontal = 16.dp, vertical = 14.dp)
+                .background(
+                    color = DmsTheme.colorScheme.onSurface,
+                    shape = RoundedCornerShape(20.dp),
+                )
+                .padding(16.dp),
+        )
     }
 }
 
@@ -432,5 +494,7 @@ private fun String.toKoreanStatus(): String = when (this) {
     "EXPIRED" -> "만료됨"
     else -> this
 }
+
+private fun String?.orUnavailable(): String = this?.takeIf(String::isNotBlank) ?: "확인할 수 없어요"
 
 private const val PENDING_STATUS = "PENDING"
