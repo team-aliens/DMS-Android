@@ -131,7 +131,7 @@ internal class ApplicationViewModel @Inject constructor(
         }
     }
 
-    private fun clearLateStudyApplication() {
+    internal fun clearLateStudyApplication() {
         sharedPreferences.edit {
             remove(KEY_APPLIED_LATE_STUDY_TITLE)
             remove(KEY_APPLIED_LATE_STUDY_STATUS)
