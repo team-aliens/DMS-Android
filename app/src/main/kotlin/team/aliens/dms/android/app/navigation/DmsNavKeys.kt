@@ -30,6 +30,9 @@ data object RemainScreenNav : NavKey
 data object LateStudyNav : NavKey
 
 @Serializable
+data object LateStudyDetailNav : NavKey
+
+@Serializable
 data object MyPageScreenNav : NavKey
 
 @Serializable
