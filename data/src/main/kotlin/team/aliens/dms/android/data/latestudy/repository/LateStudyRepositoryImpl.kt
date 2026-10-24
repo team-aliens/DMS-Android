@@ -21,6 +21,10 @@ class LateStudyRepositoryImpl @Inject constructor(
     override suspend fun fetchMyStudyApplicationStatus(): StudyApplicationStatusResponse? =
         networkLateStudyDataSource.fetchMyStudyApplicationStatus()
 
+    override suspend fun cancelMyStudyApplication() {
+        networkLateStudyDataSource.cancelMyStudyApplication()
+    }
+
     override suspend fun submitLateStudy(request: SubmitLateStudyRequest) {
         networkLateStudyDataSource.submitLateStudy(request)
     }
