@@ -26,6 +26,11 @@ class NetworkLateStudyDataSourceImpl @Inject constructor(
             if (exception.code() == 404) null else throw exception
         }
 
+    override suspend fun cancelMyStudyApplication(): Unit =
+        handleNetworkRequest {
+            lateStudyApiService.cancelMyStudyApplication()
+        }
+
     override suspend fun submitLateStudy(request: SubmitLateStudyRequest): Unit =
         handleNetworkRequest {
             lateStudyApiService.submitLateStudy(request)
