@@ -12,11 +12,13 @@ fun ApplicationRoute(
     onNavigateVote: (AllVoteSearch) -> Unit,
     onShowSnackBar: (DmsSnackBarType, String) -> Unit,
     onNavigateLateStudyApplication: () -> Unit,
+    onNavigateLateStudyDetail: () -> Unit,
 ) {
     Application(
         onNavigateRemainApplication = onNavigateRemainApplication,
         onNavigateVote = onNavigateVote,
         onShowSnackBar = onShowSnackBar,
         onNavigateLateStudyApplication = onNavigateLateStudyApplication,
+        onNavigateLateStudyDetail = onNavigateLateStudyDetail,
     )
 }
