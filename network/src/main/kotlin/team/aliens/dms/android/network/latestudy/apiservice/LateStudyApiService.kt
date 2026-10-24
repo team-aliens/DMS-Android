@@ -1,6 +1,7 @@
 package team.aliens.dms.android.network.latestudy.apiservice
 
 import retrofit2.http.Body
+import retrofit2.http.DELETE
 import retrofit2.http.GET
 import retrofit2.http.POST
 import team.aliens.dms.android.network.latestudy.model.FetchStudyTypesResponse
@@ -14,6 +15,9 @@ interface LateStudyApiService {
 
     @GET("/daybreaks/study-application/my")
     suspend fun fetchMyStudyApplicationStatus(): StudyApplicationStatusResponse
+
+    @DELETE("/daybreaks/study-application/my")
+    suspend fun cancelMyStudyApplication()
 
     @GET("/teachers/general")
     suspend fun fetchTeachers(): FetchTeachersResponse
