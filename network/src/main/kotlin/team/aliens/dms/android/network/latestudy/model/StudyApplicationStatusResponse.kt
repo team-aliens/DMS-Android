@@ -9,9 +9,9 @@ data class StudyApplicationStatusResponse(
     val startDate: String? = null,
     @SerializedName("end_date")
     val endDate: String? = null,
-    @SerializedName(value = "teacherName", alternate = ["teacher_name"])
+    @SerializedName(value = "teacher_name", alternate = ["teacherName"])
     val teacherName: String? = null,
-    @SerializedName(value = "typeName", alternate = ["type_name"])
+    @SerializedName(value = "type_name", alternate = ["typeName"])
     val typeName: String? = null,
     val reason: String? = null,
 ) {
