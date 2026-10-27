@@ -242,7 +242,7 @@ fun DmsApp(
                         entry<LateStudyDetailNav> {
                             LateStudyDetailRoute(
                                 onBack = { backStack.remove(LateStudyDetailNav) },
-                                onCancelled = {
+                                onCancel = {
                                     resultStore.setResult(
                                         resultKey = "late_study_application_result",
                                         result = "late_study_application_cancelled",
