@@ -32,6 +32,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -63,22 +64,24 @@ import team.aliens.dms.android.network.latestudy.model.StudyApplicationStatusRes
 @Composable
 fun LateStudyDetailScreen(
     onBack: () -> Unit,
-    onCancelled: () -> Unit,
+    onCancel: () -> Unit,
     onShowSnackBar: (DmsSnackBarType, String) -> Unit,
 ) {
     val viewModel: LateStudyDetailViewModel = hiltViewModel()
     val state = viewModel.uiState
     var isCancelDialogVisible by remember { mutableStateOf(false) }
+    val currentOnBack by rememberUpdatedState(onBack)
+    val currentOnShowSnackBar by rememberUpdatedState(onShowSnackBar)
 
     when (state) {
         LateStudyDetailUiState.Loading -> LoadingContent()
         LateStudyDetailUiState.Empty -> LaunchedEffect(state) {
-            onShowSnackBar(DmsSnackBarType.ERROR, "새벽 자습 신청 내역이 없어요")
-            onBack()
+            currentOnShowSnackBar(DmsSnackBarType.ERROR, "새벽 자습 신청 내역이 없어요")
+            currentOnBack()
         }
         LateStudyDetailUiState.Error -> LaunchedEffect(state) {
-            onShowSnackBar(DmsSnackBarType.ERROR, "새벽 자습 신청 내역을 불러오지 못했어요")
-            onBack()
+            currentOnShowSnackBar(DmsSnackBarType.ERROR, "새벽 자습 신청 내역을 불러오지 못했어요")
+            currentOnBack()
         }
         is LateStudyDetailUiState.Success -> {
             LateStudyDetailContent(
@@ -96,7 +99,7 @@ fun LateStudyDetailScreen(
             onDismissRequest = { isCancelDialogVisible = false },
             onConfirm = {
                 viewModel.cancelApplication(
-                    onSuccess = onCancelled,
+                    onSuccess = onCancel,
                     onFailure = { message ->
                         isCancelDialogVisible = false
                         onShowSnackBar(DmsSnackBarType.ERROR, message)
@@ -302,72 +305,74 @@ private fun DetailCalendar(
     onPreviousMonth: () -> Unit,
     onNextMonth: () -> Unit,
 ) {
-    Row(
-        modifier = Modifier.padding(horizontal = 12.dp),
-        verticalAlignment = Alignment.CenterVertically,
-    ) {
-        IconButton(onClick = onPreviousMonth) {
-            Icon(
-                imageVector = Icons.AutoMirrored.Filled.KeyboardArrowLeft,
-                contentDescription = "이전 달",
-                tint = DmsTheme.colorScheme.inverseOnSurface,
-            )
-        }
-        Text(
-            text = "${month.year} ${month.monthValue}월",
-            color = DmsTheme.colorScheme.onBackground,
-            style = DmsTheme.typography.bodyM,
-        )
-        IconButton(onClick = onNextMonth) {
-            Icon(
-                imageVector = Icons.AutoMirrored.Filled.KeyboardArrowRight,
-                contentDescription = "다음 달",
-                tint = DmsTheme.colorScheme.inverseOnSurface,
-            )
-        }
-    }
-
-    val dayLabels = listOf("일", "월", "화", "수", "목", "금", "토")
-    Row(modifier = Modifier.padding(horizontal = 16.dp)) {
-        dayLabels.forEachIndexed { index, label ->
-            Text(
-                text = label,
-                color = when (index) {
-                    0 -> DmsTheme.colorScheme.onError
-                    6 -> DmsTheme.colorScheme.onPrimary
-                    5 -> DmsTheme.colorScheme.inverseSurface
-                    else -> DmsTheme.colorScheme.onBackground
-                },
-                style = DmsTheme.typography.bodyM,
-                textAlign = TextAlign.Center,
-                modifier = Modifier.weight(1f),
-            )
-        }
-    }
-
-    Spacer(modifier = Modifier.height(8.dp))
-
-    val firstDayOffset = month.atDay(1).dayOfWeek.toSundayBasedIndex()
-    val days = List(firstDayOffset) { null } + (1..month.lengthOfMonth()).map(month::atDay)
-    days.chunked(7).forEach { week ->
+    Column {
         Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 16.dp, vertical = 4.dp),
+            modifier = Modifier.padding(horizontal = 12.dp),
+            verticalAlignment = Alignment.CenterVertically,
         ) {
-            week.forEach { date ->
-                CalendarDay(
-                    date = date,
-                    isSelected = date in selectedDates,
+            IconButton(onClick = onPreviousMonth) {
+                Icon(
+                    imageVector = Icons.AutoMirrored.Filled.KeyboardArrowLeft,
+                    contentDescription = "이전 달",
+                    tint = DmsTheme.colorScheme.inverseOnSurface,
+                )
+            }
+            Text(
+                text = "${month.year} ${month.monthValue}월",
+                color = DmsTheme.colorScheme.onBackground,
+                style = DmsTheme.typography.bodyM,
+            )
+            IconButton(onClick = onNextMonth) {
+                Icon(
+                    imageVector = Icons.AutoMirrored.Filled.KeyboardArrowRight,
+                    contentDescription = "다음 달",
+                    tint = DmsTheme.colorScheme.inverseOnSurface,
+                )
+            }
+        }
+
+        val dayLabels = listOf("일", "월", "화", "수", "목", "금", "토")
+        Row(modifier = Modifier.padding(horizontal = 16.dp)) {
+            dayLabels.forEachIndexed { index, label ->
+                Text(
+                    text = label,
+                    color = when (index) {
+                        0 -> DmsTheme.colorScheme.onError
+                        6 -> DmsTheme.colorScheme.onPrimary
+                        5 -> DmsTheme.colorScheme.inverseSurface
+                        else -> DmsTheme.colorScheme.onBackground
+                    },
+                    style = DmsTheme.typography.bodyM,
+                    textAlign = TextAlign.Center,
                     modifier = Modifier.weight(1f),
                 )
             }
-            repeat(7 - week.size) {
-                Spacer(
-                    modifier = Modifier
-                        .weight(1f)
-                        .aspectRatio(1f),
-                )
+        }
+
+        Spacer(modifier = Modifier.height(8.dp))
+
+        val firstDayOffset = month.atDay(1).dayOfWeek.toSundayBasedIndex()
+        val days = List(firstDayOffset) { null } + (1..month.lengthOfMonth()).map(month::atDay)
+        days.chunked(7).forEach { week ->
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 16.dp, vertical = 4.dp),
+            ) {
+                week.forEach { date ->
+                    CalendarDay(
+                        date = date,
+                        isSelected = date in selectedDates,
+                        modifier = Modifier.weight(1f),
+                    )
+                }
+                repeat(7 - week.size) {
+                    Spacer(
+                        modifier = Modifier
+                            .weight(1f)
+                            .aspectRatio(1f),
+                    )
+                }
             }
         }
     }
@@ -485,15 +490,6 @@ private fun List<String>.toLocalDates(): Set<LocalDate> = mapNotNull { date ->
 }.toSet()
 
 private fun DayOfWeek.toSundayBasedIndex(): Int = value % 7
-
-private fun String.toKoreanStatus(): String = when (this) {
-    "PENDING" -> "신청 중"
-    "FIRST_APPROVED" -> "1차 승인"
-    "SECOND_APPROVED" -> "최종 승인"
-    "REJECTED" -> "거절됨"
-    "EXPIRED" -> "만료됨"
-    else -> this
-}
 
 private fun String?.orUnavailable(): String = this?.takeIf(String::isNotBlank) ?: "확인할 수 없어요"
 
