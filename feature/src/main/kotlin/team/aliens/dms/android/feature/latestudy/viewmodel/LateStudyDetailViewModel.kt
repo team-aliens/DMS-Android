@@ -1,5 +1,6 @@
 package team.aliens.dms.android.feature.latestudy.viewmodel
 
+import android.util.Log
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -13,6 +14,7 @@ import kotlinx.coroutines.launch
 import team.aliens.dms.android.core.network.exception.NetworkException
 import team.aliens.dms.android.data.latestudy.repository.LateStudyRepository
 import team.aliens.dms.android.network.latestudy.model.StudyApplicationStatusResponse
+import team.aliens.dms.android.shared.exception.UnknownException
 
 @HiltViewModel
 class LateStudyDetailViewModel @Inject constructor(
@@ -43,11 +45,11 @@ class LateStudyDetailViewModel @Inject constructor(
             } catch (exception: CancellationException) {
                 throw exception
             } catch (exception: IOException) {
-                onFailure("새벽 자습 신청 취소에 실패했어요")
+                handleCancelFailure(exception, onFailure)
             } catch (exception: NetworkException) {
-                onFailure("새벽 자습 신청 취소에 실패했어요")
-            } catch (exception: Exception) {
-                onFailure("새벽 자습 신청 취소에 실패했어요")
+                handleCancelFailure(exception, onFailure)
+            } catch (exception: UnknownException) {
+                handleCancelFailure(exception, onFailure)
             } finally {
                 isCancelling = false
             }
@@ -62,13 +64,30 @@ class LateStudyDetailViewModel @Inject constructor(
             } catch (exception: CancellationException) {
                 throw exception
             } catch (exception: IOException) {
-                uiState = LateStudyDetailUiState.Error
+                handleFetchFailure(exception)
             } catch (exception: NetworkException) {
-                uiState = LateStudyDetailUiState.Error
-            } catch (exception: Exception) {
-                uiState = LateStudyDetailUiState.Error
+                handleFetchFailure(exception)
+            } catch (exception: UnknownException) {
+                handleFetchFailure(exception)
             }
         }
+    }
+
+    private fun handleCancelFailure(
+        throwable: Throwable,
+        onFailure: (String) -> Unit,
+    ) {
+        Log.e(TAG, "새벽 자습 신청 취소에 실패했습니다.", throwable)
+        onFailure("새벽 자습 신청 취소에 실패했어요")
+    }
+
+    private fun handleFetchFailure(throwable: Throwable) {
+        Log.e(TAG, "새벽 자습 신청 내역 조회에 실패했습니다.", throwable)
+        uiState = LateStudyDetailUiState.Error
+    }
+
+    private companion object {
+        const val TAG = "LateStudyDetailViewModel"
     }
 }
 
