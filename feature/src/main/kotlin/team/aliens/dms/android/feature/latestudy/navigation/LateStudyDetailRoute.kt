@@ -7,12 +7,12 @@ import team.aliens.dms.android.feature.latestudy.ui.LateStudyDetailScreen
 @Composable
 fun LateStudyDetailRoute(
     onBack: () -> Unit,
-    onCancelled: () -> Unit,
+    onCancel: () -> Unit,
     onShowSnackBar: (DmsSnackBarType, String) -> Unit,
 ) {
     LateStudyDetailScreen(
         onBack = onBack,
-        onCancelled = onCancelled,
+        onCancel = onCancel,
         onShowSnackBar = onShowSnackBar,
     )
 }
