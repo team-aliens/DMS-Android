@@ -21,6 +21,7 @@ internal fun ApplicationContent(
     onNavigateOutingApplication: () -> Unit,
     onNavigateVolunteerApplication: () -> Unit,
     onNavigateLateStudyApplication: () -> Unit,
+    onNavigateLateStudyDetail: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     Column(
@@ -34,7 +35,11 @@ internal fun ApplicationContent(
     ) {
         listOf(
             Triple("잔류", R.drawable.img_home, onNavigateRemainApplication),
-            Triple("새벽 자습 신청하기", R.drawable.img_3d_dawn, onNavigateLateStudyApplication),
+            Triple(
+                "새벽 자습 신청하기",
+                R.drawable.img_3d_dawn,
+                if (lateStudyAppliedTitle == null) onNavigateLateStudyApplication else onNavigateLateStudyDetail,
+            ),
             Triple("외출 신청하기", R.drawable.img_outing, onNavigateOutingApplication),
             Triple("봉사 활동 신청하기", R.drawable.img_volunteer, onNavigateVolunteerApplication),
         ).forEach { (title, icon, onClick) ->

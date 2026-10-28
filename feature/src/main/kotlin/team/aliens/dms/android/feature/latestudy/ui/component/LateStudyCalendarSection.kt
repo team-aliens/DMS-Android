@@ -225,7 +225,7 @@ private fun CalendarGrid(
                     .padding(horizontal = 16.dp, vertical = 6.dp),
             ) {
                 week.forEachIndexed { index, item ->
-                    val isSelectable = item.isCurrentMonth && isSelectableDate(item.date)
+                    val isSelectable = isSelectableDate(item.date)
                     val isSelected = item.date in visibleSelectedDates
                     val isConnectedToPrevious = isSelected &&
                         index > 0 &&
@@ -248,7 +248,7 @@ private fun CalendarGrid(
                                 onPastDateClick = onPastDateClick,
                             )
                         },
-                        isEnabled = item.isCurrentMonth,
+                        isEnabled = item.isCurrentMonth || isSelectable,
                         modifier = Modifier.weight(1f),
                     )
                 }
