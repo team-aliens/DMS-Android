@@ -28,6 +28,7 @@ import team.aliens.dms.android.app.navigation.EditPasswordScreenNav
 import team.aliens.dms.android.app.navigation.FindIdScreenNav
 import team.aliens.dms.android.app.navigation.HomeScreenNav
 import team.aliens.dms.android.app.navigation.LateStudyNav
+import team.aliens.dms.android.app.navigation.LateStudyDetailNav
 import team.aliens.dms.android.app.navigation.MealScreenNav
 import team.aliens.dms.android.app.navigation.MyPageScreenNav
 import team.aliens.dms.android.app.navigation.NoticeDetailScreenNav
@@ -58,6 +59,7 @@ import team.aliens.dms.android.feature.editpassword.navigation.CheckPasswordRout
 import team.aliens.dms.android.feature.editpassword.navigation.EditPasswordRoute
 import team.aliens.dms.android.feature.findid.navigation.FindIdRoute
 import team.aliens.dms.android.feature.latestudy.navigation.LateStudyRoute
+import team.aliens.dms.android.feature.latestudy.navigation.LateStudyDetailRoute
 import team.aliens.dms.android.feature.main.application.navigation.ApplicationRoute
 import team.aliens.dms.android.feature.main.home.navigation.HomeRoute
 import team.aliens.dms.android.feature.main.mypage.navigation.MyPageRoute
@@ -203,6 +205,9 @@ fun DmsApp(
                                 onNavigateLateStudyApplication = {
                                     backStack.add(LateStudyNav)
                                 },
+                                onNavigateLateStudyDetail = {
+                                    backStack.add(LateStudyDetailNav)
+                                },
                             )
                         }
                         entry<VoteScreenNav> {
@@ -228,6 +233,21 @@ fun DmsApp(
                             LateStudyRoute(
                                 onBack = {
                                     backStack.remove(LateStudyNav)
+                                },
+                                onShowSnackBar = { snackBarType, message ->
+                                    appState.showSnackBar(snackBarType, message)
+                                },
+                            )
+                        }
+                        entry<LateStudyDetailNav> {
+                            LateStudyDetailRoute(
+                                onBack = { backStack.remove(LateStudyDetailNav) },
+                                onCancel = {
+                                    resultStore.setResult(
+                                        resultKey = "late_study_application_result",
+                                        result = "late_study_application_cancelled",
+                                    )
+                                    backStack.remove(LateStudyDetailNav)
                                 },
                                 onShowSnackBar = { snackBarType, message ->
                                     appState.showSnackBar(snackBarType, message)

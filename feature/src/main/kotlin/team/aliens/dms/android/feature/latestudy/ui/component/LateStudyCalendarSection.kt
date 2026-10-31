@@ -1,18 +1,21 @@
 package team.aliens.dms.android.feature.latestudy.ui.component
 
+import androidx.compose.animation.animateColorAsState
+import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.gestures.detectDragGesturesAfterLongPress
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.KeyboardArrowLeft
 import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
@@ -20,9 +23,18 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.hapticfeedback.HapticFeedbackType
+import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.platform.LocalHapticFeedback
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.dp
 import java.time.DayOfWeek
 import java.time.LocalDate
@@ -35,11 +47,12 @@ import team.aliens.dms.android.core.designsystem.labelM
 @Composable
 fun LateStudyCalendarSection(
     currentMonth: YearMonth,
-    startDate: LocalDate?,
-    endDate: LocalDate?,
+    selectedDates: Set<LocalDate>,
     onPrevMonthClick: () -> Unit,
     onNextMonthClick: () -> Unit,
     onDateClick: (LocalDate) -> Unit,
+    onDateRangeSelect: (LocalDate, LocalDate) -> Unit,
+    onPastDateClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     LateStudySectionCard(modifier = modifier) {
@@ -57,7 +70,7 @@ fun LateStudyCalendarSection(
             )
 
             Text(
-                text = "(이번 주 월~목만 신청할 수 있습니다)",
+                text = "(이번 주 월~목 · 길게 눌러 드래그해 여러 날짜 선택)",
                 color = DmsTheme.colorScheme.inverseSurface,
                 style = DmsTheme.typography.labelM,
             )
@@ -96,9 +109,10 @@ fun LateStudyCalendarSection(
 
         CalendarGrid(
             currentMonth = currentMonth,
-            startDate = startDate,
-            endDate = endDate,
+            selectedDates = selectedDates,
             onDateClick = onDateClick,
+            onDateRangeSelect = onDateRangeSelect,
+            onPastDateClick = onPastDateClick,
         )
 
         Spacer(modifier = Modifier.size(4.dp))
@@ -140,40 +154,101 @@ private fun CalendarDayHeader() {
 @Composable
 private fun CalendarGrid(
     currentMonth: YearMonth,
-    startDate: LocalDate?,
-    endDate: LocalDate?,
+    selectedDates: Set<LocalDate>,
     onDateClick: (LocalDate) -> Unit,
+    onDateRangeSelect: (LocalDate, LocalDate) -> Unit,
+    onPastDateClick: () -> Unit,
 ) {
     val dates = buildCalendarDates(currentMonth)
+    val density = LocalDensity.current
+    val horizontalPadding = with(density) { 16.dp.toPx() }
+    val rowHeight = with(density) { 52.dp.toPx() }
+    val haptic = LocalHapticFeedback.current
+    var rangeStartDate by remember { mutableStateOf<LocalDate?>(null) }
+    var rangeEndDate by remember { mutableStateOf<LocalDate?>(null) }
+    val visibleSelectedDates = selectedDates + selectableDatesBetween(
+        firstDate = rangeStartDate,
+        secondDate = rangeEndDate,
+    )
 
-    Column {
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .pointerInput(dates) {
+                detectDragGesturesAfterLongPress(
+                    onDragStart = { position ->
+                        val date = calendarDateAtPosition(
+                            position = position,
+                            dates = dates,
+                            gridWidth = size.width.toFloat(),
+                            horizontalPadding = horizontalPadding,
+                            rowHeight = rowHeight,
+                        )
+                        if (date?.isBefore(LocalDate.now()) == true) {
+                            onPastDateClick()
+                        }
+                        rangeStartDate = date?.takeIf(::isSelectableDate)
+                        rangeEndDate = rangeStartDate
+                        if (rangeStartDate != null) {
+                            haptic.performHapticFeedback(HapticFeedbackType.LongPress)
+                        }
+                    },
+                    onDrag = { change, _ ->
+                        rangeEndDate = calendarDateAtPosition(
+                            position = change.position,
+                            dates = dates,
+                            gridWidth = size.width.toFloat(),
+                            horizontalPadding = horizontalPadding,
+                            rowHeight = rowHeight,
+                        )?.takeIf(::isSelectableDate) ?: rangeEndDate
+                    },
+                    onDragEnd = {
+                        val startDate = rangeStartDate
+                        val endDate = rangeEndDate
+                        if (startDate != null && endDate != null) {
+                            onDateRangeSelect(startDate, endDate)
+                        }
+                        rangeStartDate = null
+                        rangeEndDate = null
+                    },
+                    onDragCancel = {
+                        rangeStartDate = null
+                        rangeEndDate = null
+                    },
+                )
+            },
+    ) {
         dates.chunked(7).forEach { week ->
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(horizontal = 16.dp, vertical = 6.dp),
             ) {
-                week.forEach { item ->
-                    val isRangeStart = item.date == startDate
-                    val isRangeEnd = item.date == endDate
-                    val isInRange = startDate != null && endDate != null &&
-                            item.date.isAfter(startDate) && item.date.isBefore(endDate)
-                    val isSingleSelected = startDate != null && endDate == null && item.date == startDate
-                    val isSelectable = item.isCurrentMonth && isSelectableDate(item.date)
+                week.forEachIndexed { index, item ->
+                    val isSelectable = isSelectableDate(item.date)
+                    val isSelected = item.date in visibleSelectedDates
+                    val isConnectedToPrevious = isSelected &&
+                        index > 0 &&
+                        week[index - 1].date in visibleSelectedDates
+                    val isConnectedToNext = isSelected &&
+                        index < week.lastIndex &&
+                        week[index + 1].date in visibleSelectedDates
 
                     CalendarDateCell(
                         date = item.date,
                         isCurrentMonth = item.isCurrentMonth,
-                        isRangeStart = isRangeStart,
-                        isRangeEnd = isRangeEnd,
-                        isInRange = isInRange,
-                        isSingleSelected = isSingleSelected,
-                        isSelectable = isSelectable,
+                        isSelected = isSelected,
+                        isConnectedToPrevious = isConnectedToPrevious,
+                        isConnectedToNext = isConnectedToNext,
                         onClick = {
-                            if (isSelectable) {
-                                onDateClick(item.date)
-                            }
+                            handleCalendarDateClick(
+                                date = item.date,
+                                isSelectable = isSelectable,
+                                onDateClick = onDateClick,
+                                onPastDateClick = onPastDateClick,
+                            )
                         },
+                        isEnabled = item.isCurrentMonth || isSelectable,
                         modifier = Modifier.weight(1f),
                     )
                 }
@@ -186,111 +261,110 @@ private fun CalendarGrid(
 private fun CalendarDateCell(
     date: LocalDate,
     isCurrentMonth: Boolean,
-    isRangeStart: Boolean,
-    isRangeEnd: Boolean,
-    isInRange: Boolean,
-    isSingleSelected: Boolean,
-    isSelectable: Boolean,
+    isSelected: Boolean,
+    isConnectedToPrevious: Boolean,
+    isConnectedToNext: Boolean,
     onClick: () -> Unit,
+    isEnabled: Boolean,
     modifier: Modifier = Modifier,
 ) {
-    val isSelected = isRangeStart || isRangeEnd
     val textColor = calendarDateTextColor(
         date = date,
         isCurrentMonth = isCurrentMonth,
         isSelected = isSelected,
-        isInRange = isInRange,
     )
 
     Box(
         modifier = modifier.height(40.dp),
         contentAlignment = Alignment.Center,
     ) {
-        CalendarRangeBackground(
-            isRangeStart = isRangeStart,
-            isRangeEnd = isRangeEnd,
-            isInRange = isInRange,
-            isSingleSelected = isSingleSelected,
+        ConnectedDateBackground(
+            isConnectedToPrevious = isConnectedToPrevious,
+            isConnectedToNext = isConnectedToNext,
         )
 
-        if (isSelected) {
-            SelectedDateBackground()
-        }
+        SelectedDateBackground(isSelected = isSelected)
 
         CalendarDateText(
             date = date,
             textColor = textColor,
-            isSelectable = isSelectable,
+            isEnabled = isEnabled,
             onClick = onClick,
         )
     }
 }
 
 @Composable
-private fun CalendarRangeBackground(
-    isRangeStart: Boolean,
-    isRangeEnd: Boolean,
-    isInRange: Boolean,
-    isSingleSelected: Boolean,
+private fun ConnectedDateBackground(
+    isConnectedToPrevious: Boolean,
+    isConnectedToNext: Boolean,
 ) {
-    val rangeColor = DmsTheme.colorScheme.onPrimaryContainer.copy(alpha = 0.6f)
+    val previousColor by animateColorAsState(
+        targetValue = if (isConnectedToPrevious) {
+            DmsTheme.colorScheme.primaryContainer
+        } else {
+            Color.Transparent
+        },
+        label = "previous selection connector",
+    )
+    val nextColor by animateColorAsState(
+        targetValue = if (isConnectedToNext) {
+            DmsTheme.colorScheme.primaryContainer
+        } else {
+            Color.Transparent
+        },
+        label = "next selection connector",
+    )
 
     Box(
         modifier = Modifier
             .fillMaxWidth()
-            .height(40.dp),
-        contentAlignment = Alignment.Center,
+            .height(28.dp),
     ) {
-        if (isRangeStart && !isSingleSelected) {
+        if (isConnectedToPrevious) {
             Box(
                 modifier = Modifier
-                    .fillMaxWidth()
-                    .height(30.dp)
-                    .padding(start = 15.dp)
-                    .background(
-                        color = rangeColor,
-                        shape = RoundedCornerShape(
-                            topStart = 999.dp,
-                            bottomStart = 999.dp,
-                        ),
-                    ),
+                    .align(Alignment.CenterStart)
+                    .fillMaxWidth(0.5f)
+                    .fillMaxHeight()
+                    .background(previousColor),
             )
         }
 
-        if (isInRange) {
+        if (isConnectedToNext) {
             Box(
                 modifier = Modifier
-                    .fillMaxWidth()
-                    .height(30.dp)
-                    .background(color = rangeColor),
-            )
-        }
-
-        if (isRangeEnd && !isSingleSelected) {
-            Box(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(30.dp)
-                    .padding(end = 15.dp)
-                    .background(
-                        color = rangeColor,
-                        shape = RoundedCornerShape(
-                            topEnd = 999.dp,
-                            bottomEnd = 999.dp,
-                        ),
-                    ),
+                    .align(Alignment.CenterEnd)
+                    .fillMaxWidth(0.5f)
+                    .fillMaxHeight()
+                    .background(nextColor),
             )
         }
     }
 }
 
 @Composable
-private fun SelectedDateBackground() {
+private fun SelectedDateBackground(
+    isSelected: Boolean,
+) {
+    val size by animateDpAsState(
+        targetValue = if (isSelected) 28.dp else 0.dp,
+        label = "selected date size",
+    )
+    val color by animateColorAsState(
+        targetValue = if (isSelected) {
+            DmsTheme.colorScheme.onPrimaryContainer
+        } else {
+            Color.Transparent
+        },
+        label = "selected date color",
+    )
+
     Box(
         modifier = Modifier
-            .size(30.dp)
+            .size(size)
             .background(
-                color = DmsTheme.colorScheme.onPrimaryContainer,
+                color = color,
                 shape = CircleShape,
             ),
     )
@@ -300,14 +374,14 @@ private fun SelectedDateBackground() {
 private fun CalendarDateText(
     date: LocalDate,
     textColor: Color,
-    isSelectable: Boolean,
+    isEnabled: Boolean,
     onClick: () -> Unit,
 ) {
     Box(
         modifier = Modifier
             .size(32.dp)
             .clickable(
-                enabled = isSelectable,
+                enabled = isEnabled,
                 onClick = onClick,
             ),
         contentAlignment = Alignment.Center,
@@ -325,10 +399,9 @@ private fun calendarDateTextColor(
     date: LocalDate,
     isCurrentMonth: Boolean,
     isSelected: Boolean,
-    isInRange: Boolean,
 ): Color {
     return when {
-        isSelected || isInRange -> DmsTheme.colorScheme.background
+        isSelected -> DmsTheme.colorScheme.background
         !isCurrentMonth && date.dayOfWeek == DayOfWeek.SUNDAY -> DmsTheme.colorScheme.onError
         !isCurrentMonth && date.dayOfWeek == DayOfWeek.SATURDAY -> DmsTheme.colorScheme.onPrimary
         !isCurrentMonth -> DmsTheme.colorScheme.inverseSurface
@@ -337,6 +410,59 @@ private fun calendarDateTextColor(
         date.dayOfWeek == DayOfWeek.FRIDAY -> DmsTheme.colorScheme.onSurfaceVariant
         else -> DmsTheme.colorScheme.onBackground
     }
+}
+
+private fun calendarDateAtPosition(
+    position: Offset,
+    dates: List<CalendarDateUiModel>,
+    gridWidth: Float,
+    horizontalPadding: Float,
+    rowHeight: Float,
+): LocalDate? {
+    val contentWidth = gridWidth - (horizontalPadding * 2)
+    val gridHeight = ((dates.size + 6) / 7) * rowHeight
+    if (contentWidth <= 0f) {
+        return null
+    }
+    if (position.isOutsideCalendarGrid(gridWidth, horizontalPadding, gridHeight)) {
+        return null
+    }
+
+    val column = ((position.x - horizontalPadding) / (contentWidth / 7)).toInt()
+    val row = (position.y / rowHeight).toInt()
+    return dates.getOrNull(row * 7 + column)?.date
+}
+
+private fun handleCalendarDateClick(
+    date: LocalDate,
+    isSelectable: Boolean,
+    onDateClick: (LocalDate) -> Unit,
+    onPastDateClick: () -> Unit,
+) {
+    when {
+        date.isBefore(LocalDate.now()) -> onPastDateClick()
+        isSelectable -> onDateClick(date)
+    }
+}
+
+private fun Offset.isOutsideCalendarGrid(
+    gridWidth: Float,
+    horizontalPadding: Float,
+    gridHeight: Float,
+): Boolean {
+    return isOutsideHorizontalBounds(gridWidth, horizontalPadding) ||
+        isOutsideVerticalBounds(gridHeight)
+}
+
+private fun Offset.isOutsideHorizontalBounds(
+    gridWidth: Float,
+    horizontalPadding: Float,
+): Boolean {
+    return x < horizontalPadding || x >= gridWidth - horizontalPadding
+}
+
+private fun Offset.isOutsideVerticalBounds(gridHeight: Float): Boolean {
+    return y < 0f || y >= gridHeight
 }
 
 private data class CalendarDateUiModel(
@@ -386,6 +512,22 @@ private fun buildCalendarDates(
     return result
 }
 
+private fun selectableDatesBetween(
+    firstDate: LocalDate?,
+    secondDate: LocalDate?,
+): Set<LocalDate> {
+    if (firstDate == null || secondDate == null) return emptySet()
+
+    val startDate = minOf(firstDate, secondDate)
+    val endDate = maxOf(firstDate, secondDate)
+
+    return generateSequence(startDate) { date ->
+        date.plusDays(1).takeIf { it <= endDate }
+    }
+        .filter(::isSelectableDate)
+        .toSet()
+}
+
 private fun isSelectableDate(date: LocalDate): Boolean {
     val today = LocalDate.now()
 
@@ -401,6 +543,7 @@ private fun isSelectableDate(date: LocalDate): Boolean {
 
     val endOfSelectableWeek = startOfSelectableWeek.plusDays(3)
 
-    return !date.isBefore(startOfSelectableWeek) &&
+    return !date.isBefore(today) &&
+            !date.isBefore(startOfSelectableWeek) &&
             !date.isAfter(endOfSelectableWeek)
 }

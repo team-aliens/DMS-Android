@@ -27,6 +27,7 @@ import team.aliens.dms.android.core.designsystem.DmsTheme
 import team.aliens.dms.android.core.designsystem.bodyB
 import team.aliens.dms.android.core.designsystem.endPadding
 import team.aliens.dms.android.core.designsystem.foundation.DmsIcon
+import team.aliens.dms.android.core.designsystem.labelB
 import team.aliens.dms.android.core.designsystem.labelM
 import team.aliens.dms.android.core.designsystem.util.clickable
 
@@ -141,14 +142,14 @@ private fun AppliedTitleText(
     val backgroundColor = when (chipStyle) {
         ApplicationChipStyle.DEFAULT -> DmsTheme.colorScheme.primary
         ApplicationChipStyle.APPROVED -> DmsTheme.colorScheme.primary
-        ApplicationChipStyle.REJECTED -> DmsTheme.colorScheme.errorContainer
+        ApplicationChipStyle.REJECTED -> DmsTheme.colorScheme.error
         ApplicationChipStyle.PENDING -> DmsTheme.colorScheme.surfaceVariant
     }
 
     val textColor = when (chipStyle) {
         ApplicationChipStyle.DEFAULT -> DmsTheme.colorScheme.onPrimaryContainer
         ApplicationChipStyle.APPROVED -> DmsTheme.colorScheme.onPrimaryContainer
-        ApplicationChipStyle.REJECTED -> DmsTheme.colorScheme.onErrorContainer
+        ApplicationChipStyle.REJECTED -> DmsTheme.colorScheme.outlineVariant
         ApplicationChipStyle.PENDING -> DmsTheme.colorScheme.inverseSurface
     }
 
@@ -160,7 +161,7 @@ private fun AppliedTitleText(
             )
             .padding(horizontal = 12.dp, vertical = 6.dp),
         text = appliedTitle,
-        style = DmsTheme.typography.labelM,
+        style = DmsTheme.typography.labelB,
         color = textColor,
         maxLines = 1,
         overflow = TextOverflow.Ellipsis,

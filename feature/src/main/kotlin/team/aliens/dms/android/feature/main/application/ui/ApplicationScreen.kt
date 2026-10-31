@@ -39,6 +39,7 @@ internal fun Application(
     onNavigateVote: (AllVoteSearch) -> Unit,
     onShowSnackBar: (DmsSnackBarType, String) -> Unit,
     onNavigateLateStudyApplication: () -> Unit,
+    onNavigateLateStudyDetail: () -> Unit,
 ) {
     val viewModel: ApplicationViewModel = hiltViewModel()
     val state by viewModel.uiState.collectAsStateWithLifecycle()
@@ -59,7 +60,11 @@ internal fun Application(
             resultStore.resultStateMap["late_study_application_result"]?.value as? String?
         }.collect { result ->
             if (result != null) {
-                viewModel.setLateStudyApplication(result)
+                if (result == LATE_STUDY_APPLICATION_CANCELLED_RESULT) {
+                    viewModel.clearLateStudyApplication()
+                } else {
+                    viewModel.setLateStudyApplication(result)
+                }
                 resultStore.removeResult<String?>(resultKey = "late_study_application_result")
             }
         }
@@ -71,6 +76,7 @@ internal fun Application(
         onNavigateOutingApplication = { onShowSnackBar(DmsSnackBarType.SUCCESS, "준비중인 기능이에요") },
         onNavigateVolunteerApplication = { onShowSnackBar(DmsSnackBarType.SUCCESS, "준비중인 기능이에요") },
         onNavigateLateStudyApplication = onNavigateLateStudyApplication,
+        onNavigateLateStudyDetail = onNavigateLateStudyDetail,
         onNavigateVote = onNavigateVote,
     )
 }
@@ -82,6 +88,7 @@ private fun ApplicationScreen(
     onNavigateOutingApplication: () -> Unit,
     onNavigateVolunteerApplication: () -> Unit,
     onNavigateLateStudyApplication: () -> Unit,
+    onNavigateLateStudyDetail: () -> Unit,
     onNavigateVote: (AllVoteSearch) -> Unit,
 ) {
     Column(
@@ -138,6 +145,7 @@ private fun ApplicationScreen(
                         onNavigateRemainApplication = onNavigateRemainApplication,
                         onNavigateVolunteerApplication = onNavigateVolunteerApplication,
                         onNavigateLateStudyApplication = onNavigateLateStudyApplication,
+                        onNavigateLateStudyDetail = onNavigateLateStudyDetail,
                     )
                 } else {
                     if (state.votes.isEmpty()) {
@@ -161,3 +169,5 @@ private fun ApplicationScreen(
         }
     }
 }
+
+private const val LATE_STUDY_APPLICATION_CANCELLED_RESULT = "late_study_application_cancelled"
